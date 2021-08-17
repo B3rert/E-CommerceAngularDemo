@@ -39,7 +39,7 @@ export class TiendaTipoComponent implements OnInit {
   public userFactura: UserFactura;
 
   //variables
-  tienda_en_linea = false;
+  tienda_en_linea = true;
   tienda_seleccionada: any;
   tiendas: any;
   categorias: any;
@@ -101,7 +101,9 @@ export class TiendaTipoComponent implements OnInit {
 
       //Parametros recibidos domicilio, recojer 
       this.forma_pedido = paramas.get('forma_pedido');
-      console.log(this.forma_pedido);
+      let tienda =  sessionStorage.getItem("tienda");
+      this.tienda_seleccionada = JSON.parse(tienda!);
+     // console.log(this.tienda_seleccionada);
 
     });
 

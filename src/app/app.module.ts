@@ -17,6 +17,7 @@ import { TiendaComponent } from './component/tienda/tienda.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatIconModule} from '@angular/material/icon';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { SelectTiendaComponentComponent } from './component/select-tienda-component/select-tienda-component.component';
 
 
 
@@ -25,6 +26,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     AppComponent,
     TiendaTipoComponent,
     TiendaComponent,
+    SelectTiendaComponentComponent,
   ],
   imports: [
     FormsModule,

@@ -15,11 +15,11 @@ export class TiendaComponent implements OnInit {
 
 
   navRecoger(){
-    this.router.navigate(['/tienda','recoger']);
+    this.router.navigate(['/seleccion','recoger']);
   }
 
   navEntregar(){
-    this.router.navigate(['/tienda','domicilio']);
+    this.router.navigate(['/seleccion','domicilio']);
 
   }
 

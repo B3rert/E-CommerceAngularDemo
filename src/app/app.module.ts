@@ -16,6 +16,8 @@ import { TiendaTipoComponent } from './component/tienda-tipo/tienda-tipo.compone
 import { TiendaComponent } from './component/tienda/tienda.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatIconModule} from '@angular/material/icon';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 
 
 @NgModule({
@@ -30,6 +32,7 @@ import {MatIconModule} from '@angular/material/icon';
     BrowserModule,
     AppRoutingModule,
     app_routing,
+    FontAwesomeModule,
     BrowserAnimationsModule,
     //Angular Material
     //MatCardModule,

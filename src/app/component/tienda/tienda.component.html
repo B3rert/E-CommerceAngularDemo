@@ -26,10 +26,7 @@
                            <div class="container">
                             <div class="figure_container border_fig">
                                 <div class="ico_figure icon_ciudad"></div>
-                                <a class="link_parma" [routerLink]="['tienda','domicilio']">
-                                    <button class="btn btn_figure">Entregar a domicilio</button>
-                                </a>
-    
+                                <button (click)="navEntregar()" class="btn btn_figure">Entregar a domicilio</button>
                                 <div class="content__addres">
                                     <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
                                     <p>Lorem Ipsum</p>
@@ -41,10 +38,9 @@
                             <div class="container">
                                 <div class="figure_container">
                                     <div class="ico_figure icon_tienda_sucursal"></div>
+                                    <button (click)="navRecoger()" class="btn btn_figure">Recoger en tienda</button>
         
-                                    <a class="link_parma"  [routerLink]="['tienda','recoger']">
-                                        <button class="btn btn_figure">Recoger en tienda</button>
-                                    </a>
+                                   
         
                                     <div class="content__addres">
                                         <p>There are many variations of passages of Lorem Ipsum available.</p>

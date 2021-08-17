@@ -101,6 +101,7 @@ export class TiendaTipoComponent implements OnInit {
 
       //Parametros recibidos domicilio, recojer 
       this.forma_pedido = paramas.get('forma_pedido');
+      console.log(this.forma_pedido);
 
     });
 

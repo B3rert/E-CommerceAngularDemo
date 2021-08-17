@@ -16,7 +16,6 @@ import { TiendaTipoComponent } from './component/tienda-tipo/tienda-tipo.compone
 import { TiendaComponent } from './component/tienda/tienda.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatIconModule} from '@angular/material/icon';
-import { NotFoundProductComponent } from './component/not-found-product/not-found-product.component';
 
 
 @NgModule({
@@ -24,7 +23,6 @@ import { NotFoundProductComponent } from './component/not-found-product/not-foun
     AppComponent,
     TiendaTipoComponent,
     TiendaComponent,
-    NotFoundProductComponent
   ],
   imports: [
     FormsModule,

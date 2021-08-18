@@ -7,6 +7,8 @@ import {HttpClientModule} from "@angular/common/http";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatCardMdImage, MatCardModule} from "@angular/material/card";
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatButtonModule} from '@angular/material/button';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -18,6 +20,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatIconModule} from '@angular/material/icon';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SelectTiendaComponentComponent } from './component/select-tienda-component/select-tienda-component.component';
+import { LoginDialogComponentComponent } from './component/dialog/login-dialog-component/login-dialog-component.component';
 
 
 
@@ -27,6 +30,7 @@ import { SelectTiendaComponentComponent } from './component/select-tienda-compon
     TiendaTipoComponent,
     TiendaComponent,
     SelectTiendaComponentComponent,
+    LoginDialogComponentComponent,
   ],
   imports: [
     FormsModule,
@@ -41,7 +45,9 @@ import { SelectTiendaComponentComponent } from './component/select-tienda-compon
     //MatCardMdImage,
     //MatGridListModule,
     MatToolbarModule,
-    MatIconModule
+    MatIconModule,
+    MatDialogModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

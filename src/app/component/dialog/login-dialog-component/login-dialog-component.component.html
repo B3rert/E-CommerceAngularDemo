@@ -1,0 +1,72 @@
+
+<h6 mat-dialog-title>¿Remover imagen?</h6>
+<mat-dialog-content class="mat-typography">
+ 
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
+
+            <div class="container center">
+                <div class="login">
+                    <div class="login-bottom" *ngIf="!login">
+                        <h3>Registrate</h3>
+                        <form #registroForm="ngForm">
+                            <div class="sign-up">
+                                <h4>Nombre :</h4>
+                                <input type="text">
+                            </div>
+                            <div class="sign-up">
+                                <h4>Apellido :</h4>
+                                <input type="text">
+                            </div>
+                            <div class="sign-up">
+                                <h4>Celular :</h4>
+                                <input type="text">
+                            </div>
+                            <div class="sign-up">
+                                <h4>Correo electronico :</h4>
+                                <input type="text">
+                            </div>
+
+                            <div class="sign-up">
+                                <input type="submit" value="REGISTRATE AHORA">
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="login-right" *ngIf="login">
+                        <h3>Inicia sesión con tu cuenta</h3>
+                        <form>
+                            <div class="sign-in">
+                                <h4>Correo electronico :</h4>
+                                <input type="text">
+                            </div>
+                            <div class="sign-in">
+                                <h4>Contraseña :</h4>
+                                <input type="password">
+                                <a>Olvidaste tu contraseña?</a>
+                                <p></p>
+                                <a >Registrate</a>
+                            </div>
+                            <div class="single-bottom">
+                                <input type="checkbox" id="brand" value="">
+                                <label for="brand"><span></span>Recordar mis datos.</label>
+                            </div>
+                            <div class="sign-in">
+                                <button mat-button  (clcik)="loginView()">Cancelar</button>
+                                <input (clcik)="loginView()" type="submit" value="INICIAR SESION">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="false">Cancelar</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Aceptar</button>
+</mat-dialog-actions>

@@ -9,6 +9,9 @@ import { CategoriaService } from 'src/app/services/categoria.service';
 import { FormaPagoService } from 'src/app/services/forma-pago.services';
 import { ProductoService } from 'src/app/services/producto.service';
 import { TiendaService } from 'src/app/services/tienda.service';
+import {faUserCircle} from '@fortawesome/free-solid-svg-icons';
+import { MatDialog } from '@angular/material/dialog';
+import { LoginDialogComponentComponent } from '../dialog/login-dialog-component/login-dialog-component.component';
 
 //import {N} from '@ng-bootstrap/ng-bootstrap';
 
@@ -24,6 +27,10 @@ import { TiendaService } from 'src/app/services/tienda.service';
   ]
 })
 export class TiendaTipoComponent implements OnInit {
+
+  //iconos
+  faUserCircle = faUserCircle;
+
 
   //Modelos
   //public productoPedido: ProductPedidoModel;
@@ -79,6 +86,7 @@ export class TiendaTipoComponent implements OnInit {
   constructor(
     // private modal: NgbMd
     private _ac: ActivatedRoute,
+    private dialog:MatDialog,
     private _tiendaService: TiendaService,
     private _categoriaService: CategoriaService,
     private _productoService: ProductoService,
@@ -106,9 +114,7 @@ export class TiendaTipoComponent implements OnInit {
      // console.log(this.tienda_seleccionada);
 
     });
-
   }
-
 
   cModalLogin(){
     this.login_modal = false;
@@ -298,6 +304,7 @@ export class TiendaTipoComponent implements OnInit {
     this.cantidades_varias_TP.splice(0, this.cantidades_varias_TP.length);
     this.cantidades_varias.splice(0, this.cantidades_varias.length);
 
+    console.log(this.pedidos);
 
   }
 
@@ -394,7 +401,8 @@ export class TiendaTipoComponent implements OnInit {
   }
 
   login(){
-    this.login_modal = true;
+   this.dialog.open(LoginDialogComponentComponent);
+   // this.login_modal = true;
   }
 
   productoDetalle(producto_seleccionado: any) {
@@ -442,7 +450,6 @@ export class TiendaTipoComponent implements OnInit {
 
             for (let index = 0; index < this.presentacion_producto.length; index++) {
               this.cantidades_varias[index] = 0;
-
             }
           }
         }

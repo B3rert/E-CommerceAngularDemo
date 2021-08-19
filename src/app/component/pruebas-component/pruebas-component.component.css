@@ -1,0 +1,32 @@
+.precio_normal p{
+    padding-top: 5px;
+    text-decoration: line-through;
+    font-size: 20px;
+    font-weight: 5;
+    color:darkgray;
+}
+
+
+
+.precio_oferta p{
+    font-size: 25px;
+    padding-left: 10px;
+    color: #d84672;
+    font-weight: 10;
+}
+
+.precio_normal, .precio_oferta{
+    float: left;
+}
+
+/*Botones tooltip*/
+.button_color{
+    width: 30px !important;
+    height: 30px;
+    margin: 5px;
+}
+
+.color_tooltip{
+    font-size: 35px;
+    color: #FCF821;
+}

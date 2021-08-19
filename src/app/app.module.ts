@@ -4,12 +4,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import {HttpClientModule} from "@angular/common/http";
 //import {} from '@ng-bootstrap/ng-bootstrap'
 //angularMaterial
-import {MatGridListModule} from "@angular/material/grid-list";
-import {MatCardMdImage, MatCardModule} from "@angular/material/card";
-import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
-
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,10 +14,10 @@ import { app_routing } from './app.routes';
 import { TiendaTipoComponent } from './component/tienda-tipo/tienda-tipo.component';
 import { TiendaComponent } from './component/tienda/tienda.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatIconModule} from '@angular/material/icon';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SelectTiendaComponentComponent } from './component/select-tienda-component/select-tienda-component.component';
 import { LoginDialogComponentComponent } from './component/dialog/login-dialog-component/login-dialog-component.component';
+import { PruebasComponentComponent } from './component/pruebas-component/pruebas-component.component';
 
 
 
@@ -31,6 +28,7 @@ import { LoginDialogComponentComponent } from './component/dialog/login-dialog-c
     TiendaComponent,
     SelectTiendaComponentComponent,
     LoginDialogComponentComponent,
+    PruebasComponentComponent,
   ],
   imports: [
     FormsModule,
@@ -44,10 +42,9 @@ import { LoginDialogComponentComponent } from './component/dialog/login-dialog-c
     //MatCardModule,
     //MatCardMdImage,
     //MatGridListModule,
-    MatToolbarModule,
-    MatIconModule,
     MatDialogModule,
-    MatButtonModule
+    MatButtonModule,
+    MatTooltipModule
   ],
   providers: [],
   bootstrap: [AppComponent]

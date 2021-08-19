@@ -541,8 +541,6 @@ export class TiendaTipoComponent implements OnInit {
   }
 
   getProductos(categoria: number) {
-
-
     this.categoria_activa = categoria;
     this._productoService.producto(categoria).subscribe(
       res => {
@@ -553,7 +551,6 @@ export class TiendaTipoComponent implements OnInit {
           this.producto_exist = false;
         } else {
           this.producto_exist = true;
-
         }
 
       },
@@ -581,10 +578,4 @@ export class TiendaTipoComponent implements OnInit {
       }
     );
   }
-
-
 }
-
-
-/*Ventana emergemte login */
-

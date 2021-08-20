@@ -23,10 +23,22 @@
 .button_color{
     width: 30px !important;
     height: 30px;
-    margin: 5px;
+    margin-right: 5px;
+    padding: none;
 }
 
 .color_tooltip{
     font-size: 35px;
     color: #FCF821;
+}
+
+
+.btn_tonos{
+    color:  #375a7f;
+    margin-right: 10px;
+}
+
+.padd_20{
+    margin-top: 30px;
+    padding: none;
 }

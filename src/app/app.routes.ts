@@ -9,10 +9,10 @@ const app_routes: Routes = [
     {path:'seleccion/:forma_pedido',component:SelectTiendaComponentComponent},
     {path:'tienda/:forma_pedido',component:TiendaTipoComponent},
     {path:'pruebas',component:PruebasComponentComponent},
-    //{ path: '**', redirectTo: '/home', pathMatch: 'full' },
-   // { path: '', redirectTo: '/home', pathMatch: 'full' },
-    { path: '**', redirectTo: '/pruebas', pathMatch: 'full' },
-    { path: '', redirectTo: '/pruebas', pathMatch: 'full' }
+    { path: '**', redirectTo: '/home', pathMatch: 'full' },
+    { path: '', redirectTo: '/home', pathMatch: 'full' },
+    //{ path: '**', redirectTo: '/pruebas', pathMatch: 'full' },
+    //{ path: '', redirectTo: '/pruebas', pathMatch: 'full' }
 
 ];
 

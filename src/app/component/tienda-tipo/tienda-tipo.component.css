@@ -226,7 +226,7 @@
 }
 
 @media screen and (max-width: 767px) {
-  .container__menucategoriast, .banner_logotienda, .logo {
+  .container__menucategoriast, .banner_logotienda{
     display: none;
   }
 }
@@ -279,6 +279,7 @@
 }
 
 */
+
 
 @media screen and (max-width: 767px) {
   .contaner_categoria_phone .item_categoria_phone p {
@@ -413,6 +414,14 @@ body {
   left: 0;
 }
 
+.btn-menu{
+  margin-left: 25px !important;
+}
+
+.btn-menu label{
+  cursor: pointer !important;
+}
+
 .container {
   width: 90%;
   max-width: 1200px;
@@ -433,47 +442,6 @@ body {
 .container .btn-menu label img {
   width: 250px;
   height: 10%;
-}
-
-.container .btn-menu label div {
-  margin-left: 10px;
-  float: left;
-  height: 40px;
-  width: 40px;
-  background: url(/assets/icons/shopping-cart-solid.svg) no-repeat 50%;
-  background-size: 75%;
-  cursor: pointer;
-  /*
-  height: 50px;
-  width: 50px;
-  background: url(/assets/icons/shopping-cart-solid.svg) no-repeat 50%;
-  background-size: 25px;
-  border-radius: 0;
-  cursor: pointer;
-  font-weight: 25px;*/
-}
-
-.cant_carrito {
-  width: 20px;
-  height: 20px;
-  font-size: 11px;
-  font-weight: 400;
-  color: #fff;
-  border-radius: 50px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  position: relative;
-  z-index: 1;
-  right: 15px;
-  top: 2px;
-  background: red;
 }
 
 .logo h1 {
@@ -511,6 +479,11 @@ body {
 
 #btn-menu {
   display: none;
+}
+
+.closeSidebar{
+  font-size: 25px;
+  margin: 10px;
 }
 
 .container-menu {
@@ -570,6 +543,7 @@ body {
   color: #fff;
   cursor: pointer;
   font-size: 18px;
+  z-index: 200;
 }
 
 /*Fin de Menù lateral*/
@@ -674,6 +648,7 @@ body {
   position: fixed;
   top: 0;
   background: #d84672;
+  z-index: 100;
 }
 
 .head_carrito p {
@@ -860,7 +835,6 @@ body {
   float: left;
   width: 30px;
   height: 30px;
-  background: url(/assets/icons/plus-solid.svg) no-repeat 50%;
   background-size: 15px;
   border-radius: 0;
   cursor: pointer;
@@ -907,8 +881,8 @@ body {
 }
 
 .body_carrito .bodyc__item .opciones_productoc .ico_eliminar {
-  background: url(/assets/icons/cerrar.svg) no-repeat 50%;
-  background-size: 15px;
+  font-size: 20px;
+  background-size: 20px;
 }
 
 .footer_carrito {
@@ -1031,7 +1005,7 @@ body {
   position: relative;
   width: 60%;
   max-width: 880px;
-  margin: 25vh auto;
+  margin: 5% auto;
   pointer-events: none;
 }
 
@@ -1107,10 +1081,12 @@ body {
   float: left;
   width: 30px;
   height: 30px;
-  background: url(/assets/icons/cerrar.svg) no-repeat 50%;
   opacity: 1;
   background-size: 17px;
   cursor: pointer;
+}
+.areacerrar fa-icon{
+font-size: 22px;
 }
 
 .container_detalle {
@@ -1269,7 +1245,6 @@ body {
 .body_carrito .bodyc__item .info_producto .info__opciones .contmasform .btn_menos {
   float: left;
   height: 30px;
-  background: url(/assets/icons/minus-solid.svg) no-repeat 50%;
   background-size: 13px;
   border-radius: 0;
   cursor: pointer;
@@ -1333,7 +1308,6 @@ body {
   border-radius: 5px 0 0 5px;
   border: 1px solid #FD306E;
   border-right: none;
-  background: #fff url(/assets/icons/minus-solid.svg) no-repeat 50%;
   background-size: 13px;
 }
 
@@ -1373,7 +1347,6 @@ body {
   border-radius: 0 5px 5px 0;
   border: 1px solid #FD306E;
   border-left: none;
-  background: #fff url(/assets/icons/plus-solid.svg) no-repeat 50%;
   background-size: 10px;
 }
 
@@ -1511,14 +1484,6 @@ body {
   background-size: 13px;
 }
 
-.custom-check {
-  width: 0;
-  height: 25px;
-  margin-right: 45px;
-  position: relative;
-  top: 4px;
-  cursor: pointer;
-}
 
 .form-horizontal .form-group label {
   font-weight: 400;
@@ -1685,51 +1650,12 @@ body {
   color: var(--green-primary);
 }
 
-.custom-check:before {
-  width: 42px;
-  height: 25px;
-  border-radius: 25px;
-  border: 2px solid #ddd;
-}
 
-.custom-check:after, .custom-check:before {
-  content: "";
-  position: absolute;
-  display: block;
-  -webkit-transition: all .1s linear;
-  transition: all .1s linear;
+.toggleNit{
+  position: static !important;
+  z-index: 1 !important;
+  margin: 10px;
 }
-
-.custom-check:checked:before {
-  border-color: transparent;
-  background-color: #2942a9;
-}
-
-.custom-check:checked:after {
-  left: 19px;
-  -webkit-box-shadow: -1px 0 5px rgba(0, 0, 0, .1);
-  box-shadow: -1px 0 5px rgba(0, 0, 0, .1);
-}
-
-.custom-check:after {
-  width: 25px;
-  height: 25px;
-  background-color: #fff;
-  border-radius: 100%;
-  -webkit-box-shadow: 1px 0 2px rgba(0, 0, 0, .2);
-  box-shadow: 1px 0 2px rgba(0, 0, 0, .2);
-  top: 2px;
-  left: 2px;
-}
-
-.custom-check:after, .custom-check:before {
-  content: "";
-  position: absolute;
-  display: block;
-  -webkit-transition: all .1s linear;
-  transition: all .1s linear;
-}
-
 /*Forma de pago*/
 
 .container_listpayment .options_items .items_paymen.icon_card {
@@ -2067,24 +1993,17 @@ body {
   padding: 2.5px;
 }
 
+.buscar-ico fa-icon{
+  font-size: 20px;
+}
+
 .buscar-ico {
-  margin-top: 5px;
-  height: 25px;
-  width: 25px;
-  background: url(/assets/icons/search-solid.svg) no-repeat 50%;
   cursor: pointer;
   border: none;
+  background-color: transparent;
 }
 
 /*-- login --*/
-
-.login {
-  margin: 80px;
-}
-
-.modal-body {
-  padding: 15px 15px 30px;
-}
 
 .login-right, .login-bottom {
   float: left;
@@ -2134,10 +2053,7 @@ body {
   background: #d84672;
 }
 
-.modal-dialog {
-  width: 750px;
-  margin: 30px auto;
-}
+
 
 .modal-header {
   border-bottom: none;
@@ -2159,44 +2075,11 @@ body {
 .sign-in a:hover {
   color: #d84672;
 }
-
-.single-bottom input[type="checkbox"] {
-  display: none;
-}
-
-.single-bottom input[type="checkbox"]+label {
-  position: relative;
-  padding-left: 31px;
-  border: none;
-  outline: none;
-  font-size: 14px;
-  color:  rgb(48, 46, 46);
-  font-weight: normal;
-}
-
-.single-bottom input[type="checkbox"]+label span:first-child {
-  width: 14px;
-  height: 14px;
-  display: inline-block;
-  border: 2px solid #d84672;
-  position: absolute;
-  left: 0;
-  top: 4px;
-}
-
-.single-bottom input[type="checkbox"]:checked+label span:first-child:before {
-  content: "";
-  background: url(/assets/img/mark1.png)no-repeat;
-  position: absolute;
-  left: -1px;
-  top: -1px;
-  font-size: 10px;
-  width: 16px;
-  height: 16px;
-}
-
 .single-bottom {
   margin: 14px 0 22px;
+}
+.single-bottom label{
+  margin-left: 5px;
 }
 
 .login-grids p {
@@ -2216,3 +2099,4 @@ body {
 }
 
 /*-- //login --*/
+

@@ -11,7 +11,12 @@ import { ProductoService } from 'src/app/services/producto.service';
 import { TiendaService } from 'src/app/services/tienda.service';
 import {faUserCircle} from '@fortawesome/free-solid-svg-icons';
 import { MatDialog } from '@angular/material/dialog';
-import { LoginDialogComponentComponent } from '../dialog/login-dialog-component/login-dialog-component.component';
+import {faShoppingCart} from '@fortawesome/free-solid-svg-icons';
+import {faSearch} from '@fortawesome/free-solid-svg-icons';
+import {faTimes} from '@fortawesome/free-solid-svg-icons';
+import {faPlus} from '@fortawesome/free-solid-svg-icons';
+import {faMinus} from '@fortawesome/free-solid-svg-icons';
+import {faUser} from '@fortawesome/free-solid-svg-icons';
 
 //import {N} from '@ng-bootstrap/ng-bootstrap';
 
@@ -30,6 +35,12 @@ export class TiendaTipoComponent implements OnInit {
 
   //iconos
   faUserCircle = faUserCircle;
+  faShoppingCart = faShoppingCart;
+  faSearch = faSearch;
+  faTimes = faTimes;
+  faPlus = faPlus;
+  faMinus = faMinus;
+  faUser = faUser;
 
 
   //Modelos
@@ -120,7 +131,11 @@ export class TiendaTipoComponent implements OnInit {
     this.login_modal = false;
   }
   registroUser(){
-    this.registro_form = true;
+    if(this.registro_form){
+      this.registro_form = false;
+    }else{
+      this.registro_form = true;
+    }
   }
 
   continuarPago() {
@@ -401,8 +416,8 @@ export class TiendaTipoComponent implements OnInit {
   }
 
   login(){
-   this.dialog.open(LoginDialogComponentComponent);
-   // this.login_modal = true;
+   //this.dialog.open(LoginDialogComponentComponent);
+   this.login_modal = true;
   }
 
   productoDetalle(producto_seleccionado: any) {

@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container-fluid">
 
     <div *ngIf="tienda_en_linea">
         <header class="header" *ngIf="!detalle_producto">
@@ -7,12 +7,15 @@
                 <div class="container-fluid">
                     <div class="btn-menu">
                         <label for="btn-menu">
-                            <!--
-                            <img src="assets/img/ico-carrito.png" alt="">-->
-                            <div class="carrito-icono"></div>
-                            <small class="cant_carrito">{{carrito_cantidad}}</small>
+                            <mat-icon matBadge="{{carrito_cantidad}}" matBadgeColor="warn">
+                                <fa-icon [icon]="faShoppingCart"></fa-icon>
+                            </mat-icon>
+                            <span class="cdk-visually-hidden">
+                                Mi Carrito
+                            </span>
                         </label>
                     </div>
+                    
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
@@ -25,12 +28,16 @@
                                 <form class="d-flex">
                                     <input class="form-control me-2" type="search" placeholder="Buscar"
                                         aria-label="Search">
-                                    <button class="buscar-ico" type="submit"></button>
+
+                                    <button class="buscar-ico" type="submit">
+                                        <fa-icon [icon]="faSearch"></fa-icon>
+                                    </button>
                                 </form>
                             </li>
                         </ul>
                         <div class="logo">
-                            <fa-icon [icon]="faUserCircle" class="login-ico" (click)="login()"></fa-icon>
+                            <fa-icon [icon]="faUserCircle" matTooltip="Login" matTooltipPosition="below"
+                                class="login-ico" (click)="login()"></fa-icon>
                         </div>
                     </div>
                 </div>
@@ -46,14 +53,14 @@
                     <div id="area_detalleproductot">
                         <div class="header_dprocuto no_border">
                             <div class="areacerrar">
-                                <a (click)="cModalLogin()" class="icocerrar"></a>
+                                <fa-icon [icon]="faTimes" (click)="cModalLogin()" class="icocerrar"></fa-icon>
+
                             </div>
                         </div>
                         <div class="container_detalle">
                             <div class="container">
                                 <div class="row">
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
-
                                         <div class="container center">
                                             <div class="login">
                                                 <div class="login-bottom" *ngIf="registro_form">
@@ -74,8 +81,12 @@
                                                         <div class="sign-up">
                                                             <h4>Correo electronico :</h4>
                                                             <input type="text">
+                                                
                                                         </div>
-
+                                                        <div class="sign-in">
+                                                            <a (click)="registroUser()">Iniciar Sesion</a>
+                                                        </div>
+                                                       <br>
                                                         <div class="sign-up">
                                                             <input type="submit" value="REGISTRATE AHORA">
                                                         </div>
@@ -128,7 +139,7 @@
                 <div id="area_detalleproductot">
                     <div class="header_dprocuto no_border">
                         <div class="areacerrar">
-                            <a (click)="cdetalle()" class="icocerrar"></a>
+                            <fa-icon [icon]="faTimes" (click)="cdetalle()" class="icocerrar"></fa-icon>
                         </div>
                     </div>
 
@@ -259,15 +270,16 @@
 
 
                                                         <div class="form_unit">
-                                                            <div class="btn_menos"
-                                                                (click)="menosProductoVarios(indice)">
-                                                            </div>
+                                                            <fa-icon [icon]="faMinus" class="btn_menos"
+                                                                (click)="menosProductoVarios(indice)"></fa-icon>
+
                                                             <input
                                                                 class="input_forms ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-min"
                                                                 type="number" value="{{cantidades_varias[indice]}}"
                                                                 readonly="">
-                                                            <div class="btn_mas" (click)="masProductoVarios(indice)">
-                                                            </div>
+                                                            <fa-icon [icon]="faPlus" class="btn_mas"
+                                                                (click)="masProductoVarios(indice)"></fa-icon>
+
                                                         </div>
                                                     </div>
 
@@ -304,15 +316,16 @@
 
 
                                                         <div class="form_unit">
-                                                            <div class="btn_menos"
-                                                                (click)="menosProductoVarios(indice)">
-                                                            </div>
+                                                            <fa-icon [icon]="faMinus" class="btn_menos"
+                                                                (click)="menosProductoVarios(indice)"></fa-icon>
+
                                                             <input
                                                                 class="input_forms ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-min"
                                                                 type="number" value="{{cantidades_varias_TP[indice]}}"
                                                                 readonly="">
-                                                            <div class="btn_mas" (click)="masProductoVarios(indice)">
-                                                            </div>
+                                                            <fa-icon [icon]="faPlus" class="btn_mas"
+                                                                (click)="masProductoVarios(indice)"></fa-icon>
+
                                                         </div>
                                                     </div>
 
@@ -338,8 +351,6 @@
             </div>
         </div>
 
-
-
         <div class="container-fluid" *ngIf="!detalle_producto">
             <div class="row">
                 <div class="col-sm-12 col-md-2 col-lg-2 col-xs-2">
@@ -361,7 +372,7 @@
                             </div>
 
                         </div>
-                        <div class="row">
+                        <div class="row ">
                             <div class="container__menucategoriast">
                                 <h2 class="title_catpro">Categorías</h2>
 
@@ -586,6 +597,7 @@
                                             <div class="col"></div>
                                         </div>
                                         <div class="row">
+
                                             <div class="col-sm-12 col-md-12 col-lg-6 col-xs-12 mariginleftcomtainer">
                                                 <input id="firstName" type="text" placeholder="Nombre"
                                                     class="input__tienda ico_nombre " #nombre="ngModel" name="nombre"
@@ -598,19 +610,14 @@
                                             </div>
                                         </div>
                                         <div class="row">
-
                                             <div class="col-sm-12 col-md-12 col-lg-6 col-xs-12 mariginleftcomtainer">
                                                 <input id="pos.nit" type="tel" class="input__tienda ico_nit"
                                                     placeholder="NIT" maxlength="14" #nit="ngModel" name="nit"
                                                     [(ngModel)]="userFactura.Nit" required>
                                             </div>
                                             <div class="col-sm-12 col-md-12 col-lg-6 col-xs-12 mariginleftcomtainer">
-                                                <div class="form-group col-xs-6 col-sm-6 dflex_centerr">
-                                                    <input
-                                                        class="custom-check ng-valid ng-dirty ng-valid-parse ng-touched ng-empty"
-                                                        type="checkbox" name="myCheck" value="C/F" (click)="nitcf()">
-                                                    <p class="cf_label">C/F</p>
-                                                </div>
+                                                <mat-slide-toggle class="toggleNit" (click)="nitcf()">C/F
+                                                </mat-slide-toggle>
 
                                             </div>
                                             <div class="row">
@@ -770,15 +777,19 @@
                                     </div>
 
                                     <div class="contmasform">
-                                        <div class="btn_menos" (click)="restarProducto(element.cantidad,indice)">
-                                        </div>
-                                        <div class="btn_mas" (click)="sumarProducto(element.cantidad,indice)"></div>
+                                        <fa-icon [icon]="faMinus" class="btn_menos"
+                                            (click)="restarProducto(element.cantidad,indice)"></fa-icon>
+                                        <fa-icon [icon]="faPlus" class="btn_mas"
+                                            (click)="sumarProducto(element.cantidad,indice)"></fa-icon>
+
                                     </div>
                                 </div>
                             </div>
 
                             <div class="opciones_productoc">
-                                <div class="ico_eliminar" (click)="eliminarProducto(indice)"></div>
+                                <fa-icon [icon]="faTimes" class="ico_eliminar" (click)="eliminarProducto(indice)">
+                                </fa-icon>
+
                             </div>
                         </div>
                     </div>
@@ -819,7 +830,9 @@
 
 
                 </div>
-                <label for="btn-menu">✖️</label>
+                <label for="btn-menu">
+                    <fa-icon class="closeSidebar" [icon]="faTimes"></fa-icon>
+                </label>
             </div>
         </div>
 

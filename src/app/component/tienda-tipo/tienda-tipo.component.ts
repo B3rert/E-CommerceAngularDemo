@@ -1,7 +1,21 @@
 import { stringify } from '@angular/compiler/src/util';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { from } from 'rxjs';
+
+/**
+ * Icons fontawesome
+ */
+ import {faShoppingCart} from '@fortawesome/free-solid-svg-icons';
+ import {faSearch} from '@fortawesome/free-solid-svg-icons';
+ import {faTimes} from '@fortawesome/free-solid-svg-icons';
+ import {faPlus} from '@fortawesome/free-solid-svg-icons';
+ import {faMinus} from '@fortawesome/free-solid-svg-icons';
+ import {faUser} from '@fortawesome/free-solid-svg-icons';
+ import {faUserCircle} from '@fortawesome/free-solid-svg-icons';
+ import {faBars} from '@fortawesome/free-solid-svg-icons';
+
+
 import { UserFactura } from 'src/app/models/factura.model';
 import { PedidoModel } from 'src/app/models/pedido.model';
 import { ProductPedidoModel } from 'src/app/models/producto-pedido.model';
@@ -9,14 +23,9 @@ import { CategoriaService } from 'src/app/services/categoria.service';
 import { FormaPagoService } from 'src/app/services/forma-pago.services';
 import { ProductoService } from 'src/app/services/producto.service';
 import { TiendaService } from 'src/app/services/tienda.service';
-import {faUserCircle} from '@fortawesome/free-solid-svg-icons';
 import { MatDialog } from '@angular/material/dialog';
-import {faShoppingCart} from '@fortawesome/free-solid-svg-icons';
-import {faSearch} from '@fortawesome/free-solid-svg-icons';
-import {faTimes} from '@fortawesome/free-solid-svg-icons';
-import {faPlus} from '@fortawesome/free-solid-svg-icons';
-import {faMinus} from '@fortawesome/free-solid-svg-icons';
-import {faUser} from '@fortawesome/free-solid-svg-icons';
+
+import { MatSidenav } from '@angular/material/sidenav';
 
 //import {N} from '@ng-bootstrap/ng-bootstrap';
 
@@ -33,6 +42,16 @@ import {faUser} from '@fortawesome/free-solid-svg-icons';
 })
 export class TiendaTipoComponent implements OnInit {
 
+  @ViewChild('sidenav')
+  sidenav!: MatSidenav;
+  @ViewChild('sidenavend')
+  sidenavend!: MatSidenav;
+
+  close(reason: string) {
+   
+    this.sidenav.close();
+    this.sidenavend.close();
+  }
   //iconos
   faUserCircle = faUserCircle;
   faShoppingCart = faShoppingCart;
@@ -41,6 +60,7 @@ export class TiendaTipoComponent implements OnInit {
   faPlus = faPlus;
   faMinus = faMinus;
   faUser = faUser;
+  faBars = faBars;
 
 
   //Modelos

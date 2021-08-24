@@ -1,0 +1,41 @@
+<mat-sidenav-container class="example-container" (backdropClick)="close('backdrop')">
+    <mat-sidenav #sidenav (keydown.escape)="close('escape')" disableClose>
+        <p><button mat-button (click)="close('toggle button')">Toggle</button></p>
+    </mat-sidenav>
+    <mat-sidenav position="end" #sidenavend (keydown.escape)="close('escape')" disableClose>
+        <p><button mat-button (click)="close('toggle button')">Toggle</button></p>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+
+        <mat-toolbar>
+            <button (click)="sidenav.open()" mat-icon-button class="example-icon icon_toolbar_categ"
+                aria-label="Example icon-button with menu icon">
+                <fa-icon class="icon_toolbar" [icon]="faBars"></fa-icon>
+            </button>
+            <div class="logo">
+                <h1>{{precio_vusuario}} GTQ</h1>
+            </div>
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+
+                <button class="buscar-ico " type="submit">
+                    <fa-icon [icon]="faSearch"></fa-icon>
+                </button>
+            </form>
+            <span class="example-spacer"></span>
+            <fa-icon [icon]="faUserCircle" matTooltip="Login" matTooltipPosition="left" class="login_toolbar"
+                (click)="login()"></fa-icon>
+            <button (click)="sidenavend.open()" mat-icon-button class="example-icon"
+                aria-label="Example icon-button with share icon">
+                <mat-icon matBadge="{{carrito_cantidad}}" matBadgeColor="warn">
+                    <fa-icon class="icon_toolbar" [icon]="faShoppingCart"></fa-icon>
+                </mat-icon>
+                <span class="cdk-visually-hidden">
+                    Mi Carrito
+                </span>
+            </button>
+        </mat-toolbar>
+
+    </mat-sidenav-content>
+</mat-sidenav-container>

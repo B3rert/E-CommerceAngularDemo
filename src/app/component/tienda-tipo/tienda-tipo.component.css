@@ -2105,26 +2105,16 @@ body {
   flex: 1 1 auto;
 }
 
-.side_categoria {
-  display: none;
-}
 
 mat-sidenav {
   width: 365px;
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 365px) {
   mat-sidenav {
       width: 100%;
   }
 }
-
-@media screen and (max-width: 767px) {
-  .side_categoria {
-      display: inline;
-  }
-}
-
 .example-container {
   display: flex;
   flex-direction: column;
@@ -2135,24 +2125,17 @@ mat-sidenav {
   right: 0;
 }
 
-.example-is-mobile .example-toolbar {
-  position: fixed;
-  /* Make sure the toolbar will stay on top of the content as it scrolls past. */
-  z-index: 2;
+/*Toolbar*/
+.icon_toolbar{
+  font-size: 22px;
 }
 
-h1.example-app-name {
-  margin-left: 8px;
+.login_toolbar{
+  margin-right: 20px;
+  font-size: 22px !important;
+  padding-top: 4px !important;
 }
 
-.example-sidenav-container {
-  /* When the sidenav is not fixed, stretch the sidenav container to fill the available space. This
-     causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
-  flex: 1;
-}
-
-.example-is-mobile .example-sidenav-container {
-  /* When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the
-     `<body>` to be our scrolling element for mobile layouts. */
-  flex: 1 0 auto;
+.icon_toolbar_categ{
+  display: none;
 }

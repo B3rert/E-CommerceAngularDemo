@@ -1,3 +1,16 @@
+/**
+ * icons fontaweosme
+ */
+ import {faUserCircle} from '@fortawesome/free-solid-svg-icons';
+ import { MatDialog } from '@angular/material/dialog';
+ import {faShoppingCart} from '@fortawesome/free-solid-svg-icons';
+ import {faSearch} from '@fortawesome/free-solid-svg-icons';
+ import {faTimes} from '@fortawesome/free-solid-svg-icons';
+ import {faPlus} from '@fortawesome/free-solid-svg-icons';
+ import {faMinus} from '@fortawesome/free-solid-svg-icons';
+ import {faUser} from '@fortawesome/free-solid-svg-icons';
+ import {faBars} from '@fortawesome/free-solid-svg-icons';
+
 import { stringify } from '@angular/compiler/src/util';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -9,15 +22,8 @@ import { CategoriaService } from 'src/app/services/categoria.service';
 import { FormaPagoService } from 'src/app/services/forma-pago.services';
 import { ProductoService } from 'src/app/services/producto.service';
 import { TiendaService } from 'src/app/services/tienda.service';
-import {faUserCircle} from '@fortawesome/free-solid-svg-icons';
-import { MatDialog } from '@angular/material/dialog';
-import {faShoppingCart} from '@fortawesome/free-solid-svg-icons';
-import {faSearch} from '@fortawesome/free-solid-svg-icons';
-import {faTimes} from '@fortawesome/free-solid-svg-icons';
-import {faPlus} from '@fortawesome/free-solid-svg-icons';
-import {faMinus} from '@fortawesome/free-solid-svg-icons';
-import {faUser} from '@fortawesome/free-solid-svg-icons';
 import { MediaMatcher } from '@angular/cdk/layout';
+
 
 
 //import {N} from '@ng-bootstrap/ng-bootstrap';
@@ -44,6 +50,7 @@ export class TiendaTipoComponent implements OnInit {
   faPlus = faPlus;
   faMinus = faMinus;
   faUser = faUser;
+  faBars = faBars;
 
 
   //Modelos

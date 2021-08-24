@@ -1,5 +1,5 @@
 import { stringify } from '@angular/compiler/src/util';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { from } from 'rxjs';
 import { UserFactura } from 'src/app/models/factura.model';
@@ -17,6 +17,8 @@ import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {faPlus} from '@fortawesome/free-solid-svg-icons';
 import {faMinus} from '@fortawesome/free-solid-svg-icons';
 import {faUser} from '@fortawesome/free-solid-svg-icons';
+import { MediaMatcher } from '@angular/cdk/layout';
+
 
 //import {N} from '@ng-bootstrap/ng-bootstrap';
 
@@ -34,6 +36,7 @@ import {faUser} from '@fortawesome/free-solid-svg-icons';
 export class TiendaTipoComponent implements OnInit {
 
   //iconos
+  
   faUserCircle = faUserCircle;
   faShoppingCart = faShoppingCart;
   faSearch = faSearch;
@@ -94,7 +97,22 @@ export class TiendaTipoComponent implements OnInit {
 
   forma_pago_select: any;
 
+/**Sidenav */
+mobileQuery: MediaQueryList;
+
+  fillerNav = Array.from({length: 50}, (_, i) => `Categoria ${i + 1}`);
+
+  fillerContent = Array.from({length: 50}, () =>
+      `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+       labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+       laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+       voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+       cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`);
+
+  private _mobileQueryListener: () => void;
+
   constructor(
+    changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
     // private modal: NgbMd
     private _ac: ActivatedRoute,
     private dialog:MatDialog,
@@ -104,6 +122,9 @@ export class TiendaTipoComponent implements OnInit {
     private _formaPagoService: FormaPagoService
   ) {
 
+    this.mobileQuery = media.matchMedia('(max-width: 600px)');
+    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery.addListener(this._mobileQueryListener);
     this.getTiendas();
     this.getCategorias();
     this.getProductos(0);
@@ -114,6 +135,11 @@ export class TiendaTipoComponent implements OnInit {
 
     this.userFactura = new UserFactura("", "", "", "", "", fecha_hora, "", "", "");
   }
+
+  ngOnDestroy(): void {
+    this.mobileQuery.removeListener(this._mobileQueryListener);
+  }
+
 
   ngOnInit(): void {
     this._ac.paramMap.subscribe(paramas => {

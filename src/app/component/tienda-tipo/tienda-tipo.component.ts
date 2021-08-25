@@ -437,6 +437,7 @@ export class TiendaTipoComponent implements OnInit {
 
   login(){
    //this.dialog.open(LoginDialogComponentComponent);
+   console.log("Pasamos en el login0");
    this.login_modal = true;
   }
 

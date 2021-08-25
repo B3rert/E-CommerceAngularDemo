@@ -888,6 +888,316 @@
 
                 <div class="container-fluid container__products">
 
+    <!--Modal login-->
+
+    <div class="my_modalpg ng-scope" *ngIf="login_modal">
+        <div class="modalpg_dialog">
+            <div id="area_detalleproductot">
+                <div class="header_dprocuto no_border">
+                    <div class="areacerrar">
+                        <fa-icon [icon]="faTimes" (click)="cModalLogin()" class="icocerrar"></fa-icon>
+
+                    </div>
+                </div>
+                <div class="container_detalle">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
+                                <div class="container center">
+                                    <div class="login">
+                                        <div class="login-bottom" *ngIf="registro_form">
+                                            <h3>Registrate</h3>
+                                            <form #registroForm="ngForm">
+                                                <div class="sign-up">
+                                                    <h4>Nombre :</h4>
+                                                    <input type="text">
+                                                </div>
+                                                <div class="sign-up">
+                                                    <h4>Apellido :</h4>
+                                                    <input type="text">
+                                                </div>
+                                                <div class="sign-up">
+                                                    <h4>Celular :</h4>
+                                                    <input type="text">
+                                                </div>
+                                                <div class="sign-up">
+                                                    <h4>Correo electronico :</h4>
+                                                    <input type="text">
+
+                                                </div>
+                                                <div class="sign-in">
+                                                    <a (click)="registroUser()">Iniciar Sesion</a>
+                                                </div>
+                                                <br>
+                                                <div class="sign-up">
+                                                    <input type="submit" value="REGISTRATE AHORA">
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                        <div class="login-right" *ngIf="!registro_form">
+                                            <h3>Inicia sesión con tu cuenta</h3>
+                                            <form>
+                                                <div class="sign-in">
+                                                    <h4>Correo electronico :</h4>
+                                                    <input type="text">
+                                                </div>
+                                                <div class="sign-in">
+                                                    <h4>Contraseña :</h4>
+                                                    <input type="password">
+                                                    <a>Olvidaste tu contraseña?</a>
+                                                    <p></p>
+                                                    <a (click)="registroUser()">Registrate</a>
+                                                </div>
+                                                <div class="single-bottom">
+                                                    <input type="checkbox" id="brand" value="">
+                                                    <label for="brand"><span></span>Recordar mis
+                                                        datos.</label>
+                                                </div>
+                                                <div class="sign-in">
+                                                    <input type="submit" value="INICIAR SESION">
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div><!-- end ngIf: verdetalle -->
+    </div>
+
+
+<!--Modal detalle Producto-->
+
+<div class="my_modalpg ng-scope" *ngIf="detalle_producto">
+    <div class="modalpg_dialog">
+        <div id="area_detalleproductot">
+            <div class="header_dprocuto no_border">
+                <div class="areacerrar">
+                    <fa-icon [icon]="faTimes" (click)="cdetalle()" class="icocerrar"></fa-icon>
+                </div>
+            </div>
+
+            <!--producto_seleccionado-->
+            <div class="container_detalle">
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-6 col-xs-6">
+
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-12 col-lg-2 col-xs-2 izquierda">
+                                        <img *ngFor="let foto of fotos; let i = index"
+                                            (mouseenter)="seleccionarImagen(i)"
+                                            [class.seleccionada]="i==indiceSeleccionado"
+                                            class="imagen-izquierda" [src]="resolverFoto(i)" alt="Foto">
+                                    </div>
+                                    <div class="col-sm-12 col-md-12 col-lg-10 col-xs-10">
+                                        <img [src]="resolverFoto(indiceSeleccionado)"
+                                            class="imagen-derecha">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--
+                           <div class="container">
+                                <div class="imgproduto_detale"
+                                style="background:url('assets/img/image-not-found.png')no-repeat center"
+                                *ngIf="!producto_seleccionado.url_Img">
+                            </div>
+                            <div class="imgproduto_detale"
+                                style="background:url('{{producto_seleccionado.url_Img}}')no-repeat center"
+                                *ngIf="producto_seleccionado.url_Img">
+                            </div>
+                           </div>
+                           -->
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-6 col-xs-6">
+                            <div class="detalles-product">
+                                <div class="tit_dprod">
+                                    <p class="ng-binding">{{producto_seleccionado.descripcion}}</p>
+                                </div>
+
+
+                                <div class="producto_descri" *ngIf="no_hay_producto_detalle">
+                                    <div class="container_vermenos ng-scope">
+                                        <p class="ng-binding">
+                                            SKU {{producto_seleccionado.producto_Id}}
+                                        </p>
+                                        <p class="ng-binding">
+                                            {{producto_seleccionado.descripcion_Alt}}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="producto_descri"
+                                    *ngIf="!presentacion && no_hay_producto_detalle">
+                                    <div class="container_vermenos ng-scope">
+                                        <p class="ng-binding">
+                                            SKU {{presentacion_producto[0].iD_Producto}}
+                                        </p>
+                                        <p class="ng-binding">
+                                            {{producto_seleccionado.descripcion_Alt}}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="producto_descri "
+                                    *ngIf="presentacion && !no_hay_producto_detalle">
+                                    <div class="container_vermenos ng-scope">
+                                        <p class="ng-binding">
+                                            SKU {{presentacion_producto[0].iD_Producto}}
+                                        </p>
+
+                                        <p class="ng-binding">
+                                            {{presentacion_producto[0].descripcion_Alt_Producto}}
+                                        </p>
+                                        <p class="ng-binding">
+                                            Presentación
+                                        </p>
+
+
+                                    </div>
+                                </div>
+
+                                <!--No hay detalle del producto-->
+                                <div class="col-sm-12 spi spd" *ngIf="no_hay_producto_detalle">
+                                    <form class="form-horizontal form_left">
+                                        <div class="container_cant">
+                                            <div class="container_addproducto">
+                                                <div class="container">
+
+                                                    <div class="row">
+                                                        <label class="m_unit">
+                                                            No se ha encontrado información de este
+                                                            producto.
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="container_buttonsdetaller ng-scope">
+                                                <button type="submit" class="btn_agregarproducto ng-scope"
+                                                    (click)="cdetalle()">
+                                                    Cancelar
+                                                </button>
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <!--Varias Presentaciones-->
+                                <div class="col-sm-12 spi spd"
+                                    *ngIf="presentacion && !no_hay_producto_detalle">
+                                    <form class="form-horizontal form_left">
+                                        <div class="container_cant">
+                                            <div class="container_addproducto"
+                                                *ngFor="let element of presentacion_producto; let indice=index">
+                                                <div class="container">
+
+                                                    <div class="row"><label
+                                                            class="m_unit">{{element.presentacion}}</label>
+                                                    </div>
+                                                    <div class="row">
+                                                        <span for="4951">
+                                                            Q.{{NumberToString(element.precio_Unidad)}}
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form_unit">
+                                                    <fa-icon [icon]="faMinus" class="btn_menos"
+                                                        (click)="menosProductoVarios(indice)"></fa-icon>
+
+                                                    <input
+                                                        class="input_forms ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-min"
+                                                        type="number" value="{{cantidades_varias[indice]}}"
+                                                        readonly="">
+                                                    <fa-icon [icon]="faPlus" class="btn_mas"
+                                                        (click)="masProductoVarios(indice)"></fa-icon>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="container_buttonsdetaller ng-scope">
+                                                <button type="submit" class="btn_agregarproducto ng-scope"
+                                                    (click)="addCarrito(producto_seleccionado,cantidad_producto)">
+                                                    Agregar al carrito
+                                                </button>
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                </div>
+
+
+                                <!--varios precios-->
+                                <div class="col-sm-12 spi spd"
+                                    *ngIf="!presentacion && !no_hay_producto_detalle">
+                                    <form class="form-horizontal form_left">
+                                        <div class="container_cant">
+                                            <div class="container_addproducto"
+                                                *ngFor="let element of presentacion_producto; let indice=index">
+                                                <div class="container">
+
+                                                    <div class="row"><label
+                                                            class="m_unit">{{element.des_Tipo_Precio}}</label>
+                                                    </div>
+                                                    <div class="row">
+                                                        <span for="4951">
+                                                            Q.{{NumberToString(element.precio_Unidad)}}
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form_unit">
+                                                    <fa-icon [icon]="faMinus" class="btn_menos"
+                                                        (click)="menosProductoVarios(indice)"></fa-icon>
+
+                                                    <input
+                                                        class="input_forms ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-min"
+                                                        type="number"
+                                                        value="{{cantidades_varias_TP[indice]}}"
+                                                        readonly="">
+                                                    <fa-icon [icon]="faPlus" class="btn_mas"
+                                                        (click)="masProductoVarios(indice)"></fa-icon>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="container_buttonsdetaller ng-scope">
+                                                <button type="submit" class="btn_agregarproducto ng-scope"
+                                                    (click)="addCarrito(producto_seleccionado,cantidad_producto)">
+                                                    Agregar al carrito
+                                                </button>
+                                            </div>
+
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div><!-- end ngIf: verdetalle -->
+    </div>
+</div>
+                    
                     <div class="row">
 
                         <div class="col-sm-12 col-md-6 col-lg-4 col-xs-3" *ngFor="let element of productos">

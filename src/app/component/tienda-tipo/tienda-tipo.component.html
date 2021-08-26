@@ -684,26 +684,26 @@
                 <nav class="nav__categorias">
                     <h6>Categorías</h6>
                     <ul class="list-unstyled mb-0 py-3 pt-md-1">
-                        <li class="mb-1">
-                            <div>
-                                Todas
-                            </div>
+                        <li (click)="getProductos(0)" class="mb-1 cursor__hover">
+                            <p>Todas</p>
+                                
+                          
                         </li>
 
                         <li class="mb-1" *ngFor="let padres of categorias_padre; let i=index">
 
-                            <div>
-                                <div style="float: left;"> {{padres.descripcion}}</div>
-                                <div data-bs-toggle="collapse" [attr.data-bs-target]="'#'+ getId(i)">
-                                   <fa-icon [icon]="faChevronRight" *ngIf="filtrarCategorias_hijo(padres).length >= 1"></fa-icon>
-                                   <fa-icon [icon]="faMinus" *ngIf="filtrarCategorias_hijo(padres).length == 0"></fa-icon>
+                            <div class="cursor__hover">
+                                <p style="float: left;" (click)="getProductos(padres.categoria)"> {{padres.descripcion}}</p>
+                                <div class="icons_nav" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+ getId(i)">
+                                    <fa-icon class="icon_collapse" [icon]="faChevronRight" *ngIf="filtrarCategorias_hijo(padres).length >= 1"></fa-icon>
+                                   <fa-icon class="icon_none" [icon]="faMinus" *ngIf="filtrarCategorias_hijo(padres).length == 0"></fa-icon>
                                 </div>
 
                             </div>
                             
-                            <div class="collapse" [id]="getId(i)" *ngFor="let hijos of filtrarCategorias_hijo(padres); let indice=index">
+                            <div  class="collapse cursor__hover" [id]="getId(i)" *ngFor="let hijos of filtrarCategorias_hijo(padres); let indice=index">
                                 <ul>
-                                    <li >
+                                    <li (click)="getProductos(hijos.categoria)"  class="nav__childs">
                                         <p>{{hijos.descripcion}}</p>
                                     </li>
                                 </ul>

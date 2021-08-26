@@ -6,14 +6,16 @@ import { from } from 'rxjs';
 /**
  * Icons fontawesome
  */
- import {faShoppingCart} from '@fortawesome/free-solid-svg-icons';
- import {faSearch} from '@fortawesome/free-solid-svg-icons';
- import {faTimes} from '@fortawesome/free-solid-svg-icons';
- import {faPlus} from '@fortawesome/free-solid-svg-icons';
- import {faMinus} from '@fortawesome/free-solid-svg-icons';
- import {faUser} from '@fortawesome/free-solid-svg-icons';
- import {faUserCircle} from '@fortawesome/free-solid-svg-icons';
- import {faBars} from '@fortawesome/free-solid-svg-icons';
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faMinus } from '@fortawesome/free-solid-svg-icons';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 
 import { UserFactura } from 'src/app/models/factura.model';
@@ -48,7 +50,7 @@ export class TiendaTipoComponent implements OnInit {
   sidenavend!: MatSidenav;
 
   close(reason: string) {
-   
+
     this.sidenav.close();
     this.sidenavend.close();
   }
@@ -61,7 +63,8 @@ export class TiendaTipoComponent implements OnInit {
   faMinus = faMinus;
   faUser = faUser;
   faBars = faBars;
-
+  faChevronDown = faChevronDown;
+  faChevronRight = faChevronRight;
 
   //Modelos
   //public productoPedido: ProductPedidoModel;
@@ -117,7 +120,7 @@ export class TiendaTipoComponent implements OnInit {
   constructor(
     // private modal: NgbMd
     private _ac: ActivatedRoute,
-    private dialog:MatDialog,
+    private dialog: MatDialog,
     private _tiendaService: TiendaService,
     private _categoriaService: CategoriaService,
     private _productoService: ProductoService,
@@ -140,20 +143,29 @@ export class TiendaTipoComponent implements OnInit {
 
       //Parametros recibidos domicilio, recojer 
       this.forma_pedido = paramas.get('forma_pedido');
-      let tienda =  sessionStorage.getItem("tienda");
+      let tienda = sessionStorage.getItem("tienda");
       this.tienda_seleccionada = JSON.parse(tienda!);
-     // console.log(this.tienda_seleccionada);
+      // console.log(this.tienda_seleccionada);
 
     });
   }
 
-  cModalLogin(){
+  /**
+   * id categoria
+   */
+
+  getId(Id: number) {
+    return (`categoria${Id}`)
+  }
+
+
+  cModalLogin() {
     this.login_modal = false;
   }
-  registroUser(){
-    if(this.registro_form){
+  registroUser() {
+    if (this.registro_form) {
       this.registro_form = false;
-    }else{
+    } else {
       this.registro_form = true;
     }
   }
@@ -293,7 +305,7 @@ export class TiendaTipoComponent implements OnInit {
 
             this.pedidos.push(producto_pedido);
             this.carrito_cantidad = this.carrito_cantidad + 1;
-          
+
 
           }
           indice++;
@@ -367,11 +379,11 @@ export class TiendaTipoComponent implements OnInit {
       return numero.toString() + ".00";
     } else {
       //es decimal
-      let numeros = numero.toString().split(".",2)
+      let numeros = numero.toString().split(".", 2)
 
       if (numeros[1].length == 1) {
-        return numero.toString()+"0"
-      }else{
+        return numero.toString() + "0"
+      } else {
         return numero.toString();
       }
     }
@@ -412,7 +424,7 @@ export class TiendaTipoComponent implements OnInit {
       this.actualizarTotal()
     } else {
       this.pedidos[indice].cantidad = cantidad - 1;
-      
+
       let nuevo_total = this.pedidos[indice].precio_cantidad - this.pedidos[indice].precio_unidad;
       this.pedidos[indice].precio_cantidad = nuevo_total;
       this.pedidos[indice].precio_cantidad_string = this.NumberToString(nuevo_total);
@@ -435,10 +447,9 @@ export class TiendaTipoComponent implements OnInit {
 
   }
 
-  login(){
-   //this.dialog.open(LoginDialogComponentComponent);
-   console.log("Pasamos en el login0");
-   this.login_modal = true;
+  login() {
+    //this.dialog.open(LoginDialogComponentComponent);
+    this.login_modal = true;
   }
 
   productoDetalle(producto_seleccionado: any) {
@@ -447,19 +458,19 @@ export class TiendaTipoComponent implements OnInit {
     this.producto_seleccionado = producto_seleccionado;
 
     this._productoService.getVariasImagenes(
-      producto_seleccionado.producto, 
-      producto_seleccionado.unidad_Medida, 
+      producto_seleccionado.producto,
+      producto_seleccionado.unidad_Medida,
       1).subscribe(
-      res => {
+        res => {
 
-        let resJson = JSON.stringify(res);
-        this.fotos = JSON.parse(resJson);
-      },
-      err => {
-        alert("Error de servidor.")
-        console.log(err)
-      }
-    );
+          let resJson = JSON.stringify(res);
+          this.fotos = JSON.parse(resJson);
+        },
+        err => {
+          alert("Error de servidor.")
+          console.log(err)
+        }
+      );
 
 
     //Verificar si el producto tiene variantes
@@ -471,10 +482,10 @@ export class TiendaTipoComponent implements OnInit {
         this.presentacion_producto = JSON.parse(resJson);
 
         if (this.presentacion_producto.length == 0) {
-          this.no_hay_producto_detalle  = true;
+          this.no_hay_producto_detalle = true;
 
         } else {
-          this.no_hay_producto_detalle  = false;
+          this.no_hay_producto_detalle = false;
           if (!this.presentacion_producto[0].variantes) {
             this.presentacion = false
             for (let index = 0; index < this.presentacion_producto.length; index++) {
@@ -557,7 +568,7 @@ export class TiendaTipoComponent implements OnInit {
           let categoriaPadre = JSON.stringify(element.categoria_Padre);
 
           if (categoriaPadre == '{}') {
-            this.categorias_padre.push(element);    
+            this.categorias_padre.push(element);
           } else {
             this.categorias_hijo.push(element);
           }

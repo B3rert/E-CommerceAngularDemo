@@ -58,7 +58,6 @@ import { TiendaComponent } from './component/tienda/tienda.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SelectTiendaComponentComponent } from './component/select-tienda-component/select-tienda-component.component';
-import { LoginDialogComponentComponent } from './component/dialog/login-dialog-component/login-dialog-component.component';
 import { PruebasComponentComponent } from './component/pruebas-component/pruebas-component.component';
 
 
@@ -69,7 +68,6 @@ import { PruebasComponentComponent } from './component/pruebas-component/pruebas
     TiendaTipoComponent,
     TiendaComponent,
     SelectTiendaComponentComponent,
-    LoginDialogComponentComponent,
     PruebasComponentComponent,
   ],
   imports: [

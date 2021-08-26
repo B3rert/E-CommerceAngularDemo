@@ -1,15 +1,12 @@
 <mat-sidenav-container class="example-container" (backdropClick)="close('backdrop')">
     <mat-sidenav #sidenav (keydown.escape)="close('escape')" disableClose>
         <mat-toolbar class="head__carrito categoria_head">
-
             <span class="example-spacer">Categorías</span>
             <mat-icon class="icon_close_head" (click)="close('toggle button')">
                 <fa-icon [icon]="faTimes"></fa-icon>
             </mat-icon>
-
         </mat-toolbar>
         <div class="container__menucategoriast categoria_sideBar">
-           
             <ul class="menul acordeon">
                 <!--
                     [ngClass]="categoria_activa == 0 ? 'active': 'inactive'"-->
@@ -17,8 +14,6 @@
                     (click)="getProductos(0)"><label class="acordeon__titulo">Todas
                     </label>
                 </li>
-                
-
                 <li class="item__menul acordeon__item" *ngFor="let padres of categorias_padre; let i=index"
                     [ngClass]="categoria_activa == padres.categoria ? 'active': 'inactive'"
                     (click)="getProductos(padres.categoria)">
@@ -29,45 +24,32 @@
                         *ngFor="let hijos of filtrarCategorias_hijo(padres); let indice=index"
                         (click)="getProductos(hijos.categoria)">
                         <p>{{hijos.descripcion}}</p>
-
                     </div>
                 </li>
-                
             </ul>
         </div>
     </mat-sidenav>
     <mat-sidenav position="end" #sidenavend (keydown.escape)="close('escape')" disableClose>
-
-
         <div class="container-menu">
             <div class="cont-menu">
-
                 <div class="head_carrito">
                     <p>Mi Carrito</p>
                 </div>
-
                 <div class="pago_container">
-
                     <!--Resumen(Confirmar pedido)-->
-
                     <div *ngIf="confirmar_pago">
-
                         <div class="form-group monto-container-tienda">
                             <small><strong>Confirmar Pedido:</strong></small>
                         </div>
-
                         <div class="container_flexcenter">
                             <div class="boxcontainer_form h_editarclientet"
                                 ng-class="{'h_clientet':!frmEditarcliente, 'h_editarclientet':frmEditarcliente}">
                                 <div class="ed-container">
-
-
                                     <ul class="options_items">
                                         <!--icon_card-->
                                         <li class="items_paymen ">
                                             Nombre: {{userFactura.Nombre}} {{userFactura.Apellido}}
                                         </li>
-
                                         <li class="items_paymen ">
                                             NIT: {{userFactura.Nit}}
                                         </li>
@@ -83,10 +65,7 @@
                                         <li class="items_paymen ">
                                             Total: {{precio_vusuario}}
                                         </li>
-
-
                                     </ul>
-
                                     <div class="container">
                                         <div class="row">
                                             <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
@@ -95,7 +74,6 @@
                                                         Cancelar
                                                     </a>
                                                 </div>
-
                                             </div>
                                             <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
                                                 <div class="mtop">
@@ -103,7 +81,6 @@
                                                         Confirmar
                                                     </a>
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div>
@@ -111,9 +88,6 @@
                             </div>
                         </div>
                     </div>
-
-
-
                     <!--Forma de pago-->
                     <div *ngIf="forma_pago && !confirmar_pago">
                         <div class="form-group monto-container-tienda">
@@ -121,7 +95,6 @@
                             <p ng-if="monedaSelected.gtq" class="ng-binding ng-scope">
                                 {{precio_vusuario}}<span>GTQ</span></p>
                             <!-- end ngIf: monedaSelected.gtq -->
-
                         </div>
                         <div class="container_listpayment">
 
@@ -132,22 +105,14 @@
                                     {{element.descripcion}}
                                 </li><!-- end ngIf: validarmontomini || tipoenviosucursal == 0 -->
                             </ul>
-
-
                         </div>
-
                         <div class="col-sm-12 col-xs-12 mtop">
                             <a class="col-xs-12 btn btn-link text-center col-sm-12 spd spi"
                                 (click)="regresarFormulario()">
                                 Regresar
                             </a>
                         </div>
-
                     </div>
-
-
-
-
                     <!--Pago carrito-->
                     <div class="col-sm-12 col-xs-12 spd spi" *ngIf="carrito_pago && !forma_pago && !confirmar_pago">
 
@@ -156,21 +121,16 @@
                             <p ng-if="monedaSelected.gtq" class="ng-binding ng-scope">
                                 {{precio_vusuario}}<span>GTQ</span></p>
                             <!-- end ngIf: monedaSelected.gtq -->
-
                         </div>
-
-
                         <form #datos_usuarioForm="ngForm">
                             <div class="container_flexcenter">
                                 <div class="boxcontainer_form h_editarclientet">
                                     <div class="ed-container">
-
                                         <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
                                             <div class="row">
                                                 <div class="col"></div>
                                             </div>
                                             <div class="row">
-
                                                 <div
                                                     class="col-sm-12 col-md-12 col-lg-6 col-xs-12 mariginleftcomtainer">
                                                     <input id="firstName" type="text" placeholder="Nombre"
@@ -195,7 +155,6 @@
                                                     class="col-sm-12 col-md-12 col-lg-6 col-xs-12 mariginleftcomtainer">
                                                     <mat-slide-toggle class="toggleNit" (click)="nitcf()">C/F
                                                     </mat-slide-toggle>
-
                                                 </div>
                                                 <div class="row">
                                                     <div class="col mariginleftcomtainer">
@@ -215,15 +174,12 @@
                                 </div>
                             </div>
                         </form>
-
-
                         <!-- ngIf: recoger pedido-->
                         <form #recogerForm="ngForm" class="form-horizontal mtop" *ngIf="forma_pedido == 'recoger'">
                             <div class="col-sm-12 col-xs-12 spd spi">
                                 <div class="container_flexcenter">
                                     <div class="boxcontainer_form h_direcciont">
                                         <div class="ed-container cross-start">
-
                                             <div class="col-sm-12 col-md-12-col-lg-12 col-xs-12 mariginleftcomtainer">
                                                 <div class="row">
                                                     <input id="country" type="text" class="input__tienda ico_ciudad"
@@ -260,7 +216,6 @@
                                 </div>
                             </div>
                         </form>
-
                         <!-- ngIf: pedido a domicilio-->
                         <form #domicilioForm="ngForm" class="form-horizontal mtop" *ngIf="forma_pedido == 'domicilio'">
                             <div class="col-sm-12 col-xs-12 spd spi">
@@ -274,37 +229,29 @@
                                                         name="country" ng-model="pos.city" placeholder="Ciudad"
                                                         #ciudad="ngModel" name="ciudad" [(ngModel)]="userFactura.Ciudad"
                                                         required>
-
-
                                                     <input id="street1" type="text" class="input__tienda ico_street"
                                                         placeholder="Direccion Donde Recibiras El Producto"
                                                         #domicilio="ngModel" name="domicilio"
                                                         [(ngModel)]="userFactura.direccion_pedido" required>
-
                                                     <textarea id="obEntrega" type="text"
                                                         class="input__tienda ng-pristine ng-untouched ng-valid ng-empty"
                                                         rows="5" cols="5" name="obEntrega" ng-model="pos.obEntrega"
                                                         placeholder="Referencias o comentarios adicionales"
                                                         #observacion="ngModel" name="observacion"
                                                         [(ngModel)]="userFactura.Observacion"></textarea>
-
                                                     <div class="form-group col-xs-12 col-sm-12 inputWithIcon fleft_phone ng-scope"
                                                         ng-if="tipoenviosucursal == 1">
                                                         <div class="content_envio">
-
                                                         </div>
                                                     </div>
                                                     <div ng-bind-html="observacionesPersonalizado.descripcion_fecha_domicilio"
                                                         ng-if="tipoenviosucursal == 1" class="ng-binding ng-scope">
                                                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing.</p>
-
                                                         <p>Lorem ipsum dolor sit amet consectetur adipisicing
                                                             elit.&nbsp;</p>
-
                                                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Id
                                                             iure error ullam esse itaque quisquam.</p>
                                                     </div>
-
                                                     <div class="col-sm-12 col-xs-12 mtop">
                                                         <button type="submit" class="btn btn-primary  btn-siguiente"
                                                             (click)="continuarPago()"
@@ -317,96 +264,66 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </form>
-
-
                     </div>
                     <!--Items Carrito-->
                     <div class="carrito_container "
                         *ngIf="pedidos.length != 0 && !carrito_pago && !forma_pago && !confirmar_pago">
                         <div class="body_carrito">
-
                             <div class="bodyc__item" *ngFor="let element of pedidos; let indice=index">
-
                                 <div class="img_producto" *ngIf="element.url_Img">
                                     <img src="{{element.url_Img}}" alt="producto">
                                 </div>
-
                                 <div class="img_producto" *ngIf="!element.url_Img">
                                     <img src="assets/img/image-not-found.png" alt="producto">
                                 </div>
-
                                 <div class="info_producto">
                                     <div class="info__opciones">
                                         <div class="wformdatos">
                                             <h3 class="ng-binding">
                                                 {{element.descripcion}}
                                             </h3>
-
                                             <p ng-if="monedaSelected.gtq" class="ng-binding ">
                                                 {{NumberToString(element.precio_unidad)}} GTQ x <strong
                                                     class="ng-binding">{{element.cantidad}}</strong>
                                             </p>
                                         </div>
-
                                         <div class="contmasform">
                                             <fa-icon [icon]="faMinus" class="btn_menos"
                                                 (click)="restarProducto(element.cantidad,indice)"></fa-icon>
                                             <fa-icon [icon]="faPlus" class="btn_mas"
                                                 (click)="sumarProducto(element.cantidad,indice)"></fa-icon>
-
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="opciones_productoc">
                                     <fa-icon [icon]="faTimes" class="ico_eliminar" (click)="eliminarProducto(indice)">
                                     </fa-icon>
-
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
-
-
                     <div class="footer_carrito" *ngIf="pedidos.length != 0 && !carrito_pago">
-                        <!-- ngIf: totalVenta -->
                         <div class="cont_sub">
                             <input type="button" value="Vaciar Carrito" (click)="limpiarCarrito()">
-                        </div><!-- end ngIf: totalVenta -->
-
-                        <!-- ngIf: !totalVenta -->
-
-                        <!-- ngIf: totalVenta -->
+                        </div>
                         <div ng-if="totalVenta" class="">
                             <div class="cont_total">
                                 <p>Total.</p>
                                 <p class="ng-binding">{{precio_vusuario}} GTQ</p>
                             </div>
-                        </div><!-- end ngIf: totalVenta -->
-
-                        <!-- ngIf: totalVenta --><input type="button" class="btn_paymentsales " ng-if="totalVenta"
-                            (click)="realizarPago()" value="Continuar">
-                        <!-- end ngIf: totalVenta -->
-
-
+                        </div>
+                        <input type="button" class="btn_paymentsales " ng-if="totalVenta" (click)="realizarPago()"
+                            value="Continuar">
                     </div>
-
                     <div class="footer_carrito" *ngIf="pedidos.length == 0 && !carrito_pago">
-                        <!-- ngIf: totalVenta -->
                         <div class="cont_sub">
                             <input type="button" value="Carrito Vacio">
-                        </div><!-- end ngIf: totalVenta -->
-
-
-
+                        </div>
                     </div>
                     <label for="btn-menu">
                         <fa-icon class="closeSidebar" [icon]="faTimes"></fa-icon>
@@ -419,31 +336,22 @@
                 <fa-icon [icon]="faTimes"></fa-icon>
             </mat-icon>
             <span class="example-spacer">Mi Carrito</span>
-
         </mat-toolbar>
-
         <div class="pago_container">
-
             <!--Resumen(Confirmar pedido)-->
-
             <div *ngIf="confirmar_pago">
-
                 <div class="form-group monto-container-tienda">
                     <small><strong>Confirmar Pedido:</strong></small>
                 </div>
-
                 <div class="container_flexcenter">
                     <div class="boxcontainer_form h_editarclientet"
                         ng-class="{'h_clientet':!frmEditarcliente, 'h_editarclientet':frmEditarcliente}">
                         <div class="ed-container">
-
-
                             <ul class="options_items">
                                 <!--icon_card-->
                                 <li class="items_paymen ">
                                     Nombre: {{userFactura.Nombre}} {{userFactura.Apellido}}
                                 </li>
-
                                 <li class="items_paymen ">
                                     NIT: {{userFactura.Nit}}
                                 </li>
@@ -459,10 +367,7 @@
                                 <li class="items_paymen ">
                                     Total: {{precio_vusuario}}
                                 </li>
-
-
                             </ul>
-
                             <div class="container">
                                 <div class="row">
                                     <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
@@ -471,7 +376,6 @@
                                                 Cancelar
                                             </a>
                                         </div>
-
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
                                         <div class="mtop">
@@ -479,7 +383,6 @@
                                                 Confirmar
                                             </a>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -487,64 +390,43 @@
                     </div>
                 </div>
             </div>
-
-
-
             <!--Forma de pago-->
             <div *ngIf="forma_pago && !confirmar_pago">
                 <div class="form-group monto-container-tienda">
                     <small><strong>Total a pagar:</strong></small>
                     <p ng-if="monedaSelected.gtq" class="ng-binding ng-scope">
                         {{precio_vusuario}}<span>GTQ</span></p>
-                    <!-- end ngIf: monedaSelected.gtq -->
-
                 </div>
                 <div class="container_listpayment">
-
                     <ul class="options_items">
                         <!--icon_card-->
                         <li class="items_paymen " (click)="tipoPagoLlave(element)" *ngFor="let element of formas_pago">
                             {{element.descripcion}}
                         </li><!-- end ngIf: validarmontomini || tipoenviosucursal == 0 -->
                     </ul>
-
-
                 </div>
-
                 <div class="col-sm-12 col-xs-12 mtop">
                     <a class="col-xs-12 btn btn-link text-center col-sm-12 spd spi" (click)="regresarFormulario()">
                         Regresar
                     </a>
                 </div>
-
             </div>
-
-
-
-
             <!--Pago carrito-->
             <div class="col-sm-12 col-xs-12 spd spi" *ngIf="carrito_pago && !forma_pago && !confirmar_pago">
-
                 <div class="form-group monto-container-tienda">
                     <small><strong>Total a pagar:</strong></small>
                     <p ng-if="monedaSelected.gtq" class="ng-binding ng-scope">
                         {{precio_vusuario}}<span>GTQ</span></p>
-                    <!-- end ngIf: monedaSelected.gtq -->
-
                 </div>
-
-
                 <form #datos_usuarioForm="ngForm">
                     <div class="container_flexcenter">
                         <div class="boxcontainer_form h_editarclientet">
                             <div class="ed-container">
-
                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
                                     <div class="row">
                                         <div class="col"></div>
                                     </div>
                                     <div class="row">
-
                                         <div class="col-sm-12 col-md-12 col-lg-6 col-xs-12 mariginleftcomtainer">
                                             <input id="firstName" type="text" placeholder="Nombre"
                                                 class="input__tienda ico_nombre " #nombre="ngModel" name="nombre"
@@ -565,7 +447,6 @@
                                         <div class="col-sm-12 col-md-12 col-lg-6 col-xs-12 mariginleftcomtainer">
                                             <mat-slide-toggle class="toggleNit" (click)="nitcf()">C/F
                                             </mat-slide-toggle>
-
                                         </div>
                                         <div class="row">
                                             <div class="col mariginleftcomtainer">
@@ -584,15 +465,12 @@
                         </div>
                     </div>
                 </form>
-
-
                 <!-- ngIf: recoger pedido-->
                 <form #recogerForm="ngForm" class="form-horizontal mtop" *ngIf="forma_pedido == 'recoger'">
                     <div class="col-sm-12 col-xs-12 spd spi">
                         <div class="container_flexcenter">
                             <div class="boxcontainer_form h_direcciont">
                                 <div class="ed-container cross-start">
-
                                     <div class="col-sm-12 col-md-12-col-lg-12 col-xs-12 mariginleftcomtainer">
                                         <div class="row">
                                             <input id="country" type="text" class="input__tienda ico_ciudad"
@@ -623,56 +501,45 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
                     </div>
                 </form>
-
                 <!-- ngIf: pedido a domicilio-->
                 <form #domicilioForm="ngForm" class="form-horizontal mtop" *ngIf="forma_pedido == 'domicilio'">
                     <div class="col-sm-12 col-xs-12 spd spi">
                         <div class="container_flexcenter">
                             <div class="boxcontainer_form h_direcciont">
                                 <div class="ed-container cross-start">
-
                                     <div class="col-sm-12 col-md-12-col-lg-12 col-xs-12 mariginleftcomtainer">
                                         <div class="row">
                                             <input id="country" type="text" class="input__tienda ico_ciudad"
                                                 name="country" ng-model="pos.city" placeholder="Ciudad"
                                                 #ciudad="ngModel" name="ciudad" [(ngModel)]="userFactura.Ciudad"
                                                 required>
-
-
                                             <input id="street1" type="text" class="input__tienda ico_street"
                                                 placeholder="Direccion Donde Recibiras El Producto" #domicilio="ngModel"
                                                 name="domicilio" [(ngModel)]="userFactura.direccion_pedido" required>
-
                                             <textarea id="obEntrega" type="text"
                                                 class="input__tienda ng-pristine ng-untouched ng-valid ng-empty"
                                                 rows="5" cols="5" name="obEntrega" ng-model="pos.obEntrega"
                                                 placeholder="Referencias o comentarios adicionales"
                                                 #observacion="ngModel" name="observacion"
                                                 [(ngModel)]="userFactura.Observacion"></textarea>
-
                                             <div class="form-group col-xs-12 col-sm-12 inputWithIcon fleft_phone ng-scope"
                                                 ng-if="tipoenviosucursal == 1">
                                                 <div class="content_envio">
-
                                                 </div>
                                             </div>
                                             <div ng-bind-html="observacionesPersonalizado.descripcion_fecha_domicilio"
                                                 ng-if="tipoenviosucursal == 1" class="ng-binding ng-scope">
                                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing.</p>
-
                                                 <p>Lorem ipsum dolor sit amet consectetur adipisicing
                                                     elit.&nbsp;</p>
-
                                                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Id
                                                     iure error ullam esse itaque quisquam.</p>
                                             </div>
-
                                             <div class="col-sm-12 col-xs-12 mtop">
                                                 <button type="submit" class="btn btn-primary  btn-siguiente"
                                                     (click)="continuarPago()"
@@ -685,122 +552,83 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
                     </div>
                 </form>
-
-
             </div>
             <!--Items Carrito-->
             <div class="carrito_container "
                 *ngIf="pedidos.length != 0 && !carrito_pago && !forma_pago && !confirmar_pago">
                 <div class="body_carrito">
-
                     <div class="bodyc__item" *ngFor="let element of pedidos; let indice=index">
-
                         <div class="img_producto" *ngIf="element.url_Img">
                             <img src="{{element.url_Img}}" alt="producto">
                         </div>
-
                         <div class="img_producto" *ngIf="!element.url_Img">
                             <img src="assets/img/image-not-found.png" alt="producto">
                         </div>
-
                         <div class="info_producto">
                             <div class="info__opciones">
                                 <div class="wformdatos">
                                     <h3 class="ng-binding">
                                         {{element.descripcion}}
                                     </h3>
-
                                     <p ng-if="monedaSelected.gtq" class="ng-binding ">
                                         {{NumberToString(element.precio_unidad)}} GTQ x <strong
                                             class="ng-binding">{{element.cantidad}}</strong>
                                     </p>
                                 </div>
-
                                 <div class="contmasform">
                                     <fa-icon [icon]="faMinus" class="btn_menos"
                                         (click)="restarProducto(element.cantidad,indice)"></fa-icon>
                                     <fa-icon [icon]="faPlus" class="btn_mas"
                                         (click)="sumarProducto(element.cantidad,indice)"></fa-icon>
-
                                 </div>
                             </div>
                         </div>
-
                         <div class="opciones_productoc">
                             <fa-icon [icon]="faTimes" class="ico_eliminar" (click)="eliminarProducto(indice)">
                             </fa-icon>
-
                         </div>
                     </div>
                 </div>
-
-
             </div>
-
-
             <div class="footer_carrito" *ngIf="pedidos.length != 0 && !carrito_pago">
-                <!-- ngIf: totalVenta -->
                 <div class="cont_sub">
                     <input type="button" value="Vaciar Carrito" (click)="limpiarCarrito()">
-                </div><!-- end ngIf: totalVenta -->
-
-                <!-- ngIf: !totalVenta -->
-
-                <!-- ngIf: totalVenta -->
+                </div>
                 <div ng-if="totalVenta" class="">
                     <div class="cont_total">
                         <p>Total.</p>
                         <p class="ng-binding">{{precio_vusuario}} GTQ</p>
                     </div>
-                </div><!-- end ngIf: totalVenta -->
-
-                <!-- ngIf: totalVenta --><input type="button" class="btn_paymentsales " ng-if="totalVenta"
-                    (click)="realizarPago()" value="Continuar">
-                <!-- end ngIf: totalVenta -->
-
-
+                </div>
+                <input type="button" class="btn_paymentsales " ng-if="totalVenta" (click)="realizarPago()"
+                    value="Continuar">
             </div>
-
             <div class="footer_carrito" *ngIf="pedidos.length == 0 && !carrito_pago">
-                <!-- ngIf: totalVenta -->
                 <div class="cont_sub">
                     <input type="button" value="Carrito Vacio">
-                </div><!-- end ngIf: totalVenta -->
-
-
-
+                </div>
             </div>
-
         </div>
     </mat-sidenav>
-
     <mat-sidenav-content>
-
-
         <mat-toolbar class="toolbarPhone">
             <mat-toolbar-row>
                 <button (click)="sidenav.open()" mat-icon-button class="example-icon icon_toolbar_categ"
                     aria-label="Example icon-button with menu icon">
                     <fa-icon class="icon_toolbar" [icon]="faBars"></fa-icon>
                 </button>
-
-
                 <form class="d-flex search_toolbar">
                     <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
-
                     <button class="buscar-ico " type="submit">
                         <fa-icon [icon]="faSearch"></fa-icon>
                     </button>
                 </form>
-
                 <span class="example-spacer"></span>
-
                 <button (click)="sidenavend.open()" mat-icon-button class="example-icon"
                     aria-label="Example icon-button with share icon">
                     <mat-icon matBadge="{{carrito_cantidad}}" matBadgeColor="warn">
@@ -811,28 +639,22 @@
                     </span>
                 </button>
             </mat-toolbar-row>
-
             <mat-toolbar-row>
                 <div class="logo">
                     <h1>{{precio_vusuario}} GTQ</h1>
                 </div>
                 <span class="example-spacer"></span>
-                <div  (click)="login()">
-                    <fa-icon [icon]="faUserCircle" matTooltip="Login" matTooltipPosition="left" class="login_toolbar"
-                   ></fa-icon>
+                <div (click)="login()">
+                    <fa-icon [icon]="faUserCircle" class="login_toolbar"></fa-icon>
                 </div>
-                
             </mat-toolbar-row>
         </mat-toolbar>
-
-        <mat-toolbar  class="toolbarlarge">
-
+        <mat-toolbar class="toolbarlarge">
             <!--           <button (click)="sidenav.open()" mat-icon-button class="example-icon icon_toolbar_categ"
                 aria-label="Example icon-button with menu icon">
                 <fa-icon class="icon_toolbar" [icon]="faBars"></fa-icon>
             </button>
             -->
-
             <div class="logo">
                 <h1>{{precio_vusuario}} GTQ</h1>
             </div>
@@ -856,95 +678,50 @@
                 </span>
             </button>
         </mat-toolbar>
-
         <!--Container-->
-
         <div class="container_page">
             <div class="container_start">
-                <button type="button" class="list-group-item list-group-item-action">A disabled button </button>
-
-                <div class="accordion" id="accordionExample">
-                   
-                    <div class="accordion-item">
-                      <h2 class="accordion-header" id="headingTwo">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                          Accordion Item #2
-                        </button>
-                      </h2>
-                      <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                            <div class="list-group">
-                                
-                                <button type="button" class="list-group-item list-group-item-action">A second item</button>
-                                <button type="button" class="list-group-item list-group-item-action">A third button item</button>
-                                <button type="button" class="list-group-item list-group-item-action">A fourth button item</button>
-                                <button type="button" class="list-group-item list-group-item-action">A disabled button </button>
-                              </div></div>
-                      </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingTwoo">
-                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#headingTwoo" aria-expanded="false" aria-controls="headingTwoo">
-                            Accordion Item #2
-                          </button>
-                        </h2>
-                        <div id="headingTwoo" class="accordion-collapse collapse" aria-labelledby="headingTwoo" data-bs-parent="#accordionExample">
-                          <div class="accordion-body">
-                              <div class="list-group">
-                                  
-                                  <button type="button" class="list-group-item list-group-item-action">A second item</button>
-                                  <button type="button" class="list-group-item list-group-item-action">A third button item</button>
-                                  <button type="button" class="list-group-item list-group-item-action">A fourth button item</button>
-                                  <button type="button" class="list-group-item list-group-item-action">A disabled button </button>
-                                </div></div>
-                        </div>
-                      </div>
-                   
-                    <button type="button" class="list-group-item list-group-item-action">A disabled button </button>
-                </div>
-
-                <button type="button" class="list-group-item list-group-item-action">A disabled button </button>
-
-
-                <div class="container__menucategoriast">
-                    <h2 class="title_catpro">Categorías</h2>
-                    <ul class="menul acordeon">
-                        <!--
-                            [ngClass]="categoria_activa == 0 ? 'active': 'inactive'"-->
-                        <li class="item__menul acordeon__item " [ngClass]="categoria_activa == 0 ? 'active': 'inactive'"
-                            (click)="getProductos(0)"><label class="acordeon__titulo">Todas
-                            </label>
+                <nav class="nav__categorias">
+                    <h6>Categorías</h6>
+                    <ul class="list-unstyled mb-0 py-3 pt-md-1">
+                        <li class="mb-1">
+                            <div>
+                                Todas
+                            </div>
                         </li>
-                        
 
-                        <li class="item__menul acordeon__item" *ngFor="let padres of categorias_padre; let i=index"
-                            [ngClass]="categoria_activa == padres.categoria ? 'active': 'inactive'"
-                            (click)="getProductos(padres.categoria)">
-                            <input type="checkbox" name="acordeon" id="item{{i}}">
-                            <label for="item{{i}}" class="acordeon__titulo">{{padres.descripcion}}
-                            </label>
-                            <div class="acordeon__container"
-                                *ngFor="let hijos of filtrarCategorias_hijo(padres); let indice=index"
-                                (click)="getProductos(hijos.categoria)">
-                                <p>{{hijos.descripcion}}</p>
+                        <li class="mb-1" *ngFor="let padres of categorias_padre; let i=index">
 
+                            <div>
+                                <div style="float: left;"> {{padres.descripcion}}</div>
+                                <div data-bs-toggle="collapse" [attr.data-bs-target]="'#'+ getId(i)">
+                                   <fa-icon [icon]="faChevronRight" *ngIf="filtrarCategorias_hijo(padres).length >= 1"></fa-icon>
+                                   <fa-icon [icon]="faMinus" *ngIf="filtrarCategorias_hijo(padres).length == 0"></fa-icon>
+                                </div>
+
+                            </div>
+                            
+                            <div class="collapse" [id]="getId(i)" *ngFor="let hijos of filtrarCategorias_hijo(padres); let indice=index">
+                                <ul>
+                                    <li >
+                                        <p>{{hijos.descripcion}}</p>
+                                    </li>
+                                </ul>
                             </div>
                         </li>
                     </ul>
-                </div>
+                </nav>
+
             </div>
             <div class="container_main">
                 <div class="container-fluid container__products">
-
                     <!--Modal login-->
-                
                     <div class="my_modalpg ng-scope" *ngIf="login_modal">
                         <div class="modalpg_dialog">
                             <div id="area_detalleproductot">
                                 <div class="header_dprocuto no_border">
                                     <div class="areacerrar">
                                         <fa-icon [icon]="faTimes" (click)="cModalLogin()" class="icocerrar"></fa-icon>
-                
                                     </div>
                                 </div>
                                 <div class="container_detalle">
@@ -971,7 +748,6 @@
                                                                 <div class="sign-up">
                                                                     <h4>Correo electronico :</h4>
                                                                     <input type="text">
-                
                                                                 </div>
                                                                 <div class="sign-in">
                                                                     <a (click)="registroUser()">Iniciar Sesion</a>
@@ -980,7 +756,6 @@
                                                                 <div class="sign-up">
                                                                     <input type="submit" value="REGISTRATE AHORA">
                                                                 </div>
-                
                                                             </form>
                                                         </div>
                                                         <div class="login-right" *ngIf="!registro_form">
@@ -1010,52 +785,43 @@
                                                         <div class="clearfix"></div>
                                                     </div>
                                                 </div>
-                
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                
-                
                             </div>
-                        </div><!-- end ngIf: verdetalle -->
+                        </div>
                     </div>
-                
-                
-                <!--Modal detalle Producto-->
-                
-                <div class="my_modalpg ng-scope" *ngIf="detalle_producto">
-                    <div class="modalpg_dialog">
-                        <div id="area_detalleproductot">
-                            <div class="header_dprocuto no_border">
-                                <div class="areacerrar">
-                                    <fa-icon [icon]="faTimes" (click)="cdetalle()" class="icocerrar"></fa-icon>
+                    <!--Modal detalle Producto-->
+                    <div class="my_modalpg ng-scope" *ngIf="detalle_producto">
+                        <div class="modalpg_dialog">
+                            <div id="area_detalleproductot">
+                                <div class="header_dprocuto no_border">
+                                    <div class="areacerrar">
+                                        <fa-icon [icon]="faTimes" (click)="cdetalle()" class="icocerrar"></fa-icon>
+                                    </div>
                                 </div>
-                            </div>
-                
-                            <!--producto_seleccionado-->
-                            <div class="container_detalle">
-                
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-sm-12 col-md-12 col-lg-6 col-xs-6">
-                
-                                            <div class="container">
-                                                <div class="row">
-                                                    <div class="col-sm-12 col-md-12 col-lg-2 col-xs-2 izquierda">
-                                                        <img *ngFor="let foto of fotos; let i = index"
-                                                            (mouseenter)="seleccionarImagen(i)"
-                                                            [class.seleccionada]="i==indiceSeleccionado"
-                                                            class="imagen-izquierda" [src]="resolverFoto(i)" alt="Foto">
-                                                    </div>
-                                                    <div class="col-sm-12 col-md-12 col-lg-10 col-xs-10">
-                                                        <img [src]="resolverFoto(indiceSeleccionado)"
-                                                            class="imagen-derecha">
+                                <!--producto_seleccionado-->
+                                <div class="container_detalle">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-12 col-lg-6 col-xs-6">
+                                                <div class="container">
+                                                    <div class="row">
+                                                        <div class="col-sm-12 col-md-12 col-lg-2 col-xs-2 izquierda">
+                                                            <img *ngFor="let foto of fotos; let i = index"
+                                                                (mouseenter)="seleccionarImagen(i)"
+                                                                [class.seleccionada]="i==indiceSeleccionado"
+                                                                class="imagen-izquierda" [src]="resolverFoto(i)"
+                                                                alt="Foto">
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-12 col-lg-10 col-xs-10">
+                                                            <img [src]="resolverFoto(indiceSeleccionado)"
+                                                                class="imagen-derecha">
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                
-                                            <!--
+                                                <!--
                                            <div class="container">
                                                 <div class="imgproduto_detale"
                                                 style="background:url('assets/img/image-not-found.png')no-repeat center"
@@ -1067,218 +833,187 @@
                                             </div>
                                            </div>
                                            -->
-                                        </div>
-                                        <div class="col-sm-12 col-md-12 col-lg-6 col-xs-6">
-                                            <div class="detalles-product">
-                                                <div class="tit_dprod">
-                                                    <p class="ng-binding">{{producto_seleccionado.descripcion}}</p>
-                                                </div>
-                
-                
-                                                <div class="producto_descri" *ngIf="no_hay_producto_detalle">
-                                                    <div class="container_vermenos ng-scope">
-                                                        <p class="ng-binding">
-                                                            SKU {{producto_seleccionado.producto_Id}}
-                                                        </p>
-                                                        <p class="ng-binding">
-                                                            {{producto_seleccionado.descripcion_Alt}}
-                                                        </p>
+                                            </div>
+                                            <div class="col-sm-12 col-md-12 col-lg-6 col-xs-6">
+                                                <div class="detalles-product">
+                                                    <div class="tit_dprod">
+                                                        <p class="ng-binding">{{producto_seleccionado.descripcion}}</p>
                                                     </div>
-                                                </div>
-                
-                                                <div class="producto_descri"
-                                                    *ngIf="!presentacion && no_hay_producto_detalle">
-                                                    <div class="container_vermenos ng-scope">
-                                                        <p class="ng-binding">
-                                                            SKU {{presentacion_producto[0].iD_Producto}}
-                                                        </p>
-                                                        <p class="ng-binding">
-                                                            {{producto_seleccionado.descripcion_Alt}}
-                                                        </p>
+                                                    <div class="producto_descri" *ngIf="no_hay_producto_detalle">
+                                                        <div class="container_vermenos ng-scope">
+                                                            <p class="ng-binding">
+                                                                SKU {{producto_seleccionado.producto_Id}}
+                                                            </p>
+                                                            <p class="ng-binding">
+                                                                {{producto_seleccionado.descripcion_Alt}}
+                                                            </p>
+                                                        </div>
                                                     </div>
-                                                </div>
-                
-                                                <div class="producto_descri "
-                                                    *ngIf="presentacion && !no_hay_producto_detalle">
-                                                    <div class="container_vermenos ng-scope">
-                                                        <p class="ng-binding">
-                                                            SKU {{presentacion_producto[0].iD_Producto}}
-                                                        </p>
-                
-                                                        <p class="ng-binding">
-                                                            {{presentacion_producto[0].descripcion_Alt_Producto}}
-                                                        </p>
-                                                        <p class="ng-binding">
-                                                            Presentación
-                                                        </p>
-                
-                
+                                                    <div class="producto_descri"
+                                                        *ngIf="!presentacion && no_hay_producto_detalle">
+                                                        <div class="container_vermenos ng-scope">
+                                                            <p class="ng-binding">
+                                                                SKU {{presentacion_producto[0].iD_Producto}}
+                                                            </p>
+                                                            <p class="ng-binding">
+                                                                {{producto_seleccionado.descripcion_Alt}}
+                                                            </p>
+                                                        </div>
                                                     </div>
-                                                </div>
-                
-                                                <!--No hay detalle del producto-->
-                                                <div class="col-sm-12 spi spd" *ngIf="no_hay_producto_detalle">
-                                                    <form class="form-horizontal form_left">
-                                                        <div class="container_cant">
-                                                            <div class="container_addproducto">
-                                                                <div class="container">
-                
-                                                                    <div class="row">
-                                                                        <label class="m_unit">
-                                                                            No se ha encontrado información de este
-                                                                            producto.
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                
-                                                            <div class="container_buttonsdetaller ng-scope">
-                                                                <button type="submit" class="btn_agregarproducto ng-scope"
-                                                                    (click)="cdetalle()">
-                                                                    Cancelar
-                                                                </button>
-                                                            </div>
-                
+                                                    <div class="producto_descri "
+                                                        *ngIf="presentacion && !no_hay_producto_detalle">
+                                                        <div class="container_vermenos ng-scope">
+                                                            <p class="ng-binding">
+                                                                SKU {{presentacion_producto[0].iD_Producto}}
+                                                            </p>
+                                                            <p class="ng-binding">
+                                                                {{presentacion_producto[0].descripcion_Alt_Producto}}
+                                                            </p>
+                                                            <p class="ng-binding">
+                                                                Presentación
+                                                            </p>
                                                         </div>
-                                                    </form>
-                                                </div>
-                
-                                                <!--Varias Presentaciones-->
-                                                <div class="col-sm-12 spi spd"
-                                                    *ngIf="presentacion && !no_hay_producto_detalle">
-                                                    <form class="form-horizontal form_left">
-                                                        <div class="container_cant">
-                                                            <div class="container_addproducto"
-                                                                *ngFor="let element of presentacion_producto; let indice=index">
-                                                                <div class="container">
-                
-                                                                    <div class="row"><label
-                                                                            class="m_unit">{{element.presentacion}}</label>
-                                                                    </div>
-                                                                    <div class="row">
-                                                                        <span for="4951">
-                                                                            Q.{{NumberToString(element.precio_Unidad)}}
-                                                                        </span>
+                                                    </div>
+                                                    <!--No hay detalle del producto-->
+                                                    <div class="col-sm-12 spi spd" *ngIf="no_hay_producto_detalle">
+                                                        <form class="form-horizontal form_left">
+                                                            <div class="container_cant">
+                                                                <div class="container_addproducto">
+                                                                    <div class="container">
+                                                                        <div class="row">
+                                                                            <label class="m_unit">
+                                                                                No se ha encontrado información de este
+                                                                                producto.
+                                                                            </label>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                
-                
-                                                                <div class="form_unit">
-                                                                    <fa-icon [icon]="faMinus" class="btn_menos"
-                                                                        (click)="menosProductoVarios(indice)"></fa-icon>
-                
-                                                                    <input
-                                                                        class="input_forms ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-min"
-                                                                        type="number" value="{{cantidades_varias[indice]}}"
-                                                                        readonly="">
-                                                                    <fa-icon [icon]="faPlus" class="btn_mas"
-                                                                        (click)="masProductoVarios(indice)"></fa-icon>
-                
+                                                                <div class="container_buttonsdetaller ng-scope">
+                                                                    <button type="submit"
+                                                                        class="btn_agregarproducto ng-scope"
+                                                                        (click)="cdetalle()">
+                                                                        Cancelar
+                                                                    </button>
                                                                 </div>
                                                             </div>
-                
-                                                            <div class="container_buttonsdetaller ng-scope">
-                                                                <button type="submit" class="btn_agregarproducto ng-scope"
-                                                                    (click)="addCarrito(producto_seleccionado,cantidad_producto)">
-                                                                    Agregar al carrito
-                                                                </button>
-                                                            </div>
-                
-                                                        </div>
-                                                    </form>
-                                                </div>
-                
-                
-                                                <!--varios precios-->
-                                                <div class="col-sm-12 spi spd"
-                                                    *ngIf="!presentacion && !no_hay_producto_detalle">
-                                                    <form class="form-horizontal form_left">
-                                                        <div class="container_cant">
-                                                            <div class="container_addproducto"
-                                                                *ngFor="let element of presentacion_producto; let indice=index">
-                                                                <div class="container">
-                
-                                                                    <div class="row"><label
-                                                                            class="m_unit">{{element.des_Tipo_Precio}}</label>
+                                                        </form>
+                                                    </div>
+                                                    <!--Varias Presentaciones-->
+                                                    <div class="col-sm-12 spi spd"
+                                                        *ngIf="presentacion && !no_hay_producto_detalle">
+                                                        <form class="form-horizontal form_left">
+                                                            <div class="container_cant">
+                                                                <div class="container_addproducto"
+                                                                    *ngFor="let element of presentacion_producto; let indice=index">
+                                                                    <div class="container">
+                                                                        <div class="row"><label
+                                                                                class="m_unit">{{element.presentacion}}</label>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <span for="4951">
+                                                                                Q.{{NumberToString(element.precio_Unidad)}}
+                                                                            </span>
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="row">
-                                                                        <span for="4951">
-                                                                            Q.{{NumberToString(element.precio_Unidad)}}
-                                                                        </span>
+                                                                    <div class="form_unit">
+                                                                        <fa-icon [icon]="faMinus" class="btn_menos"
+                                                                            (click)="menosProductoVarios(indice)">
+                                                                        </fa-icon>
+                                                                        <input
+                                                                            class="input_forms ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-min"
+                                                                            type="number"
+                                                                            value="{{cantidades_varias[indice]}}"
+                                                                            readonly="">
+                                                                        <fa-icon [icon]="faPlus" class="btn_mas"
+                                                                            (click)="masProductoVarios(indice)">
+                                                                        </fa-icon>
                                                                     </div>
                                                                 </div>
-                
-                
-                                                                <div class="form_unit">
-                                                                    <fa-icon [icon]="faMinus" class="btn_menos"
-                                                                        (click)="menosProductoVarios(indice)"></fa-icon>
-                
-                                                                    <input
-                                                                        class="input_forms ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-min"
-                                                                        type="number"
-                                                                        value="{{cantidades_varias_TP[indice]}}"
-                                                                        readonly="">
-                                                                    <fa-icon [icon]="faPlus" class="btn_mas"
-                                                                        (click)="masProductoVarios(indice)"></fa-icon>
-                
+                                                                <div class="container_buttonsdetaller ng-scope">
+                                                                    <button type="submit"
+                                                                        class="btn_agregarproducto ng-scope"
+                                                                        (click)="addCarrito(producto_seleccionado,cantidad_producto)">
+                                                                        Agregar al carrito
+                                                                    </button>
                                                                 </div>
                                                             </div>
-                
-                                                            <div class="container_buttonsdetaller ng-scope">
-                                                                <button type="submit" class="btn_agregarproducto ng-scope"
-                                                                    (click)="addCarrito(producto_seleccionado,cantidad_producto)">
-                                                                    Agregar al carrito
-                                                                </button>
+                                                        </form>
+                                                    </div>
+                                                    <!--varios precios-->
+                                                    <div class="col-sm-12 spi spd"
+                                                        *ngIf="!presentacion && !no_hay_producto_detalle">
+                                                        <form class="form-horizontal form_left">
+                                                            <div class="container_cant">
+                                                                <div class="container_addproducto"
+                                                                    *ngFor="let element of presentacion_producto; let indice=index">
+                                                                    <div class="container">
+                                                                        <div class="row"><label
+                                                                                class="m_unit">{{element.des_Tipo_Precio}}</label>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <span for="4951">
+                                                                                Q.{{NumberToString(element.precio_Unidad)}}
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form_unit">
+                                                                        <fa-icon [icon]="faMinus" class="btn_menos"
+                                                                            (click)="menosProductoVarios(indice)">
+                                                                        </fa-icon>
+                                                                        <input
+                                                                            class="input_forms ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-min"
+                                                                            type="number"
+                                                                            value="{{cantidades_varias_TP[indice]}}"
+                                                                            readonly="">
+                                                                        <fa-icon [icon]="faPlus" class="btn_mas"
+                                                                            (click)="masProductoVarios(indice)">
+                                                                        </fa-icon>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="container_buttonsdetaller ng-scope">
+                                                                    <button type="submit"
+                                                                        class="btn_agregarproducto ng-scope"
+                                                                        (click)="addCarrito(producto_seleccionado,cantidad_producto)">
+                                                                        Agregar al carrito
+                                                                    </button>
+                                                                </div>
                                                             </div>
-                
-                                                        </div>
-                                                    </form>
-                
+                                                        </form>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                
-                
                             </div>
-                        </div><!-- end ngIf: verdetalle -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 col-lg-4 col-xs-3" *ngFor="let element of productos">
+                            <div class="container" *ngIf="producto_exist">
+                                <div class="row">
+                                    <div class="col-md-3 product-me">
+                                        <div class="product-item">
+                                            <div class="image-product" *ngIf="!element.url_Img"
+                                                (click)="productoDetalle(element)">
+                                                <img src="assets/img/image-not-found.png" class="center">
+                                            </div>
+                                            <div class="image-product" *ngIf="element.url_Img"
+                                                (click)="productoDetalle(element)">
+                                                <img src="{{element.url_Img}}">
+                                            </div>
+                                            <div class="nombre_producto">
+                                                <h4 class="ng-binding">SKU {{element.producto_Id}}</h4>
+                                                <p class="ng-binding">{{element.descripcion}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                                    
-                                    <div class="row">
-                
-                                        <div class="col-sm-12 col-md-6 col-lg-4 col-xs-3" *ngFor="let element of productos">
-                
-                                            <div class="container" *ngIf="producto_exist">
-                                                <div class="row">
-                                                    <div class="col-md-3 product-me">
-                                                        <div class="product-item">
-                
-                                                            <div class="image-product" *ngIf="!element.url_Img"
-                                                                (click)="productoDetalle(element)">
-                                                                <img src="assets/img/image-not-found.png" class="center">
-                                                            </div>
-                                                            <div class="image-product" *ngIf="element.url_Img"
-                                                                (click)="productoDetalle(element)">
-                                                                <img src="{{element.url_Img}}">
-                                                            </div>
-                
-                                                            <div class="nombre_producto">
-                                                                <h4 class="ng-binding">SKU {{element.producto_Id}}</h4>
-                                                                <p class="ng-binding">{{element.descripcion}}</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
             </div>
         </div>
-
-
-
     </mat-sidenav-content>
 </mat-sidenav-container>

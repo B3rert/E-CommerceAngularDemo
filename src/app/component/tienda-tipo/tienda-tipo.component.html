@@ -1,33 +1,43 @@
 <mat-sidenav-container class="example-container" (backdropClick)="close('backdrop')">
     <mat-sidenav #sidenav (keydown.escape)="close('escape')" disableClose>
         <mat-toolbar class="head__carrito categoria_head">
-            <span class="example-spacer">Categorías</span>
+            <h6>Categorías</h6>
+            <span class="example-spacer" ></span>
             <mat-icon class="icon_close_head" (click)="close('toggle button')">
                 <fa-icon [icon]="faTimes"></fa-icon>
             </mat-icon>
         </mat-toolbar>
-        <div class="container__menucategoriast categoria_sideBar">
-            <ul class="menul acordeon">
-                <!--
-                    [ngClass]="categoria_activa == 0 ? 'active': 'inactive'"-->
-                <li class="item__menul acordeon__item " [ngClass]="categoria_activa == 0 ? 'active': 'inactive'"
-                    (click)="getProductos(0)"><label class="acordeon__titulo">Todas
-                    </label>
+        <nav class="categorias_nav">
+           
+            <ul class="list-unstyled mb-0 py-3 pt-md-1">
+                <li class="mb-1 child_hover" [ngClass]="categoria_activa == 0 ? 'active_cat': 'inactive'" (click)="getProductos(0)">
+                    <p class="cat_todas ">
+                        Todas
+                    </p>
                 </li>
-                <li class="item__menul acordeon__item" *ngFor="let padres of categorias_padre; let i=index"
-                    [ngClass]="categoria_activa == padres.categoria ? 'active': 'inactive'"
-                    (click)="getProductos(padres.categoria)">
-                    <input type="checkbox" name="acordeon" id="item{{i}}">
-                    <label for="item{{i}}" class="acordeon__titulo">{{padres.descripcion}}
-                    </label>
-                    <div class="acordeon__container"
-                        *ngFor="let hijos of filtrarCategorias_hijo(padres); let indice=index"
-                        (click)="getProductos(hijos.categoria)">
-                        <p>{{hijos.descripcion}}</p>
+
+                <li class="mb-1" *ngFor="let padres of categorias_padre; let i=index">
+
+                    <div class="child_hover "  [ngClass]="categoria_activa == padres.categoria ? 'active_cat': 'inactive'">
+                        <p style="float: left;" (click)="getProductos(padres.categoria)"> {{padres.descripcion}}</p>
+                        <div class="icons_drop" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+ getId(i)" (click)="dropCat(i)">
+                           <fa-icon [icon]="faChevronRight" class="icon_more" *ngIf="filtrarCategorias_hijo(padres).length >= 1 && collapsedOrNot[i]"></fa-icon>
+                           <fa-icon [icon]="faChevronDown" class="icon_more" *ngIf="filtrarCategorias_hijo(padres).length >= 1 && !collapsedOrNot[i]"></fa-icon>
+                           <fa-icon [icon]="faMinus" class="icon_none" *ngIf="filtrarCategorias_hijo(padres).length == 0"></fa-icon>
+                        </div>
+
+                    </div>
+                    
+                    <div [ngClass]="categoria_activa == hijos.categoria ? 'active_cat': 'inactive'" (click)="getProductos(hijos.categoria)" class="collapse child_hover child_cat" [id]="getId(i)" *ngFor="let hijos of filtrarCategorias_hijo(padres); let indice=index">
+                        <ul>
+                            <li>
+                                <p class="child_text">{{hijos.descripcion}}</p>
+                            </li>
+                        </ul>
                     </div>
                 </li>
             </ul>
-        </div>
+        </nav>
     </mat-sidenav>
     <mat-sidenav position="end" #sidenavend (keydown.escape)="close('escape')" disableClose>
         <div class="container-menu">
@@ -684,15 +694,15 @@
                 <nav class="categorias_nav">
                     <h6>Categorías</h6>
                     <ul class="list-unstyled mb-0 py-3 pt-md-1">
-                        <li class="mb-1 child_hover"  (click)="getProductos(0)">
-                            <p class="cat_todas">
+                        <li class="mb-1 child_hover" [ngClass]="categoria_activa == 0 ? 'active_cat': 'inactive'" (click)="getProductos(0)">
+                            <p class="cat_todas ">
                                 Todas
                             </p>
                         </li>
 
                         <li class="mb-1" *ngFor="let padres of categorias_padre; let i=index">
 
-                            <div class="child_hover">
+                            <div class="child_hover "  [ngClass]="categoria_activa == padres.categoria ? 'active_cat': 'inactive'">
                                 <p style="float: left;" (click)="getProductos(padres.categoria)"> {{padres.descripcion}}</p>
                                 <div class="icons_drop" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+ getId(i)" (click)="dropCat(i)">
                                    <fa-icon [icon]="faChevronRight" class="icon_more" *ngIf="filtrarCategorias_hijo(padres).length >= 1 && collapsedOrNot[i]"></fa-icon>
@@ -702,7 +712,7 @@
 
                             </div>
                             
-                            <div (click)="getProductos(hijos.categoria)" class="collapse child_hover child_cat" [id]="getId(i)" *ngFor="let hijos of filtrarCategorias_hijo(padres); let indice=index">
+                            <div [ngClass]="categoria_activa == hijos.categoria ? 'active_cat': 'inactive'" (click)="getProductos(hijos.categoria)" class="collapse child_hover child_cat" [id]="getId(i)" *ngFor="let hijos of filtrarCategorias_hijo(padres); let indice=index">
                                 <ul>
                                     <li>
                                         <p class="child_text">{{hijos.descripcion}}</p>

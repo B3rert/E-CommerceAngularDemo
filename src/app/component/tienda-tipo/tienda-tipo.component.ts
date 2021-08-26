@@ -92,6 +92,7 @@ export class TiendaTipoComponent implements OnInit {
   pedidos: any[] = [];
   cantidades_varias: any[] = [];
   cantidades_varias_TP: any[] = [];
+  collapsedOrNot: boolean[] = [];
 
   carrito_cantidad = 0;
   categoria_activa = 0;
@@ -116,6 +117,9 @@ export class TiendaTipoComponent implements OnInit {
   registro_form = false;
 
   forma_pago_select: any;
+
+
+  icon_dropdown = true;
 
   constructor(
     // private modal: NgbMd
@@ -148,6 +152,19 @@ export class TiendaTipoComponent implements OnInit {
       // console.log(this.tienda_seleccionada);
 
     });
+  }
+
+
+  dropCat(index: number){
+
+
+   let value  = this.collapsedOrNot[index];
+
+
+   value ? value = false : value = true;
+
+   this.collapsedOrNot[index] = value;
+  
   }
 
   /**
@@ -569,6 +586,7 @@ export class TiendaTipoComponent implements OnInit {
 
           if (categoriaPadre == '{}') {
             this.categorias_padre.push(element);
+            this.collapsedOrNot.push(true);
           } else {
             this.categorias_hijo.push(element);
           }

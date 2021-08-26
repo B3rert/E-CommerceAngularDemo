@@ -681,36 +681,38 @@
         <!--Container-->
         <div class="container_page">
             <div class="container_start">
-                <nav class="nav__categorias">
+                <nav class="categorias_nav">
                     <h6>Categorías</h6>
                     <ul class="list-unstyled mb-0 py-3 pt-md-1">
-                        <li (click)="getProductos(0)" class="mb-1 cursor__hover">
-                            <p>Todas</p>
-                                
-                          
+                        <li class="mb-1 child_hover"  (click)="getProductos(0)">
+                            <p class="cat_todas">
+                                Todas
+                            </p>
                         </li>
 
                         <li class="mb-1" *ngFor="let padres of categorias_padre; let i=index">
 
-                            <div class="cursor__hover">
+                            <div class="child_hover">
                                 <p style="float: left;" (click)="getProductos(padres.categoria)"> {{padres.descripcion}}</p>
-                                <div class="icons_nav" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+ getId(i)">
-                                    <fa-icon class="icon_collapse" [icon]="faChevronRight" *ngIf="filtrarCategorias_hijo(padres).length >= 1"></fa-icon>
-                                   <fa-icon class="icon_none" [icon]="faMinus" *ngIf="filtrarCategorias_hijo(padres).length == 0"></fa-icon>
+                                <div class="icons_drop" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+ getId(i)" (click)="dropCat(i)">
+                                   <fa-icon [icon]="faChevronRight" class="icon_more" *ngIf="filtrarCategorias_hijo(padres).length >= 1 && collapsedOrNot[i]"></fa-icon>
+                                   <fa-icon [icon]="faChevronDown" class="icon_more" *ngIf="filtrarCategorias_hijo(padres).length >= 1 && !collapsedOrNot[i]"></fa-icon>
+                                   <fa-icon [icon]="faMinus" class="icon_none" *ngIf="filtrarCategorias_hijo(padres).length == 0"></fa-icon>
                                 </div>
 
                             </div>
                             
-                            <div  class="collapse cursor__hover" [id]="getId(i)" *ngFor="let hijos of filtrarCategorias_hijo(padres); let indice=index">
+                            <div (click)="getProductos(hijos.categoria)" class="collapse child_hover child_cat" [id]="getId(i)" *ngFor="let hijos of filtrarCategorias_hijo(padres); let indice=index">
                                 <ul>
-                                    <li (click)="getProductos(hijos.categoria)"  class="nav__childs">
-                                        <p>{{hijos.descripcion}}</p>
+                                    <li>
+                                        <p class="child_text">{{hijos.descripcion}}</p>
                                     </li>
                                 </ul>
                             </div>
                         </li>
                     </ul>
                 </nav>
+
 
             </div>
             <div class="container_main">

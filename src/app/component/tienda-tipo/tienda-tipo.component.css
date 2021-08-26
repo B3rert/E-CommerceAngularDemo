@@ -2257,3 +2257,10 @@ mat-sidenav {
 .nav__categorias{
   margin-left: 20px;
 }
+
+.nav__categorias h6{
+  padding: 10px;
+  font-size: 20px;
+  color: black;
+  font-weight: 600;
+}

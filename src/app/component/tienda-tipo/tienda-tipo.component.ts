@@ -21,7 +21,6 @@ import { CategoriaService } from 'src/app/services/categoria.service';
 import { FormaPagoService } from 'src/app/services/forma-pago.services';
 import { ProductoService } from 'src/app/services/producto.service';
 import { TiendaService } from 'src/app/services/tienda.service';
-import { MatDialog } from '@angular/material/dialog';
 
 import { MatSidenav } from '@angular/material/sidenav';
 
@@ -126,6 +125,7 @@ export class TiendaTipoComponent implements OnInit {
     });
   }
 
+  //Controlar DropDown iconos en categorias
   dropCat(index: number){
    let value  = this.collapsedOrNot[index];
    value ? value = false : value = true;

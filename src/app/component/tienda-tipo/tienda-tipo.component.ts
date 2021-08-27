@@ -119,8 +119,6 @@ export class TiendaTipoComponent implements OnInit {
   forma_pago_select: any;
 
 
-  icon_dropdown = true;
-
   constructor(
     // private modal: NgbMd
     private _ac: ActivatedRoute,
@@ -131,6 +129,7 @@ export class TiendaTipoComponent implements OnInit {
     private _formaPagoService: FormaPagoService
   ) {
 
+   
     this.getTiendas();
     this.getCategorias();
     this.getProductos(0);
@@ -141,6 +140,8 @@ export class TiendaTipoComponent implements OnInit {
 
     this.userFactura = new UserFactura("", "", "", "", "", fecha_hora, "", "", "");
   }
+
+
 
   ngOnInit(): void {
     this._ac.paramMap.subscribe(paramas => {

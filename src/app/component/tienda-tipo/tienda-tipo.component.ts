@@ -1,7 +1,5 @@
-import { stringify } from '@angular/compiler/src/util';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { from } from 'rxjs';
 
 /**
  * Icons fontawesome
@@ -17,9 +15,7 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
-
 import { UserFactura } from 'src/app/models/factura.model';
-import { PedidoModel } from 'src/app/models/pedido.model';
 import { ProductPedidoModel } from 'src/app/models/producto-pedido.model';
 import { CategoriaService } from 'src/app/services/categoria.service';
 import { FormaPagoService } from 'src/app/services/forma-pago.services';
@@ -28,8 +24,6 @@ import { TiendaService } from 'src/app/services/tienda.service';
 import { MatDialog } from '@angular/material/dialog';
 
 import { MatSidenav } from '@angular/material/sidenav';
-
-//import {N} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-tienda-tipo',
@@ -44,17 +38,18 @@ import { MatSidenav } from '@angular/material/sidenav';
 })
 export class TiendaTipoComponent implements OnInit {
 
+  //Abrir/Cerrar SideNav
   @ViewChild('sidenav')
   sidenav!: MatSidenav;
   @ViewChild('sidenavend')
   sidenavend!: MatSidenav;
 
   close(reason: string) {
-
     this.sidenav.close();
     this.sidenavend.close();
   }
-  //iconos
+
+  //Iconos
   faUserCircle = faUserCircle;
   faShoppingCart = faShoppingCart;
   faSearch = faSearch;
@@ -67,19 +62,9 @@ export class TiendaTipoComponent implements OnInit {
   faChevronRight = faChevronRight;
 
   //Modelos
-  //public productoPedido: ProductPedidoModel;
-  //public pedido: PedidoModel;
-
-  /*
-    this.productoPedido = new ProductPedidoModel("", "", "", "", 0);
-    this.pedido = new PedidoModel(this.productoPedido); */
-
-
-
-  //models
   public userFactura: UserFactura;
 
-  //variables
+  //Variables
   tienda_en_linea = true;
   tienda_seleccionada: any;
   tiendas: any;
@@ -118,68 +103,45 @@ export class TiendaTipoComponent implements OnInit {
 
   forma_pago_select: any;
 
-
   constructor(
-    // private modal: NgbMd
     private _ac: ActivatedRoute,
-    private dialog: MatDialog,
     private _tiendaService: TiendaService,
     private _categoriaService: CategoriaService,
     private _productoService: ProductoService,
     private _formaPagoService: FormaPagoService
   ) {
 
-   
     this.getTiendas();
     this.getCategorias();
     this.getProductos(0);
-
-
     var fecha_hora = this.getHoraActual();
-
-
     this.userFactura = new UserFactura("", "", "", "", "", fecha_hora, "", "", "");
   }
 
-
-
   ngOnInit(): void {
     this._ac.paramMap.subscribe(paramas => {
-
-      //Parametros recibidos domicilio, recojer 
       this.forma_pedido = paramas.get('forma_pedido');
       let tienda = sessionStorage.getItem("tienda");
       this.tienda_seleccionada = JSON.parse(tienda!);
-      // console.log(this.tienda_seleccionada);
-
     });
   }
 
-
   dropCat(index: number){
-
-
    let value  = this.collapsedOrNot[index];
-
-
    value ? value = false : value = true;
-
    this.collapsedOrNot[index] = value;
-  
   }
 
-  /**
-   * id categoria
-   */
-
+  //categoria Id
   getId(Id: number) {
     return (`categoria${Id}`)
   }
 
-
+  //Cerrar Modal Login
   cModalLogin() {
     this.login_modal = false;
   }
+
   registroUser() {
     if (this.registro_form) {
       this.registro_form = false;
@@ -207,6 +169,7 @@ export class TiendaTipoComponent implements OnInit {
     this.tienda_seleccionada = tienda;
   }
 
+  //Cerrar Modal detalle producto
   cdetalle() {
     this.detalle_producto = false;
   }
@@ -217,7 +180,6 @@ export class TiendaTipoComponent implements OnInit {
     } else {
       this.cantidad_producto--;
     }
-
   }
 
   getHoraActual() {
@@ -233,14 +195,8 @@ export class TiendaTipoComponent implements OnInit {
     this.cantidad_producto++;
   }
 
-
   menosProductoVarios(indice: number) {
-    //alert("Meno productos");
-
-
     if (this.cantidades_varias_TP.length != 0) {
-
-
       if (this.cantidades_varias_TP[indice] == 0) {
         this.cantidades_varias_TP[indice] = 0;
       } else {
@@ -253,29 +209,19 @@ export class TiendaTipoComponent implements OnInit {
         this.cantidades_varias[indice] = this.cantidades_varias[indice] - 1;
       }
     }
-
-
   }
-  masProductoVarios(indice: number) {
-    //alert("Mas producto");
 
+  masProductoVarios(indice: number) {
     if (this.cantidades_varias_TP.length != 0) {
       this.cantidades_varias_TP[indice] = this.cantidades_varias_TP[indice] + 1;
 
     } else {
       this.cantidades_varias[indice] = this.cantidades_varias[indice] + 1;
-
     }
-
-
   }
 
-
   addCarrito(producto_seleccionado: any, cantidad: any) {
-
-
     let hay_productos = false;
-
     //verificar que se agregaron productos
     if (this.cantidades_varias.length != 0) {
       for (var item of this.cantidades_varias) {
@@ -294,7 +240,6 @@ export class TiendaTipoComponent implements OnInit {
         }
       }
     }
-
 
     //Si hay productos agregarlos al carrito
     if (hay_productos) {
@@ -319,12 +264,8 @@ export class TiendaTipoComponent implements OnInit {
               this.NumberToString(this.resolverPrecioCantidad(this.presentacion_producto[indice].precio_Unidad, element)),
               element,
             );
-
-
             this.pedidos.push(producto_pedido);
             this.carrito_cantidad = this.carrito_cantidad + 1;
-
-
           }
           indice++;
         });
@@ -350,11 +291,8 @@ export class TiendaTipoComponent implements OnInit {
               this.NumberToString(this.resolverPrecioCantidad(this.presentacion_producto[indice].precio_Unidad, element)),
               element,
             );
-
-
             this.pedidos.push(producto_pedido);
             this.carrito_cantidad = this.carrito_cantidad + 1;
-
           }
           indice++;
         });
@@ -368,9 +306,6 @@ export class TiendaTipoComponent implements OnInit {
     //Limpiar cantidades
     this.cantidades_varias_TP.splice(0, this.cantidades_varias_TP.length);
     this.cantidades_varias.splice(0, this.cantidades_varias.length);
-
-    console.log(this.pedidos);
-
   }
 
   actualizarTotal() {
@@ -378,9 +313,7 @@ export class TiendaTipoComponent implements OnInit {
     this.pedidos.forEach(element => {
       total_final = total_final + element.precio_cantidad;
     });
-
     this.precio_vusuario = this.NumberToString(total_final);
-
   }
 
   toMayus(cadena: string) {
@@ -421,7 +354,6 @@ export class TiendaTipoComponent implements OnInit {
     this.confirmar_pago = false;
   }
 
-
   eliminarProducto(indice: number) {
     this.pedidos.splice(indice, 1);
     this.carrito_cantidad = this.carrito_cantidad - 1;
@@ -453,16 +385,11 @@ export class TiendaTipoComponent implements OnInit {
   }
 
   sumarProducto(cantidad: number, indice: number) {
-
-
     this.pedidos[indice].cantidad = cantidad + 1;
-
     let nuevo_total = this.pedidos[indice].precio_cantidad + this.pedidos[indice].precio_unidad;
     this.pedidos[indice].precio_cantidad = nuevo_total;
     this.pedidos[indice].precio_cantidad_string = this.NumberToString(nuevo_total);
-
     this.actualizarTotal()
-
   }
 
   login() {
@@ -471,7 +398,6 @@ export class TiendaTipoComponent implements OnInit {
   }
 
   productoDetalle(producto_seleccionado: any) {
-
     this.detalle_producto = true;
     this.producto_seleccionado = producto_seleccionado;
 
@@ -489,13 +415,10 @@ export class TiendaTipoComponent implements OnInit {
           console.log(err)
         }
       );
-
-
     //Verificar si el producto tiene variantes
 
     this._productoService.getProductoDetalles(producto_seleccionado.producto, producto_seleccionado.unidad_Medida, 3/*this.tienda_seleccionada.bodega*/).subscribe(
       res => {
-
         let resJson = JSON.stringify(res);
         this.presentacion_producto = JSON.parse(resJson);
 
@@ -532,7 +455,6 @@ export class TiendaTipoComponent implements OnInit {
   }
 
   resolverFoto(indice: any) {
-
     if (this.fotos.length == 0) {
       return ("assets/img/image-not-found.png");
     } else {
@@ -542,8 +464,6 @@ export class TiendaTipoComponent implements OnInit {
         return ("assets/img/image-not-found.png");
       }
     }
-
-
   }
 
   getTiendas() {
@@ -561,10 +481,8 @@ export class TiendaTipoComponent implements OnInit {
 
   filtrarCategorias_hijo(padres: any) {
     let hijos: any = [];
-
     this.categorias_hijo.forEach(cHijo => {
       if (padres.categoria == cHijo.categoria_Padre) {
-
         hijos.push(cHijo);
       }
     });
@@ -575,16 +493,10 @@ export class TiendaTipoComponent implements OnInit {
   getCategorias() {
     this._categoriaService.categoria().subscribe(
       res => {
-
         let resJson = JSON.stringify(res);
         this.categorias = JSON.parse(resJson);
-
-
         this.categorias.forEach((element: { categoria_Padre: any; }) => {
-
-
           let categoriaPadre = JSON.stringify(element.categoria_Padre);
-
           if (categoriaPadre == '{}') {
             this.categorias_padre.push(element);
             this.collapsedOrNot.push(true);
@@ -618,7 +530,6 @@ export class TiendaTipoComponent implements OnInit {
         } else {
           this.producto_exist = true;
         }
-
       },
       err => {
         alert("Error de servidor");

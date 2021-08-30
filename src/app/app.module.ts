@@ -59,7 +59,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SelectTiendaComponentComponent } from './component/select-tienda-component/select-tienda-component.component';
 import { PruebasComponentComponent } from './component/pruebas-component/pruebas-component.component';
 import { NotFoundProductComponentComponent } from './component/not-found-product-component/not-found-product-component.component';
-import { NotFoundPageComponentComponent } from './not-found-page-component/not-found-page-component.component';
+import { NotFoundPageComponentComponent } from './component/not-found-page-component/not-found-page-component.component';
 
 @NgModule({
   declarations: [

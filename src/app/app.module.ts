@@ -60,6 +60,7 @@ import { SelectTiendaComponentComponent } from './component/select-tienda-compon
 import { PruebasComponentComponent } from './component/pruebas-component/pruebas-component.component';
 import { NotFoundProductComponentComponent } from './component/not-found-product-component/not-found-product-component.component';
 import { NotFoundPageComponentComponent } from './component/not-found-page-component/not-found-page-component.component';
+import { PedidoComponentComponent } from './component/pedido-component/pedido-component.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { NotFoundPageComponentComponent } from './component/not-found-page-compo
     PruebasComponentComponent,
     NotFoundProductComponentComponent,
     NotFoundPageComponentComponent,
+    PedidoComponentComponent,
   ],
   imports: [
     FormsModule,

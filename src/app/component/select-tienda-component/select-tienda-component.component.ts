@@ -15,7 +15,7 @@ export class SelectTiendaComponentComponent implements OnInit {
 
   forma_pedido: any;
   tiendas:any;
-
+  progressBar = true;
 
   constructor(
     private _ac: ActivatedRoute,
@@ -23,9 +23,7 @@ export class SelectTiendaComponentComponent implements OnInit {
     private _tiendaService:TiendaService
   ) { 
 
-
     this.getTiendas();
-
     
     this._ac.paramMap.subscribe(paramas => {
 
@@ -45,14 +43,17 @@ export class SelectTiendaComponentComponent implements OnInit {
 
   //Obtener tiendas disponibles
   getTiendas() {
+    this.progressBar = true;
     this._tiendaService.getTienda().subscribe(
       res => {
         let resJson = JSON.stringify(res);
         this.tiendas = JSON.parse(resJson);
+        this.progressBar = false;
       },
       err => {
         alert("Error de servidor");
         console.log(err);
+        this.progressBar = false;
       }
     );
   }

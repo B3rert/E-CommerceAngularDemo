@@ -745,6 +745,8 @@
 
             </div>
             <div class="container_main">
+
+                <mat-progress-bar *ngIf = "progress_product" mode="indeterminate" color="accent"></mat-progress-bar>
                 <div class="container-fluid container__products">
                     <!--Modal login-->
                     <div class="my_modalpg ng-scope" *ngIf="login_modal">
@@ -1020,8 +1022,16 @@
                         </div>
                     </div>
                     <div class="row">
+
+                        <div class="container" *ngIf="!producto_exist && !progress_product">
+                            <div class="row">
+                                <div class="col">
+                                 <app-not-found-product-component></app-not-found-product-component>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-sm-12 col-md-6 col-lg-4 col-xs-3" *ngFor="let element of productos">
-                            <div class="container" *ngIf="producto_exist">
+                            <div class="container" *ngIf="producto_exist && !progress_product">
                                 <div class="row">
                                     <div class="col-md-3 product-me">
                                         <div class="product-item">

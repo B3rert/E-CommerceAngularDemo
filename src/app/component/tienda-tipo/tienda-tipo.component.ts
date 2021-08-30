@@ -95,6 +95,7 @@ export class TiendaTipoComponent implements OnInit {
   confirmar_pago = false;
   precio_vusuario: string = "0.00";
   no_hay_producto_detalle = false;
+  progress_product = true;
 
   login_modal = false;
   login_form = true;
@@ -519,6 +520,7 @@ export class TiendaTipoComponent implements OnInit {
   }
 
   getProductos(categoria: number) {
+    this.progress_product = true;
     this.categoria_activa = categoria;
     this._productoService.producto(categoria).subscribe(
       res => {
@@ -527,13 +529,19 @@ export class TiendaTipoComponent implements OnInit {
 
         if (this.productos.length == 0) {
           this.producto_exist = false;
+    this.progress_product = false;
+
         } else {
+    this.progress_product = false;
+
           this.producto_exist = true;
         }
       },
       err => {
         alert("Error de servidor");
         console.log(err);
+    this.progress_product = false;
+
       }
     );
   }

@@ -1,35 +1,31 @@
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-
-    <!--- Note that these columns can be defined in any order.
-          The actual rendered columns are set as a property on the row definition" -->
-  
-    <!-- Position Column -->
-    <ng-container matColumnDef="position">
-      <th mat-header-cell *matHeaderCellDef> No. </th>
-      <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-    </ng-container>
-  
-    <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> Name </th>
-      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-    </ng-container>
-  
-    <!-- Weight Column -->
-    <ng-container matColumnDef="weight">
-      <th mat-header-cell *matHeaderCellDef> Weight </th>
-      <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
-    </ng-container>
-  
-    <!-- Symbol Column -->
-    <ng-container matColumnDef="symbol">
-      <th mat-header-cell *matHeaderCellDef> Symbol </th>
-      <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
-    </ng-container>
-  
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
-  
-
-  
+<div class="container size">
+    <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <!-- pedido Column -->
+        <ng-container matColumnDef="pedido">
+          <mat-header-cell *matHeaderCellDef> Pedido </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.pedido}} </mat-cell>
+        </ng-container>
+      
+        <!-- fecha Column -->
+        <ng-container matColumnDef="fecha">
+          <mat-header-cell *matHeaderCellDef> Fecha </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.fecha}} </mat-cell>
+        </ng-container>
+      
+        <!-- total Column -->
+        <ng-container matColumnDef="total">
+          <mat-header-cell *matHeaderCellDef> Total </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.total}} </mat-cell>
+        </ng-container>
+      
+        <!-- estado Column -->
+        <ng-container matColumnDef="estado">
+          <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.estado}} </mat-cell>
+        </ng-container>
+        
+      
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+</div>

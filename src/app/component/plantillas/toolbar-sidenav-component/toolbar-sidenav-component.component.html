@@ -1,0 +1,73 @@
+<mat-sidenav-container class="sidenav_container" (backdropClick)="close('backdrop')">
+    <mat-sidenav #sidenav (keydown.escape)="close('escape')" disableClose>
+        <mat-toolbar class="head__sidenav ">
+            <span class="spacer"></span>
+            <h6>Encabezado</h6>
+            <span class="spacer"></span>
+            <mat-icon class="icon_close_head" (click)="close('toggle button')">
+                <fa-icon [icon]="faTimes"></fa-icon>
+            </mat-icon>
+        </mat-toolbar>
+        <div class="container-fluid">
+            <p>content start vivsible here</p>
+        </div>
+    </mat-sidenav>
+    <mat-sidenav position="end" #sidenavend (keydown.escape)="close('escape')" disableClose>
+
+        <mat-toolbar class="head__sidenav ">
+            <mat-icon class="icon_close_head" (click)="close('toggle button')">
+                <fa-icon [icon]="faTimes"></fa-icon>
+            </mat-icon>
+            <span class="spacer"></span>
+            <h6>Encabezado</h6>
+            <span class="spacer"></span>
+        </mat-toolbar>
+
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <mat-toolbar class="toolbarPhone">
+            <mat-toolbar-row>
+                <button (click)="sidenav.open()" mat-icon-button 
+                    aria-label="Example icon-button with menu icon">
+                    <fa-icon class="icon_toolbar" [icon]="faBars"></fa-icon>
+                </button>
+
+                <span class="spacer"></span>
+                <button (click)="sidenavend.open()" mat-icon-button class=""
+                    aria-label="Example icon-button with share icon">
+                    <fa-icon class="icon_toolbar" [icon]="faBars"></fa-icon>
+                </button>
+            </mat-toolbar-row>
+            <mat-toolbar-row>
+
+                <span class="spacer"></span>
+
+            </mat-toolbar-row>
+        </mat-toolbar>
+        <mat-toolbar class="toolbarlarge">
+            <!--
+            <button (click)="sidenav.open()" mat-icon-button 
+                aria-label="Example icon-button with menu icon">
+                <fa-icon class="icon_toolbar" [icon]="faBars"></fa-icon>
+            </button>
+            -->
+            <span class="spacer"></span>
+
+            <button (click)="sidenavend.open()" mat-icon-button class=""
+                aria-label="Example icon-button with share icon">
+                <fa-icon class="icon_toolbar" [icon]="faBars"></fa-icon>
+            </button>
+        </mat-toolbar>
+        <!--Container-->
+        <div class="container_page">
+            <div class="container_start">
+                <p>start</p>
+
+            </div>
+            <div class="container_main">
+
+                <p>content</p>
+            </div>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

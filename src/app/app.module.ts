@@ -61,6 +61,7 @@ import { PruebasComponentComponent } from './component/pruebas-component/pruebas
 import { NotFoundProductComponentComponent } from './component/not-found-product-component/not-found-product-component.component';
 import { NotFoundPageComponentComponent } from './component/not-found-page-component/not-found-page-component.component';
 import { PedidoComponentComponent } from './component/pedido-component/pedido-component.component';
+import { ToolbarSidenavComponentComponent } from './component/plantillas/toolbar-sidenav-component/toolbar-sidenav-component.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import { PedidoComponentComponent } from './component/pedido-component/pedido-co
     NotFoundProductComponentComponent,
     NotFoundPageComponentComponent,
     PedidoComponentComponent,
+    ToolbarSidenavComponentComponent,
   ],
   imports: [
     FormsModule,

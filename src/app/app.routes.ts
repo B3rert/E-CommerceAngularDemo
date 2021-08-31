@@ -15,7 +15,7 @@ const app_routes: Routes = [
   { path: 'no-encontrado', component: NotFoundPageComponentComponent },
   { path: 'no-encontrado', component: NotFoundPageComponentComponent },
   { path: 'pedido', component: PedidoComponentComponent },
-  { path: 'home_plantilla', component: ToolbarSidenavComponentComponent },
+  // { path: 'home_plantilla', component: ToolbarSidenavComponentComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/no-encontrado', pathMatch: 'full' },
 

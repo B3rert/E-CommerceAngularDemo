@@ -1,5 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatSidenav } from '@angular/material/sidenav';
+import { faEye, faLandmark } from '@fortawesome/free-solid-svg-icons';
+/**
+ * Icons fontawesome
+ */
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { faInfo } from '@fortawesome/free-solid-svg-icons';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faClipboardList } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-pedido-component',
@@ -10,6 +21,11 @@ import { faEye } from '@fortawesome/free-solid-svg-icons';
 export class PedidoComponentComponent implements OnInit {
 
   faEye = faEye;
+
+
+  optionsUser: boolean[] = [
+    true, false, false
+  ];
 
   jsonHead: any[] = [];
   jsonPedidos: any[] = [
@@ -51,6 +67,29 @@ export class PedidoComponentComponent implements OnInit {
     }
   ];
 
+  //Abrir/Cerrar SideNav
+  @ViewChild('sidenav')
+  sidenav!: MatSidenav;
+  @ViewChild('sidenavend')
+  sidenavend!: MatSidenav;
+
+  close(reason: string) {
+    this.sidenav.close();
+    this.sidenavend.close();
+  }
+
+  //Iconos
+  faUserCircle = faUserCircle;
+  faTimes = faTimes;
+  faBars = faBars;
+  faSignOutAlt = faSignOutAlt;
+  faInfo = faInfo;
+  faUser = faUser;
+  faClipboardList = faClipboardList;
+
+  categoria_activa = true;
+
+
   constructor() {
     this.resolveKeyJson(this.jsonPedidos[0]);
   }
@@ -67,7 +106,23 @@ export class PedidoComponentComponent implements OnInit {
     }
   }
 
-  viewDetails(pedido:any){
+  viewDetails(pedido: any) {
     console.log(pedido);
+  }
+
+  changeClass(index: number){
+
+    let countStatus = 0;
+    this.optionsUser.forEach(element => {
+      if (element) {
+        this.optionsUser[countStatus] = false;
+      }
+      countStatus++;
+    });
+   
+
+    let value = this.optionsUser[index];
+    value ? value= false : value = true;
+    this.optionsUser[index] = value;
   }
 }

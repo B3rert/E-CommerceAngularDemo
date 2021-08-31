@@ -1,31 +1,21 @@
-<div class="container size">
-    <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-        <!-- pedido Column -->
-        <ng-container matColumnDef="pedido">
-          <mat-header-cell *matHeaderCellDef> Pedido </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.pedido}} </mat-cell>
-        </ng-container>
-      
-        <!-- fecha Column -->
-        <ng-container matColumnDef="fecha">
-          <mat-header-cell *matHeaderCellDef> Fecha </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.fecha}} </mat-cell>
-        </ng-container>
-      
-        <!-- total Column -->
-        <ng-container matColumnDef="total">
-          <mat-header-cell *matHeaderCellDef> Total </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.total}} </mat-cell>
-        </ng-container>
-      
-        <!-- estado Column -->
-        <ng-container matColumnDef="estado">
-          <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.estado}} </mat-cell>
-        </ng-container>
-        
-      
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-      </mat-table>
-</div>
+
+<table class="rtable">
+    <thead>
+        <tr>
+            <th *ngFor="let key of jsonHead">{{key}}</th>
+            <th>Opciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let pedido of jsonPedidos; let indexPedidos = index">
+            <td>{{pedido.pedido}}</td>
+            <td>{{pedido.fecha}}</td>
+            <td>{{pedido.estado}}</td>
+            <td>{{pedido.total}}</td>
+            <td>
+                <div class="options" (click)="viewDetails(pedido)">Ver <fa-icon [icon]="faEye"></fa-icon>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>

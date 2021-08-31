@@ -69,27 +69,15 @@
                         <h6>Nombre_Usuario</h6>
                     </div>
                     <div class="options_user">
-                        <div class="item__option">
-                            <div class="content_option" [ngClass]="optionsUser[0] ? 'active': 'inactive'"
-                                (click)="changeClass(0)">
-                                Pedidos
-                                <fa-icon [icon]="faClipboardList" class="icon_card"></fa-icon>
-                            </div>
-                        </div>
-                        <div class="item__option" [ngClass]="optionsUser[1] ? 'active': 'inactive'"
-                            (click)="changeClass(1)">
+                        <div class="item__option" [ngClass]="optionsUser[indexOptions] ? 'active': 'inactive'"
+                            *ngFor="let options of jsonOpsyionUser; let indexOptions = index"
+                            (click)="changeClass(indexOptions, options.action); options.action">
                             <div class="content_option">
-                                Cuenta
-                                <fa-icon [icon]="faUser" class="icon_card"></fa-icon>
+                                {{options.option}}
+                                <fa-icon [icon]="options.icon" class="icon_card"></fa-icon>
                             </div>
                         </div>
-                        <div class="item__option" [ngClass]="optionsUser[2] ? 'active': 'inactive'"
-                            (click)="changeClass(2)">
-                            <div class="content_option">
-                                Salir
-                                <fa-icon [icon]="faSignOutAlt" class="icon_card"></fa-icon>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>

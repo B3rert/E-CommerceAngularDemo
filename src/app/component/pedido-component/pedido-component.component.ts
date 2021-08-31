@@ -1,16 +1,18 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { faEye, faLandmark } from '@fortawesome/free-solid-svg-icons';
 /**
  * Icons fontawesome
  */
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { faStore } from '@fortawesome/free-solid-svg-icons';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { faInfo } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faClipboardList } from '@fortawesome/free-solid-svg-icons';
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-pedido-component',
@@ -20,11 +22,49 @@ import { faClipboardList } from '@fortawesome/free-solid-svg-icons';
 
 export class PedidoComponentComponent implements OnInit {
 
+  //Iconos
+  faUserCircle = faUserCircle;
+  faTimes = faTimes;
+  faBars = faBars;
+  faSignOutAlt = faSignOutAlt;
+  faInfo = faInfo;
+  faUser = faUser;
+  faClipboardList = faClipboardList;
   faEye = faEye;
+  faShoppingCart = faShoppingCart;
+  faStore = faStore;
 
 
   optionsUser: boolean[] = [
-    true, false, false
+    false, true, false, false
+  ];
+
+  jsonOpsyionUser: any[] = [
+    {
+      "option": "Tienda en linea",
+      "icon": faShoppingCart,
+      "action": this.navigateToStore
+    },
+    {
+      "option": "Pedidos",
+      "icon": faClipboardList,
+      "action": this.viewPedidos
+    },
+    {
+      "option": "Cambiar Tienda",
+      "icon": faStore,
+      "action":this.navigateToSelectStore
+    },
+    {
+      "option": "Cuenta",
+      "icon": faUser,
+      "action": this.viewInfoAcount
+    },
+    {
+      "option": "Salir",
+      "icon": faSignOutAlt,
+      "action": this.singOut
+    }
   ];
 
   jsonHead: any[] = [];
@@ -78,16 +118,6 @@ export class PedidoComponentComponent implements OnInit {
     this.sidenavend.close();
   }
 
-  //Iconos
-  faUserCircle = faUserCircle;
-  faTimes = faTimes;
-  faBars = faBars;
-  faSignOutAlt = faSignOutAlt;
-  faInfo = faInfo;
-  faUser = faUser;
-  faClipboardList = faClipboardList;
-
-  categoria_activa = true;
 
 
   constructor() {
@@ -110,7 +140,7 @@ export class PedidoComponentComponent implements OnInit {
     console.log(pedido);
   }
 
-  changeClass(index: number){
+  changeClass(index: number, action:any) {
 
     let countStatus = 0;
     this.optionsUser.forEach(element => {
@@ -119,10 +149,34 @@ export class PedidoComponentComponent implements OnInit {
       }
       countStatus++;
     });
-   
 
     let value = this.optionsUser[index];
-    value ? value= false : value = true;
+    value ? value = false : value = true;
     this.optionsUser[index] = value;
+
+    action();
+
   }
+
+  
+  navigateToStore(){
+    console.log("Navegar a la tienda");
+  }
+
+  viewPedidos(){
+    console.log("Ver pedidos");
+  }
+
+  navigateToSelectStore(){
+    console.log("Navegar a seleccionar tienda");
+  }
+
+  viewInfoAcount(){
+    console.log("Ver informacion de la cuenta");
+  }
+
+  singOut(){
+    console.log("Salir/Cerrar Sesión");
+  }
+
 }

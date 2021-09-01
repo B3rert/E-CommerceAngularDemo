@@ -62,6 +62,7 @@ import { NotFoundProductComponentComponent } from './component/not-found-product
 import { NotFoundPageComponentComponent } from './component/not-found-page-component/not-found-page-component.component';
 import { PedidoComponentComponent } from './component/pedido-component/pedido-component.component';
 import { ToolbarSidenavComponentComponent } from './component/plantillas/toolbar-sidenav-component/toolbar-sidenav-component.component';
+import { EjemploComponent } from './component/plantillas/ejemplo/ejemplo.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import { ToolbarSidenavComponentComponent } from './component/plantillas/toolbar
     NotFoundPageComponentComponent,
     PedidoComponentComponent,
     ToolbarSidenavComponentComponent,
+    EjemploComponent,
   ],
   imports: [
     FormsModule,

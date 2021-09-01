@@ -90,7 +90,7 @@ export class PedidoComponentComponent implements OnInit {
     {
       "pedido": "72872",
       "fecha": "25/08/2021",
-      "estado": "Cancelado",
+      "estado": "Aceptar",
       "total": "Q.205.00"
     },
     {

@@ -2,14 +2,32 @@
     <mat-sidenav #sidenav (keydown.escape)="close('escape')" disableClose>
         <mat-toolbar class="head__sidenav ">
             <span class="spacer"></span>
-            <h6>Encabezado</h6>
+            <h6>Opciones</h6>
             <span class="spacer"></span>
             <mat-icon class="icon_close_head" (click)="close('toggle button')">
                 <fa-icon [icon]="faTimes"></fa-icon>
             </mat-icon>
         </mat-toolbar>
         <div class="container-fluid">
-            <p>content start vivsible here</p>
+            <div class="card_user">
+                <div class="icon_user">
+                    <fa-icon [icon]="faUserCircle"></fa-icon>
+                </div>
+                <div class="info_user">
+                    <h6>Nombre_Usuario</h6>
+                </div>
+                <div class="options_user">
+                    <div class="item__option" [ngClass]="optionsUser[indexOptions] ? 'active': 'inactive'"
+                        *ngFor="let options of jsonOpsyionUser; let indexOptions = index"
+                        (click)="changeClass(indexOptions, options.action); options.action">
+                        <div class="content_option">
+                            {{options.option}}
+                            <fa-icon [icon]="options.icon" class="icon_card"></fa-icon>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
     </mat-sidenav>
     <mat-sidenav position="end" #sidenavend (keydown.escape)="close('escape')" disableClose>
@@ -32,10 +50,12 @@
                 </button>
 
                 <span class="spacer"></span>
+                <!--
                 <button (click)="sidenavend.open()" mat-icon-button class=""
                     aria-label="Example icon-button with share icon">
                     <fa-icon class="icon_toolbar" [icon]="faBars"></fa-icon>
                 </button>
+                -->
             </mat-toolbar-row>
             <mat-toolbar-row>
 
@@ -52,10 +72,12 @@
             -->
             <span class="spacer"></span>
 
+            <!--
             <button (click)="sidenavend.open()" mat-icon-button class=""
                 aria-label="Example icon-button with share icon">
                 <fa-icon class="icon_toolbar" [icon]="faBars"></fa-icon>
             </button>
+            -->
         </mat-toolbar>
         <!--Container-->
         <div class="container_page">

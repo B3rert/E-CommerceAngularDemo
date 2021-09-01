@@ -62,7 +62,7 @@ import { NotFoundProductComponentComponent } from './component/not-found-product
 import { NotFoundPageComponentComponent } from './component/not-found-page-component/not-found-page-component.component';
 import { PedidoComponentComponent } from './component/pedido-component/pedido-component.component';
 import { ToolbarSidenavComponentComponent } from './component/plantillas/toolbar-sidenav-component/toolbar-sidenav-component.component';
-import { EjemploComponent } from './component/plantillas/ejemplo/ejemplo.component';
+import { SingOutDialogComponent } from './component/dialog/sing-out-dialog/sing-out-dialog.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +75,7 @@ import { EjemploComponent } from './component/plantillas/ejemplo/ejemplo.compone
     NotFoundPageComponentComponent,
     PedidoComponentComponent,
     ToolbarSidenavComponentComponent,
-    EjemploComponent,
+    SingOutDialogComponent,
   ],
   imports: [
     FormsModule,

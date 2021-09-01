@@ -37,6 +37,10 @@ mat-sidenav {
 
 /*Toolbar*/
 
+.iconCartPedido{
+  margin-right: 5px;
+}
+
 .icon_toolbar {
   font-size: 22px;
 }

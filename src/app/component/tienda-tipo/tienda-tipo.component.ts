@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 /**
  * Icons fontawesome
@@ -105,6 +105,7 @@ export class TiendaTipoComponent implements OnInit {
 
   constructor(
     private _ac: ActivatedRoute,
+    private router:Router,
     private _tiendaService: TiendaService,
     private _categoriaService: CategoriaService,
     private _productoService: ProductoService,
@@ -123,6 +124,7 @@ export class TiendaTipoComponent implements OnInit {
       this.forma_pedido = paramas.get('forma_pedido');
       let tienda = sessionStorage.getItem("tienda");
       this.tienda_seleccionada = JSON.parse(tienda!);
+      sessionStorage.setItem("FormaPedido",this.forma_pedido);
     });
   }
 
@@ -394,7 +396,9 @@ export class TiendaTipoComponent implements OnInit {
   }
 
   login() {
-    //this.dialog.open(LoginDialogComponentComponent);
+    
+    //this.router.navigate(['/pedido']);
+
     this.login_modal = true;
   }
 

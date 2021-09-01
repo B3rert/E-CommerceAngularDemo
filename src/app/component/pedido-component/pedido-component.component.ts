@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSidenav } from '@angular/material/sidenav';
+import { Router } from '@angular/router';
 /**
  * Icons fontawesome
  */
@@ -13,6 +15,7 @@ import { faInfo } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faClipboardList } from '@fortawesome/free-solid-svg-icons';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { SingOutDialogComponent } from '../dialog/sing-out-dialog/sing-out-dialog.component';
 
 @Component({
   selector: 'app-pedido-component',
@@ -35,6 +38,10 @@ export class PedidoComponentComponent implements OnInit {
   faStore = faStore;
 
 
+  viewAcount = false;
+  viewPedido = true;
+
+
   optionsUser: boolean[] = [
     false, true, false, false
   ];
@@ -42,28 +49,23 @@ export class PedidoComponentComponent implements OnInit {
   jsonOpsyionUser: any[] = [
     {
       "option": "Tienda en linea",
-      "icon": faShoppingCart,
-      "action": this.navigateToStore
+      "icon": faShoppingCart
     },
     {
       "option": "Pedidos",
-      "icon": faClipboardList,
-      "action": this.viewPedidos
+      "icon": faClipboardList
     },
     {
       "option": "Cambiar Tienda",
-      "icon": faStore,
-      "action":this.navigateToSelectStore
+      "icon": faStore
     },
     {
       "option": "Cuenta",
-      "icon": faUser,
-      "action": this.viewInfoAcount
+      "icon": faUser
     },
     {
       "option": "Salir",
-      "icon": faSignOutAlt,
-      "action": this.singOut
+      "icon": faSignOutAlt
     }
   ];
 
@@ -118,9 +120,10 @@ export class PedidoComponentComponent implements OnInit {
     this.sidenavend.close();
   }
 
-
-
-  constructor() {
+  constructor(
+    private router: Router,
+    private dialog: MatDialog
+    ) {
     this.resolveKeyJson(this.jsonPedidos[0]);
   }
 
@@ -140,7 +143,7 @@ export class PedidoComponentComponent implements OnInit {
     console.log(pedido);
   }
 
-  changeClass(index: number, action:any) {
+  changeClass(index: number) {
 
     let countStatus = 0;
     this.optionsUser.forEach(element => {
@@ -154,29 +157,58 @@ export class PedidoComponentComponent implements OnInit {
     value ? value = false : value = true;
     this.optionsUser[index] = value;
 
-    action();
+    //action();
+    switch (index) {
+      case 0:
+        this.navigateToStore();
+        break;
+      case 1:
+        this.viewPedidos();
+        break;
+      case 2:
+        this.navigateToSelectStore();
+        break;
+      case 3:
+        this.viewInfoAcount();
+        break;
+      case 4:
+      this.singOut()
+        break;
+
+      default:
+        alert("No hay acciones disponibles");
+        break;
+    }
 
   }
 
-  
-  navigateToStore(){
-    console.log("Navegar a la tienda");
+  navigateToStore() {
+    this.router.navigate(['/tienda', sessionStorage.getItem("FormaPedido")]);
   }
 
-  viewPedidos(){
-    console.log("Ver pedidos");
+  viewPedidos() {
+    this.viewPedido = true;
+    this.viewAcount = false;
   }
 
-  navigateToSelectStore(){
-    console.log("Navegar a seleccionar tienda");
+  navigateToSelectStore() {
+    this.router.navigate(['/seleccion',sessionStorage.getItem("FormaPedido")])
   }
 
-  viewInfoAcount(){
-    console.log("Ver informacion de la cuenta");
+  viewInfoAcount() {
+    this.viewAcount = true;
+    this.viewPedido = false;
   }
 
-  singOut(){
-    console.log("Salir/Cerrar Sesión");
+  singOut() {
+    const dialogRef = this.dialog.open(SingOutDialogComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log(`Cerrar sesión(y): ${result}`);
+      }else{
+        console.log(`Cerrar sesión(n): ${result}`);
+      }
+    });
   }
 
 }

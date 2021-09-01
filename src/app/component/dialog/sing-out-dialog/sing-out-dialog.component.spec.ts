@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EjemploComponent } from './ejemplo.component';
+import { SingOutDialogComponent } from './sing-out-dialog.component';
 
-describe('EjemploComponent', () => {
-  let component: EjemploComponent;
-  let fixture: ComponentFixture<EjemploComponent>;
+describe('SingOutDialogComponent', () => {
+  let component: SingOutDialogComponent;
+  let fixture: ComponentFixture<SingOutDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EjemploComponent ]
+      declarations: [ SingOutDialogComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EjemploComponent);
+    fixture = TestBed.createComponent(SingOutDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

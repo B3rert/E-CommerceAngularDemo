@@ -19,7 +19,7 @@
                 <div class="options_user">
                     <div class="item__option" [ngClass]="optionsUser[indexOptions] ? 'active': 'inactive'"
                         *ngFor="let options of jsonOpsyionUser; let indexOptions = index"
-                        (click)="changeClass(indexOptions, options.action); options.action">
+                        (click)="changeClass(indexOptions); options.action">
                         <div class="content_option">
                             {{options.option}}
                             <fa-icon [icon]="options.icon" class="icon_card"></fa-icon>
@@ -93,7 +93,7 @@
                     <div class="options_user">
                         <div class="item__option" [ngClass]="optionsUser[indexOptions] ? 'active': 'inactive'"
                             *ngFor="let options of jsonOpsyionUser; let indexOptions = index"
-                            (click)="changeClass(indexOptions, options.action); options.action">
+                            (click)="changeClass(indexOptions); options.action">
                             <div class="content_option">
                                 {{options.option}}
                                 <fa-icon [icon]="options.icon" class="icon_card"></fa-icon>
@@ -105,7 +105,16 @@
             </div>
             <div class="container_main">
                 <!--Content main-->
-                <div class="container_content">
+
+                <div class="container" *ngIf="viewAcount && !viewPedido">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="p">No hay usuarios</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container_content" *ngIf="!viewAcount && viewPedido">
                     <div class="container_table">
                         <table class="rtable">
                             <thead>

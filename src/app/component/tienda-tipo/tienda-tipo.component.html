@@ -647,7 +647,7 @@
                     </button>
                 </form>
                 <span class="example-spacer"></span>
-                
+
                 <button (click)="sidenavend.open()" mat-icon-button class="example-icon iconCartPedido"
                     aria-label="Example icon-button with share icon">
                     <mat-icon matBadge="{{carrito_cantidad}}" matBadgeColor="warn">
@@ -663,7 +663,7 @@
                     <h1>{{precio_vusuario}} GTQ</h1>
                 </div>
                 <span class="example-spacer"></span>
-                
+
                 <div (click)="login()">
                     <fa-icon [icon]="faUserCircle" class="login_toolbar"></fa-icon>
                 </div>
@@ -689,7 +689,7 @@
             <div class="tienda_select" (click)="changeStore()">
                 <h1>Tienda {{tienda_seleccionada.nombre}}</h1>
             </div>
-                <span class="example-spacer"></span>
+            <span class="example-spacer"></span>
             <fa-icon [icon]="faUserCircle" matTooltip="Login" matTooltipPosition="left" class="login_toolbar"
                 (click)="login()"></fa-icon>
             <button (click)="sidenavend.open()" mat-icon-button class="example-icon"
@@ -752,7 +752,7 @@
             </div>
             <div class="container_main">
 
-                <mat-progress-bar *ngIf = "progress_product" mode="indeterminate" color="accent"></mat-progress-bar>
+                <mat-progress-bar *ngIf="progress_product" mode="indeterminate" color="accent"></mat-progress-bar>
                 <div class="container-fluid container__products">
                     <!--Modal login-->
                     <div class="my_modalpg ng-scope" *ngIf="login_modal">
@@ -768,25 +768,34 @@
                                         <div class="row">
                                             <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
                                                 <div class="container center">
-                                                    <div class="login">
+                                                    <mat-progress-bar *ngIf="progressLogin" mode="indeterminate" color="accent">
+                                                    </mat-progress-bar>
+                                                    <div class="login" *ngIf="!progressLogin">
+
                                                         <div class="login-bottom" *ngIf="registro_form">
                                                             <h3>Registrate</h3>
                                                             <form #registroUser="ngForm" (ngSubmit)="regitroUser()">
                                                                 <div class="sign-up">
                                                                     <h4>Nombre :</h4>
-                                                                    <input type="text" name="nombre" #nombre="ngModel" [(ngModel)]="registrUser.Nombre" required>
+                                                                    <input type="text" name="nombre" #nombre="ngModel"
+                                                                        [(ngModel)]="registrUser.Nombre" required>
                                                                 </div>
                                                                 <div class="sign-up">
                                                                     <h4>Apellido :</h4>
-                                                                    <input type="text" name="apellido" #apellido="ngModel" [(ngModel)]="registrUser.Apellido" required>
+                                                                    <input type="text" name="apellido"
+                                                                        #apellido="ngModel"
+                                                                        [(ngModel)]="registrUser.Apellido" required>
                                                                 </div>
                                                                 <div class="sign-up">
                                                                     <h4>Teléfono :</h4>
-                                                                    <input type="text" name="celular" #celular="ngModel" [(ngModel)]="registrUser.Celular" required>
+                                                                    <input type="text" name="celular" #celular="ngModel"
+                                                                        [(ngModel)]="registrUser.Celular" required>
                                                                 </div>
                                                                 <div class="sign-up">
                                                                     <h4>Correo electronico :</h4>
-                                                                    <input type="email" name="correo" #correo="ngModel" [(ngModel)]="registrUser.Correo_Electronico" required>
+                                                                    <input type="email" name="correo" #correo="ngModel"
+                                                                        [(ngModel)]="registrUser.Correo_Electronico"
+                                                                        required>
                                                                 </div>
                                                                 <div class="sign-in">
                                                                     <a (click)="alterLogin()">Iniciar Sesion</a>
@@ -1032,7 +1041,7 @@
                         <div class="container" *ngIf="!producto_exist && !progress_product">
                             <div class="row">
                                 <div class="col">
-                                 <app-not-found-product-component></app-not-found-product-component>
+                                    <app-not-found-product-component></app-not-found-product-component>
                                 </div>
                             </div>
                         </div>

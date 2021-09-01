@@ -21,12 +21,12 @@ import { CategoriaService } from 'src/app/services/categoria.service';
 import { FormaPagoService } from 'src/app/services/forma-pago.services';
 import { ProductoService } from 'src/app/services/producto.service';
 import { TiendaService } from 'src/app/services/tienda.service';
-
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatDialog } from '@angular/material/dialog';
 import { RegistroUser } from 'src/app/models/registro-user.model';
 import { GenericAcceptDialogComponent } from '../dialog/generic-accept-dialog/generic-accept-dialog.component';
 import { GenericActionsDialogComponent } from '../dialog/generic-actions-dialog/generic-actions-dialog.component';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-tienda-tipo',
@@ -36,7 +36,8 @@ import { GenericActionsDialogComponent } from '../dialog/generic-actions-dialog/
     TiendaService,
     CategoriaService,
     ProductoService,
-    FormaPagoService
+    FormaPagoService,
+    UserService
   ]
 })
 export class TiendaTipoComponent implements OnInit {
@@ -115,7 +116,8 @@ export class TiendaTipoComponent implements OnInit {
     private _tiendaService: TiendaService,
     private _categoriaService: CategoriaService,
     private _productoService: ProductoService,
-    private _formaPagoService: FormaPagoService
+    private _formaPagoService: FormaPagoService,
+    private _userService: UserService
   ) {
 
     this.getTiendas();
@@ -135,11 +137,12 @@ export class TiendaTipoComponent implements OnInit {
     });
   }
 
+
+  progressLogin = false;
+
   regitroUser() {
 
     let re = /^([\da-z_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
-
-
 
     if (!this.registrUser.Nombre) {
       this.dialog.open(GenericAcceptDialogComponent, {
@@ -161,7 +164,43 @@ export class TiendaTipoComponent implements OnInit {
       this.dialog.open(GenericAcceptDialogComponent, {
         data: { tittle: "Correo electrónico invalido." }
       });
+    } else {
+      this.progressLogin = true;
+      this._userService.postRegitroUser(this.registrUser).subscribe(
+        res => {
+          this.progressLogin = false;
+          if (res == 0) {
+            this.dialog.open(GenericAcceptDialogComponent, {
+              data: {
+                tittle: "Error al registrar usuario.",
+                description: "El correo que ingresó ya se encuentra registrado."
+              }
+            });
+          } else if (res == 1) {
+            this.dialog.open(GenericAcceptDialogComponent, {
+              data: {
+                tittle: "Usuario registrado exitosamente.",
+                description: "Sus credenciales han sido enviadas a su correo electrónico."
+              }
+            });
+            this.registrUser.Nombre = "";
+            this.registrUser.Apellido = "";
+            this.registrUser.Celular = "";
+            this.registrUser.Correo_Electronico = "";
+          }
+        }, err => {
+          this.progressLogin = false;
+          this.dialog.open(GenericAcceptDialogComponent, {
+            data: {
+              tittle: "Algo Salió mal",
+              description: err.message
+            }
+          });
+          console.error(err);
+          return;
+        });
     }
+
   }
 
 

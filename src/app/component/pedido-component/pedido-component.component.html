@@ -106,7 +106,7 @@
             <div class="container_main">
                 <!--Content main-->
 
-                <div class="container" *ngIf="viewAcount && !viewPedido">
+                <div class="container" *ngIf="viewAcount && !viewPedido && !viewDetailsPedido">
                     <div class="row">
                         <div class="col-12">
                             <div class="p">No hay usuarios</div>
@@ -114,7 +114,16 @@
                     </div>
                 </div>
 
-                <div class="container_content" *ngIf="!viewAcount && viewPedido">
+
+                <div class="container" *ngIf="!viewAcount && !viewPedido && viewDetailsPedido">
+                    <div class="row">
+                        <div class="col-12">
+                            <p>Detalles Pedido</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container_content" *ngIf="!viewAcount && viewPedido && !viewDetailsPedido">
                     <div class="container_table">
                         <table class="rtable">
                             <thead>

@@ -40,6 +40,7 @@ export class PedidoComponentComponent implements OnInit {
 
   viewAcount = false;
   viewPedido = true;
+  viewDetailsPedido = false;
 
 
   optionsUser: boolean[] = [
@@ -140,7 +141,9 @@ export class PedidoComponentComponent implements OnInit {
   }
 
   viewDetails(pedido: any) {
-    console.log(pedido);
+    this.viewPedido = false;
+    this.viewAcount = false;
+    this.viewDetailsPedido = true;
   }
 
   changeClass(index: number) {
@@ -189,15 +192,22 @@ export class PedidoComponentComponent implements OnInit {
   viewPedidos() {
     this.viewPedido = true;
     this.viewAcount = false;
+    this.viewDetailsPedido = false;
+
   }
 
   navigateToSelectStore() {
+
+
+
     this.router.navigate(['/seleccion',sessionStorage.getItem("FormaPedido")])
   }
 
   viewInfoAcount() {
     this.viewAcount = true;
     this.viewPedido = false;
+    this.viewDetailsPedido = false;
+
   }
 
   singOut() {

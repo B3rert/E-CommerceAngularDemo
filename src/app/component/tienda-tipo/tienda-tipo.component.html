@@ -647,6 +647,7 @@
                     </button>
                 </form>
                 <span class="example-spacer"></span>
+                
                 <button (click)="sidenavend.open()" mat-icon-button class="example-icon iconCartPedido"
                     aria-label="Example icon-button with share icon">
                     <mat-icon matBadge="{{carrito_cantidad}}" matBadgeColor="warn">
@@ -662,6 +663,7 @@
                     <h1>{{precio_vusuario}} GTQ</h1>
                 </div>
                 <span class="example-spacer"></span>
+                
                 <div (click)="login()">
                     <fa-icon [icon]="faUserCircle" class="login_toolbar"></fa-icon>
                 </div>
@@ -684,6 +686,10 @@
                 </button>
             </form>
             <span class="example-spacer"></span>
+            <div class="tienda_select" (click)="changeStore()">
+                <h1>Tienda {{tienda_seleccionada.nombre}}</h1>
+            </div>
+                <span class="example-spacer"></span>
             <fa-icon [icon]="faUserCircle" matTooltip="Login" matTooltipPosition="left" class="login_toolbar"
                 (click)="login()"></fa-icon>
             <button (click)="sidenavend.open()" mat-icon-button class="example-icon"

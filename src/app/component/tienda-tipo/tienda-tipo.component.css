@@ -1209,6 +1209,16 @@ img.imagen-izquierda.seleccionada {
 
 /*SideNav*/
 
+.tienda_select{
+  cursor: pointer;
+}
+
+.tienda_select h1{
+ text-transform: uppercase;
+ font-size: 15px;
+}
+
+
 .example-spacer {
   flex: 1 1 auto;
 }

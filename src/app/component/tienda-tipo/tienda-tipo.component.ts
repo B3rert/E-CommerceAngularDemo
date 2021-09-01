@@ -23,6 +23,8 @@ import { ProductoService } from 'src/app/services/producto.service';
 import { TiendaService } from 'src/app/services/tienda.service';
 
 import { MatSidenav } from '@angular/material/sidenav';
+import { ChangeStoreDialogComponent } from '../dialog/change-store-dialog/change-store-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-tienda-tipo',
@@ -106,6 +108,7 @@ export class TiendaTipoComponent implements OnInit {
   constructor(
     private _ac: ActivatedRoute,
     private router:Router,
+    private dialog: MatDialog,
     private _tiendaService: TiendaService,
     private _categoriaService: CategoriaService,
     private _productoService: ProductoService,
@@ -125,6 +128,16 @@ export class TiendaTipoComponent implements OnInit {
       let tienda = sessionStorage.getItem("tienda");
       this.tienda_seleccionada = JSON.parse(tienda!);
       sessionStorage.setItem("FormaPedido",this.forma_pedido);
+    });
+  }
+
+  changeStore(){
+    const dialogRef = this.dialog.open(ChangeStoreDialogComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.router.navigate(['/seleccion',this.forma_pedido]);
+        return;
+      }
     });
   }
 

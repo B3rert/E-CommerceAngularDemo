@@ -27,6 +27,7 @@ import { RegistroUser } from 'src/app/models/registro-user.model';
 import { GenericAcceptDialogComponent } from '../dialog/generic-accept-dialog/generic-accept-dialog.component';
 import { GenericActionsDialogComponent } from '../dialog/generic-actions-dialog/generic-actions-dialog.component';
 import { UserService } from 'src/app/services/user.service';
+import { UserLogin } from 'src/app/models/user-login.model';
 
 @Component({
   selector: 'app-tienda-tipo',
@@ -68,6 +69,7 @@ export class TiendaTipoComponent implements OnInit {
   //Modelos
   public userFactura: UserFactura;
   public registrUser: RegistroUser;
+  public userLogin: UserLogin;
 
   //Variables
   tienda_en_linea = true;
@@ -126,6 +128,7 @@ export class TiendaTipoComponent implements OnInit {
     var fecha_hora = this.getHoraActual();
     this.userFactura = new UserFactura("", "", "", "", "", fecha_hora, "", "", "");
     this.registrUser = new RegistroUser("", "", "", "");
+    this.userLogin = new UserLogin("", "");
   }
 
   ngOnInit(): void {
@@ -137,8 +140,47 @@ export class TiendaTipoComponent implements OnInit {
     });
   }
 
-
   progressLogin = false;
+
+  accsesLogin() {
+    if (!this.userLogin.user) {
+      this.dialog.open(GenericAcceptDialogComponent, {
+        data: { tittle: "Usuario requerido." }
+      });
+    } else if (!this.userLogin.pass) {
+      this.dialog.open(GenericAcceptDialogComponent, {
+        data: { tittle: "Contraseña requerida." }
+      });
+    } else {
+      this.progressLogin = true;
+      this._userService.getLogin(this.userLogin).subscribe(
+        res => {
+          this.progressLogin = false;
+          if(JSON.parse(JSON.stringify(res))[0].res){
+            console.log("Sesion correcta");
+          }else{
+            this.dialog.open(GenericAcceptDialogComponent, {
+              data: {
+                tittle: "Error al iniciar sesión.",
+                description: "Usuario o contraseña incorrecta"
+              }
+            });
+          }
+        },
+        err => {
+          this.progressLogin = false;
+          this.dialog.open(GenericAcceptDialogComponent, {
+            data: {
+              tittle: "Algo Salió mal",
+              description: err.message
+            }
+          });
+          console.error(err);
+          return;
+        }
+      );
+    }
+  }
 
   regitroUser() {
 

@@ -768,7 +768,8 @@
                                         <div class="row">
                                             <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
                                                 <div class="container center">
-                                                    <mat-progress-bar *ngIf="progressLogin" mode="indeterminate" color="accent">
+                                                    <mat-progress-bar *ngIf="progressLogin" mode="indeterminate"
+                                                        color="accent">
                                                     </mat-progress-bar>
                                                     <div class="login" *ngIf="!progressLogin">
 
@@ -808,14 +809,16 @@
                                                         </div>
                                                         <div class="login-right" *ngIf="!registro_form">
                                                             <h3>Inicia sesión con tu cuenta</h3>
-                                                            <form>
+                                                            <form #loginUser="ngForm" (ngSubmit)="accsesLogin()">
                                                                 <div class="sign-in">
                                                                     <h4>Correo electronico :</h4>
-                                                                    <input type="text">
+                                                                    <input type="text" name="user" #user="ngModel"
+                                                                        [(ngModel)]="userLogin.user" required>
                                                                 </div>
                                                                 <div class="sign-in">
                                                                     <h4>Contraseña :</h4>
-                                                                    <input type="password">
+                                                                    <input type="password" name="pass" #pass="ngModel"
+                                                                        [(ngModel)]="userLogin.pass" required>
                                                                     <a>Olvidaste tu contraseña?</a>
                                                                     <p></p>
                                                                     <a (click)="alterLogin()">Registrate</a>

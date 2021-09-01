@@ -4,20 +4,24 @@ import { URL_API } from "./ApiServer";
 
 
 @Injectable()
-export class UserService{
+export class UserService {
 
-    private url:string;
-  
-    constructor(private _http:HttpClient) {
+    private url: string;
+
+    constructor(private _http: HttpClient) {
         this.url = URL_API.ApiSqlServer.url;
     }
 
-    postRegitroUser(user:any){
+    postRegitroUser(user: any) {
         let params = JSON.stringify(user);
-        
+
         let headers = new HttpHeaders({ "Content-Type": "application/json" });
 
-        return this._http.post(this.url + "registrouser", params, {headers: headers});
+        return this._http.post(this.url + "registrouser", params, { headers: headers });
     }
 
+    getLogin(user_to_login: any) {
+        let headers = new HttpHeaders({ "Content-Type": "application/json" });
+        return this._http.get(`${this.url}login/${user_to_login.user}/${user_to_login.pass}`, { headers: headers });
+    }
 }

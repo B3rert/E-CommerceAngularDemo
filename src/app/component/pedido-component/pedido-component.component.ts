@@ -15,7 +15,7 @@ import { faInfo } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faClipboardList } from '@fortawesome/free-solid-svg-icons';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
-import { SingOutDialogComponent } from '../dialog/sing-out-dialog/sing-out-dialog.component';
+import { GenericActionsDialogComponent } from '../dialog/generic-actions-dialog/generic-actions-dialog.component';
 
 @Component({
   selector: 'app-pedido-component',
@@ -211,7 +211,14 @@ export class PedidoComponentComponent implements OnInit {
   }
 
   singOut() {
-    const dialogRef = this.dialog.open(SingOutDialogComponent);
+
+    const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
+      data: {
+        tittle: "¿Cerrar Sesión?",
+        description: "Es posible que se pierdan datos que no hayan sido guardados."
+      }
+    });
+
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log(`Cerrar sesión(y): ${result}`);
@@ -219,6 +226,7 @@ export class PedidoComponentComponent implements OnInit {
         console.log(`Cerrar sesión(n): ${result}`);
       }
     });
+    
   }
 
 }

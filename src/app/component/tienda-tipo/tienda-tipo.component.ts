@@ -23,8 +23,10 @@ import { ProductoService } from 'src/app/services/producto.service';
 import { TiendaService } from 'src/app/services/tienda.service';
 
 import { MatSidenav } from '@angular/material/sidenav';
-import { ChangeStoreDialogComponent } from '../dialog/change-store-dialog/change-store-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { RegistroUser } from 'src/app/models/registro-user.model';
+import { GenericAcceptDialogComponent } from '../dialog/generic-accept-dialog/generic-accept-dialog.component';
+import { GenericActionsDialogComponent } from '../dialog/generic-actions-dialog/generic-actions-dialog.component';
 
 @Component({
   selector: 'app-tienda-tipo',
@@ -64,6 +66,7 @@ export class TiendaTipoComponent implements OnInit {
 
   //Modelos
   public userFactura: UserFactura;
+  public registrUser: RegistroUser;
 
   //Variables
   tienda_en_linea = true;
@@ -107,7 +110,7 @@ export class TiendaTipoComponent implements OnInit {
 
   constructor(
     private _ac: ActivatedRoute,
-    private router:Router,
+    private router: Router,
     private dialog: MatDialog,
     private _tiendaService: TiendaService,
     private _categoriaService: CategoriaService,
@@ -120,6 +123,7 @@ export class TiendaTipoComponent implements OnInit {
     this.getProductos(0);
     var fecha_hora = this.getHoraActual();
     this.userFactura = new UserFactura("", "", "", "", "", fecha_hora, "", "", "");
+    this.registrUser = new RegistroUser("", "", "", "");
   }
 
   ngOnInit(): void {
@@ -127,25 +131,69 @@ export class TiendaTipoComponent implements OnInit {
       this.forma_pedido = paramas.get('forma_pedido');
       let tienda = sessionStorage.getItem("tienda");
       this.tienda_seleccionada = JSON.parse(tienda!);
-      sessionStorage.setItem("FormaPedido",this.forma_pedido);
+      sessionStorage.setItem("FormaPedido", this.forma_pedido);
     });
   }
 
-  changeStore(){
-    const dialogRef = this.dialog.open(ChangeStoreDialogComponent);
+  regitroUser() {
+
+    let re = /^([\da-z_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
+
+
+
+    if (!this.registrUser.Nombre) {
+      this.dialog.open(GenericAcceptDialogComponent, {
+        data: { tittle: "Nombre requerido." }
+      });
+    } else if (!this.registrUser.Apellido) {
+      this.dialog.open(GenericAcceptDialogComponent, {
+        data: { tittle: "Apellido Requerido." }
+      });
+    } else if (!this.registrUser.Celular) {
+      this.dialog.open(GenericAcceptDialogComponent, {
+        data: { tittle: "Número de teléfono requerido." }
+      });
+    } else if (!this.registrUser.Correo_Electronico) {
+      this.dialog.open(GenericAcceptDialogComponent, {
+        data: { tittle: "Correo electrónico requerido." }
+      });
+    } else if (!re.exec(this.registrUser.Correo_Electronico)) {
+      this.dialog.open(GenericAcceptDialogComponent, {
+        data: { tittle: "Correo electrónico invalido." }
+      });
+    }
+  }
+
+
+  alterLogin() {
+    if (this.registro_form) {
+      this.registro_form = false;
+    } else {
+      this.registro_form = true;
+    }
+  }
+
+  changeStore() {
+    const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
+      data: {
+        tittle: "¿Cambiar Tienda?",
+        description: "Es posible que se pierdan datos que no hayan sido guardados."
+      }
+    });
+
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.router.navigate(['/seleccion',this.forma_pedido]);
+        this.router.navigate(['/seleccion', this.forma_pedido]);
         return;
       }
     });
   }
 
   //Controlar DropDown iconos en categorias
-  dropCat(index: number){
-   let value  = this.collapsedOrNot[index];
-   value ? value = false : value = true;
-   this.collapsedOrNot[index] = value;
+  dropCat(index: number) {
+    let value = this.collapsedOrNot[index];
+    value ? value = false : value = true;
+    this.collapsedOrNot[index] = value;
   }
 
   //categoria Id
@@ -156,14 +204,6 @@ export class TiendaTipoComponent implements OnInit {
   //Cerrar Modal Login
   cModalLogin() {
     this.login_modal = false;
-  }
-
-  registroUser() {
-    if (this.registro_form) {
-      this.registro_form = false;
-    } else {
-      this.registro_form = true;
-    }
   }
 
   continuarPago() {
@@ -409,7 +449,7 @@ export class TiendaTipoComponent implements OnInit {
   }
 
   login() {
-    
+
     //this.router.navigate(['/pedido']);
 
     this.login_modal = true;
@@ -546,10 +586,10 @@ export class TiendaTipoComponent implements OnInit {
 
         if (this.productos.length == 0) {
           this.producto_exist = false;
-    this.progress_product = false;
+          this.progress_product = false;
 
         } else {
-    this.progress_product = false;
+          this.progress_product = false;
 
           this.producto_exist = true;
         }
@@ -557,7 +597,7 @@ export class TiendaTipoComponent implements OnInit {
       err => {
         alert("Error de servidor");
         console.log(err);
-    this.progress_product = false;
+        this.progress_product = false;
 
       }
     );
@@ -581,3 +621,5 @@ export class TiendaTipoComponent implements OnInit {
     );
   }
 }
+
+

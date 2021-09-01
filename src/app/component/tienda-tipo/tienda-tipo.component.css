@@ -1138,7 +1138,12 @@ img.imagen-izquierda.seleccionada {
   margin: 0 2%;
 }
 
-.login-right input[type="text"], .login-right input[type="password"], .login-bottom input[type="text"], .login-bottom input[type="password"] {
+.login-right input[type="text"], 
+.login-right input[type="password"], 
+.login-right input[type="email"], 
+.login-bottom input[type="text"], 
+.login-bottom input[type="password"], 
+  .login-bottom input[type="email"] {
   width: 100%;
   padding: 10px;
   font-weight: normal;
@@ -1150,7 +1155,12 @@ img.imagen-izquierda.seleccionada {
   margin: 6px 0 17px 0px;
 }
 
-.login-right input[type="text"]:hover, .login-right input[type="password"]:hover, .login-bottom input[type="text"]:hover, .login-bottom input[type="password"]:hover {
+.login-right input[type="text"]:hover, 
+.login-right input[type="password"]:hover, 
+.login-right input[type="email"]:hover, 
+.login-bottom input[type="text"]:hover, 
+.login-bottom input[type="password"]:hover, 
+  .login-bottom input[type="email"]:hover {
   border: 1px solid #d84672;
 }
 

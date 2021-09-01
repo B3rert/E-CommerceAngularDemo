@@ -771,25 +771,25 @@
                                                     <div class="login">
                                                         <div class="login-bottom" *ngIf="registro_form">
                                                             <h3>Registrate</h3>
-                                                            <form #registroForm="ngForm">
+                                                            <form #registroUser="ngForm" (ngSubmit)="regitroUser()">
                                                                 <div class="sign-up">
                                                                     <h4>Nombre :</h4>
-                                                                    <input type="text">
+                                                                    <input type="text" name="nombre" #nombre="ngModel" [(ngModel)]="registrUser.Nombre" required>
                                                                 </div>
                                                                 <div class="sign-up">
                                                                     <h4>Apellido :</h4>
-                                                                    <input type="text">
+                                                                    <input type="text" name="apellido" #apellido="ngModel" [(ngModel)]="registrUser.Apellido" required>
                                                                 </div>
                                                                 <div class="sign-up">
-                                                                    <h4>Celular :</h4>
-                                                                    <input type="text">
+                                                                    <h4>Teléfono :</h4>
+                                                                    <input type="text" name="celular" #celular="ngModel" [(ngModel)]="registrUser.Celular" required>
                                                                 </div>
                                                                 <div class="sign-up">
                                                                     <h4>Correo electronico :</h4>
-                                                                    <input type="text">
+                                                                    <input type="email" name="correo" #correo="ngModel" [(ngModel)]="registrUser.Correo_Electronico" required>
                                                                 </div>
                                                                 <div class="sign-in">
-                                                                    <a (click)="registroUser()">Iniciar Sesion</a>
+                                                                    <a (click)="alterLogin()">Iniciar Sesion</a>
                                                                 </div>
                                                                 <br>
                                                                 <div class="sign-up">
@@ -809,7 +809,7 @@
                                                                     <input type="password">
                                                                     <a>Olvidaste tu contraseña?</a>
                                                                     <p></p>
-                                                                    <a (click)="registroUser()">Registrate</a>
+                                                                    <a (click)="alterLogin()">Registrate</a>
                                                                 </div>
                                                                 <div class="single-bottom">
                                                                     <input type="checkbox" id="brand" value="">

@@ -62,8 +62,8 @@ import { NotFoundProductComponentComponent } from './component/not-found-product
 import { NotFoundPageComponentComponent } from './component/not-found-page-component/not-found-page-component.component';
 import { PedidoComponentComponent } from './component/pedido-component/pedido-component.component';
 import { ToolbarSidenavComponentComponent } from './component/plantillas/toolbar-sidenav-component/toolbar-sidenav-component.component';
-import { SingOutDialogComponent } from './component/dialog/sing-out-dialog/sing-out-dialog.component';
-import { ChangeStoreDialogComponent } from './component/dialog/change-store-dialog/change-store-dialog.component';
+import { GenericAcceptDialogComponent } from './component/dialog/generic-accept-dialog/generic-accept-dialog.component';
+import { GenericActionsDialogComponent } from './component/dialog/generic-actions-dialog/generic-actions-dialog.component';
 
 @NgModule({
   declarations: [
@@ -76,8 +76,8 @@ import { ChangeStoreDialogComponent } from './component/dialog/change-store-dial
     NotFoundPageComponentComponent,
     PedidoComponentComponent,
     ToolbarSidenavComponentComponent,
-    SingOutDialogComponent,
-    ChangeStoreDialogComponent,
+    GenericAcceptDialogComponent,
+    GenericActionsDialogComponent,
   ],
   imports: [
     FormsModule,

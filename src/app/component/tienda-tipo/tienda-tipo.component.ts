@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 /**
  * Icons fontawesome
  */
-import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { faLink, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -108,6 +108,8 @@ export class TiendaTipoComponent implements OnInit {
   login_modal = false;
   login_form = true;
   registro_form = false;
+  isSesssionLogin = false;
+  tokenUser:any = false;
 
   forma_pago_select: any;
 
@@ -122,6 +124,7 @@ export class TiendaTipoComponent implements OnInit {
     private _userService: UserService
   ) {
 
+   this.updateDataSession();
     this.getTiendas();
     this.getCategorias();
     this.getProductos(0);
@@ -138,6 +141,19 @@ export class TiendaTipoComponent implements OnInit {
       this.tienda_seleccionada = JSON.parse(tienda!);
       sessionStorage.setItem("FormaPedido", this.forma_pedido);
     });
+  }
+
+
+  updateDataSession(){
+    this.tokenUser = this._userService.getToken();
+
+    if (this.tokenUser) {
+      this.tokenUser = this.tokenUser;
+      this.isSesssionLogin = true;
+    }else{
+      this.tokenUser = false;
+      this.isSesssionLogin = false;
+    }    
   }
 
   saveMyData = false;
@@ -175,6 +191,7 @@ export class TiendaTipoComponent implements OnInit {
             this.userLogin.user = "";
             this.userLogin.pass = "";
             this.cModalLogin();
+            this.updateDataSession();
             //console.log(JSON.parse(JSON.stringify(res)).messege);
           }else{
             this.dialog.open(GenericAcceptDialogComponent, {
@@ -552,9 +569,7 @@ export class TiendaTipoComponent implements OnInit {
     //Si sí irá a la configuracion de la ciuenta
     //sino mostrar modal login
 
-    let token = this._userService.getToken();
-
-    if (!token) {
+    if (!this.isSesssionLogin) {
       this.login_modal = true;
     }else{
       this.router.navigate(['/pedido']);

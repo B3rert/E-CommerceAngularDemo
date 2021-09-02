@@ -959,7 +959,7 @@
                                                         </form>
                                                     </div>
 
-                                                    
+
 
                                                     <!--Varias Presentaciones-->
                                                     <div class="col-sm-12 spi spd"
@@ -973,7 +973,10 @@
                                                                                 class="m_unit">{{element.presentacion}}</label>
                                                                         </div>
                                                                         <div class="row">
-                                                                            <span for="4951">
+                                                                            <span (click)="cdetalle(); login()" *ngIf="!isSesssionLogin" for="4951">
+                                                                                Para visualizar precios inicie sesión
+                                                                            </span>
+                                                                            <span for="4951" *ngIf="isSesssionLogin">
                                                                                 Q.{{NumberToString(element.precio_Unidad)}}
                                                                             </span>
                                                                         </div>
@@ -1015,7 +1018,10 @@
                                                                                 class="m_unit">{{element.des_Tipo_Precio}}</label>
                                                                         </div>
                                                                         <div class="row">
-                                                                            <span for="4951">
+                                                                            <span (click)="cdetalle(); login()" *ngIf="!isSesssionLogin" for="4951">
+                                                                                Para visualizar precios inicie sesión
+                                                                            </span>
+                                                                            <span for="4951" *ngIf="isSesssionLogin">
                                                                                 Q.{{NumberToString(element.precio_Unidad)}}
                                                                             </span>
                                                                         </div>

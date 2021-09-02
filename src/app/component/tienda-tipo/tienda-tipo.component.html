@@ -1,5 +1,7 @@
 <mat-sidenav-container class="example-container" (backdropClick)="close('backdrop')">
+    <!--SideNav Izquierdo-->
     <mat-sidenav #sidenav (keydown.escape)="close('escape')" disableClose>
+        <!--Encabezado-->
         <mat-toolbar class="head__carrito categoria_head">
             <h6>Categorías</h6>
             <span class="example-spacer"></span>
@@ -7,8 +9,9 @@
                 <fa-icon [icon]="faTimes"></fa-icon>
             </mat-icon>
         </mat-toolbar>
+        <!--Fin Encabezado-->
+        <!--Categorias-->
         <nav class="categorias_nav">
-
             <ul class="list-unstyled mb-0 py-3 pt-md-1">
                 <li class="mb-1 child_hover" [ngClass]="categoria_activa == 0 ? 'active_cat': 'inactive'"
                     (click)="getProductos(0)">
@@ -46,7 +49,10 @@
                 </li>
             </ul>
         </nav>
+        <!--Fin Categorias-->
     </mat-sidenav>
+    <!--Fin SideNav Izquierdo-->
+    <!--SideNav Derecho-->
     <mat-sidenav position="end" #sidenavend (keydown.escape)="close('escape')" disableClose>
         <div class="container-menu">
             <div class="cont-menu">
@@ -633,6 +639,8 @@
             </div>
         </div>
     </mat-sidenav>
+    <!--Fin SideNav Derecho-->
+    <!--Contenido de la pagina-->
     <mat-sidenav-content>
         <mat-toolbar class="toolbarPhone">
             <mat-toolbar-row>
@@ -950,6 +958,9 @@
                                                             </div>
                                                         </form>
                                                     </div>
+
+                                                    
+
                                                     <!--Varias Presentaciones-->
                                                     <div class="col-sm-12 spi spd"
                                                         *ngIf="presentacion && !no_hay_producto_detalle">
@@ -991,6 +1002,7 @@
                                                             </div>
                                                         </form>
                                                     </div>
+                                                    <!-- Fin Varias Presentaciones-->
                                                     <!--varios precios-->
                                                     <div class="col-sm-12 spi spd"
                                                         *ngIf="!presentacion && !no_hay_producto_detalle">
@@ -1032,14 +1044,17 @@
                                                             </div>
                                                         </form>
                                                     </div>
+                                                    <!--Fin varios precios-->
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <!--Fin contenedor de detalle-->
                             </div>
                         </div>
                     </div>
+                    <!--Fin modal detalle-->
                     <div class="row">
 
                         <div class="container" *ngIf="!producto_exist && !progress_product">
@@ -1076,4 +1091,5 @@
             </div>
         </div>
     </mat-sidenav-content>
+    <!-- FIn Contenido de la pagina-->
 </mat-sidenav-container>

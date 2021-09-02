@@ -824,7 +824,8 @@
                                                                     <a (click)="alterLogin()">Registrate</a>
                                                                 </div>
                                                                 <div class="single-bottom">
-                                                                    <input type="checkbox" id="brand" value="">
+                                                                    <input type="checkbox" id="brand" value="" (click)="rememberMe()" checked *ngIf="saveMyData">
+                                                                    <input type="checkbox" id="brand" value="" (click)="rememberMe()" *ngIf="!saveMyData">
                                                                     <label for="brand"><span></span>Recordar mis
                                                                         datos.</label>
                                                                 </div>

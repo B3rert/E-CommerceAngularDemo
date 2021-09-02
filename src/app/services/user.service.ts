@@ -20,8 +20,10 @@ export class UserService {
         return this._http.post(this.url + "registrouser", params, { headers: headers });
     }
 
-    getLogin(user_to_login: any) {
+    posLogin(user_to_login: any) {
+        let params = JSON.stringify(user_to_login);
+
         let headers = new HttpHeaders({ "Content-Type": "application/json" });
-        return this._http.get(`${this.url}login/${user_to_login.user}/${user_to_login.pass}`, { headers: headers });
+        return this._http.post(`${this.url}login`,params, { headers: headers });
     }
 }

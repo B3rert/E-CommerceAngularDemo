@@ -1215,6 +1215,11 @@ img.imagen-izquierda.seleccionada {
   margin-left: 5px;
 }
 
+.single-bottom input, .single-bottom label{
+cursor: pointer;
+}
+
+
 /*-- //login --*/
 
 /*SideNav*/

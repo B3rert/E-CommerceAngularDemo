@@ -140,6 +140,11 @@ export class TiendaTipoComponent implements OnInit {
     });
   }
 
+  saveMyData = false;
+  rememberMe(){
+    this.saveMyData ? this.saveMyData = false : this.saveMyData = true;
+  }
+
   progressLogin = false;
 
   accsesLogin() {
@@ -153,11 +158,24 @@ export class TiendaTipoComponent implements OnInit {
       });
     } else {
       this.progressLogin = true;
-      this._userService.getLogin(this.userLogin).subscribe(
+      this._userService.posLogin(this.userLogin).subscribe(
         res => {
+          
           this.progressLogin = false;
-          if(JSON.parse(JSON.stringify(res))[0].res){
-            console.log("Sesion correcta");
+
+          let token = JSON.parse(JSON.stringify(res)).messege;
+          if (JSON.parse(JSON.stringify(res)).res) {
+            if (this.saveMyData) {
+              //guardar datos en el navegador
+              localStorage.setItem("Token",token)
+            }else{
+              //Guardar datos mientras la sesion esté activa
+              sessionStorage.setItem("Token",token);
+            }
+            this.userLogin.user = "";
+            this.userLogin.pass = "";
+            this.cModalLogin();
+            //console.log(JSON.parse(JSON.stringify(res)).messege);
           }else{
             this.dialog.open(GenericAcceptDialogComponent, {
               data: {
@@ -530,10 +548,27 @@ export class TiendaTipoComponent implements OnInit {
   }
 
   login() {
+    //verificar si el usuario ya inició sesion
+    //Si sí irá a la configuracion de la ciuenta
+    //sino mostrar modal login
 
-    //this.router.navigate(['/pedido']);
 
-    this.login_modal = true;
+    let userLocal = localStorage.getItem("Token");
+    let userSession = sessionStorage.getItem("Token");
+    
+    let Token;
+
+    if (userLocal) {
+      Token = userLocal;
+    }else if(userSession){
+      Token = userSession
+    }else{
+      this.login_modal = true;
+      return;
+    }
+    
+    this.router.navigate(['/pedido']);
+
   }
 
   productoDetalle(producto_seleccionado: any) {

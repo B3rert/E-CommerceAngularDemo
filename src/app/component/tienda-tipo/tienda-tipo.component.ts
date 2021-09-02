@@ -552,22 +552,13 @@ export class TiendaTipoComponent implements OnInit {
     //Si sí irá a la configuracion de la ciuenta
     //sino mostrar modal login
 
+    let token = this._userService.getToken();
 
-    let userLocal = localStorage.getItem("Token");
-    let userSession = sessionStorage.getItem("Token");
-    
-    let Token;
-
-    if (userLocal) {
-      Token = userLocal;
-    }else if(userSession){
-      Token = userSession
-    }else{
+    if (!token) {
       this.login_modal = true;
-      return;
+    }else{
+      this.router.navigate(['/pedido']);
     }
-    
-    this.router.navigate(['/pedido']);
 
   }
 

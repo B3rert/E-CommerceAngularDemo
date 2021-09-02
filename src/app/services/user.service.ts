@@ -26,4 +26,26 @@ export class UserService {
         let headers = new HttpHeaders({ "Content-Type": "application/json" });
         return this._http.post(`${this.url}login`,params, { headers: headers });
     }
+
+    getUserNameToken(token:any){
+        let headers = new HttpHeaders({ "Content-Type": "application/json", "":`Bearer ${token}`});
+        return this._http.get(`${this.url}login`, { headers: headers });
+    }
+
+    getToken(){
+        let token;
+        let _token = sessionStorage.getItem("Token");
+        let __token = localStorage.getItem("Token");
+
+        if (_token) {
+            token = _token;
+        }else if(__token){
+            token = __token;
+        }else{
+            token = false;
+        }
+
+       return token;
+
+    }
 }

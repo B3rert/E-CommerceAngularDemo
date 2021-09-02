@@ -15,12 +15,16 @@ import { faInfo } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faClipboardList } from '@fortawesome/free-solid-svg-icons';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { UserService } from 'src/app/services/user.service';
 import { GenericActionsDialogComponent } from '../dialog/generic-actions-dialog/generic-actions-dialog.component';
 
 @Component({
   selector: 'app-pedido-component',
   templateUrl: './pedido-component.component.html',
-  styleUrls: ['./pedido-component.component.css']
+  styleUrls: ['./pedido-component.component.css'],
+  providers:[
+    UserService
+  ]
 })
 
 export class PedidoComponentComponent implements OnInit {
@@ -123,12 +127,25 @@ export class PedidoComponentComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private _userService:UserService
     ) {
     this.resolveKeyJson(this.jsonPedidos[0]);
   }
 
   ngOnInit(): void {
+  }
+
+
+  getUserName(token:any){
+    this._userService.getUserNameToken(token).subscribe(
+      res=>{
+        console.log(res);
+        
+      },
+      err=>{
+        console.error(err);
+      });
   }
 
   resolveKeyJson(objectJson: any) {
@@ -221,7 +238,11 @@ export class PedidoComponentComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log(`Cerrar sesión(y): ${result}`);
+        
+        sessionStorage.removeItem("Token");
+        localStorage.removeItem("Token");
+        this.router.navigate(['/tienda', sessionStorage.getItem("FormaPedido")]);
+
       }else{
         console.log(`Cerrar sesión(n): ${result}`);
       }

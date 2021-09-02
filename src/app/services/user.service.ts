@@ -28,7 +28,7 @@ export class UserService {
     }
 
     getUserNameToken(token:any){
-        let headers = new HttpHeaders({ "Content-Type": "application/json", "":`Bearer ${token}`});
+        let headers = new HttpHeaders({ "Content-Type": "application/json", "Authorization":`Bearer ${token}`});
         return this._http.get(`${this.url}login`, { headers: headers });
     }
 

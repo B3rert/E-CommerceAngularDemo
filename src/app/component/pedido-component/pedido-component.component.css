@@ -189,6 +189,12 @@ mat-sidenav {
 
 .info_user{
   text-align: center;
+  text-transform: lowercase;
+
+}
+
+.info_user:first-letter {
+  text-transform: uppercase;
 }
 
 .item__option{

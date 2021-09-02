@@ -114,6 +114,9 @@ export class PedidoComponentComponent implements OnInit {
     }
   ];
 
+  token: any;
+  userName:string = "Nombre_Usuario";
+
   //Abrir/Cerrar SideNav
   @ViewChild('sidenav')
   sidenav!: MatSidenav;
@@ -131,17 +134,23 @@ export class PedidoComponentComponent implements OnInit {
     private _userService:UserService
     ) {
     this.resolveKeyJson(this.jsonPedidos[0]);
+
+    this.token = _userService.getToken()
+
+    if(this.token){
+       this.getUserName(this.token);
+    }
+    
   }
 
   ngOnInit(): void {
   }
 
 
-  getUserName(token:any){
+  getUserName(token:any):any{
     this._userService.getUserNameToken(token).subscribe(
       res=>{
-        console.log(res);
-        
+        this.userName =  JSON.parse(JSON.stringify(res)).messege;               
       },
       err=>{
         console.error(err);

@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 /**
  * Icons fontawesome
  */
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faLandmark, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { faStore } from '@fortawesome/free-solid-svg-icons';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
@@ -45,6 +45,11 @@ export class PedidoComponentComponent implements OnInit {
   viewAcount = false;
   viewPedido = true;
   viewDetailsPedido = false;
+
+  pedidos = true;
+  detalles_pedido = false;
+  detalles_usuario = false;
+
 
 
   optionsUser: boolean[] = [

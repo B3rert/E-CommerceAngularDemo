@@ -107,7 +107,10 @@
                 <!--Content main-->
 
                 <div class="container" *ngIf="viewAcount && !viewPedido && !viewDetailsPedido">
-                    <div class="row">
+                   
+                    <app-not-found-component *ngIf="!detalles_usuario"></app-not-found-component>
+                   
+                    <div class="row" *ngIf="detalles_usuario">
                         <div class="col-12">
                             <div class="p">No hay usuarios</div>
                         </div>
@@ -116,7 +119,11 @@
 
 
                 <div class="container" *ngIf="!viewAcount && !viewPedido && viewDetailsPedido">
-                    <div class="row">
+                    
+                    <app-not-found-component *ngIf="!detalles_pedido"></app-not-found-component>
+
+                    
+                    <div class="row" *ngIf="detalles_pedido">
                         <div class="col-12">
                             <p>Detalles Pedido</p>
                         </div>
@@ -124,7 +131,10 @@
                 </div>
 
                 <div class="container_content" *ngIf="!viewAcount && viewPedido && !viewDetailsPedido">
-                    <div class="container_table">
+                  
+                    <app-not-found-component *ngIf="!pedidos"></app-not-found-component>
+                  
+                    <div class="container_table" *ngIf="pedidos">
                         <table class="rtable">
                             <thead>
                                 <tr>

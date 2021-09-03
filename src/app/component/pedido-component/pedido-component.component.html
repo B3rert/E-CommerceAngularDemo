@@ -114,12 +114,37 @@
 
                     <div class="row" *ngIf="detalles_usuario">
                         <div class="col-12">
-                            <div class="p">No hay usuarios</div>
+                            <div class="container-fluid">
+                               
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="container-fluid pad_top">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <h5>Datos de la cuenta:</h5>
+                            
+                                                    <div class="card text-center">
+                                                        <div class="card-body">
+                                                            <div id="detalle-tracking-ce" class="text-center">
+                                                                <p><strong>Nombre:</strong> Nombre_usuario</p>
+                                                                <p><strong>Otros:</strong> Otros_datos</p>
+                                                                <p><strong>Otros:</strong> Otros_datos</p>
+                                                                <p><strong>Otros:</strong> Otros_datos</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="container" *ngIf="!viewAcount && !viewPedido && viewDetailsPedido">
+                <div class="container container_details_ped" *ngIf="!viewAcount && !viewPedido && viewDetailsPedido">
 
                     <app-not-found-component *ngIf="!detalles_pedido"></app-not-found-component>
 
@@ -163,7 +188,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row row_containerAcordion" >
 
                                     <div class="accordion" id="accordionExample">
                                         <div class="accordion-item">
@@ -264,6 +289,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                  
                                 </div>
                             </div>
                         </div>

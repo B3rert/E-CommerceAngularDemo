@@ -62,7 +62,7 @@ export class PedidoComponentComponent implements OnInit {
 
   pedidos = true;
   detalles_pedido = true;
-  detalles_usuario = false;
+  detalles_usuario = true;
 
   optionsUser: boolean[] = [
     false, true, false, false
@@ -86,7 +86,7 @@ export class PedidoComponentComponent implements OnInit {
       "icon": faUser
     },
     {
-      "option": "Salir",
+      "option": "Cerrar Sesión",
       "icon": faSignOutAlt
     }
   ];

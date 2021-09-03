@@ -1196,6 +1196,13 @@ img.imagen-izquierda.seleccionada {
   margin-bottom: 23px;
 }
 
+.login-right h6, .login-bottom h6 {
+  color: #d84672;
+  font-size: 15px;
+  margin-bottom: 23px;
+}
+
+
 .sign-in a {
   font-size: 12px;
   color: rgb(48, 46, 46);

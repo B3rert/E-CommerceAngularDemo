@@ -779,31 +779,32 @@
                                                     <mat-progress-bar *ngIf="progressLogin" mode="indeterminate"
                                                         color="accent">
                                                     </mat-progress-bar>
+                                                    <!--Contenido Modal Login/Registro/Restaurar Contraseña-->
                                                     <div class="login" *ngIf="!progressLogin">
-
-                                                        <div class="login-bottom" *ngIf="registro_form">
+                                                        <!--Registro de usuario-->
+                                                        <div class="login-bottom" *ngIf="registro_form && !restart_form">
                                                             <h3>Registrate</h3>
                                                             <form #registroUser="ngForm" (ngSubmit)="regitroUser()">
                                                                 <div class="sign-up">
                                                                     <h4>Nombre :</h4>
                                                                     <input type="text" name="nombre" #nombre="ngModel"
-                                                                        [(ngModel)]="registrUser.Nombre" required>
+                                                                        [(ngModel)]="inputRegisterUser.Nombre" required>
                                                                 </div>
                                                                 <div class="sign-up">
                                                                     <h4>Apellido :</h4>
                                                                     <input type="text" name="apellido"
                                                                         #apellido="ngModel"
-                                                                        [(ngModel)]="registrUser.Apellido" required>
+                                                                        [(ngModel)]="inputRegisterUser.Apellido" required>
                                                                 </div>
                                                                 <div class="sign-up">
                                                                     <h4>Teléfono :</h4>
                                                                     <input type="text" name="celular" #celular="ngModel"
-                                                                        [(ngModel)]="registrUser.Celular" required>
+                                                                        [(ngModel)]="inputRegisterUser.Celular" required>
                                                                 </div>
                                                                 <div class="sign-up">
                                                                     <h4>Correo electronico :</h4>
                                                                     <input type="email" name="correo" #correo="ngModel"
-                                                                        [(ngModel)]="registrUser.Correo_Electronico"
+                                                                        [(ngModel)]="inputRegisterUser.Correo_Electronico"
                                                                         required>
                                                                 </div>
                                                                 <div class="sign-in">
@@ -815,19 +816,21 @@
                                                                 </div>
                                                             </form>
                                                         </div>
-                                                        <div class="login-right" *ngIf="!registro_form">
+                                                        <!--Fin Registro de usuario-->
+                                                        <!--Login/Inicio de seisión-->
+                                                        <div class="login-right" *ngIf="!registro_form && !restart_form">
                                                             <h3>Inicia sesión con tu cuenta</h3>
                                                             <form #loginUser="ngForm" (ngSubmit)="accsesLogin()">
                                                                 <div class="sign-in">
                                                                     <h4>Correo electronico :</h4>
                                                                     <input type="text" name="user" #user="ngModel"
-                                                                        [(ngModel)]="userLogin.user" required>
+                                                                        [(ngModel)]="inputUserLogin.user" required>
                                                                 </div>
                                                                 <div class="sign-in">
                                                                     <h4>Contraseña :</h4>
                                                                     <input type="password" name="pass" #pass="ngModel"
-                                                                        [(ngModel)]="userLogin.pass" required>
-                                                                    <a>Olvidaste tu contraseña?</a>
+                                                                        [(ngModel)]="inputUserLogin.pass" required>
+                                                                    <a (click)="alterLoginRestore()">Olvidaste tu contraseña?</a>
                                                                     <p></p>
                                                                     <a (click)="alterLogin()">Registrate</a>
                                                                 </div>
@@ -842,8 +845,30 @@
                                                                 </div>
                                                             </form>
                                                         </div>
+                                                        <!--Fin Login/Inicio de seisión-->
+                                                        <!--Restaurar Contraseña-->
+                                                        <div class="login-right" *ngIf="!registro_form && restart_form">
+                                                            <h3>Recuperar Contraseña</h3>
+                                                            <h6>Ingresa el correo electrónico con el que estás registrado.</h6>
+                                                            <form #restorePass="ngForm" (ngSubmit)="restorePassword()">
+                                                                <div class="sign-in">
+                                                                    <h4>Correo electronico :</h4>
+                                                                    <input type="email" name="correo_input" #correo_input="ngModel"
+                                                                        [(ngModel)]="inputRestorePass.Correo_Electronico" required>
+                                                                </div>
+                                                                <div class="sign-in">
+                                                                    <a (click)="alterLoginRestore()">Iniciar Sesion</a>
+                                                                </div>
+                                                                <br>
+                                                                <div class="sign-in">
+                                                                    <input type="submit" value="RECUPERAR CONTRASEÑA">
+                                                                </div>
+                                                            </form>
+                                                        </div>
                                                         <div class="clearfix"></div>
                                                     </div>
+                                                    <!--Fin Restaurar Contraseña-->
+                                                    <!--Fin Contenido Modal Login/Registro/Restaurar Contraseña-->
                                                 </div>
                                             </div>
                                         </div>

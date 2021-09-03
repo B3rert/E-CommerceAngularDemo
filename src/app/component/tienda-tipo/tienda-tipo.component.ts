@@ -28,6 +28,7 @@ import { GenericAcceptDialogComponent } from '../dialog/generic-accept-dialog/ge
 import { GenericActionsDialogComponent } from '../dialog/generic-actions-dialog/generic-actions-dialog.component';
 import { UserService } from 'src/app/services/user.service';
 import { UserLogin } from 'src/app/models/user-login.model';
+import { RestorePassword } from 'src/app/models/restore-pass.model';
 
 @Component({
   selector: 'app-tienda-tipo',
@@ -68,8 +69,9 @@ export class TiendaTipoComponent implements OnInit {
 
   //Modelos
   public userFactura: UserFactura;
-  public registrUser: RegistroUser;
-  public userLogin: UserLogin;
+  public inputRegisterUser: RegistroUser;
+  public inputUserLogin: UserLogin;
+  public inputRestorePass: RestorePassword;
 
   //Variables
   tienda_en_linea = true;
@@ -106,8 +108,9 @@ export class TiendaTipoComponent implements OnInit {
   progress_product = true;
 
   login_modal = false;
-  login_form = true;
   registro_form = false;
+  restart_form = false;
+
   isSesssionLogin = false;
   tokenUser:any = false;
 
@@ -130,8 +133,9 @@ export class TiendaTipoComponent implements OnInit {
     this.getProductos(0);
     var fecha_hora = this.getHoraActual();
     this.userFactura = new UserFactura("", "", "", "", "", fecha_hora, "", "", "");
-    this.registrUser = new RegistroUser("", "", "", "");
-    this.userLogin = new UserLogin("", "");
+    this.inputRegisterUser = new RegistroUser("", "", "", "");
+    this.inputUserLogin = new UserLogin("", "");
+    this.inputRestorePass = new RestorePassword("");
   }
 
   ngOnInit(): void {
@@ -143,6 +147,21 @@ export class TiendaTipoComponent implements OnInit {
     });
   }
 
+  restorePassword(){
+    let re = /^([\da-z_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
+
+    if (!this.inputRestorePass.Correo_Electronico) {
+      this.dialog.open(GenericAcceptDialogComponent, {
+        data: { tittle: "Correo electrónico requerido." }
+      });
+    }else if (!re.exec(this.inputRestorePass.Correo_Electronico)) {
+      this.dialog.open(GenericAcceptDialogComponent, {
+        data: { tittle: "Correo electrónico invalido." }
+      });
+    }else{
+      console.log("Restaurar Contraseña Service");
+    }
+  }
 
   updateDataSession(){
     this.tokenUser = this._userService.getToken();
@@ -164,17 +183,17 @@ export class TiendaTipoComponent implements OnInit {
   progressLogin = false;
 
   accsesLogin() {
-    if (!this.userLogin.user) {
+    if (!this.inputUserLogin.user) {
       this.dialog.open(GenericAcceptDialogComponent, {
         data: { tittle: "Usuario requerido." }
       });
-    } else if (!this.userLogin.pass) {
+    } else if (!this.inputUserLogin.pass) {
       this.dialog.open(GenericAcceptDialogComponent, {
         data: { tittle: "Contraseña requerida." }
       });
     } else {
       this.progressLogin = true;
-      this._userService.posLogin(this.userLogin).subscribe(
+      this._userService.posLogin(this.inputUserLogin).subscribe(
         res => {
           
           this.progressLogin = false;
@@ -188,8 +207,7 @@ export class TiendaTipoComponent implements OnInit {
               //Guardar datos mientras la sesion esté activa
               sessionStorage.setItem("Token",token);
             }
-            this.userLogin.user = "";
-            this.userLogin.pass = "";
+            this.emptyInputsForms();
             this.cModalLogin();
             this.updateDataSession();
             //console.log(JSON.parse(JSON.stringify(res)).messege);
@@ -221,29 +239,29 @@ export class TiendaTipoComponent implements OnInit {
 
     let re = /^([\da-z_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
 
-    if (!this.registrUser.Nombre) {
+    if (!this.inputRegisterUser.Nombre) {
       this.dialog.open(GenericAcceptDialogComponent, {
         data: { tittle: "Nombre requerido." }
       });
-    } else if (!this.registrUser.Apellido) {
+    } else if (!this.inputRegisterUser.Apellido) {
       this.dialog.open(GenericAcceptDialogComponent, {
         data: { tittle: "Apellido Requerido." }
       });
-    } else if (!this.registrUser.Celular) {
+    } else if (!this.inputRegisterUser.Celular) {
       this.dialog.open(GenericAcceptDialogComponent, {
         data: { tittle: "Número de teléfono requerido." }
       });
-    } else if (!this.registrUser.Correo_Electronico) {
+    } else if (!this.inputRegisterUser.Correo_Electronico) {
       this.dialog.open(GenericAcceptDialogComponent, {
         data: { tittle: "Correo electrónico requerido." }
       });
-    } else if (!re.exec(this.registrUser.Correo_Electronico)) {
+    } else if (!re.exec(this.inputRegisterUser.Correo_Electronico)) {
       this.dialog.open(GenericAcceptDialogComponent, {
         data: { tittle: "Correo electrónico invalido." }
       });
     } else {
       this.progressLogin = true;
-      this._userService.postRegitroUser(this.registrUser).subscribe(
+      this._userService.postRegitroUser(this.inputRegisterUser).subscribe(
         res => {
           this.progressLogin = false;
           if (res == 0) {
@@ -260,10 +278,7 @@ export class TiendaTipoComponent implements OnInit {
                 description: "Sus credenciales han sido enviadas a su correo electrónico."
               }
             });
-            this.registrUser.Nombre = "";
-            this.registrUser.Apellido = "";
-            this.registrUser.Celular = "";
-            this.registrUser.Correo_Electronico = "";
+            this.emptyInputsForms();
           }
         }, err => {
           this.progressLogin = false;
@@ -277,6 +292,20 @@ export class TiendaTipoComponent implements OnInit {
           return;
         });
     }
+  }
+
+
+  emptyInputsForms(){
+    //Limpiar campos login
+    this.inputUserLogin.user = "";
+    this.inputUserLogin.pass = "";
+    //Limpiar campos registro
+    this.inputRegisterUser.Nombre ="";
+    this.inputRegisterUser.Apellido ="";
+    this.inputRegisterUser.Celular ="";
+    this.inputRegisterUser.Correo_Electronico ="";
+    //limpiar campos recuperar contraseña
+    this.inputRestorePass.Correo_Electronico = "";
 
   }
 
@@ -284,8 +313,23 @@ export class TiendaTipoComponent implements OnInit {
   alterLogin() {
     if (this.registro_form) {
       this.registro_form = false;
+      this.restart_form = false;
+     this.emptyInputsForms()
     } else {
+      this.restart_form = false;
       this.registro_form = true;
+      this.emptyInputsForms()
+    }
+  }
+
+  alterLoginRestore(){
+    if (this.restart_form) {
+      this.emptyInputsForms()
+      this.restart_form = false;
+      this.registro_form = false;
+    }else{
+      this.restart_form = true;
+      this.registro_form = false;
     }
   }
 
@@ -319,7 +363,11 @@ export class TiendaTipoComponent implements OnInit {
 
   //Cerrar Modal Login
   cModalLogin() {
+    this.emptyInputsForms()
+
     this.login_modal = false;
+    this.registro_form = false;
+    this.restart_form = false;
   }
 
   continuarPago() {

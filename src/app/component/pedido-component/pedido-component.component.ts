@@ -22,7 +22,6 @@ import { faPlaneArrival} from '@fortawesome/free-solid-svg-icons';
 import { faBuilding} from '@fortawesome/free-solid-svg-icons';
 import { faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 
-
 import { UserService } from 'src/app/services/user.service';
 import { GenericActionsDialogComponent } from '../dialog/generic-actions-dialog/generic-actions-dialog.component';
 
@@ -36,7 +35,6 @@ import { GenericActionsDialogComponent } from '../dialog/generic-actions-dialog/
 })
 
 export class PedidoComponentComponent implements OnInit {
-
   //Iconos
   faUserCircle = faUserCircle;
   faTimes = faTimes;
@@ -54,7 +52,6 @@ export class PedidoComponentComponent implements OnInit {
   faPlaneArrival = faPlaneArrival;
   faBuilding = faBuilding;
   faArrowLeft = faArrowLeft;
-  
 
   viewAcount = false;
   viewPedido = true;
@@ -214,7 +211,6 @@ export class PedidoComponentComponent implements OnInit {
         alert("No hay acciones disponibles");
         break;
     }
-
   }
 
   navigateToStore() {
@@ -225,13 +221,9 @@ export class PedidoComponentComponent implements OnInit {
     this.viewPedido = true;
     this.viewAcount = false;
     this.viewDetailsPedido = false;
-
   }
 
   navigateToSelectStore() {
-
-
-
     this.router.navigate(['/seleccion'])
   }
 
@@ -239,7 +231,6 @@ export class PedidoComponentComponent implements OnInit {
     this.viewAcount = true;
     this.viewPedido = false;
     this.viewDetailsPedido = false;
-
   }
 
   singOut() {
@@ -262,7 +253,5 @@ export class PedidoComponentComponent implements OnInit {
         console.log(`Cerrar sesión(n): ${result}`);
       }
     });
-    
   }
-
 }

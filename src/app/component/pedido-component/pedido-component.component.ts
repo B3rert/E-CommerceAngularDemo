@@ -15,12 +15,12 @@ import { faInfo } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faClipboardList } from '@fortawesome/free-solid-svg-icons';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
-import { faUserCheck} from '@fortawesome/free-solid-svg-icons';
-import { faShuttleVan} from '@fortawesome/free-solid-svg-icons';
-import { faDolly} from '@fortawesome/free-solid-svg-icons';
-import { faPlaneArrival} from '@fortawesome/free-solid-svg-icons';
-import { faBuilding} from '@fortawesome/free-solid-svg-icons';
-import { faArrowLeft} from '@fortawesome/free-solid-svg-icons';
+import { faUserCheck } from '@fortawesome/free-solid-svg-icons';
+import { faShuttleVan } from '@fortawesome/free-solid-svg-icons';
+import { faDolly } from '@fortawesome/free-solid-svg-icons';
+import { faPlaneArrival } from '@fortawesome/free-solid-svg-icons';
+import { faBuilding } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 import { UserService } from 'src/app/services/user.service';
 import { GenericActionsDialogComponent } from '../dialog/generic-actions-dialog/generic-actions-dialog.component';
@@ -29,7 +29,7 @@ import { GenericActionsDialogComponent } from '../dialog/generic-actions-dialog/
   selector: 'app-pedido-component',
   templateUrl: './pedido-component.component.html',
   styleUrls: ['./pedido-component.component.css'],
-  providers:[
+  providers: [
     UserService
   ]
 })
@@ -129,7 +129,7 @@ export class PedidoComponentComponent implements OnInit {
   ];
 
   token: any;
-  userName:string = "Nombre_Usuario";
+  userName: string = "Nombre_Usuario";
 
   //Abrir/Cerrar SideNav
   @ViewChild('sidenav')
@@ -145,32 +145,31 @@ export class PedidoComponentComponent implements OnInit {
   constructor(
     private router: Router,
     private dialog: MatDialog,
-    private _userService:UserService
-    ) {
+    private _userService: UserService
+  ) {
 
     this.token = _userService.getToken()
 
-    if(this.token){
-       this.getUserName(this.token);
+    if (this.token) {
+      this.getUserName(this.token);
     }
-    
   }
 
   ngOnInit(): void {
   }
 
-  navStatusTracking(){
+  navStatusTracking() {
     this.viewPedido = false;
     this.viewAcount = false;
     this.viewDetailsPedido = true;
   }
 
-  getUserName(token:any):any{
+  getUserName(token: any): any {
     this._userService.getUserNameToken(token).subscribe(
-      res=>{
-        this.userName =  JSON.parse(JSON.stringify(res)).messege;               
+      res => {
+        this.userName = JSON.parse(JSON.stringify(res)).messege;
       },
-      err=>{
+      err => {
         console.error(err);
       });
   }
@@ -204,7 +203,7 @@ export class PedidoComponentComponent implements OnInit {
         this.viewInfoAcount();
         break;
       case 4:
-      this.singOut()
+        this.singOut()
         break;
 
       default:
@@ -234,7 +233,6 @@ export class PedidoComponentComponent implements OnInit {
   }
 
   singOut() {
-
     const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
       data: {
         tittle: "¿Cerrar Sesión?",
@@ -244,13 +242,10 @@ export class PedidoComponentComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        
         sessionStorage.removeItem("Token");
         localStorage.removeItem("Token");
         this.router.navigate(['/tienda']);
 
-      }else{
-        console.log(`Cerrar sesión(n): ${result}`);
       }
     });
   }

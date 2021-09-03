@@ -38,7 +38,7 @@ export class SelectTiendaComponentComponent implements OnInit {
   tiendaSeleccionada(tienda:any){
     sessionStorage.setItem('tienda',JSON.stringify(tienda));
     //let tiendasel = JSON.stringify(tienda);
-    this.router.navigate(['/tienda',this.forma_pedido])
+    this.router.navigate(['/tienda'])
   };
 
   //Obtener tiendas disponibles

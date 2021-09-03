@@ -139,12 +139,12 @@ export class TiendaTipoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._ac.paramMap.subscribe(paramas => {
-      this.forma_pedido = paramas.get('forma_pedido');
-      let tienda = sessionStorage.getItem("tienda");
-      this.tienda_seleccionada = JSON.parse(tienda!);
-      sessionStorage.setItem("FormaPedido", this.forma_pedido);
-    });
+   
+    let tienda = sessionStorage.getItem("tienda");
+    this.tienda_seleccionada = JSON.parse(tienda!);
+    this.forma_pedido = sessionStorage.getItem("FormaPedido");
+
+
   }
 
   restorePassword(){
@@ -343,7 +343,7 @@ export class TiendaTipoComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.router.navigate(['/seleccion', this.forma_pedido]);
+        this.router.navigate(['/seleccion']);
         return;
       }
     });

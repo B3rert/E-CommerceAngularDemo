@@ -212,7 +212,7 @@ export class PedidoComponentComponent implements OnInit {
   }
 
   navigateToStore() {
-    this.router.navigate(['/tienda', sessionStorage.getItem("FormaPedido")]);
+    this.router.navigate(['/tienda']);
   }
 
   viewPedidos() {
@@ -226,7 +226,7 @@ export class PedidoComponentComponent implements OnInit {
 
 
 
-    this.router.navigate(['/seleccion',sessionStorage.getItem("FormaPedido")])
+    this.router.navigate(['/seleccion'])
   }
 
   viewInfoAcount() {
@@ -250,7 +250,7 @@ export class PedidoComponentComponent implements OnInit {
         
         sessionStorage.removeItem("Token");
         localStorage.removeItem("Token");
-        this.router.navigate(['/tienda', sessionStorage.getItem("FormaPedido")]);
+        this.router.navigate(['/tienda']);
 
       }else{
         console.log(`Cerrar sesión(n): ${result}`);

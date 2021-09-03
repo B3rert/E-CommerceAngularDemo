@@ -9,8 +9,8 @@ import { TiendaComponent } from "./component/tienda/tienda.component";
 
 const app_routes: Routes = [
   { path: 'home', component: TiendaComponent },
-  { path: 'seleccion/:forma_pedido', component: SelectTiendaComponentComponent },
-  { path: 'tienda/:forma_pedido', component: TiendaTipoComponent },
+  { path: 'seleccion', component: SelectTiendaComponentComponent },
+  { path: 'tienda', component: TiendaTipoComponent },
   { path: 'pruebas', component: PruebasComponentComponent },
   { path: 'no-encontrado', component: NotFoundPageComponentComponent },
   { path: 'pedido', component: PedidoComponentComponent },

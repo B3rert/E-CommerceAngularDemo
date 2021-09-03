@@ -15,11 +15,13 @@ export class TiendaComponent implements OnInit {
 
 
   navRecoger(){
-    this.router.navigate(['/seleccion','recoger']);
+    sessionStorage.setItem("FormaPedido","recoger");
+    this.router.navigate(['/seleccion']);
   }
 
   navEntregar(){
-    this.router.navigate(['/seleccion','domicilio']);
+    sessionStorage.setItem("FormaPedido","domicilio");
+    this.router.navigate(['/seleccion']);
 
   }
 

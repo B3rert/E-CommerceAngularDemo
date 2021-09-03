@@ -225,6 +225,17 @@ mat-sidenav {
   color: #d84672;
 }
 
+
+@media screen and (max-width: 991px) {
+  .btnBack {
+    cursor: pointer;
+    font-size: 20px;
+    margin: 2px;
+    position: fixed;
+    color: #d84672;
+  }
+}
+
 .padd_top {
   padding-top: 40px;
 }

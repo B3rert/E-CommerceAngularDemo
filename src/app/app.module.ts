@@ -58,12 +58,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SelectTiendaComponentComponent } from './component/select-tienda-component/select-tienda-component.component';
 import { PruebasComponentComponent } from './component/pruebas-component/pruebas-component.component';
-import { NotFoundProductComponentComponent } from './component/not-found-product-component/not-found-product-component.component';
-import { NotFoundPageComponentComponent } from './component/not-found-page-component/not-found-page-component.component';
+import { NotFoundPageComponentComponent } from './component/plantillas/plantillas-notfound/not-found-page-component/not-found-page-component.component';
 import { PedidoComponentComponent } from './component/pedido-component/pedido-component.component';
 import { ToolbarSidenavComponentComponent } from './component/plantillas/toolbar-sidenav-component/toolbar-sidenav-component.component';
 import { GenericAcceptDialogComponent } from './component/dialog/generic-accept-dialog/generic-accept-dialog.component';
 import { GenericActionsDialogComponent } from './component/dialog/generic-actions-dialog/generic-actions-dialog.component';
+import { NotFoundComponentComponent } from './component/plantillas/plantillas-notfound/not-found-component/not-found-component.component';
 
 @NgModule({
   declarations: [
@@ -72,12 +72,13 @@ import { GenericActionsDialogComponent } from './component/dialog/generic-action
     TiendaComponent,
     SelectTiendaComponentComponent,
     PruebasComponentComponent,
-    NotFoundProductComponentComponent,
     NotFoundPageComponentComponent,
     PedidoComponentComponent,
     ToolbarSidenavComponentComponent,
     GenericAcceptDialogComponent,
     GenericActionsDialogComponent,
+    NotFoundPageComponentComponent,
+    NotFoundComponentComponent,
   ],
   imports: [
     FormsModule,

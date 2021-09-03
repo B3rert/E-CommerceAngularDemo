@@ -17,7 +17,7 @@
                     <h6>{{userName}}</h6>
                 </div>
                 <div class="options_user">
-                    <div class="item__option" [ngClass]="optionsUser[indexOptions] ? 'active': 'inactive'"
+                    <div class="item__option" [ngClass]="optionsUser[indexOptions] ? 'active_opt': 'inactive'"
                         *ngFor="let options of jsonOpsyionUser; let indexOptions = index"
                         (click)="changeClass(indexOptions); options.action">
                         <div class="content_option">
@@ -57,11 +57,13 @@
                 </button>
                 -->
             </mat-toolbar-row>
+            <!--
             <mat-toolbar-row>
 
                 <span class="spacer"></span>
 
             </mat-toolbar-row>
+            -->
         </mat-toolbar>
         <mat-toolbar class="toolbarlarge">
             <!--
@@ -91,7 +93,7 @@
                         <h6>{{userName}}</h6>
                     </div>
                     <div class="options_user">
-                        <div class="item__option" [ngClass]="optionsUser[indexOptions] ? 'active': 'inactive'"
+                        <div class="item__option" [ngClass]="optionsUser[indexOptions] ? 'active_opt': 'inactive'"
                             *ngFor="let options of jsonOpsyionUser; let indexOptions = index"
                             (click)="changeClass(indexOptions); options.action">
                             <div class="content_option">
@@ -107,9 +109,9 @@
                 <!--Content main-->
 
                 <div class="container" *ngIf="viewAcount && !viewPedido && !viewDetailsPedido">
-                   
+
                     <app-not-found-component *ngIf="!detalles_usuario"></app-not-found-component>
-                   
+
                     <div class="row" *ngIf="detalles_usuario">
                         <div class="col-12">
                             <div class="p">No hay usuarios</div>
@@ -117,45 +119,179 @@
                     </div>
                 </div>
 
-
                 <div class="container" *ngIf="!viewAcount && !viewPedido && viewDetailsPedido">
-                    
+
                     <app-not-found-component *ngIf="!detalles_pedido"></app-not-found-component>
 
-                    
                     <div class="row" *ngIf="detalles_pedido">
+                        <fa-icon class="btnBack" [icon]="faArrowLeft" (click)="viewPedidos()"></fa-icon>
                         <div class="col-12">
-                            <p>Detalles Pedido</p>
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="stepper-wrapper padd_top">
+                                            <div class="stepper-item completed">
+                                                <div class="step-counter">
+                                                    <fa-icon [icon]="faUserCheck" class="icon__step"></fa-icon>
+                                                </div>
+                                                <div class="step-name">Estado1</div>
+                                            </div>
+                                            <div class="stepper-item completed">
+                                                <div class="step-counter">
+                                                    <fa-icon [icon]="faDolly" class="icon__step"></fa-icon>
+                                                </div>
+                                                <div class="step-name">Estado2</div>
+                                            </div>
+                                            <div class="stepper-item completed">
+                                                <div class="step-counter">
+                                                    <fa-icon [icon]="faShuttleVan" class="icon__step"></fa-icon>
+                                                </div>
+                                                <div class="step-name">Estado3</div>
+                                            </div>
+                                            <div class="stepper-item active">
+                                                <div class="step-counter">
+                                                    <fa-icon [icon]="faPlaneArrival" class="icon__step"></fa-icon>
+                                                </div>
+                                                <div class="step-name">Estado4</div>
+                                            </div>
+                                            <div class="stepper-item">
+                                                <div class="step-counter">
+                                                    <fa-icon [icon]="faBuilding" class="icon__step"></fa-icon>
+                                                </div>
+                                                <div class="step-name">Estado5</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                    <div class="accordion" id="accordionExample">
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="headingOne">
+                                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                    data-bs-target="#collapseOne" aria-expanded="true"
+                                                    aria-controls="collapseOne">
+                                                    Resumen del Pedido
+                                                </button>
+                                            </h2>
+                                            <div id="collapseOne" class="accordion-collapse collapse show"
+                                                aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                                <div class="accordion-body">
+                                                    <div class="card text-center">
+                                                        <div class="card-body">
+                                                            <div id="detalle-tracking-ce" class="text-center">
+                                                                <p><strong>Pedido:</strong> x8s8s798945</p>
+                                                                <p><strong>Estado:</strong> Cancelado</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="headingTwo">
+                                                <button class="accordion-button collapsed" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+                                                    aria-expanded="false" aria-controls="collapseTwo">
+                                                    Detallles del Pedido
+                                                </button>
+                                            </h2>
+                                            <div id="collapseTwo" class="accordion-collapse collapse"
+                                                aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                                <div class="accordion-body">
+                                                    <div class="card text-center">
+                                                        <div class="card-body">
+                                                            <div id="detalle-tracking-ce" class="text-center">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="headingThree">
+                                                <button class="accordion-button collapsed" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#collapseThree"
+                                                    aria-expanded="false" aria-controls="collapseThree">
+                                                    Terminos usados
+                                                </button>
+                                            </h2>
+                                            <div id="collapseThree" class="accordion-collapse collapse"
+                                                aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                                <div class="accordion-body">
+                                                    <div class="card text-center">
+                                                        <div class="card-body">
+                                                            <div id="detalle-tracking-ce" class="text-center box__desc">
+                                                                <p>
+                                                                    <fa-icon [icon]="faUserCheck" class="icon__descrip">
+                                                                    </fa-icon><strong>Estado1: </strong> Lorem ipsum
+                                                                    dolor sit amet, consectetur adipisicing elit. Vel,
+                                                                    ad. Odit facere porro pariatur atque.
+                                                                </p>
+                                                                <p>
+                                                                    <fa-icon [icon]="faDolly" class="icon__descrip">
+                                                                    </fa-icon><strong>Estado2: </strong> Lorem ipsum,
+                                                                    dolor sit amet consectetur adipisicing elit. Dolor
+                                                                    ratione ex aliquid nostrum enim eos, nam accusamus
+                                                                    fugit pariatur deleniti! Amet, quidem impedit.
+                                                                    Libero, quo!
+                                                                </p>
+                                                                <p>
+                                                                    <fa-icon [icon]="faShuttleVan"
+                                                                        class="icon__descrip"></fa-icon><strong>Estado3:
+                                                                    </strong> Lorem ipsum dolor sit amet, consectetur
+                                                                    adipisicing elit. Aspernatur fugit cupiditate
+                                                                    deleniti commodi ex quas est nostrum esse a
+                                                                    inventore voluptate itaque accusamus neque harum,
+                                                                    distinctio veniam necessitatibus alias sed.
+                                                                </p>
+                                                                <p>
+                                                                    <fa-icon [icon]="faPlaneArrival"
+                                                                        class="icon__descrip"></fa-icon><strong>Estado4:
+                                                                    </strong> Lorem ipsum dolor sit amet consectetur
+                                                                    adipisicing elit.o
+                                                                </p>
+                                                                <p>
+                                                                    <fa-icon [icon]="faBuilding" class="icon__descrip">
+                                                                    </fa-icon><strong>Estado5: </strong>Lorem ipsum
+                                                                    dolor sit amet.
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="container_content" *ngIf="!viewAcount && viewPedido && !viewDetailsPedido">
-                  
+                <div class="container" *ngIf="!viewAcount && viewPedido && !viewDetailsPedido">
+
                     <app-not-found-component *ngIf="!pedidos"></app-not-found-component>
-                  
-                    <div class="container_table" *ngIf="pedidos">
-                        <table class="rtable">
-                            <thead>
-                                <tr>
-                                    <th *ngFor="let key of jsonHead">{{key}}</th>
-                                    <th>Opciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let pedido of jsonPedidos; let indexPedidos = index">
-                                    <td>{{pedido.pedido}}</td>
-                                    <td>{{pedido.fecha}}</td>
-                                    <td>{{pedido.estado}}</td>
-                                    <td>{{pedido.total}}</td>
-                                    <td>
-                                        <div class="options" (click)="viewDetails(pedido)">Ver <fa-icon [icon]="faEye">
-                                            </fa-icon>
+
+                    <div class="container" *ngIf="pedidos">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="list-group" style="padding-top: 20px;">
+                                    <div *ngFor="let pedido of jsonPedidos; let indexPedidos = index"
+                                        (click)="navStatusTracking()" class="list-group-item list-group-item-action"
+                                        aria-current="true">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-1">Pedido: {{pedido.pedido}}</h6>
+                                            <small>{{pedido.estado}}</small>
                                         </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                        <small class="text-muted">Fecha: {{pedido.fecha}}.</small>
+                                        <br>
+                                        <small class="text-muted">Total: {{pedido.total}}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

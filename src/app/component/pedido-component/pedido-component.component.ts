@@ -15,6 +15,14 @@ import { faInfo } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faClipboardList } from '@fortawesome/free-solid-svg-icons';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { faUserCheck} from '@fortawesome/free-solid-svg-icons';
+import { faShuttleVan} from '@fortawesome/free-solid-svg-icons';
+import { faDolly} from '@fortawesome/free-solid-svg-icons';
+import { faPlaneArrival} from '@fortawesome/free-solid-svg-icons';
+import { faBuilding} from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft} from '@fortawesome/free-solid-svg-icons';
+
+
 import { UserService } from 'src/app/services/user.service';
 import { GenericActionsDialogComponent } from '../dialog/generic-actions-dialog/generic-actions-dialog.component';
 
@@ -40,17 +48,21 @@ export class PedidoComponentComponent implements OnInit {
   faEye = faEye;
   faShoppingCart = faShoppingCart;
   faStore = faStore;
-
+  faUserCheck = faUserCheck;
+  faShuttleVan = faShuttleVan;
+  faDolly = faDolly;
+  faPlaneArrival = faPlaneArrival;
+  faBuilding = faBuilding;
+  faArrowLeft = faArrowLeft;
+  
 
   viewAcount = false;
   viewPedido = true;
   viewDetailsPedido = false;
 
   pedidos = true;
-  detalles_pedido = false;
+  detalles_pedido = true;
   detalles_usuario = false;
-
-
 
   optionsUser: boolean[] = [
     false, true, false, false
@@ -138,7 +150,6 @@ export class PedidoComponentComponent implements OnInit {
     private dialog: MatDialog,
     private _userService:UserService
     ) {
-    this.resolveKeyJson(this.jsonPedidos[0]);
 
     this.token = _userService.getToken()
 
@@ -151,6 +162,11 @@ export class PedidoComponentComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  navStatusTracking(){
+    this.viewPedido = false;
+    this.viewAcount = false;
+    this.viewDetailsPedido = true;
+  }
 
   getUserName(token:any):any{
     this._userService.getUserNameToken(token).subscribe(
@@ -160,21 +176,6 @@ export class PedidoComponentComponent implements OnInit {
       err=>{
         console.error(err);
       });
-  }
-
-  resolveKeyJson(objectJson: any) {
-
-    for (var key in objectJson) {
-
-      this.jsonHead.push(key);
-
-    }
-  }
-
-  viewDetails(pedido: any) {
-    this.viewPedido = false;
-    this.viewAcount = false;
-    this.viewDetailsPedido = true;
   }
 
   changeClass(index: number) {

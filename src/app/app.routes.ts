@@ -14,13 +14,8 @@ const app_routes: Routes = [
   { path: 'pruebas', component: PruebasComponentComponent },
   { path: 'no-encontrado', component: NotFoundPageComponentComponent },
   { path: 'pedido', component: PedidoComponentComponent },
-  // { path: 'home_plantilla', component: ToolbarSidenavComponentComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/no-encontrado', pathMatch: 'full' },
-
-  //{ path: '**', redirectTo: '/pruebas', pathMatch: 'full' },
-  //{ path: '', redirectTo: '/pruebas', pathMatch: 'full' }
-
 ];
 
 export const app_routing = RouterModule.forRoot(app_routes);

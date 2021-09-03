@@ -782,7 +782,8 @@
                                                     <!--Contenido Modal Login/Registro/Restaurar Contraseña-->
                                                     <div class="login" *ngIf="!progressLogin">
                                                         <!--Registro de usuario-->
-                                                        <div class="login-bottom" *ngIf="registro_form && !restart_form">
+                                                        <div class="login-bottom"
+                                                            *ngIf="registro_form && !restart_form">
                                                             <h3>Registrate</h3>
                                                             <form #registroUser="ngForm" (ngSubmit)="regitroUser()">
                                                                 <div class="sign-up">
@@ -794,12 +795,14 @@
                                                                     <h4>Apellido :</h4>
                                                                     <input type="text" name="apellido"
                                                                         #apellido="ngModel"
-                                                                        [(ngModel)]="inputRegisterUser.Apellido" required>
+                                                                        [(ngModel)]="inputRegisterUser.Apellido"
+                                                                        required>
                                                                 </div>
                                                                 <div class="sign-up">
                                                                     <h4>Teléfono :</h4>
                                                                     <input type="text" name="celular" #celular="ngModel"
-                                                                        [(ngModel)]="inputRegisterUser.Celular" required>
+                                                                        [(ngModel)]="inputRegisterUser.Celular"
+                                                                        required>
                                                                 </div>
                                                                 <div class="sign-up">
                                                                     <h4>Correo electronico :</h4>
@@ -818,7 +821,8 @@
                                                         </div>
                                                         <!--Fin Registro de usuario-->
                                                         <!--Login/Inicio de seisión-->
-                                                        <div class="login-right" *ngIf="!registro_form && !restart_form">
+                                                        <div class="login-right"
+                                                            *ngIf="!registro_form && !restart_form">
                                                             <h3>Inicia sesión con tu cuenta</h3>
                                                             <form #loginUser="ngForm" (ngSubmit)="accsesLogin()">
                                                                 <div class="sign-in">
@@ -830,13 +834,17 @@
                                                                     <h4>Contraseña :</h4>
                                                                     <input type="password" name="pass" #pass="ngModel"
                                                                         [(ngModel)]="inputUserLogin.pass" required>
-                                                                    <a (click)="alterLoginRestore()">Olvidaste tu contraseña?</a>
+                                                                    <a (click)="alterLoginRestore()">Olvidaste tu
+                                                                        contraseña?</a>
                                                                     <p></p>
                                                                     <a (click)="alterLogin()">Registrate</a>
                                                                 </div>
                                                                 <div class="single-bottom">
-                                                                    <input type="checkbox" id="brand" value="" (click)="rememberMe()" checked *ngIf="saveMyData">
-                                                                    <input type="checkbox" id="brand" value="" (click)="rememberMe()" *ngIf="!saveMyData">
+                                                                    <input type="checkbox" id="brand" value=""
+                                                                        (click)="rememberMe()" checked
+                                                                        *ngIf="saveMyData">
+                                                                    <input type="checkbox" id="brand" value=""
+                                                                        (click)="rememberMe()" *ngIf="!saveMyData">
                                                                     <label for="brand"><span></span>Recordar mis
                                                                         datos.</label>
                                                                 </div>
@@ -849,12 +857,15 @@
                                                         <!--Restaurar Contraseña-->
                                                         <div class="login-right" *ngIf="!registro_form && restart_form">
                                                             <h3>Recuperar Contraseña</h3>
-                                                            <h6>Ingresa el correo electrónico con el que estás registrado.</h6>
+                                                            <h6>Ingresa el correo electrónico con el que estás
+                                                                registrado.</h6>
                                                             <form #restorePass="ngForm" (ngSubmit)="restorePassword()">
                                                                 <div class="sign-in">
                                                                     <h4>Correo electronico :</h4>
-                                                                    <input type="email" name="correo_input" #correo_input="ngModel"
-                                                                        [(ngModel)]="inputRestorePass.Correo_Electronico" required>
+                                                                    <input type="email" name="correo_input"
+                                                                        #correo_input="ngModel"
+                                                                        [(ngModel)]="inputRestorePass.Correo_Electronico"
+                                                                        required>
                                                                 </div>
                                                                 <div class="sign-in">
                                                                     <a (click)="alterLoginRestore()">Iniciar Sesion</a>
@@ -998,7 +1009,8 @@
                                                                                 class="m_unit">{{element.presentacion}}</label>
                                                                         </div>
                                                                         <div class="row">
-                                                                            <span (click)="cdetalle(); login()" *ngIf="!isSesssionLogin" for="4951">
+                                                                            <span (click)="cdetalle(); login()"
+                                                                                *ngIf="!isSesssionLogin" for="4951">
                                                                                 Para visualizar precios inicie sesión
                                                                             </span>
                                                                             <span for="4951" *ngIf="isSesssionLogin">
@@ -1021,7 +1033,12 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="container_buttonsdetaller ng-scope">
-                                                                    <button type="submit"
+                                                                    <button type="submit" (click)="cdetalle(); login()"
+                                                                        *ngIf="!isSesssionLogin"
+                                                                        class="btn_agregarproducto ng-scope">
+                                                                        Iniciar Sesión.
+                                                                    </button>
+                                                                    <button type="submit" *ngIf="isSesssionLogin"
                                                                         class="btn_agregarproducto ng-scope"
                                                                         (click)="addCarrito(producto_seleccionado,cantidad_producto)">
                                                                         Agregar al carrito
@@ -1043,7 +1060,8 @@
                                                                                 class="m_unit">{{element.des_Tipo_Precio}}</label>
                                                                         </div>
                                                                         <div class="row">
-                                                                            <span (click)="cdetalle(); login()" *ngIf="!isSesssionLogin" for="4951">
+                                                                            <span (click)="cdetalle(); login()"
+                                                                                *ngIf="!isSesssionLogin" for="4951">
                                                                                 Para visualizar precios inicie sesión
                                                                             </span>
                                                                             <span for="4951" *ngIf="isSesssionLogin">
@@ -1066,7 +1084,12 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="container_buttonsdetaller ng-scope">
-                                                                    <button type="submit"
+                                                                    <button type="submit" (click)="cdetalle(); login()"
+                                                                        *ngIf="!isSesssionLogin"
+                                                                        class="btn_agregarproducto ng-scope">
+                                                                        Iniciar Sesión.
+                                                                    </button>
+                                                                    <button type="submit" *ngIf="isSesssionLogin"
                                                                         class="btn_agregarproducto ng-scope"
                                                                         (click)="addCarrito(producto_seleccionado,cantidad_producto)">
                                                                         Agregar al carrito
@@ -1091,7 +1114,7 @@
                         <div class="container" *ngIf="!producto_exist && !progress_product">
                             <div class="row">
                                 <div class="col">
-                                  <app-not-found-component></app-not-found-component>
+                                    <app-not-found-component></app-not-found-component>
                                 </div>
                             </div>
                         </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 /**
@@ -42,6 +42,7 @@ import { RestorePassword } from 'src/app/models/restore-pass.model';
     UserService
   ]
 })
+
 export class TiendaTipoComponent implements OnInit {
 
   //Abrir/Cerrar SideNav
@@ -112,7 +113,7 @@ export class TiendaTipoComponent implements OnInit {
   restart_form = false;
 
   isSesssionLogin = false;
-  tokenUser:any = false;
+  tokenUser: any = false;
 
   forma_pago_select: any;
 
@@ -126,8 +127,7 @@ export class TiendaTipoComponent implements OnInit {
     private _formaPagoService: FormaPagoService,
     private _userService: UserService
   ) {
-
-   this.updateDataSession();
+    this.updateDataSession();
     this.getTiendas();
     this.getCategorias();
     this.getProductos(0);
@@ -139,44 +139,55 @@ export class TiendaTipoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-   
+
     let tienda = sessionStorage.getItem("tienda");
     this.tienda_seleccionada = JSON.parse(tienda!);
     this.forma_pedido = sessionStorage.getItem("FormaPedido");
-
-
   }
 
-  restorePassword(){
+  resolveLargeString(text: string) {
+    let totalCharacteres = text.length;
+    if (totalCharacteres > 70) {
+      let cutCharacter = totalCharacteres - 70;
+      text = text.slice(0, - cutCharacter);
+      text = text.replace(/\s*$/,"");
+      text = `${text}...`;
+      return text;
+    } else {
+      return text;
+    }
+  }
+
+  restorePassword() {
     let re = /^([\da-z_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
 
     if (!this.inputRestorePass.Correo_Electronico) {
       this.dialog.open(GenericAcceptDialogComponent, {
         data: { tittle: "Correo electrónico requerido." }
       });
-    }else if (!re.exec(this.inputRestorePass.Correo_Electronico)) {
+    } else if (!re.exec(this.inputRestorePass.Correo_Electronico)) {
       this.dialog.open(GenericAcceptDialogComponent, {
         data: { tittle: "Correo electrónico invalido." }
       });
-    }else{
+    } else {
       console.log("Restaurar Contraseña Service");
     }
   }
 
-  updateDataSession(){
+  updateDataSession() {
     this.tokenUser = this._userService.getToken();
 
     if (this.tokenUser) {
       this.tokenUser = this.tokenUser;
       this.isSesssionLogin = true;
-    }else{
+    } else {
       this.tokenUser = false;
       this.isSesssionLogin = false;
-    }    
+    }
   }
 
   saveMyData = false;
-  rememberMe(){
+  rememberMe() {
     this.saveMyData ? this.saveMyData = false : this.saveMyData = true;
   }
 
@@ -195,23 +206,23 @@ export class TiendaTipoComponent implements OnInit {
       this.progressLogin = true;
       this._userService.posLogin(this.inputUserLogin).subscribe(
         res => {
-          
+
           this.progressLogin = false;
 
           let token = JSON.parse(JSON.stringify(res)).messege;
           if (JSON.parse(JSON.stringify(res)).res) {
             if (this.saveMyData) {
               //guardar datos en el navegador
-              localStorage.setItem("Token",token)
-            }else{
+              localStorage.setItem("Token", token)
+            } else {
               //Guardar datos mientras la sesion esté activa
-              sessionStorage.setItem("Token",token);
+              sessionStorage.setItem("Token", token);
             }
             this.emptyInputsForms();
             this.cModalLogin();
             this.updateDataSession();
             //console.log(JSON.parse(JSON.stringify(res)).messege);
-          }else{
+          } else {
             this.dialog.open(GenericAcceptDialogComponent, {
               data: {
                 tittle: "Error al iniciar sesión.",
@@ -295,15 +306,15 @@ export class TiendaTipoComponent implements OnInit {
   }
 
 
-  emptyInputsForms(){
+  emptyInputsForms() {
     //Limpiar campos login
     this.inputUserLogin.user = "";
     this.inputUserLogin.pass = "";
     //Limpiar campos registro
-    this.inputRegisterUser.Nombre ="";
-    this.inputRegisterUser.Apellido ="";
-    this.inputRegisterUser.Celular ="";
-    this.inputRegisterUser.Correo_Electronico ="";
+    this.inputRegisterUser.Nombre = "";
+    this.inputRegisterUser.Apellido = "";
+    this.inputRegisterUser.Celular = "";
+    this.inputRegisterUser.Correo_Electronico = "";
     //limpiar campos recuperar contraseña
     this.inputRestorePass.Correo_Electronico = "";
 
@@ -314,7 +325,7 @@ export class TiendaTipoComponent implements OnInit {
     if (this.registro_form) {
       this.registro_form = false;
       this.restart_form = false;
-     this.emptyInputsForms()
+      this.emptyInputsForms()
     } else {
       this.restart_form = false;
       this.registro_form = true;
@@ -322,12 +333,12 @@ export class TiendaTipoComponent implements OnInit {
     }
   }
 
-  alterLoginRestore(){
+  alterLoginRestore() {
     if (this.restart_form) {
       this.emptyInputsForms()
       this.restart_form = false;
       this.registro_form = false;
-    }else{
+    } else {
       this.restart_form = true;
       this.registro_form = false;
     }
@@ -619,7 +630,7 @@ export class TiendaTipoComponent implements OnInit {
 
     if (!this.isSesssionLogin) {
       this.login_modal = true;
-    }else{
+    } else {
       this.router.navigate(['/pedido']);
     }
 

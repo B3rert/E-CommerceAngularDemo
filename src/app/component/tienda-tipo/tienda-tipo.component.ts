@@ -656,7 +656,7 @@ export class TiendaTipoComponent implements OnInit {
       );
     //Verificar si el producto tiene variantes
 
-    this._productoService.getProductoDetalles(producto_seleccionado.producto, producto_seleccionado.unidad_Medida, 3/*this.tienda_seleccionada.bodega*/).subscribe(
+    this._productoService.getProductoDetalles(producto_seleccionado.producto, producto_seleccionado.unidad_Medida,this.tienda_seleccionada.bodega).subscribe(
       res => {
         let resJson = JSON.stringify(res);
         this.presentacion_producto = JSON.parse(resJson);
@@ -785,11 +785,11 @@ export class TiendaTipoComponent implements OnInit {
   }
 
   getFormaPago() {
-    this._formaPagoService.getFormaPago(/*
+    this._formaPagoService.getFormaPago(
       this.tienda_seleccionada.tipo_Documento,
       this.tienda_seleccionada.serie_Documento,
-      this.tienda_seleccionada.empresa*/
-      46, "1", 1
+      this.tienda_seleccionada.empresa/*
+      46, "1", 1*/
     ).subscribe(
       res => {
         let resJson = JSON.stringify(res);

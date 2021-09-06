@@ -1,6 +1,5 @@
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-
 /**
  * Icons fontawesome
  */
@@ -14,6 +13,7 @@ import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDoubleUp } from '@fortawesome/free-solid-svg-icons';
 
 import { UserFactura } from 'src/app/models/factura.model';
 import { ProductPedidoModel } from 'src/app/models/producto-pedido.model';
@@ -67,6 +67,7 @@ export class TiendaTipoComponent implements OnInit {
   faBars = faBars;
   faChevronDown = faChevronDown;
   faChevronRight = faChevronRight;
+  faAngleDoubleUp = faAngleDoubleUp;
 
   //Modelos
   public userFactura: UserFactura;
@@ -144,6 +145,11 @@ export class TiendaTipoComponent implements OnInit {
     this.tienda_seleccionada = JSON.parse(tienda!);
     this.forma_pedido = sessionStorage.getItem("FormaPedido");
   }
+
+  contentUp(){
+    window.scrollTo(0,0);
+  }
+
 
   resolveLargeString(text: string) {
     let totalCharacteres = text.length;

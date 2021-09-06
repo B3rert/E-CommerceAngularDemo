@@ -1138,12 +1138,7 @@ img.imagen-izquierda.seleccionada {
   margin: 0 2%;
 }
 
-.login-right input[type="text"], 
-.login-right input[type="password"], 
-.login-right input[type="email"], 
-.login-bottom input[type="text"], 
-.login-bottom input[type="password"], 
-  .login-bottom input[type="email"] {
+.login-right input[type="text"], .login-right input[type="password"], .login-right input[type="email"], .login-bottom input[type="text"], .login-bottom input[type="password"], .login-bottom input[type="email"] {
   width: 100%;
   padding: 10px;
   font-weight: normal;
@@ -1155,12 +1150,7 @@ img.imagen-izquierda.seleccionada {
   margin: 6px 0 17px 0px;
 }
 
-.login-right input[type="text"]:hover, 
-.login-right input[type="password"]:hover, 
-.login-right input[type="email"]:hover, 
-.login-bottom input[type="text"]:hover, 
-.login-bottom input[type="password"]:hover, 
-  .login-bottom input[type="email"]:hover {
+.login-right input[type="text"]:hover, .login-right input[type="password"]:hover, .login-right input[type="email"]:hover, .login-bottom input[type="text"]:hover, .login-bottom input[type="password"]:hover, .login-bottom input[type="email"]:hover {
   border: 1px solid #d84672;
 }
 
@@ -1202,7 +1192,6 @@ img.imagen-izquierda.seleccionada {
   margin-bottom: 23px;
 }
 
-
 .sign-in a {
   font-size: 12px;
   color: rgb(48, 46, 46);
@@ -1222,24 +1211,22 @@ img.imagen-izquierda.seleccionada {
   margin-left: 5px;
 }
 
-.single-bottom input, .single-bottom label{
-cursor: pointer;
+.single-bottom input, .single-bottom label {
+  cursor: pointer;
 }
-
 
 /*-- //login --*/
 
 /*SideNav*/
 
-.tienda_select{
+.tienda_select {
   cursor: pointer;
 }
 
-.tienda_select h1{
- text-transform: uppercase;
- font-size: 15px;
+.tienda_select h1 {
+  text-transform: uppercase;
+  font-size: 15px;
 }
-
 
 .example-spacer {
   flex: 1 1 auto;
@@ -1509,12 +1496,11 @@ mat-sidenav {
 /*Fin Categorías*/
 
 /*Boton regresar arriba*/
-.no-hidden{
+
+.button_up_content {
   position: fixed;
-  bottom: 10px;
-  right: 10px;
-  visibility: visible;
-  z-index: 2500;
-  background-color: #d84672;
-  font-size: 250px;
+  z-index: 1000;
+  bottom: 75px;
+  right: 60px;
+  font-size: 20px;
 }

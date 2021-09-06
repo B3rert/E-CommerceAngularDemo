@@ -760,7 +760,7 @@
             </div>
             <div class="container_main">
 
-               
+
 
                 <mat-progress-bar *ngIf="progress_product" mode="indeterminate" color="accent"></mat-progress-bar>
                 <div class="container-fluid container__products">
@@ -1112,7 +1112,7 @@
                     </div>
                     <!--Fin modal detalle-->
                     <!--Lista de prfuctos-->
-                    <div class="row" >
+                    <div class="row">
 
                         <div class="container" *ngIf="!producto_exist && !progress_product">
                             <div class="row">
@@ -1143,6 +1143,12 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!--
+                        <button mat-mini-fab class="button_up_content" (click)="contentUp()">
+                            <fa-icon [icon]="faAngleDoubleUp"></fa-icon>
+                          </button>
+                        -->
                     </div>
                     <!--Fin lista de productos-->
                 </div>

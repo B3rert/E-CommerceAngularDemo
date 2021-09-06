@@ -736,26 +736,48 @@ export class TiendaTipoComponent implements OnInit {
   }
 
   getCategorias() {
-    this._categoriaService.categoria().subscribe(
-      res => {
-        let resJson = JSON.stringify(res);
-        this.categorias = JSON.parse(resJson);
-        this.categorias.forEach((element: { categoria_Padre: any; }) => {
-          let categoriaPadre = JSON.stringify(element.categoria_Padre);
-          if (categoriaPadre == '{}') {
-            this.categorias_padre.push(element);
-            this.collapsedOrNot.push(true);
-          } else {
-            this.categorias_hijo.push(element);
-          }
-        });
 
-      },
-      err => {
-        alert("Error de servidor");
-        console.log(err);
-      }
-    );
+    let categoriasSession = sessionStorage.getItem("categorias")
+
+    if (categoriasSession) {
+      this.categorias = JSON.parse(categoriasSession);
+      this.categorias.forEach((element: { categoria_Padre: any; }) => {
+        let categoriaPadre = JSON.stringify(element.categoria_Padre);
+        if (categoriaPadre == '{}') {
+          this.categorias_padre.push(element);
+          this.collapsedOrNot.push(true);
+        } else {
+          this.categorias_hijo.push(element);
+        }
+      });
+        
+    }else{
+      this._categoriaService.categoria().subscribe(
+        res => {
+          let resJson = JSON.stringify(res);
+          sessionStorage.setItem("categorias",resJson);
+          this.categorias = JSON.parse(resJson);
+          this.categorias.forEach((element: { categoria_Padre: any; }) => {
+            let categoriaPadre = JSON.stringify(element.categoria_Padre);
+            if (categoriaPadre == '{}') {
+              this.categorias_padre.push(element);
+              this.collapsedOrNot.push(true);
+            } else {
+              this.categorias_hijo.push(element);
+            }
+          });
+  
+        },
+        err => {
+          alert("Error de servidor");
+          console.log(err);
+        }
+      );
+
+    }
+
+
+    
   }
 
   tipoPagoLlave(formaPagoSelect: any) {

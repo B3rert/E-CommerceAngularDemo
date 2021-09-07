@@ -14,7 +14,7 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { faAngleDoubleUp } from '@fortawesome/free-solid-svg-icons';
-
+/*** */
 import { UserFactura } from 'src/app/models/factura.model';
 import { ProductPedidoModel } from 'src/app/models/producto-pedido.model';
 import { CategoriaService } from 'src/app/services/categoria.service';
@@ -29,6 +29,8 @@ import { GenericActionsDialogComponent } from '../dialog/generic-actions-dialog/
 import { UserService } from 'src/app/services/user.service';
 import { UserLogin } from 'src/app/models/user-login.model';
 import { RestorePassword } from 'src/app/models/restore-pass.model';
+/** */
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-tienda-tipo',
@@ -44,13 +46,12 @@ import { RestorePassword } from 'src/app/models/restore-pass.model';
 })
 
 export class TiendaTipoComponent implements OnInit {
-
   //Abrir/Cerrar SideNav
   @ViewChild('sidenav')
   sidenav!: MatSidenav;
   @ViewChild('sidenavend')
   sidenavend!: MatSidenav;
-
+  /***/
   close(reason: string) {
     this.sidenav.close();
     this.sidenavend.close();
@@ -78,7 +79,6 @@ export class TiendaTipoComponent implements OnInit {
   //Variables
   tienda_en_linea = true;
   tienda_seleccionada: any;
-  tiendas: any;
   categorias: any;
   productos: any;
   forma_pedido: any;
@@ -122,14 +122,12 @@ export class TiendaTipoComponent implements OnInit {
     private _ac: ActivatedRoute,
     private router: Router,
     private dialog: MatDialog,
-    private _tiendaService: TiendaService,
     private _categoriaService: CategoriaService,
     private _productoService: ProductoService,
     private _formaPagoService: FormaPagoService,
     private _userService: UserService
   ) {
     this.updateDataSession();
-    this.getTiendas();
     this.getCategorias();
     this.getProductos(0);
     var fecha_hora = this.getHoraActual();
@@ -137,26 +135,47 @@ export class TiendaTipoComponent implements OnInit {
     this.inputRegisterUser = new RegistroUser("", "", "", "");
     this.inputUserLogin = new UserLogin("", "");
     this.inputRestorePass = new RestorePassword("");
+    window.addEventListener('scroll', this.scrollEvent, true);
+  }
+
+  showScrollHeight = 400;
+  hideScrollHeight = 200;
+  showGoUpButton = false;
+
+  ngOnDestroy() {
+    window.removeEventListener('scroll', this.scrollEvent, true);
   }
 
   ngOnInit(): void {
-
     let tienda = sessionStorage.getItem("tienda");
     this.tienda_seleccionada = JSON.parse(tienda!);
     this.forma_pedido = sessionStorage.getItem("FormaPedido");
   }
 
-  contentUp(){
-    window.scrollTo(0,0);
+  scrollEvent = (event: any): void => {
+    const number = event.srcElement.scrollTop;
+    if (event.srcElement.className == "container_main") {
+      if (number > this.showScrollHeight) {
+        this.showGoUpButton = true;
+      } else if (number < this.hideScrollHeight) {
+        this.showGoUpButton = false;
+      }
+    }
   }
 
+  //subir contenido
+  contentUp() {
+    // document.querySelector(".container_main")!.scrollTop = 0;
+     $('.container_main').animate({scrollTop:(0)}, 2000);
+  }
 
+  //Acortar un texto a 73 caracteres donde los ultimos 3 son puntos(...)
   resolveLargeString(text: string) {
     let totalCharacteres = text.length;
     if (totalCharacteres > 70) {
       let cutCharacter = totalCharacteres - 70;
       text = text.slice(0, - cutCharacter);
-      text = text.replace(/\s*$/,"");
+      text = text.replace(/\s*$/, "");
       text = `${text}...`;
       return text;
     } else {
@@ -311,7 +330,6 @@ export class TiendaTipoComponent implements OnInit {
     }
   }
 
-
   emptyInputsForms() {
     //Limpiar campos login
     this.inputUserLogin.user = "";
@@ -323,9 +341,7 @@ export class TiendaTipoComponent implements OnInit {
     this.inputRegisterUser.Correo_Electronico = "";
     //limpiar campos recuperar contraseña
     this.inputRestorePass.Correo_Electronico = "";
-
   }
-
 
   alterLogin() {
     if (this.registro_form) {
@@ -660,9 +676,9 @@ export class TiendaTipoComponent implements OnInit {
           console.log(err)
         }
       );
-    //Verificar si el producto tiene variantes
 
-    this._productoService.getProductoDetalles(producto_seleccionado.producto, producto_seleccionado.unidad_Medida,this.tienda_seleccionada.bodega).subscribe(
+    //Verificar si el producto tiene variantes
+    this._productoService.getProductoDetalles(producto_seleccionado.producto, producto_seleccionado.unidad_Medida, this.tienda_seleccionada.bodega).subscribe(
       res => {
         let resJson = JSON.stringify(res);
         this.presentacion_producto = JSON.parse(resJson);
@@ -711,18 +727,7 @@ export class TiendaTipoComponent implements OnInit {
     }
   }
 
-  getTiendas() {
-    this._tiendaService.getTienda().subscribe(
-      res => {
-        let resJson = JSON.stringify(res);
-        this.tiendas = JSON.parse(resJson);
-      },
-      err => {
-        alert("Error de servidor");
-        console.log(err);
-      }
-    );
-  }
+
 
   filtrarCategorias_hijo(padres: any) {
     let hijos: any = [];
@@ -736,7 +741,6 @@ export class TiendaTipoComponent implements OnInit {
   }
 
   getCategorias() {
-
     let categoriasSession = sessionStorage.getItem("categorias")
 
     if (categoriasSession) {
@@ -750,12 +754,11 @@ export class TiendaTipoComponent implements OnInit {
           this.categorias_hijo.push(element);
         }
       });
-        
-    }else{
+    } else {
       this._categoriaService.categoria().subscribe(
         res => {
           let resJson = JSON.stringify(res);
-          sessionStorage.setItem("categorias",resJson);
+          sessionStorage.setItem("categorias", resJson);
           this.categorias = JSON.parse(resJson);
           this.categorias.forEach((element: { categoria_Padre: any; }) => {
             let categoriaPadre = JSON.stringify(element.categoria_Padre);
@@ -766,18 +769,13 @@ export class TiendaTipoComponent implements OnInit {
               this.categorias_hijo.push(element);
             }
           });
-  
         },
         err => {
           alert("Error de servidor");
           console.log(err);
         }
       );
-
     }
-
-
-    
   }
 
   tipoPagoLlave(formaPagoSelect: any) {
@@ -786,6 +784,9 @@ export class TiendaTipoComponent implements OnInit {
   }
 
   getProductos(categoria: number) {
+
+    //Funciona mas lento su se guarda en session storage patra evitar las llamadas http
+
     this.progress_product = true;
     this.categoria_activa = categoria;
     this._productoService.producto(categoria).subscribe(
@@ -830,5 +831,3 @@ export class TiendaTipoComponent implements OnInit {
     );
   }
 }
-
-

@@ -759,9 +759,6 @@
 
             </div>
             <div class="container_main">
-
-
-
                 <mat-progress-bar *ngIf="progress_product" mode="indeterminate" color="accent"></mat-progress-bar>
                 <div class="container-fluid container__products">
                     <!--Modal login-->
@@ -1136,19 +1133,16 @@
                                             </div>
                                             <div class="nombre_producto">
                                                 <h4 class="ng-binding">SKU {{element.producto_Id}}</h4>
-                                                <p class="ng-binding">{{element.descripcion}}</p>
+                                                <p class="ng-binding">{{resolveLargeString(element.descripcion)}}</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        <!--
-                        <button mat-mini-fab class="button_up_content" (click)="contentUp()">
+                        <button *ngIf="showGoUpButton" mat-mini-fab class="button_up_content" (click)="contentUp()">
                             <fa-icon [icon]="faAngleDoubleUp"></fa-icon>
-                          </button>
-                        -->
+                        </button>
                     </div>
                     <!--Fin lista de productos-->
                 </div>

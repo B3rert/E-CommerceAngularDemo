@@ -1,27 +1,19 @@
-# Client
+# E-commerce Angular
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.0.
+Carrito de compras hecho en angular, y .Net Core en el [backend](https://github.com/B3rert/E-Commerce-ApiRestCore), el contenido de los componentes se genera a partir de [Apis conectadas a una base de datos](https://github.com/B3rert/E-Commerce-ApiRestCore), la base de datos usada no se adjunta en el reposiorio, por lo que puede tener probelmas al ejecutar el proyecto.
 
-## Development server
+## Caracteristicas
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Ejecutar el proyecto en un entorno de desarrollo
 
-## Code scaffolding
+Para ejecutar el proyecto necesita el entorno de Angular CLI.
+* [Node.js](https://nodejs.org/es/download/)
+* [Angular CLI](https://angular.io/guide/setup-local#install-the-angular-cli)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Si ya está ejecutando Angular CLI clone el proyecto y ejecute `npm install` para descargar las dependencias. Luego ejecute `ng serve` para ejecutar el servidor de Angular. Por defecto angular escucha en `http://localhost:4200/` puede especificar el puerto con `ng serve --port 4144`
 
-## Build
+## Producción
+* Cambie la dirección de las apis en `src/app/services/ApiServer.ts`.
+* Ejecute `ng build --prod` para construir el proyecto. 
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Los archivos para producción se almacenan en la carpeta `dist/`. Use estos archivos para desplegar la aplicacion en un servidor.

@@ -1350,7 +1350,6 @@ mat-sidenav {
   width: 190px;
   height: 100%;
   float: left;
-  overflow: auto;
 }
 
 .container_main {
@@ -1389,9 +1388,27 @@ mat-sidenav {
 /*Categorías*/
 
 .logos{
+  height: 114px;
+  width: 190px;
+  position: fixed;
+  padding: 5px;
+}
+.logos img{
   width: 100%;
-  height: 250px;
-  background-size: 250px;
+  height: auto;
+}
+
+.col_categorias_nav{
+  margin-top: 114px;
+  height: calc(100vh - 158px);
+  width: 100%;
+  overflow: auto;
+}
+
+.logo_phone{
+  padding: 5px;
+  width: auto;
+  height: 100%;
 }
 
 .categorias_nav {
@@ -1410,7 +1427,7 @@ mat-sidenav {
   text-transform: uppercase;
 }
 
-.categorias_nav h6 {
+.col_categorias_nav h6 {
   padding-bottom: 10px;
   padding-top: 10px;
   padding-left: 15px;
@@ -1433,9 +1450,6 @@ mat-sidenav {
   cursor: pointer;
 }
 
-.cat_todas {
-  margin-top: 40px;
-}
 
 .icon_none {
   color: transparent;

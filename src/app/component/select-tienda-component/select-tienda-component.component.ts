@@ -25,11 +25,10 @@ export class SelectTiendaComponentComponent implements OnInit {
 
     this.getTiendas();
     
-    this._ac.paramMap.subscribe(paramas => {
 
-      //Parametros recibidos domicilio, recojer 
-      this.forma_pedido = paramas.get('forma_pedido');
-    });
+    this.forma_pedido = sessionStorage.getItem("FormaPedido");
+
+    
   }
 
   ngOnInit(): void {

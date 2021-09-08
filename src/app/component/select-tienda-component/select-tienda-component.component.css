@@ -1,8 +1,14 @@
-.logo_modal {
-    height: 100px;
-    background: url(/assets/img/logo.jpg) no-repeat 50%;
-    background-size: 150px;
-    margin-top: 25px;
+.logo_modal{
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.logo_modal img {
+    width: 175px;
+    height: auto;
+    display:block;
+    margin:auto;
 }
 
 h3 {

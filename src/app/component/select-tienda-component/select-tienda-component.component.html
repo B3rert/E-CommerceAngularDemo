@@ -1,7 +1,9 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
-            <div class="logo_modal"></div>
+            <div class="logo_modal">
+                <img src="assets/img/logo.jpg">
+            </div>
             <h3 *ngIf="forma_pedido=='domicilio'">¿DE CUÁL TIENDA DESEAS QUE ENVÍEN TU PEDIDO?</h3>
             <h3 *ngIf="forma_pedido=='recoger'">¿EN QUE TIENDA DESEAS RECOGER TU PEDIDO?</h3>
         </div>
@@ -11,7 +13,7 @@
         <div class="col-sm-12 col-md-6 col-lg-4 col-xs-4" *ngFor="let element of tiendas">
             <div class="productos_item" *ngIf="!progressBar">
                 <div class="producto_img"
-                    style="background: url('/assets/img/image-not-found.png') no-repeat center;">
+                    style="background: url('assets/img/image-not-found.png') no-repeat center;">
                 </div>
                 <p>{{element.nombre}}</p>
                 <div class="container_btnagregartp">

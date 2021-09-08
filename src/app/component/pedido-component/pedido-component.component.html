@@ -47,10 +47,13 @@
                     <fa-icon class="icon_toolbar" [icon]="faBars"></fa-icon>
                 </button>
                 <span class="spacer"></span>
+                <h1 (click)="navigateToSelectStore()">Tienda {{tienda_seleccionada.nombre}}</h1>
+                <span class="spacer"></span>
             </mat-toolbar-row>
         </mat-toolbar>
         <mat-toolbar class="toolbarlarge">
-           
+            <span class="spacer"></span>
+            <h1 (click)="navigateToSelectStore()">Tienda {{tienda_seleccionada.nombre}}</h1>
             <span class="spacer"></span>
         </mat-toolbar>
         <!--Container-->
@@ -90,7 +93,7 @@
                                             <div class="row">
                                                 <div class="col">
                                                     <h5>Datos de la cuenta:</h5>
-                            
+
                                                     <div class="card text-center">
                                                         <div class="card-body">
                                                             <div id="detalle-tracking-ce" class="text-center">
@@ -153,7 +156,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row row_containerAcordion" >
+                                <div class="row row_containerAcordion">
 
                                     <div class="accordion" id="accordionExample">
                                         <div class="accordion-item">
@@ -254,7 +257,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                  
+
                                 </div>
                             </div>
                         </div>

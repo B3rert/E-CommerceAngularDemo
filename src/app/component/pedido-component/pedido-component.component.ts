@@ -61,6 +61,9 @@ export class PedidoComponentComponent implements OnInit {
   detalles_pedido = true;
   detalles_usuario = true;
 
+  tienda_seleccionada:any;
+  
+
   optionsUser: boolean[] = [
     false, true, false, false
   ];
@@ -153,6 +156,10 @@ export class PedidoComponentComponent implements OnInit {
     if (this.token) {
       this.getUserName(this.token);
     }
+
+
+    let tienda = sessionStorage.getItem("tienda");
+    this.tienda_seleccionada = JSON.parse(tienda!);
   }
 
   ngOnInit(): void {

@@ -223,7 +223,19 @@ export class PedidoComponentComponent implements OnInit {
   }
 
   navigateToSelectStore() {
-    this.router.navigate(['/seleccion'])
+
+    const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
+      data: {
+        tittle: "¿Cambiar Tienda?",
+        description: "Es posible que se pierdan datos que no hayan sido guardados."
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.router.navigate(['/seleccion'])
+      }
+    });
   }
 
   viewInfoAcount() {

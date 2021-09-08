@@ -54,7 +54,7 @@ Carrito de compras hecho en angular, y .Net Core en el [backend](https://github.
 
 ## Demo
 
-Puede ver aquí una [demostración del proyecto](https://b3rert.github.io/E-CommerceAngular/home)
+Puede ver aquí una [demostración del proyecto.](https://b3rert.github.io/E-CommerceAngular)
 
 ## Ejecutar el proyecto en un entorno de desarrollo
 

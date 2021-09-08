@@ -2,11 +2,16 @@
     padding-top: 20px;
 }
 
-.logo_modal {
-    width: 100%;
-    height: 100px;
-    background: url('/assets/img/logo.jpg') no-repeat center;
-    background-size: 150px;
+.logo_modal{
+    align-items: center;
+    justify-content: center;
+}
+
+.logo_modal img {
+    width: 175px;
+    height: auto;
+    display:block;
+    margin:auto;
 }
 
 
@@ -83,15 +88,15 @@
     height: 200px;
 }
 
-.icon_ciudad {
-    background: url('/assets/img/image-not-found.png') no-repeat center;
-    background-size: 40%;
+.ico_figure img{
+background: center;
+display: block;
+margin: auto;
+width: auto;
+height: 90%;
 }
 
-.icon_tienda_sucursal {
-    background: url('/assets/img/image-not-found.png') no-repeat center;
-    background-size: 40%;
-}
+
 
 .btn_figure{
     width: 75% ;

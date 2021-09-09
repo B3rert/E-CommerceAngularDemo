@@ -1,5 +1,5 @@
 export class RestorePassword{
     constructor(
-        public Correo_Electronico:string
+        public correo:string
     ) {}
 }

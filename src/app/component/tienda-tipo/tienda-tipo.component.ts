@@ -31,6 +31,7 @@ import { UserLogin } from 'src/app/models/user-login.model';
 import { RestorePassword } from 'src/app/models/restore-pass.model';
 /** */
 import * as $ from 'jquery';
+import { CastExpr } from '@angular/compiler';
 
 @Component({
   selector: 'app-tienda-tipo',
@@ -166,7 +167,7 @@ export class TiendaTipoComponent implements OnInit {
   //subir contenido
   contentUp() {
     // document.querySelector(".container_main")!.scrollTop = 0;
-     $('.container_main').animate({scrollTop:(0)}, 2000);
+    $('.container_main').animate({ scrollTop: (0) }, 2000);
   }
 
   //Acortar un texto a 73 caracteres donde los ultimos 3 son puntos(...)
@@ -186,16 +187,59 @@ export class TiendaTipoComponent implements OnInit {
   restorePassword() {
     let re = /^([\da-z_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
 
-    if (!this.inputRestorePass.Correo_Electronico) {
+    if (!this.inputRestorePass.correo) {
       this.dialog.open(GenericAcceptDialogComponent, {
         data: { tittle: "Correo electrónico requerido." }
       });
-    } else if (!re.exec(this.inputRestorePass.Correo_Electronico)) {
+    } else if (!re.exec(this.inputRestorePass.correo)) {
       this.dialog.open(GenericAcceptDialogComponent, {
         data: { tittle: "Correo electrónico invalido." }
       });
     } else {
-      console.log("Restaurar Contraseña Service");
+      this.progressLogin = true;
+      this._userService.putRestorePass(this.inputRestorePass).subscribe(
+        res => {
+          this.progressLogin = false;
+          switch (res) {
+            case 0:
+              this.dialog.open(GenericAcceptDialogComponent, {
+                data: {
+                  tittle: "Algo salió mal",
+                  description: `El correo ${this.inputRestorePass.correo} no está registrado.`
+                }
+              });
+              break;
+            case 1:
+              this.dialog.open(GenericAcceptDialogComponent, {
+                data: {
+                  tittle: "Contraseña restaurada correctamente",
+                  description: `Se ha enviado su nueva contraseña al correo ${this.inputRestorePass.correo}`
+                }
+              });
+              this.cModalLogin();
+              break;
+            default:
+              this.dialog.open(GenericAcceptDialogComponent, {
+                data: {
+                  tittle: "Error",
+                  description: "Algo Salió mal, intentelo más tarde."
+                }
+              });
+              console.error(res);
+              break;
+          }
+        },
+        err => {
+          this.progressLogin = false;
+          this.dialog.open(GenericAcceptDialogComponent, {
+            data: {
+              tittle: "Algo Salió mal",
+              description: err.message
+            }
+          });
+          console.error(err);
+          return;
+        });
     }
   }
 
@@ -340,7 +384,7 @@ export class TiendaTipoComponent implements OnInit {
     this.inputRegisterUser.Celular = "";
     this.inputRegisterUser.Correo_Electronico = "";
     //limpiar campos recuperar contraseña
-    this.inputRestorePass.Correo_Electronico = "";
+    this.inputRestorePass.correo = "";
   }
 
   alterLogin() {

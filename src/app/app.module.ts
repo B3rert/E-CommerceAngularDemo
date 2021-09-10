@@ -3,6 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import {HttpClientModule} from "@angular/common/http";
 
+import {AutocompleteLibModule} from 'angular-ng-autocomplete';
+
 //angularMaterial
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {A11yModule} from '@angular/cdk/a11y';
@@ -49,6 +51,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
 import {OverlayModule} from '@angular/cdk/overlay';
 
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { app_routing } from './app.routes';
@@ -90,6 +93,7 @@ import { ScrollToTopComponent } from './shared/scroll-to-top/scroll-to-top.compo
     app_routing,
     FontAwesomeModule,
     BrowserAnimationsModule,
+    AutocompleteLibModule,
     //Angular Material
     MatDialogModule,
     MatButtonModule,

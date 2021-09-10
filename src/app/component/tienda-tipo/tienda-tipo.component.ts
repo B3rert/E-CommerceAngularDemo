@@ -1,9 +1,9 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild, Pipe, PipeTransform } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 /**
  * Icons fontawesome
  */
-import { faLink, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -14,7 +14,7 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { faAngleDoubleUp } from '@fortawesome/free-solid-svg-icons';
-/*** */
+/***/
 import { UserFactura } from 'src/app/models/factura.model';
 import { ProductPedidoModel } from 'src/app/models/producto-pedido.model';
 import { CategoriaService } from 'src/app/services/categoria.service';
@@ -31,7 +31,6 @@ import { UserLogin } from 'src/app/models/user-login.model';
 import { RestorePassword } from 'src/app/models/restore-pass.model';
 /** */
 import * as $ from 'jquery';
-import { CastExpr } from '@angular/compiler';
 
 @Component({
   selector: 'app-tienda-tipo',
@@ -109,6 +108,7 @@ export class TiendaTipoComponent implements OnInit {
   precio_vusuario: string = "0.00";
   no_hay_producto_detalle = false;
   progress_product = true;
+  products_autocomplete: any;
 
   login_modal = false;
   registro_form = false;
@@ -131,6 +131,7 @@ export class TiendaTipoComponent implements OnInit {
     this.updateDataSession();
     this.getCategorias();
     this.getProductos(0);
+    this.products_autocomplete = JSON.parse(sessionStorage.getItem("productos")!);
     var fecha_hora = this.getHoraActual();
     this.userFactura = new UserFactura("", "", "", "", "", fecha_hora, "", "", "");
     this.inputRegisterUser = new RegistroUser("", "", "", "");
@@ -147,10 +148,50 @@ export class TiendaTipoComponent implements OnInit {
     window.removeEventListener('scroll', this.scrollEvent, true);
   }
 
+
   ngOnInit(): void {
     let tienda = sessionStorage.getItem("tienda");
     this.tienda_seleccionada = JSON.parse(tienda!);
     this.forma_pedido = sessionStorage.getItem("FormaPedido");
+  }
+
+
+  @Pipe({
+    name: 'filtros'
+  })
+  private data: any;
+
+  transform(arreglo: any[], texto: string): any[] {
+    if (texto === '') {
+      return arreglo;
+    }
+    texto = texto.toLocaleLowerCase();
+    return arreglo.filter(item => {
+      this.data = item.pais.toLowerCase().includes(texto);
+      return this.data;
+    });
+  }
+
+  searchProducts() {
+    let personas = [
+      { nombre: 'Juan', edad: 18, pais: 'Colombia' },
+      { nombre: 'Eduardo', edad: 25, pais: 'guatecol' },
+      { nombre: 'Diana', edad: 15, pais: 'Colombia' },
+    ];
+
+    
+    let resfilter = this.transform(personas,"col");
+    console.log(resfilter)
+/*
+    console.log('Personas:\n',personas);
+
+    let mayoresDeEdad = personas.filter(persona => persona.edad >= 18);
+
+    console.log('Personas mayores de Edad:\n', mayoresDeEdad);
+
+    let colombianos = personas.filter(persona => persona.pais === 'Colombia');
+
+    console.log('Personas de Colombia:\n',colombianos);*/
   }
 
   scrollEvent = (event: any): void => {
@@ -836,6 +877,9 @@ export class TiendaTipoComponent implements OnInit {
     this._productoService.producto(categoria).subscribe(
       res => {
         let resJson = JSON.stringify(res);
+        if (categoria == 0) {
+          sessionStorage.setItem("productos", resJson);
+        }
         this.productos = JSON.parse(resJson);
 
         if (this.productos.length == 0) {

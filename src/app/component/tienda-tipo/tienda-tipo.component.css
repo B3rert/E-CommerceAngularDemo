@@ -1126,6 +1126,8 @@ img.imagen-izquierda.seleccionada {
   cursor: pointer;
   border: none;
   background-color: transparent;
+  margin-left: 5px;
+  margin-left: 5px;
 }
 
 /*Fin Nav bar*/
@@ -1534,4 +1536,14 @@ mat-sidenav {
     right: 30px;
     font-size: 20px;
   }
+}
+
+/*Autocomplete*/
+#datalistOptions{
+  width: 150px !important;
+}
+
+ng-autocomplete{
+  position: relative;
+  z-index: 4500;
 }

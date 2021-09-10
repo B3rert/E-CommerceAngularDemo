@@ -648,8 +648,12 @@
                     aria-label="Example icon-button with menu icon">
                     <fa-icon class="icon_toolbar" [icon]="faBars"></fa-icon>
                 </button>
+
                 <form class="d-flex search_toolbar">
-                    <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                    <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Buscar...">
+                    <datalist id="datalistOptions">
+                        <option *ngFor="let options of products_autocomplete" [value]="options.descripcion">
+                    </datalist>
                     <button class="buscar-ico " type="submit">
                         <fa-icon [icon]="faSearch"></fa-icon>
                     </button>
@@ -679,17 +683,22 @@
             </mat-toolbar-row>
         </mat-toolbar>
         <mat-toolbar class="toolbarlarge">
-            <!--           <button (click)="sidenav.open()" mat-icon-button class="example-icon icon_toolbar_categ"
+            <!--           
+                <button (click)="sidenav.open()" mat-icon-button class="example-icon icon_toolbar_categ"
                 aria-label="Example icon-button with menu icon">
                 <fa-icon class="icon_toolbar" [icon]="faBars"></fa-icon>
-            </button>
+                </button>
             -->
             <div class="logo">
                 <h1>{{precio_vusuario}} GTQ</h1>
             </div>
-            <form class="d-flex search_toolbar">
-                <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
 
+
+            <form class="d-flex search_toolbar" #searchProduct="ngForm" (ngSubmit)="searchProducts()">
+                <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Buscar...">
+                <datalist id="datalistOptions">
+                    <option *ngFor="let options of products_autocomplete" [value]="options.descripcion">
+                </datalist>
                 <button class="buscar-ico " type="submit">
                     <fa-icon [icon]="faSearch"></fa-icon>
                 </button>
@@ -726,21 +735,23 @@
                             <h6>Categorías</h6>
                             <nav class="categorias_nav">
                                 <ul class="list-unstyled mb-0 py-3 pt-md-1">
-                                    <li class="mb-1 child_hover" [ngClass]="categoria_activa == 0 ? 'active_cat': 'inactive'"
+                                    <li class="mb-1 child_hover"
+                                        [ngClass]="categoria_activa == 0 ? 'active_cat': 'inactive'"
                                         (click)="getProductos(0)">
                                         <p class="cat_todas ">
                                             Todas
                                         </p>
                                     </li>
-            
+
                                     <li class="mb-1" *ngFor="let padres of categorias_padre; let i=index">
-            
+
                                         <div class="child_hover "
                                             [ngClass]="categoria_activa == padres.categoria ? 'active_cat': 'inactive'">
-                                            <p style="float: left;" (click)="getProductos(padres.categoria)"> {{padres.descripcion}}
+                                            <p style="float: left;" (click)="getProductos(padres.categoria)">
+                                                {{padres.descripcion}}
                                             </p>
-                                            <div class="icons_drop" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+ getId(i)"
-                                                (click)="dropCat(i)">
+                                            <div class="icons_drop" data-bs-toggle="collapse"
+                                                [attr.data-bs-target]="'#'+ getId(i)" (click)="dropCat(i)">
                                                 <fa-icon [icon]="faChevronRight" class="icon_more"
                                                     *ngIf="filtrarCategorias_hijo(padres).length >= 1 && collapsedOrNot[i]">
                                                 </fa-icon>
@@ -750,12 +761,13 @@
                                                 <fa-icon [icon]="faMinus" class="icon_none"
                                                     *ngIf="filtrarCategorias_hijo(padres).length == 0"></fa-icon>
                                             </div>
-            
+
                                         </div>
-            
+
                                         <div [ngClass]="categoria_activa == hijos.categoria ? 'active_cat': 'inactive'"
-                                            (click)="getProductos(hijos.categoria)" class="collapse child_hover child_cat"
-                                            [id]="getId(i)" *ngFor="let hijos of filtrarCategorias_hijo(padres); let indice=index">
+                                            (click)="getProductos(hijos.categoria)"
+                                            class="collapse child_hover child_cat" [id]="getId(i)"
+                                            *ngFor="let hijos of filtrarCategorias_hijo(padres); let indice=index">
                                             <ul>
                                                 <li>
                                                     <p class="child_text">{{hijos.descripcion}}</p>
@@ -768,12 +780,15 @@
                         </div>
                     </div>
                 </div>
-               
-             
+
+
 
 
             </div>
             <div class="container_main">
+
+
+
                 <mat-progress-bar *ngIf="progress_product" mode="indeterminate" color="accent"></mat-progress-bar>
                 <div class="container-fluid container__products">
                     <!--Modal login-->
@@ -878,8 +893,7 @@
                                                                     <h4>Correo electronico :</h4>
                                                                     <input type="email" name="correo_input"
                                                                         #correo_input="ngModel"
-                                                                        [(ngModel)]="inputRestorePass.correo"
-                                                                        required>
+                                                                        [(ngModel)]="inputRestorePass.correo" required>
                                                                 </div>
                                                                 <div class="sign-in">
                                                                     <a (click)="alterLoginRestore()">Iniciar Sesion</a>

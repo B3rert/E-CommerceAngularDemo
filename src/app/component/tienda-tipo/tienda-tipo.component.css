@@ -1559,3 +1559,9 @@ ng-autocomplete{
 .example-radio-button {
   margin: 5px;
 }
+
+/*Nuevas categorias*/
+.mat_categorias{
+  width: 100%;
+  text-align: start;
+}

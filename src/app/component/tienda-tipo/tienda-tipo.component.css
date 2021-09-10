@@ -1547,3 +1547,15 @@ ng-autocomplete{
   position: relative;
   z-index: 4500;
 }
+
+/*Filter SeactBar*/
+
+.example-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px;
+}
+
+.example-radio-button {
+  margin: 5px;
+}

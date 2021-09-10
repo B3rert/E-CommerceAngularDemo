@@ -649,15 +649,24 @@
                     <fa-icon class="icon_toolbar" [icon]="faBars"></fa-icon>
                 </button>
 
-                <form class="d-flex search_toolbar">
-                    <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Buscar...">
-                    <datalist id="datalistOptions">
-                        <option *ngFor="let options of products_autocomplete" [value]="options.descripcion">
-                    </datalist>
-                    <button class="buscar-ico " type="submit">
-                        <fa-icon [icon]="faSearch"></fa-icon>
+                <form class="d-flex search_toolbar" #searchProduct="ngForm" (ngSubmit)="searchProducts()">
+                    <input class="form-control me-2" type="search" placeholder="Buscar" name="search" #search="ngModel"
+                        [(ngModel)]="inputSearchBar.element" (ngModelChange)="valuechange()" required>
+                    <button class="buscar-ico">
+                        <mat-icon [matMenuTriggerFor]="menu">
+                            <fa-icon [icon]="faFilter"></fa-icon>
+                        </mat-icon>
                     </button>
+                    
                 </form>
+                <mat-menu #menu="matMenu">
+                    <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+                        [(ngModel)]="favoriteSeason">
+                        <mat-radio-button class="example-radio-button" *ngFor="let season of seasons" [value]="season">
+                            {{season}}
+                        </mat-radio-button>
+                    </mat-radio-group>
+                </mat-menu>
                 <span class="example-spacer"></span>
 
                 <button (click)="sidenavend.open()" mat-icon-button class="example-icon iconCartPedido"
@@ -692,17 +701,24 @@
             <div class="logo">
                 <h1>{{precio_vusuario}} GTQ</h1>
             </div>
-
-
             <form class="d-flex search_toolbar" #searchProduct="ngForm" (ngSubmit)="searchProducts()">
-                <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Buscar...">
-                <datalist id="datalistOptions">
-                    <option *ngFor="let options of products_autocomplete" [value]="options.descripcion">
-                </datalist>
-                <button class="buscar-ico " type="submit">
-                    <fa-icon [icon]="faSearch"></fa-icon>
+                <input class="form-control me-2" type="search" placeholder="Buscar" name="search" #search="ngModel"
+                    [(ngModel)]="inputSearchBar.element" (ngModelChange)="valuechange()" required>
+                <button class="buscar-ico">
+                    <mat-icon [matMenuTriggerFor]="menu">
+                        <fa-icon [icon]="faFilter"></fa-icon>
+                    </mat-icon>
                 </button>
+                
             </form>
+            <mat-menu #menu="matMenu">
+                <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+                    [(ngModel)]="favoriteSeason">
+                    <mat-radio-button class="example-radio-button" *ngFor="let season of seasons" [value]="season">
+                        {{season}}
+                    </mat-radio-button>
+                </mat-radio-group>
+            </mat-menu>
             <span class="example-spacer"></span>
             <div class="tienda_select" (click)="changeStore()">
                 <h1>Tienda {{tienda_seleccionada.nombre}}</h1>
@@ -780,15 +796,8 @@
                         </div>
                     </div>
                 </div>
-
-
-
-
             </div>
             <div class="container_main">
-
-
-
                 <mat-progress-bar *ngIf="progress_product" mode="indeterminate" color="accent"></mat-progress-bar>
                 <div class="container-fluid container__products">
                     <!--Modal login-->

@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ViewChild, Pipe, PipeTransform } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild, Pipe, PipeTransform, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 /**
  * Icons fontawesome
@@ -14,6 +14,7 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { faAngleDoubleUp } from '@fortawesome/free-solid-svg-icons';
+import { faFilter } from '@fortawesome/free-solid-svg-icons';
 /***/
 import { UserFactura } from 'src/app/models/factura.model';
 import { ProductPedidoModel } from 'src/app/models/producto-pedido.model';
@@ -31,6 +32,7 @@ import { UserLogin } from 'src/app/models/user-login.model';
 import { RestorePassword } from 'src/app/models/restore-pass.model';
 /** */
 import * as $ from 'jquery';
+import { SerachBar } from 'src/app/models/search.models';
 
 @Component({
   selector: 'app-tienda-tipo',
@@ -69,12 +71,14 @@ export class TiendaTipoComponent implements OnInit {
   faChevronDown = faChevronDown;
   faChevronRight = faChevronRight;
   faAngleDoubleUp = faAngleDoubleUp;
+  faFilter = faFilter;
 
   //Modelos
   public userFactura: UserFactura;
   public inputRegisterUser: RegistroUser;
   public inputUserLogin: UserLogin;
   public inputRestorePass: RestorePassword;
+  public inputSearchBar: SerachBar;
 
   //Variables
   tienda_en_linea = true;
@@ -119,6 +123,9 @@ export class TiendaTipoComponent implements OnInit {
 
   forma_pago_select: any;
 
+  favoriteSeason: string = "Descripción";
+  seasons: string[] = ['Descripción', 'SKU'];
+
   constructor(
     private _ac: ActivatedRoute,
     private router: Router,
@@ -137,6 +144,7 @@ export class TiendaTipoComponent implements OnInit {
     this.inputRegisterUser = new RegistroUser("", "", "", "");
     this.inputUserLogin = new UserLogin("", "");
     this.inputRestorePass = new RestorePassword("");
+    this.inputSearchBar = new SerachBar("");
     window.addEventListener('scroll', this.scrollEvent, true);
   }
 
@@ -148,13 +156,29 @@ export class TiendaTipoComponent implements OnInit {
     window.removeEventListener('scroll', this.scrollEvent, true);
   }
 
-
   ngOnInit(): void {
     let tienda = sessionStorage.getItem("tienda");
     this.tienda_seleccionada = JSON.parse(tienda!);
     this.forma_pedido = sessionStorage.getItem("FormaPedido");
   }
 
+  valuechange() {
+    //    console.log(JSON.parse(sessionStorage.getItem("productos")!));
+    this.progress_product = true;
+    let arr: any[] = [];
+    arr = JSON.parse(sessionStorage.getItem("productos")!);
+
+    let resfilter = this.transform(arr, this.inputSearchBar.element);
+    this.productos = resfilter;
+    if (resfilter.length == 0) {
+      this.producto_exist = false;
+    } else {
+      this.producto_exist = true;
+    }
+    this.progress_product = false;
+
+    // console.log(resfilter)
+  }
 
   @Pipe({
     name: 'filtros'
@@ -166,32 +190,25 @@ export class TiendaTipoComponent implements OnInit {
       return arreglo;
     }
     texto = texto.toLocaleLowerCase();
-    return arreglo.filter(item => {
-      this.data = item.pais.toLowerCase().includes(texto);
-      return this.data;
-    });
+    
+    if (this.favoriteSeason == "Descripción") {
+      return arreglo.filter(item => {
+        this.data = item.descripcion.toLowerCase().includes(texto);
+        return this.data;
+      });
+    }else if (this.favoriteSeason == "SKU") {
+      return arreglo.filter(item => {
+        this.data = item.producto_Id.toLowerCase().includes(texto);
+        return this.data;
+      });
+    }else{
+      return arreglo;
+    }
+   
   }
 
   searchProducts() {
-    let personas = [
-      { nombre: 'Juan', edad: 18, pais: 'Colombia' },
-      { nombre: 'Eduardo', edad: 25, pais: 'guatecol' },
-      { nombre: 'Diana', edad: 15, pais: 'Colombia' },
-    ];
-
-    
-    let resfilter = this.transform(personas,"col");
-    console.log(resfilter)
-/*
-    console.log('Personas:\n',personas);
-
-    let mayoresDeEdad = personas.filter(persona => persona.edad >= 18);
-
-    console.log('Personas mayores de Edad:\n', mayoresDeEdad);
-
-    let colombianos = personas.filter(persona => persona.pais === 'Colombia');
-
-    console.log('Personas de Colombia:\n',colombianos);*/
+    //submit
   }
 
   scrollEvent = (event: any): void => {
@@ -877,9 +894,10 @@ export class TiendaTipoComponent implements OnInit {
     this._productoService.producto(categoria).subscribe(
       res => {
         let resJson = JSON.stringify(res);
-        if (categoria == 0) {
+        /*if (categoria == 0) {
           sessionStorage.setItem("productos", resJson);
-        }
+        }*/
+        sessionStorage.setItem("productos", resJson);
         this.productos = JSON.parse(resJson);
 
         if (this.productos.length == 0) {

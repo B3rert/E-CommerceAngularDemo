@@ -945,14 +945,8 @@ export class TiendaTipoComponent implements OnInit {
     this.forma_pago_select = formaPagoSelect;
   }
 
-  updateGetproductos(categoria:number){
-    this.getProductos(categoria);
-  }
   getProductos(categoria: number) {
-
- 
     //Funciona mas lento su se guarda en session storage patra evitar las llamadas http
-
     this.progress_product = true;
     this.categoria_activa = categoria;
     this._productoService.producto(categoria).subscribe(

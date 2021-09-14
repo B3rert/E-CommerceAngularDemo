@@ -953,11 +953,14 @@ export class TiendaTipoComponent implements OnInit {
     //console.log(categoria);
 
     let item = this.categorias.find(searchRaiz);
+    console.log(item);
     
+    /*
     if (item.nivel != 1) {
-      
-    }
-
+      for (let index = item.nivel; index = 1 ; index--) {
+        console.log(index);
+      }  
+    }*/
   }
 
   getProductos(categoria: number) {

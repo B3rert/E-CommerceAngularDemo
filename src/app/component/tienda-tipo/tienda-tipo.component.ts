@@ -945,6 +945,9 @@ export class TiendaTipoComponent implements OnInit {
     this.forma_pago_select = formaPagoSelect;
   }
 
+  updateGetproductos(categoria:number){
+    this.getProductos(categoria);
+  }
   getProductos(categoria: number) {
 
  

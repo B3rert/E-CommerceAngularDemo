@@ -759,7 +759,7 @@
                                             </button>
                                             <fa-icon [icon]="faCaretRight" [matMenuTriggerFor]="menu.childMenu"></fa-icon>
                                         </div>
-                                        <app-menu-item #menu [items]="item.children"></app-menu-item>
+                                        <app-menu-item #menu [items]="item.children" (categoria)="updateGetproductos($event)"></app-menu-item>
                                     </span>
                                     <!-- Leaf node buttons here -->
                                     <span *ngIf="!item.children || item.children.length === 0">

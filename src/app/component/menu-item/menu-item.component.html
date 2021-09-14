@@ -6,7 +6,7 @@
         <!-- <mat-icon>{{child.iconName}}</mat-icon> -->
         <span>{{child.displayName}}</span>
       </button>
-      <app-menu-item #menu [items]="child.children"></app-menu-item>
+      <app-menu-item #menu [items]="child.children" (categoria)="updateGetproductos($event)"></app-menu-item>
     </span>
     <!-- Handle leaf node menu items -->
     <span *ngIf="!child.children || child.children.length === 0">

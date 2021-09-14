@@ -1300,8 +1300,6 @@ mat-sidenav {
   }
 }
 
-
-
 /*Fin Toolbar*/
 
 /*Carrito */
@@ -1392,25 +1390,27 @@ mat-sidenav {
 /*Fin Contendo derecho*/
 
 /*Categorías*/
-.logos{
+
+.logos {
   height: 114px;
   width: 190px;
   position: fixed;
   padding: 5px;
 }
-.logos img{
+
+.logos img {
   width: 100%;
   height: auto;
 }
 
-.col_categorias_nav{
+.col_categorias_nav {
   margin-top: 114px;
   height: calc(100vh - 158px);
   width: 100%;
   overflow: auto;
 }
 
-.logo_phone{
+.logo_phone {
   padding: 5px;
   width: auto;
   height: 100%;
@@ -1454,7 +1454,6 @@ mat-sidenav {
   padding-left: 15px;
   cursor: pointer;
 }
-
 
 .icon_none {
   color: transparent;
@@ -1517,9 +1516,11 @@ mat-sidenav {
   color: #000;
   font-weight: 300;
 }
+
 /*Fin Categorías*/
 
 /*Boton regresar arriba*/
+
 .button_up_content {
   position: fixed;
   z-index: 1000;
@@ -1530,7 +1531,6 @@ mat-sidenav {
 
 @media screen and (max-width: 992px) {
   .button_up_content {
-    
     bottom: 35px;
     right: 30px;
     font-size: 20px;
@@ -1538,16 +1538,18 @@ mat-sidenav {
 }
 
 /*Autocomplete*/
-#datalistOptions{
+
+#datalistOptions {
   width: 150px !important;
 }
 
-ng-autocomplete{
+ng-autocomplete {
   position: relative;
   z-index: 4500;
 }
 
 /*Filter SeactBar*/
+
 .example-radio-group {
   display: flex;
   flex-direction: column;
@@ -1559,12 +1561,43 @@ ng-autocomplete{
 }
 
 /*Nuevas categorias*/
-.mat_categorias{
+
+.mat_categorias {
   width: 100%;
   text-align: start;
 }
 
+.mat_categorias fa-icon {
+  width: 15px;
+  padding: 2px;
+  cursor: pointer;
+}
 
-.container_down{
+.mat_categorias fa-icon:hover{
+  font-size: 18px;
+}
+
+.container_down {
   display: block;
 }
+
+
+.container_down:hover{
+  background: #aa4060;
+  color: #fff !important;
+}
+
+.container_down button{
+  background: transparent;
+  border: none;
+  font-size: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+}
+
+.btn_cat_infinite {
+  width: calc(100% - 15px);
+  text-align: start;
+}
+

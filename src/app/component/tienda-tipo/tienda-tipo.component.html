@@ -753,15 +753,20 @@
                             <span *ngFor="let item of navItems" class="container_down">
                                 <!-- Handle branch node buttons here -->
                                 <span *ngIf="item.children && item.children.length > 0">
-                                    <button class="mat_categorias" mat-button [matMenuTriggerFor]="menu.childMenu"
-                                        [disabled]="item.disabled">
-                                        {{item.displayName}}
-                                    </button>
+                                    <div class="mat_categorias">
+                                        <button class="btn_cat_infinite"
+                                            [disabled]="item.disabled">
+                                            {{item.displayName}}
+                                        </button>
+                                        <fa-icon  [icon]="faCaretRight" [matMenuTriggerFor]="menu.childMenu"></fa-icon>
+                                    </div>
+
+
                                     <app-menu-item #menu [items]="item.children"></app-menu-item>
                                 </span>
                                 <!-- Leaf node buttons here -->
                                 <span *ngIf="!item.children || item.children.length === 0">
-                                    <button mat-button color="primary">
+                                    <button  class="mat_categorias">
                                         {{item.displayName}}
                                     </button>
                                 </span>

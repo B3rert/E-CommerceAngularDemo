@@ -15,6 +15,7 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { faAngleDoubleUp } from '@fortawesome/free-solid-svg-icons';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
+import { faCaretRight } from '@fortawesome/free-solid-svg-icons';
 /***/
 import { UserFactura } from 'src/app/models/factura.model';
 import { ProductPedidoModel } from 'src/app/models/producto-pedido.model';
@@ -51,422 +52,6 @@ import { NavItemProo } from 'src/app/interfaces/nav-item-exa.interface';
 
 export class TiendaTipoComponent implements OnInit {
 
- 
-
-  navItems: NavItem[] = [
-    {
-      displayName: 'DevFestFL',
-      iconName: 'close',
-      children: [
-        {
-          displayName: 'Speakers',
-          iconName: 'group',
-          children: [
-            {
-              displayName: 'Michael Prentice',
-              iconName: 'person',
-              route: 'michael-prentice',
-              children: [
-                {
-                  displayName: 'Create Enterprise UIs',
-                  iconName: 'star_rate',
-                  route: 'material-design'
-                }
-              ]
-            },
-            {
-              displayName: 'Stephen Fluin',
-              iconName: 'person',
-              route: 'stephen-fluin',
-              children: [
-                {
-                  displayName: 'What\'s up with the Web?',
-                  iconName: 'star_rate',
-                  route: 'what-up-web'
-                }
-              ]
-            },
-            {
-              displayName: 'Mike Brocchi',
-              iconName: 'person',
-              route: 'mike-brocchi',
-              children: [
-                {
-                  displayName: 'My ally, the CLI',
-                  iconName: 'star_rate',
-                  route: 'my-ally-cli'
-                },
-                {
-                  displayName: 'Become an Angular Tailor',
-                  iconName: 'star_rate',
-                  route: 'become-angular-tailer'
-                }
-              ]
-            }
-          ]
-        },
-        {
-          displayName: 'Sessions',
-          iconName: 'speaker_notes',
-          children: [
-            {
-              displayName: 'Create Enterprise UIs',
-              iconName: 'star_rate',
-              route: 'material-design'
-            },
-            {
-              displayName: 'What\'s up with the Web?',
-              iconName: 'star_rate',
-              route: 'what-up-web'
-            },
-            {
-              displayName: 'My ally, the CLI',
-              iconName: 'star_rate',
-              route: 'my-ally-cli'
-            },
-            {
-              displayName: 'Become an Angular Tailor',
-              iconName: 'star_rate',
-              route: 'become-angular-tailer'
-            }
-          ]
-        },
-        {
-          displayName: 'Feedback',
-          iconName: 'feedback',
-          route: 'feedback'
-        }
-      ]
-    },
-    {
-      displayName: 'Disney',
-      iconName: 'close',
-      children: [
-        {
-          displayName: 'Speakers',
-          iconName: 'group',
-          children: [
-            {
-              displayName: 'Michael Prentice',
-              iconName: 'person',
-              route: 'michael-prentice',
-              children: [
-                {
-                  displayName: 'Create Enterprise UIs',
-                  iconName: 'star_rate',
-                  route: 'material-design'
-                }
-              ]
-            },
-            {
-              displayName: 'Stephen Fluin',
-              iconName: 'person',
-              route: 'stephen-fluin',
-              children: [
-                {
-                  displayName: 'What\'s up with the Web?',
-                  iconName: 'star_rate',
-                  route: 'what-up-web'
-                }
-              ]
-            },
-            {
-              displayName: 'Mike Brocchi',
-              iconName: 'person',
-              route: 'mike-brocchi',
-              children: [
-                {
-                  displayName: 'My ally, the CLI',
-                  iconName: 'star_rate',
-                  route: 'my-ally-cli'
-                },
-                {
-                  displayName: 'Become an Angular Tailor',
-                  iconName: 'star_rate',
-                  route: 'become-angular-tailer'
-                }
-              ]
-            }
-          ]
-        },
-        {
-          displayName: 'Sessions',
-          iconName: 'speaker_notes',
-          children: [
-            {
-              displayName: 'Create Enterprise UIs',
-              iconName: 'star_rate',
-              route: 'material-design'
-            },
-            {
-              displayName: 'What\'s up with the Web?',
-              iconName: 'star_rate',
-              route: 'what-up-web'
-            },
-            {
-              displayName: 'My ally, the CLI',
-              iconName: 'star_rate',
-              route: 'my-ally-cli'
-            },
-            {
-              displayName: 'Become an Angular Tailor',
-              iconName: 'star_rate',
-              route: 'become-angular-tailer'
-            }
-          ]
-        },
-        {
-          displayName: 'Feedback',
-          iconName: 'feedback',
-          route: 'feedback'
-        }
-      ]
-    },
-    {
-      displayName: 'Orlando',
-      iconName: 'close',
-      children: [
-        {
-          displayName: 'Speakers',
-          iconName: 'group',
-          children: [
-            {
-              displayName: 'Michael Prentice',
-              iconName: 'person',
-              route: 'michael-prentice',
-              children: [
-                {
-                  displayName: 'Create Enterprise UIs',
-                  iconName: 'star_rate',
-                  route: 'material-design'
-                }
-              ]
-            },
-            {
-              displayName: 'Stephen Fluin',
-              iconName: 'person',
-              route: 'stephen-fluin',
-              children: [
-                {
-                  displayName: 'What\'s up with the Web?',
-                  iconName: 'star_rate',
-                  route: 'what-up-web'
-                }
-              ]
-            },
-            {
-              displayName: 'Mike Brocchi',
-              iconName: 'person',
-              route: 'mike-brocchi',
-              children: [
-                {
-                  displayName: 'My ally, the CLI',
-                  iconName: 'star_rate',
-                  route: 'my-ally-cli'
-                },
-                {
-                  displayName: 'Become an Angular Tailor',
-                  iconName: 'star_rate',
-                  route: 'become-angular-tailer'
-                }
-              ]
-            }
-          ]
-        },
-        {
-          displayName: 'Sessions',
-          iconName: 'speaker_notes',
-          children: [
-            {
-              displayName: 'Create Enterprise UIs',
-              iconName: 'star_rate',
-              route: 'material-design'
-            },
-            {
-              displayName: 'What\'s up with the Web?',
-              iconName: 'star_rate',
-              route: 'what-up-web'
-            },
-            {
-              displayName: 'My ally, the CLI',
-              iconName: 'star_rate',
-              route: 'my-ally-cli'
-            },
-            {
-              displayName: 'Become an Angular Tailor',
-              iconName: 'star_rate',
-              route: 'become-angular-tailer'
-            }
-          ]
-        },
-        {
-          displayName: 'Feedback',
-          iconName: 'feedback',
-          route: 'feedback'
-        }
-      ]
-    },
-    {
-      displayName: 'Maleficent',
-      disabled: false,
-      iconName: 'close',
-      children: [
-        {
-          displayName: 'Speakers',
-          iconName: 'group',
-          children: [
-            {
-              displayName: 'Michael Prentice',
-              iconName: 'person',
-              route: 'michael-prentice',
-              children: [
-                {
-                  displayName: 'Create Enterprise UIs',
-                  iconName: 'star_rate',
-                  route: 'material-design'
-                }
-              ]
-            },
-            {
-              displayName: 'Stephen Fluin',
-              iconName: 'person',
-              route: 'stephen-fluin',
-              children: [
-                {
-                  displayName: 'What\'s up with the Web?',
-                  iconName: 'star_rate',
-                  route: 'what-up-web'
-                }
-              ]
-            },
-            {
-              displayName: 'Mike Brocchi',
-              iconName: 'person',
-              route: 'mike-brocchi',
-              children: [
-                {
-                  displayName: 'My ally, the CLI',
-                  iconName: 'star_rate',
-                  route: 'my-ally-cli'
-                },
-                {
-                  displayName: 'Become an Angular Tailor',
-                  iconName: 'star_rate',
-                  route: 'become-angular-tailer'
-                }
-              ]
-            }
-          ]
-        },
-        {
-          displayName: 'Sessions',
-          iconName: 'speaker_notes',
-          children: [
-            {
-              displayName: 'Create Enterprise UIs',
-              iconName: 'star_rate',
-              route: 'material-design'
-            },
-            {
-              displayName: 'What\'s up with the Web?',
-              iconName: 'star_rate',
-              route: 'what-up-web'
-            },
-            {
-              displayName: 'My ally, the CLI',
-              iconName: 'star_rate',
-              route: 'my-ally-cli'
-            },
-            {
-              displayName: 'Become an Angular Tailor',
-              iconName: 'star_rate',
-              route: 'become-angular-tailer'
-            }
-          ]
-        },
-        {
-          displayName: 'Feedback',
-          iconName: 'feedback',
-          route: 'feedback'
-        }
-      ]
-    }
-  ];
-
-  
-
-  generateMenuCat() {
-    //console.log(this.categorias[0].descripcion);
-    
-    let children:NavItemProo[]= [];
-    let pather:NavItemProo[]=[];
-    
-    this.categorias.forEach((element: any) => {
-      if (element.nivel == 1) {
-        let item =  {
-          displayName: element.descripcion,
-          categoria:element.categoria,
-          categoria_Padre:element.categoria_Padre,
-          nivel:element.nivel,
-          children: []
-        }
-        pather.push(item);
-      }else{
-        let item =  {
-          displayName: element.descripcion,
-          categoria:element.categoria,
-          categoria_Padre:element.categoria_Padre,
-          nivel:element.nivel,
-          children: []
-        }
-        children.push(item);
-      }
-    });
-
-
-    this.childrenGenerate(pather,children)
-
-
-    /*
-    pather.forEach(element => {
-      children.forEach(elementChildren => {
-        if (element.categoria == elementChildren.categoria_Padre) {
-          element.children?.push(elementChildren);
-        }
-      });
-    });
-
-    console.log(pather);
-    console.log(children);
-    */
-    
-
-    
-
-  }
-
-
-  childrenGenerate(padre:any[], hijo:any[]){
-    
-    padre.forEach(element => {
-      //let countHijo = 0;
-      hijo.forEach(elementChildren => {
-        if (element.categoria == elementChildren.categoria_Padre) {
-          element.children?.push(elementChildren);
-          //this.pedidos.splice(countHijo, 1);
-          //countHijo++;
-          
-          this.childrenGenerate(element.children,hijo);
-        }
-      });
-    });
-  
-    console.log("----------");
-    console.log(padre);
-    console.log("----------");
-
-  }
-
   //Abrir/Cerrar SideNav
   @ViewChild('sidenav')
   sidenav!: MatSidenav;
@@ -491,6 +76,7 @@ export class TiendaTipoComponent implements OnInit {
   faChevronRight = faChevronRight;
   faAngleDoubleUp = faAngleDoubleUp;
   faFilter = faFilter;
+  faCaretRight = faCaretRight;
 
   //Modelos
   public userFactura: UserFactura;
@@ -512,6 +98,7 @@ export class TiendaTipoComponent implements OnInit {
   cantidades_varias: any[] = [];
   cantidades_varias_TP: any[] = [];
   collapsedOrNot: boolean[] = [];
+  navItems: NavItem[] = [];
 
   carrito_cantidad = 0;
   categoria_activa = 0;
@@ -565,9 +152,6 @@ export class TiendaTipoComponent implements OnInit {
     this.inputRestorePass = new RestorePassword("");
     this.inputSearchBar = new SerachBar("");
     window.addEventListener('scroll', this.scrollEvent, true);
-    this.generateMenuCat();
-    console.log(this.categorias);
-    
   }
 
   showScrollHeight = 400;
@@ -583,7 +167,56 @@ export class TiendaTipoComponent implements OnInit {
     this.tienda_seleccionada = JSON.parse(tienda!);
     this.forma_pedido = sessionStorage.getItem("FormaPedido");
   }
+  
 
+  generateMenuCat() {
+    //console.log(this.categorias[0].descripcion);
+    
+    let children:NavItemProo[]= [];
+    let pather:NavItemProo[]=[];
+    
+    this.categorias.forEach((element: any) => {
+      if (element.nivel == 1) {
+        let item =  {
+          displayName: element.descripcion,
+          categoria:element.categoria,
+          categoria_Padre:element.categoria_Padre,
+          nivel:element.nivel,
+          children: []
+        }
+        pather.push(item);
+      }else{
+        let item =  {
+          displayName: element.descripcion,
+          categoria:element.categoria,
+          categoria_Padre:element.categoria_Padre,
+          nivel:element.nivel,
+          children: []
+        }
+        children.push(item);
+      }
+    });
+    this.childrenGenerate(pather,children)
+  }
+
+
+  childrenGenerate(padre:any[], hijo:any[]){
+    
+    padre.forEach(element => {
+      //let countHijo = 0;
+      hijo.forEach(elementChildren => {
+        if (element.categoria == elementChildren.categoria_Padre) {
+          if (!element.children.includes(elementChildren)) {
+            element.children?.push(elementChildren);
+          }
+          this.childrenGenerate(element.children,hijo);
+        }
+      });
+    });
+  
+    this.navItems =  padre;
+
+  }
   valuechange() {
     //    console.log(JSON.parse(sessionStorage.getItem("productos")!));
     this.progress_product = true;
@@ -1278,6 +911,8 @@ export class TiendaTipoComponent implements OnInit {
           this.categorias_hijo.push(element);
         }
       });
+    this.generateMenuCat();
+
     } else {
       this._categoriaService.categoria().subscribe(
         res => {
@@ -1293,6 +928,8 @@ export class TiendaTipoComponent implements OnInit {
               this.categorias_hijo.push(element);
             }
           });
+    this.generateMenuCat();
+
         },
         err => {
           alert("Error de servidor");
@@ -1300,6 +937,7 @@ export class TiendaTipoComponent implements OnInit {
         }
       );
     }
+
   }
 
   tipoPagoLlave(formaPagoSelect: any) {

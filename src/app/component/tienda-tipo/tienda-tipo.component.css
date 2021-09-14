@@ -1300,6 +1300,8 @@ mat-sidenav {
   }
 }
 
+
+
 /*Fin Toolbar*/
 
 /*Carrito */
@@ -1390,7 +1392,6 @@ mat-sidenav {
 /*Fin Contendo derecho*/
 
 /*Categorías*/
-
 .logos{
   height: 114px;
   width: 190px;
@@ -1516,11 +1517,9 @@ mat-sidenav {
   color: #000;
   font-weight: 300;
 }
-
 /*Fin Categorías*/
 
 /*Boton regresar arriba*/
-
 .button_up_content {
   position: fixed;
   z-index: 1000;
@@ -1549,7 +1548,6 @@ ng-autocomplete{
 }
 
 /*Filter SeactBar*/
-
 .example-radio-group {
   display: flex;
   flex-direction: column;
@@ -1564,4 +1562,9 @@ ng-autocomplete{
 .mat_categorias{
   width: 100%;
   text-align: start;
+}
+
+
+.container_down{
+  display: block;
 }

@@ -1487,7 +1487,7 @@ mat-sidenav {
 
 .active_cat {
   background-color: #d84672;
-  color: #fff;
+  color: #fff !important;
 }
 
 @media screen and (max-width: 767px) {

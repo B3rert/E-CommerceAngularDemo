@@ -947,6 +947,7 @@ export class TiendaTipoComponent implements OnInit {
 
   getProductos(categoria: number) {
 
+ 
     //Funciona mas lento su se guarda en session storage patra evitar las llamadas http
 
     this.progress_product = true;
@@ -959,7 +960,7 @@ export class TiendaTipoComponent implements OnInit {
         }*/
         sessionStorage.setItem("productos", resJson);
         this.productos = JSON.parse(resJson);
-
+       
         if (this.productos.length == 0) {
           this.producto_exist = false;
           this.progress_product = false;

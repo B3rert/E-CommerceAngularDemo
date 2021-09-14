@@ -12,7 +12,7 @@
         <!--Fin Encabezado-->
         <!--Categorias-->
         <nav class="categorias_nav">
-            
+
             <ul class="list-unstyled mb-0 py-3 pt-md-1">
                 <li class="mb-1 child_hover" [ngClass]="categoria_activa == 0 ? 'active_cat': 'inactive'"
                     (click)="getProductos(0)">
@@ -25,8 +25,7 @@
                     <!-- Handle branch node buttons here -->
                     <span *ngIf="item.children && item.children.length > 0">
                         <div class="mat_categorias">
-                            <button class="btn_cat_infinite" mat-button 
-                                [disabled]="item.disabled">
+                            <button class="btn_cat_infinite" mat-button [disabled]="item.disabled">
                                 {{item.displayName}}
                             </button>
                             <fa-icon [icon]="faCaretRight" [matMenuTriggerFor]="menu.childMenu"></fa-icon>
@@ -746,26 +745,35 @@
                         <div class="col col_categorias_nav">
                             <h6>Categorías</h6>
                             <div class="categorias_nav">
-                                <button class="mat_categorias cat_todas_infinite " (click)="getProductos(0)">
-                                    TODAS
-                                </button>
+                                <div [ngClass]="categoria_activa == 0 ? 'active_cat': 'inactive'">
+                                    <button mat-button class="mat_categorias todas_cat" (click)="getProductos(0)">
+                                        TODAS
+                                    </button>
+                                </div>
                                 <span *ngFor="let item of navItems" class="container_down">
                                     <!-- Handle branch node buttons here -->
                                     <span *ngIf="item.children && item.children.length > 0">
-                                        <div class="mat_categorias">
-                                            <button class="btn_cat_infinite" mat-button 
-                                                [disabled]="item.disabled" (click)="getProductos(item.categoria)">
+                                        <div class="mat_categorias"
+                                            [ngClass]="categoria_activa == item.categoria ? 'active_cat': 'inactive'">
+                                            <button class="btn_cat_infinite" mat-button [disabled]="item.disabled"
+                                                (click)="getProductos(item.categoria)">
                                                 {{item.displayName}}
                                             </button>
-                                            <fa-icon [icon]="faCaretRight" [matMenuTriggerFor]="menu.childMenu"></fa-icon>
+                                            <fa-icon [icon]="faCaretRight" [matMenuTriggerFor]="menu.childMenu">
+                                            </fa-icon>
                                         </div>
-                                        <app-menu-item #menu [items]="item.children" (categoria)="getProductos($event)"></app-menu-item>
+                                        <app-menu-item #menu [items]="item.children" (categoria)="getProductos($event)">
+                                        </app-menu-item>
                                     </span>
                                     <!-- Leaf node buttons here -->
                                     <span *ngIf="!item.children || item.children.length === 0">
-                                        <button mat-button class="mat_categorias" (click)="getProductos(item.categoria)">
-                                            {{item.displayName}}
-                                        </button>
+                                        <div [ngClass]="categoria_activa == item.categoria ? 'active_cat': 'inactive'">
+                                            <button mat-button class="mat_categorias"
+                                                (click)="getProductos(item.categoria)">
+                                                {{item.displayName}}
+                                            </button>
+                                        </div>
+
                                     </span>
                                 </span>
                             </div>

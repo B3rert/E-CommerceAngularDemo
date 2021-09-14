@@ -1616,3 +1616,7 @@ ng-autocomplete {
   width: calc(100% - 15px);
   text-align: start;
 }
+
+.todas_cat{
+  padding-left: 10px !important;
+}

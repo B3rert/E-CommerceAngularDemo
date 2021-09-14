@@ -167,41 +167,41 @@ export class TiendaTipoComponent implements OnInit {
     this.tienda_seleccionada = JSON.parse(tienda!);
     this.forma_pedido = sessionStorage.getItem("FormaPedido");
   }
-  
+
 
   generateMenuCat() {
     //console.log(this.categorias[0].descripcion);
-    
-    let children:NavItemProo[]= [];
-    let pather:NavItemProo[]=[];
-    
+
+    let children: NavItemProo[] = [];
+    let pather: NavItemProo[] = [];
+
     this.categorias.forEach((element: any) => {
       if (element.nivel == 1) {
-        let item =  {
+        let item = {
           displayName: element.descripcion,
-          categoria:element.categoria,
-          categoria_Padre:element.categoria_Padre,
-          nivel:element.nivel,
+          categoria: element.categoria,
+          categoria_Padre: element.categoria_Padre,
+          nivel: element.nivel,
           children: []
         }
         pather.push(item);
-      }else{
-        let item =  {
+      } else {
+        let item = {
           displayName: element.descripcion,
-          categoria:element.categoria,
-          categoria_Padre:element.categoria_Padre,
-          nivel:element.nivel,
+          categoria: element.categoria,
+          categoria_Padre: element.categoria_Padre,
+          nivel: element.nivel,
           children: []
         }
         children.push(item);
       }
     });
-    this.childrenGenerate(pather,children)
+    this.childrenGenerate(pather, children)
   }
 
 
-  childrenGenerate(padre:any[], hijo:any[]){
-    
+  childrenGenerate(padre: any[], hijo: any[]) {
+
     padre.forEach(element => {
       //let countHijo = 0;
       hijo.forEach(elementChildren => {
@@ -209,12 +209,12 @@ export class TiendaTipoComponent implements OnInit {
           if (!element.children.includes(elementChildren)) {
             element.children?.push(elementChildren);
           }
-          this.childrenGenerate(element.children,hijo);
+          this.childrenGenerate(element.children, hijo);
         }
       });
     });
-  
-    this.navItems =  padre;
+
+    this.navItems = padre;
 
   }
   valuechange() {
@@ -911,7 +911,7 @@ export class TiendaTipoComponent implements OnInit {
           this.categorias_hijo.push(element);
         }
       });
-    this.generateMenuCat();
+      this.generateMenuCat();
 
     } else {
       this._categoriaService.categoria().subscribe(
@@ -928,7 +928,7 @@ export class TiendaTipoComponent implements OnInit {
               this.categorias_hijo.push(element);
             }
           });
-    this.generateMenuCat();
+          this.generateMenuCat();
 
         },
         err => {
@@ -945,10 +945,29 @@ export class TiendaTipoComponent implements OnInit {
     this.forma_pago_select = formaPagoSelect;
   }
 
+  searchCategoriaPadre(categoria: number) {
+    function searchRaiz(scategoria: any) {
+      return scategoria.categoria === categoria;
+    }
+    console.log(this.categorias.find(searchRaiz));
+    //console.log(categoria);
+
+    let item = this.categorias.find(searchRaiz);
+    
+    if (item.nivel != 1) {
+      
+    }
+
+  }
+
   getProductos(categoria: number) {
     //Funciona mas lento su se guarda en session storage patra evitar las llamadas http
     this.progress_product = true;
+
+    this.searchCategoriaPadre(categoria)
     this.categoria_activa = categoria;
+
+
     this._productoService.producto(categoria).subscribe(
       res => {
         let resJson = JSON.stringify(res);
@@ -957,7 +976,7 @@ export class TiendaTipoComponent implements OnInit {
         }*/
         sessionStorage.setItem("productos", resJson);
         this.productos = JSON.parse(resJson);
-       
+
         if (this.productos.length == 0) {
           this.producto_exist = false;
           this.progress_product = false;

@@ -750,15 +750,22 @@
                         <!---->
                         <div class="col col_categorias_nav">
                             <h6>Categorías</h6>
+                            <button class="mat_categorias cat_todas_infinite">
+                                TODAS
+                            </button><button class="mat_categorias cat_todas_infinite">
+                                TODAS
+                            </button><button class="mat_categorias cat_todas_infinite">
+                                TODAS
+                            </button>
                             <span *ngFor="let item of navItems" class="container_down">
                                 <!-- Handle branch node buttons here -->
                                 <span *ngIf="item.children && item.children.length > 0">
                                     <div class="mat_categorias">
-                                        <button class="btn_cat_infinite"
+                                        <button class="btn_cat_infinite" mat-button 
                                             [disabled]="item.disabled">
                                             {{item.displayName}}
                                         </button>
-                                        <fa-icon  [icon]="faCaretRight" [matMenuTriggerFor]="menu.childMenu"></fa-icon>
+                                        <fa-icon [icon]="faCaretRight" [matMenuTriggerFor]="menu.childMenu"></fa-icon>
                                     </div>
 
 
@@ -766,7 +773,7 @@
                                 </span>
                                 <!-- Leaf node buttons here -->
                                 <span *ngIf="!item.children || item.children.length === 0">
-                                    <button  class="mat_categorias">
+                                    <button mat-button class="mat_categorias">
                                         {{item.displayName}}
                                     </button>
                                 </span>

@@ -887,8 +887,6 @@ export class TiendaTipoComponent implements OnInit {
     }
   }
 
-
-
   filtrarCategorias_hijo(padres: any) {
     let hijos: any = [];
     this.categorias_hijo.forEach(cHijo => {
@@ -1052,7 +1050,7 @@ export class TiendaTipoComponent implements OnInit {
         "Tra_Tipo_Precio": 1,
         "Tra_Factor_Conversion": null
       }
-    ]
+    ];
 
     let estructuraPedido: PedidoEstructura = {
       "Doc_Tipo_Documento": 3,
@@ -1067,7 +1065,7 @@ export class TiendaTipoComponent implements OnInit {
       "Doc_Observacion_1": null,
       "Doc_Tipo_Pago": 1,
       "Tra": transacciones
-    }
+    };
 
 
     let docEstructura: DocumentoEstructura = {
@@ -1079,6 +1077,7 @@ export class TiendaTipoComponent implements OnInit {
     };
 
 
+    //Consumo del api
     this._pedidoService.postDocumentoEstructura(docEstructura).subscribe(
       res => {
         console.log(res);

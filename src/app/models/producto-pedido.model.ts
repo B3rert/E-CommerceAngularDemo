@@ -9,6 +9,8 @@ export class ProductPedidoModel {
         public precio_unidad: number,
         public precio_cantidad:number,
         public precio_cantidad_string:string,
+        public moneda:number,
+        public tipo_Precio:number,
         public cantidad: number
     ){}
 

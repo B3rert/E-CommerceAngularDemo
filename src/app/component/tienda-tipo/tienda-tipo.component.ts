@@ -133,6 +133,7 @@ export class TiendaTipoComponent implements OnInit {
 
   favoriteSeason: string = "Descripción";
   seasons: string[] = ['Descripción', 'SKU'];
+  nombre_user = "Nombre usuario"
 
   constructor(
     private _ac: ActivatedRoute,
@@ -365,6 +366,9 @@ export class TiendaTipoComponent implements OnInit {
     if (this.tokenUser) {
       this.tokenUser = this.tokenUser;
       this.isSesssionLogin = true;
+      this.getUserName(this.tokenUser);
+      
+      
     } else {
       this.tokenUser = false;
       this.isSesssionLogin = false;
@@ -675,6 +679,8 @@ export class TiendaTipoComponent implements OnInit {
               this.presentacion_producto[indice].precio_Unidad,
               this.resolverPrecioCantidad(this.presentacion_producto[indice].precio_Unidad, element),
               this.NumberToString(this.resolverPrecioCantidad(this.presentacion_producto[indice].precio_Unidad, element)),
+              this.presentacion_producto[indice].moneda,
+              this.presentacion_producto[indice].tipo_Precio,
               element,
             );
             this.pedidos.push(producto_pedido);
@@ -702,6 +708,8 @@ export class TiendaTipoComponent implements OnInit {
               this.presentacion_producto[indice].precio_Unidad,
               this.resolverPrecioCantidad(this.presentacion_producto[indice].precio_Unidad, element),
               this.NumberToString(this.resolverPrecioCantidad(this.presentacion_producto[indice].precio_Unidad, element)),
+              this.presentacion_producto[indice].moneda,
+              this.presentacion_producto[indice].tipo_Precio,
               element,
             );
             this.pedidos.push(producto_pedido);
@@ -774,6 +782,23 @@ export class TiendaTipoComponent implements OnInit {
   }
 
   limpiarCarrito() {
+
+    const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
+      data: {
+        tittle: "¿Vaciar Carrito?",
+        description: "Es posible que se pierdan datos que no hayan sido guardados."
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+       this.vaciarPedido();
+      }
+    });
+    
+  }
+
+  vaciarPedido(){
     this.pedidos.splice(0, this.pedidos.length);
     this.carrito_cantidad = 0;
     this.precio_vusuario = "0.00"
@@ -903,15 +928,6 @@ export class TiendaTipoComponent implements OnInit {
 
     if (categoriasSession) {
       this.categorias = JSON.parse(categoriasSession);
-      this.categorias.forEach((element: { categoria_Padre: any; }) => {
-        let categoriaPadre = JSON.stringify(element.categoria_Padre);
-        if (categoriaPadre == '{}') {
-          this.categorias_padre.push(element);
-          this.collapsedOrNot.push(true);
-        } else {
-          this.categorias_hijo.push(element);
-        }
-      });
       this.generateMenuCat();
 
     } else {
@@ -920,17 +936,7 @@ export class TiendaTipoComponent implements OnInit {
           let resJson = JSON.stringify(res);
           sessionStorage.setItem("categorias", resJson);
           this.categorias = JSON.parse(resJson);
-          this.categorias.forEach((element: { categoria_Padre: any; }) => {
-            let categoriaPadre = JSON.stringify(element.categoria_Padre);
-            if (categoriaPadre == '{}') {
-              this.categorias_padre.push(element);
-              this.collapsedOrNot.push(true);
-            } else {
-              this.categorias_hijo.push(element);
-            }
-          });
           this.generateMenuCat();
-
         },
         err => {
           alert("Error de servidor");
@@ -938,7 +944,6 @@ export class TiendaTipoComponent implements OnInit {
         }
       );
     }
-
   }
 
   tipoPagoLlave(formaPagoSelect: any) {
@@ -1016,47 +1021,44 @@ export class TiendaTipoComponent implements OnInit {
     );
   }
 
+  getUserName(token: any): any {
+    this._userService.getUserNameToken(token).subscribe(
+      res => {
+        this.nombre_user = JSON.parse(JSON.stringify(res)).messege;
+      },
+      err => {
+        console.error(err);
+      });
+  }
+
+
   //registrar Documento Estructura
   sendPedido() {
-    let transacciones: Trasaccion[] = [
-      {
-        "Tra_Bodega": 5,
-        "Tra_Producto": 32,
-        "Tra_Unidad_Medida": 3,
-        "Tra_Cantidad": 30.000000,
-        "Tra_Monto": 900.000000,
+
+    
+    
+    let transacciones: Trasaccion[] = [];
+
+    this.pedidos.forEach(element => {
+      let item:Trasaccion = {
+        "Tra_Bodega": this.tienda_seleccionada.bodega,
+        "Tra_Producto": element.producto,
+        "Tra_Unidad_Medida": element.unidad_Medida,
+        "Tra_Cantidad": element.cantidad,
+        "Tra_Monto": element.precio_cantidad,
         "Tra_Tipo_Cambio": 7.700000,
-        "Tra_Moneda": 1,
-        "Tra_Tipo_Precio": 5,
-        "Tra_Factor_Conversion": null
-      }, {
-        "Tra_Bodega": 5,
-        "Tra_Producto": 2,
-        "Tra_Unidad_Medida": 3,
-        "Tra_Cantidad": 24.000000,
-        "Tra_Monto": 1080.000000,
-        "Tra_Tipo_Cambio": 7.700000,
-        "Tra_Moneda": 1,
-        "Tra_Tipo_Precio": 4,
-        "Tra_Factor_Conversion": null
-      }, {
-        "Tra_Bodega": 5,
-        "Tra_Producto": 1362,
-        "Tra_Unidad_Medida": 3,
-        "Tra_Cantidad": 1.000000,
-        "Tra_Monto": 60.000000,
-        "Tra_Tipo_Cambio": 7.700000,
-        "Tra_Moneda": 1,
-        "Tra_Tipo_Precio": 1,
+        "Tra_Moneda": element.moneda,
+        "Tra_Tipo_Precio": element.tipo_Precio,
         "Tra_Factor_Conversion": null
       }
-    ];
+      transacciones.push(item);
+    });
 
     let estructuraPedido: PedidoEstructura = {
-      "Doc_Tipo_Documento": 3,
-      "Doc_Serie_Documento": "5",
-      "Doc_Empresa": 1,
-      "Doc_Estacion_Trabajo": 8,
+      "Doc_Tipo_Documento": this.tienda_seleccionada.tipo_Documento,
+      "Doc_Serie_Documento": this.tienda_seleccionada.serie_Documento,
+      "Doc_Empresa": this.tienda_seleccionada.empresa,
+      "Doc_Estacion_Trabajo": this.tienda_seleccionada.estacion_Trabajo,
       "Doc_UserName": "FACTURACIONaX",
       "Doc_Nombre": "PEDRO PAXTOR",
       "Doc_NIT": "7431480-7",
@@ -1070,17 +1072,31 @@ export class TiendaTipoComponent implements OnInit {
 
     let docEstructura: DocumentoEstructura = {
       pEstructura: JSON.stringify(estructuraPedido),
-      pUserName: "sa",
+      pUserName: this.nombre_user,
       pTipo_Estructura: 1,
       pEstado: 1,
       pM_UserName: null
     };
 
+    
+
 
     //Consumo del api
     this._pedidoService.postDocumentoEstructura(docEstructura).subscribe(
       res => {
-        console.log(res);
+        let resOk = JSON.parse(JSON.stringify(res))
+        this.dialog.open(GenericAcceptDialogComponent, {
+          data: {
+            tittle: "Su pedido ha sido recibido.",
+            description: `Puede consultar el estado de su pedido con el identificador: ${resOk.consecutivo_interno}` 
+          }
+        });
+
+        //!carrito_pago && !forma_pago && !confirmar_pago forma_pago && !confirmar_pago
+        this.vaciarPedido();
+        this.regresarFormulario();
+        this.regresarCarrito();
+        
       },
       err => {
         this.dialog.open(GenericAcceptDialogComponent, {

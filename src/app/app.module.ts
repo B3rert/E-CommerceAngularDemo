@@ -67,7 +67,6 @@ import { ToolbarSidenavComponentComponent } from './component/plantillas/toolbar
 import { GenericAcceptDialogComponent } from './component/dialog/generic-accept-dialog/generic-accept-dialog.component';
 import { GenericActionsDialogComponent } from './component/dialog/generic-actions-dialog/generic-actions-dialog.component';
 import { NotFoundComponentComponent } from './component/plantillas/plantillas-notfound/not-found-component/not-found-component.component';
-import { ScrollToTopComponent } from './shared/scroll-to-top/scroll-to-top.component';
 import { MenuItemComponent } from './component/menu-item/menu-item.component';
 
 @NgModule({
@@ -84,7 +83,6 @@ import { MenuItemComponent } from './component/menu-item/menu-item.component';
     GenericActionsDialogComponent,
     NotFoundPageComponentComponent,
     NotFoundComponentComponent,
-    ScrollToTopComponent,
     MenuItemComponent,
   ],
   imports: [

@@ -1,7 +1,6 @@
 import { RouterModule, Routes } from "@angular/router";
 import { PedidoComponentComponent } from "./component/pedido-component/pedido-component.component";
 import { NotFoundPageComponentComponent } from "./component/plantillas/plantillas-notfound/not-found-page-component/not-found-page-component.component";
-import { ToolbarSidenavComponentComponent } from "./component/plantillas/toolbar-sidenav-component/toolbar-sidenav-component.component";
 import { PruebasComponentComponent } from "./component/pruebas-component/pruebas-component.component";
 import { SelectTiendaComponentComponent } from "./component/select-tienda-component/select-tienda-component.component";
 import { TiendaTipoComponent } from "./component/tienda-tipo/tienda-tipo.component";

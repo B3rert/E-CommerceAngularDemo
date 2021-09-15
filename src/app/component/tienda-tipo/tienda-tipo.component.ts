@@ -17,6 +17,8 @@ import { faAngleDoubleUp } from '@fortawesome/free-solid-svg-icons';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import { faCaretRight } from '@fortawesome/free-solid-svg-icons';
 /***/
+import * as $ from 'jquery';
+/** */
 import { UserFactura } from 'src/app/models/factura.model';
 import { ProductPedidoModel } from 'src/app/models/producto-pedido.model';
 import { CategoriaService } from 'src/app/services/categoria.service';
@@ -31,11 +33,10 @@ import { GenericActionsDialogComponent } from '../dialog/generic-actions-dialog/
 import { UserService } from 'src/app/services/user.service';
 import { UserLogin } from 'src/app/models/user-login.model';
 import { RestorePassword } from 'src/app/models/restore-pass.model';
-/** */
-import * as $ from 'jquery';
 import { SerachBar } from 'src/app/models/search.models';
 import { NavItem } from 'src/app/interfaces/nav-item.interface';
-import { NavItemProo } from 'src/app/interfaces/nav-item-exa.interface';
+import { PedidoService } from 'src/app/services/pedido.service';
+import { DocumentoEstructura, PedidoEstructura, Trasaccion } from 'src/app/interfaces/documento-estructura.interface'
 
 @Component({
   selector: 'app-tienda-tipo',
@@ -46,7 +47,8 @@ import { NavItemProo } from 'src/app/interfaces/nav-item-exa.interface';
     CategoriaService,
     ProductoService,
     FormaPagoService,
-    UserService
+    UserService,
+    PedidoService
   ]
 })
 
@@ -139,7 +141,8 @@ export class TiendaTipoComponent implements OnInit {
     private _categoriaService: CategoriaService,
     private _productoService: ProductoService,
     private _formaPagoService: FormaPagoService,
-    private _userService: UserService
+    private _userService: UserService,
+    private _pedidoService: PedidoService
   ) {
     this.updateDataSession();
     this.getCategorias();
@@ -172,8 +175,8 @@ export class TiendaTipoComponent implements OnInit {
   generateMenuCat() {
     //console.log(this.categorias[0].descripcion);
 
-    let children: NavItemProo[] = [];
-    let pather: NavItemProo[] = [];
+    let children: NavItem[] = [];
+    let pather: NavItem[] = [];
 
     this.categorias.forEach((element: any) => {
       if (element.nivel == 1) {
@@ -946,30 +949,28 @@ export class TiendaTipoComponent implements OnInit {
   }
 
   searchCategoriaPadre(categoria: number) {
-    function searchRaiz(scategoria: any) {
-      return scategoria.categoria === categoria;
-    }
-    console.log(this.categorias.find(searchRaiz));
-    //console.log(categoria);
+    this.categorias.forEach((element: any) => {
+      if (element.categoria == categoria) {
+        if (element.nivel != 1) {
+          this.searchCategoriaPadre(element.categoria_Padre);
+        } else {
+          this.categoria_activa = element.categoria;
+          //console.log(element.categoria);
 
-    let item = this.categorias.find(searchRaiz);
-    console.log(item);
-    
-    /*
-    if (item.nivel != 1) {
-      for (let index = item.nivel; index = 1 ; index--) {
-        console.log(index);
-      }  
-    }*/
+        }
+      }
+    });
   }
 
   getProductos(categoria: number) {
     //Funciona mas lento su se guarda en session storage patra evitar las llamadas http
     this.progress_product = true;
 
-    this.searchCategoriaPadre(categoria)
-    this.categoria_activa = categoria;
-
+    if (categoria != 0) {
+      this.searchCategoriaPadre(categoria);
+    } else {
+      this.categoria_activa = categoria;
+    }
 
     this._productoService.producto(categoria).subscribe(
       res => {
@@ -1013,6 +1014,83 @@ export class TiendaTipoComponent implements OnInit {
       err => {
         alert("Error de servidor");
         console.log(err);
+      }
+    );
+  }
+
+  //registrar Documento Estructura
+  sendPedido() {
+    let transacciones: Trasaccion[] = [
+      {
+        "Tra_Bodega": 5,
+        "Tra_Producto": 32,
+        "Tra_Unidad_Medida": 3,
+        "Tra_Cantidad": 30.000000,
+        "Tra_Monto": 900.000000,
+        "Tra_Tipo_Cambio": 7.700000,
+        "Tra_Moneda": 1,
+        "Tra_Tipo_Precio": 5,
+        "Tra_Factor_Conversion": null
+      }, {
+        "Tra_Bodega": 5,
+        "Tra_Producto": 2,
+        "Tra_Unidad_Medida": 3,
+        "Tra_Cantidad": 24.000000,
+        "Tra_Monto": 1080.000000,
+        "Tra_Tipo_Cambio": 7.700000,
+        "Tra_Moneda": 1,
+        "Tra_Tipo_Precio": 4,
+        "Tra_Factor_Conversion": null
+      }, {
+        "Tra_Bodega": 5,
+        "Tra_Producto": 1362,
+        "Tra_Unidad_Medida": 3,
+        "Tra_Cantidad": 1.000000,
+        "Tra_Monto": 60.000000,
+        "Tra_Tipo_Cambio": 7.700000,
+        "Tra_Moneda": 1,
+        "Tra_Tipo_Precio": 1,
+        "Tra_Factor_Conversion": null
+      }
+    ]
+
+    let estructuraPedido: PedidoEstructura = {
+      "Doc_Tipo_Documento": 3,
+      "Doc_Serie_Documento": "5",
+      "Doc_Empresa": 1,
+      "Doc_Estacion_Trabajo": 8,
+      "Doc_UserName": "FACTURACIONaX",
+      "Doc_Nombre": "PEDRO PAXTOR",
+      "Doc_NIT": "7431480-7",
+      "Doc_Direccion": "Ciudad",
+      "Doc_Referencia": null,
+      "Doc_Observacion_1": null,
+      "Doc_Tipo_Pago": 1,
+      "Tra": transacciones
+    }
+
+
+    let docEstructura: DocumentoEstructura = {
+      pEstructura: JSON.stringify(estructuraPedido),
+      pUserName: "sa",
+      pTipo_Estructura: 1,
+      pEstado: 1,
+      pM_UserName: null
+    };
+
+
+    this._pedidoService.postDocumentoEstructura(docEstructura).subscribe(
+      res => {
+        console.log(res);
+      },
+      err => {
+        this.dialog.open(GenericAcceptDialogComponent, {
+          data: {
+            tittle: "Algo Salió mal",
+            description: err.message
+          }
+        });
+        console.error(err);
       }
     );
   }

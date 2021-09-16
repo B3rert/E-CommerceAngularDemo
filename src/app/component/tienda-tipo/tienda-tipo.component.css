@@ -1620,3 +1620,14 @@ ng-autocomplete {
 .todas_cat{
   padding-left: 10px !important;
 }
+
+/*Menu opciones*/
+.menu_options{
+  font-size: 17px;
+}
+
+.menu_options mat-icon{
+  font-size: 10px !important;
+  height: 10px !important;
+  
+}

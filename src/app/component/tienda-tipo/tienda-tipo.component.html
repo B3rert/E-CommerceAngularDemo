@@ -354,6 +354,26 @@
                 <fa-icon [icon]="faTimes"></fa-icon>
             </mat-icon>
             <span class="example-spacer head_carr_end">Mi Carrito</span>
+            <fa-icon [icon]="faEllipsisV" [matMenuTriggerFor]="menuOpt" class="icon_close_head"></fa-icon>
+            <mat-menu #menuOpt="matMenu" class="menu_options">
+                <button mat-menu-item *ngIf="forma_pedido == 'domicilio'" (click)="cambiarTipoPedido()">
+                    <mat-icon><fa-icon [icon]="faShoppingCart"></fa-icon></mat-icon>
+                    <span>A domicilio</span>
+                </button>
+                <button mat-menu-item *ngIf="forma_pedido == 'recoger'" (click)="cambiarTipoPedido()">
+                    <mat-icon><fa-icon [icon]="faShoppingCart"></fa-icon></mat-icon>
+                    <span>Recoger en tienda</span>
+                </button>
+                <button mat-menu-item (click)="saveLastOrder()">
+                    <mat-icon><fa-icon [icon]="faClock"></fa-icon></mat-icon>
+                    <span>Guardar Pedido</span>
+                </button>
+                <button mat-menu-item (click)="downloadOrder()">
+                    <mat-icon><fa-icon [icon]="faCartArrowDown"></fa-icon></mat-icon>
+                    <span>Continuar pedido</span>
+                </button>
+            </mat-menu>
+
         </mat-toolbar>
         <div class="pago_container">
             <!--Resumen(Confirmar pedido)-->
@@ -537,14 +557,15 @@
                                                 #ciudad="ngModel" name="ciudad" [(ngModel)]="userFactura.Ciudad"
                                                 required>
                                             <input id="street1" type="text" class="input__tienda ico_street"
-                                                placeholder="Direccion Donde Recibiras El Producto" #domicilio="ngModel"
+                                                placeholder="Direccion Donde Recibiras El Pedido" #domicilio="ngModel"
                                                 name="domicilio" [(ngModel)]="userFactura.direccion_pedido" required>
                                             <textarea id="obEntrega" type="text"
                                                 class="input__tienda ng-pristine ng-untouched ng-valid ng-empty"
                                                 rows="5" cols="5" name="obEntrega" ng-model="pos.obEntrega"
                                                 placeholder="Referencias o comentarios adicionales"
                                                 #observacion="ngModel" name="observacion"
-                                                [(ngModel)]="userFactura.Observacion"></textarea>
+                                                [(ngModel)]="userFactura.Observacion">
+                                            </textarea>
                                             <div class="form-group col-xs-12 col-sm-12 inputWithIcon fleft_phone ng-scope"
                                                 ng-if="tipoenviosucursal == 1">
                                                 <div class="content_envio">
@@ -749,7 +770,7 @@
                                     <button mat-button class="mat_categorias todas_cat" (click)="getProductos(0)">
                                         TODAS
                                     </button>
-                                    
+
                                 </div>
                                 <span *ngFor="let item of navItems" class="container_down">
                                     <!-- Handle branch node buttons here -->

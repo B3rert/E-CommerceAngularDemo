@@ -74,7 +74,7 @@ export class PedidoComponentComponent implements OnInit {
       "icon": faShoppingCart
     },
     {
-      "option": "Pedidos",
+      "option": "Mis pedidos",
       "icon": faClipboardList
     },
     {

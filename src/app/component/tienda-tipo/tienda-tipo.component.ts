@@ -16,6 +16,10 @@ import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { faAngleDoubleUp } from '@fortawesome/free-solid-svg-icons';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import { faCaretRight } from '@fortawesome/free-solid-svg-icons';
+import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+import { faShippingFast } from '@fortawesome/free-solid-svg-icons';
+import { faClock } from '@fortawesome/free-solid-svg-icons';
+import { faCartArrowDown } from '@fortawesome/free-solid-svg-icons';
 /***/
 import * as $ from 'jquery';
 /** */
@@ -79,6 +83,10 @@ export class TiendaTipoComponent implements OnInit {
   faAngleDoubleUp = faAngleDoubleUp;
   faFilter = faFilter;
   faCaretRight = faCaretRight;
+  faEllipsisV = faEllipsisV;
+  faShippingFast = faShippingFast;
+  faClock = faClock;
+  faCartArrowDown = faCartArrowDown;
 
   //Modelos
   public userFactura: UserFactura;
@@ -1084,4 +1092,53 @@ export class TiendaTipoComponent implements OnInit {
       }
     );
   }
+
+  cambiarTipoPedido(){
+    const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
+      data: {
+        tittle: "¿Cambiar tipo pedido?",
+        description: "Es posible que se pierdan datos que no hayan sido guardados."
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log("Cambiar pedido");
+        
+      }
+    });
+    
+  }
+
+  saveLastOrder(){
+    const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
+      data: {
+        tittle: "¿Guardar pedido?",
+        description: "El pedido se guardará para que pueda continuarlo más tarde, consulte su pedido en la sección Mis pedidos."
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log("Guardar pedido");
+        
+      }
+    });
+  }
+
+
+  downloadOrder(){
+    const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
+      data: {
+        tittle: "¿Obtener pedido?",
+        description: "El pedido se cargará en el carrito para que pueda continuarlo."
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log("Guardar pedido");
+        
+      }
+    });
+  }
+
 }
+

@@ -41,6 +41,7 @@ import { SerachBar } from 'src/app/models/search.models';
 import { NavItem } from 'src/app/interfaces/nav-item.interface';
 import { PedidoService } from 'src/app/services/pedido.service';
 import { DocumentoEstructura, PedidoEstructura, Trasaccion } from 'src/app/interfaces/documento-estructura.interface'
+import { Pedido } from 'src/app/interfaces/pedido.interface';
 
 @Component({
   selector: 'app-tienda-tipo',
@@ -174,6 +175,7 @@ export class TiendaTipoComponent implements OnInit {
     let tienda = sessionStorage.getItem("tienda");
     this.tienda_seleccionada = JSON.parse(tienda!);
     this.forma_pedido = sessionStorage.getItem("FormaPedido");
+    this.getAndViewOrderLocal();
   }
 
   //categorias, generar estructura arból
@@ -365,6 +367,7 @@ export class TiendaTipoComponent implements OnInit {
       this.tokenUser = this.tokenUser;
       this.isSesssionLogin = true;
       this.getUserName(this.tokenUser);
+      this.getAndViewOrderLocal();
     } else {
       this.tokenUser = false;
       this.isSesssionLogin = false;
@@ -638,6 +641,47 @@ export class TiendaTipoComponent implements OnInit {
     }
   }
 
+  saveOrderLocal() {
+    let pedidoUp: Pedido = {
+      pedido: this.pedidos,
+      user: this.nombre_user,
+      tienda_pedido: this.tienda_seleccionada,
+      tipo_pedido: this.forma_pedido
+    }
+    localStorage.setItem("pedidoLocal", JSON.stringify(pedidoUp));
+    let pedidoSave = (localStorage.getItem("pedidoLocal"));
+    console.log(this.pedidos);
+  }
+
+  getAndViewOrderLocal() {
+    if (this.isSesssionLogin) {
+      let pedido = JSON.parse(localStorage.getItem("pedidoLocal")!);
+      console.log(pedido.tienda_pedido);
+      if (pedido.user == this.nombre_user) {
+
+        if (this.tienda_seleccionada != pedido.tienda_pedido) {
+          const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
+            data: {
+              tittle: "¿Cambiar Tienda?",
+              description: "Se ha encontrado un pedido pendiente de procesar, pero la tienda del pedido no coincide con la tienda seleccionada actualmente.",
+              verdadero: "Cambiar",
+              falso: "Mantener"
+            }
+          });
+          dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+              console.log("Cambiar pedido");
+
+            }
+          });
+        }
+        this.pedidos = pedido.pedido;
+        this.actualizarTotal();
+        this.carrito_cantidad = this.pedidos.length;
+      }
+    }
+  }
+
   //Añadir productos al carrito
   addCarrito(producto_seleccionado: any, cantidad: any) {
     let hay_productos = false;
@@ -738,6 +782,10 @@ export class TiendaTipoComponent implements OnInit {
       total_final = total_final + element.precio_cantidad;
     });
     this.precio_vusuario = this.NumberToString(total_final);
+
+    if (this.nombre_user != "Nombre usuario") {
+      this.saveOrderLocal();
+    }
   }
 
   //Convierte una cadena dada a MAYUSCULAS
@@ -811,6 +859,7 @@ export class TiendaTipoComponent implements OnInit {
     this.pedidos.splice(0, this.pedidos.length);
     this.carrito_cantidad = 0;
     this.precio_vusuario = "0.00"
+    this.saveOrderLocal();
   }
 
   //Quita una unidad a la cantidad de un producto añadido
@@ -1093,7 +1142,7 @@ export class TiendaTipoComponent implements OnInit {
     );
   }
 
-  cambiarTipoPedido(){
+  cambiarTipoPedido() {
     const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
       data: {
         tittle: "¿Cambiar tipo pedido?",
@@ -1103,13 +1152,13 @@ export class TiendaTipoComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log("Cambiar pedido");
-        
+
       }
     });
-    
+
   }
 
-  saveLastOrder(){
+  saveLastOrder() {
     const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
       data: {
         tittle: "¿Guardar pedido?",
@@ -1119,13 +1168,13 @@ export class TiendaTipoComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log("Guardar pedido");
-        
+
       }
     });
   }
 
 
-  downloadOrder(){
+  downloadOrder() {
     const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
       data: {
         tittle: "¿Obtener pedido?",
@@ -1135,7 +1184,7 @@ export class TiendaTipoComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log("Guardar pedido");
-        
+
       }
     });
   }

@@ -1,5 +1,5 @@
-import { Component, HostListener, OnInit, ViewChild, Pipe, PipeTransform, Input } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, ViewChild, Pipe } from '@angular/core';
+import { Router } from '@angular/router';
 /**
  * Icons fontawesome
  */
@@ -113,30 +113,26 @@ export class TiendaTipoComponent implements OnInit {
   indiceSeleccionado = 0;
   fotoSeleccionada = "";
   vPresentaciones: any;
-  categorias_padre: any[] = [];
-  categorias_hijo: any[] = [];
   producto_exist = true;
   confirmar_pago = false;
   precio_vusuario: string = "0.00";
   no_hay_producto_detalle = false;
   progress_product = true;
   products_autocomplete: any;
-
   login_modal = false;
   registro_form = false;
   restart_form = false;
-
   isSesssionLogin = false;
   tokenUser: any = false;
-
   forma_pago_select: any;
+  progressLogin = false;
+  saveMyData = false;
 
   favoriteSeason: string = "Descripción";
   seasons: string[] = ['Descripción', 'SKU'];
   nombre_user = "Nombre usuario"
 
   constructor(
-    private _ac: ActivatedRoute,
     private router: Router,
     private dialog: MatDialog,
     private _categoriaService: CategoriaService,
@@ -172,10 +168,8 @@ export class TiendaTipoComponent implements OnInit {
     this.forma_pedido = sessionStorage.getItem("FormaPedido");
   }
 
-
+  //categorias, generar estructura arból
   generateMenuCat() {
-    //console.log(this.categorias[0].descripcion);
-
     let children: NavItem[] = [];
     let pather: NavItem[] = [];
 
@@ -203,11 +197,9 @@ export class TiendaTipoComponent implements OnInit {
     this.childrenGenerate(pather, children)
   }
 
-
+  //Añade los hijos correspondientes a cada padre o hijo
   childrenGenerate(padre: any[], hijo: any[]) {
-
     padre.forEach(element => {
-      //let countHijo = 0;
       hijo.forEach(elementChildren => {
         if (element.categoria == elementChildren.categoria_Padre) {
           if (!element.children.includes(elementChildren)) {
@@ -217,16 +209,15 @@ export class TiendaTipoComponent implements OnInit {
         }
       });
     });
-
     this.navItems = padre;
-
   }
+
+  //Se activa cuando hay algun cambio en la barra de busqueda 
+  //filtrando los resultados que encuentre
   valuechange() {
-    //    console.log(JSON.parse(sessionStorage.getItem("productos")!));
     this.progress_product = true;
     let arr: any[] = [];
     arr = JSON.parse(sessionStorage.getItem("productos")!);
-
     let resfilter = this.transform(arr, this.inputSearchBar.element);
     this.productos = resfilter;
     if (resfilter.length == 0) {
@@ -235,21 +226,20 @@ export class TiendaTipoComponent implements OnInit {
       this.producto_exist = true;
     }
     this.progress_product = false;
-
-    // console.log(resfilter)
   }
 
   @Pipe({
     name: 'filtros'
   })
+
   private data: any;
 
+  //returna un arrgelo con los elemntos que coincidan con la entrada en el filtro
   transform(arreglo: any[], texto: string): any[] {
     if (texto === '') {
       return arreglo;
     }
     texto = texto.toLocaleLowerCase();
-
     if (this.favoriteSeason == "Descripción") {
       return arreglo.filter(item => {
         this.data = item.descripcion.toLowerCase().includes(texto);
@@ -263,13 +253,13 @@ export class TiendaTipoComponent implements OnInit {
     } else {
       return arreglo;
     }
-
   }
 
   searchProducts() {
     //submit
   }
 
+  //Boton regresar arriba
   scrollEvent = (event: any): void => {
     const number = event.srcElement.scrollTop;
     if (event.srcElement.className == "container_main") {
@@ -301,9 +291,9 @@ export class TiendaTipoComponent implements OnInit {
     }
   }
 
+  //Restaurar contraseña
   restorePassword() {
     let re = /^([\da-z_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
-
     if (!this.inputRestorePass.correo) {
       this.dialog.open(GenericAcceptDialogComponent, {
         data: { tittle: "Correo electrónico requerido." }
@@ -360,28 +350,25 @@ export class TiendaTipoComponent implements OnInit {
     }
   }
 
+  //Actualiza los datos del usuario en caso de una sesion permanente o cierre de sesión
   updateDataSession() {
     this.tokenUser = this._userService.getToken();
-
     if (this.tokenUser) {
       this.tokenUser = this.tokenUser;
       this.isSesssionLogin = true;
       this.getUserName(this.tokenUser);
-      
-      
     } else {
       this.tokenUser = false;
       this.isSesssionLogin = false;
     }
   }
 
-  saveMyData = false;
+  //Permanencia de la sesión
   rememberMe() {
     this.saveMyData ? this.saveMyData = false : this.saveMyData = true;
   }
 
-  progressLogin = false;
-
+  //Iniciar sesión
   accsesLogin() {
     if (!this.inputUserLogin.user) {
       this.dialog.open(GenericAcceptDialogComponent, {
@@ -395,9 +382,7 @@ export class TiendaTipoComponent implements OnInit {
       this.progressLogin = true;
       this._userService.posLogin(this.inputUserLogin).subscribe(
         res => {
-
           this.progressLogin = false;
-
           let token = JSON.parse(JSON.stringify(res)).messege;
           if (JSON.parse(JSON.stringify(res)).res) {
             if (this.saveMyData) {
@@ -435,10 +420,9 @@ export class TiendaTipoComponent implements OnInit {
     }
   }
 
+  //Registro nuevo usuario 
   regitroUser() {
-
     let re = /^([\da-z_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
-
     if (!this.inputRegisterUser.Nombre) {
       this.dialog.open(GenericAcceptDialogComponent, {
         data: { tittle: "Nombre requerido." }
@@ -494,6 +478,7 @@ export class TiendaTipoComponent implements OnInit {
     }
   }
 
+  //Limpiar campos de los formularios del usuario 
   emptyInputsForms() {
     //Limpiar campos login
     this.inputUserLogin.user = "";
@@ -507,6 +492,7 @@ export class TiendaTipoComponent implements OnInit {
     this.inputRestorePass.correo = "";
   }
 
+  //Cambiar entre los formularios inicio/registro/restaurar
   alterLogin() {
     if (this.registro_form) {
       this.registro_form = false;
@@ -519,6 +505,7 @@ export class TiendaTipoComponent implements OnInit {
     }
   }
 
+  //Cambiar entre los formularios inicio/registro/restaurar
   alterLoginRestore() {
     if (this.restart_form) {
       this.emptyInputsForms()
@@ -530,6 +517,7 @@ export class TiendaTipoComponent implements OnInit {
     }
   }
 
+  //Cambiar tienda
   changeStore() {
     const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
       data: {
@@ -537,7 +525,6 @@ export class TiendaTipoComponent implements OnInit {
         description: "Es posible que se pierdan datos que no hayan sido guardados."
       }
     });
-
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.router.navigate(['/seleccion']);
@@ -567,11 +554,13 @@ export class TiendaTipoComponent implements OnInit {
     this.restart_form = false;
   }
 
+  //cambiar a formulario para hacer el pago 
   continuarPago() {
     this.forma_pago = true;
     this.getFormaPago();
   }
 
+  //Agregar consumidor final
   nitcf() {
     if (this.userFactura.Nit == "") {
       this.userFactura.Nit = "C/F";
@@ -581,6 +570,7 @@ export class TiendaTipoComponent implements OnInit {
     }
   }
 
+  //Obtener tienda seleccionada 
   selectTienda(tienda: any) {
     this.tienda_en_linea = true;
     this.tienda_seleccionada = tienda;
@@ -591,6 +581,7 @@ export class TiendaTipoComponent implements OnInit {
     this.detalle_producto = false;
   }
 
+  //Descripcion producto, restar cantidad producto
   menosProducto() {
     if (this.cantidad_producto == 0) {
       this.cantidad_producto = 0;
@@ -599,19 +590,21 @@ export class TiendaTipoComponent implements OnInit {
     }
   }
 
+  //Descripcion producto, sumar cantidad producto
+  masProducto() {
+    this.cantidad_producto++;
+  }
+
+  //Obtiene la hora actual del dispositivo
   getHoraActual() {
     var hoy = new Date();
     var fecha = hoy.getDate() + '-' + (hoy.getMonth() + 1) + '-' + hoy.getFullYear();
     var hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
     var fecha_hora = fecha + ' ' + hora;
-
     return fecha_hora;
   }
 
-  masProducto() {
-    this.cantidad_producto++;
-  }
-
+  //Restar cantidad producto en el carrito
   menosProductoVarios(indice: number) {
     if (this.cantidades_varias_TP.length != 0) {
       if (this.cantidades_varias_TP[indice] == 0) {
@@ -628,15 +621,16 @@ export class TiendaTipoComponent implements OnInit {
     }
   }
 
+  //Sumar cantidad producto en el carrito
   masProductoVarios(indice: number) {
     if (this.cantidades_varias_TP.length != 0) {
       this.cantidades_varias_TP[indice] = this.cantidades_varias_TP[indice] + 1;
-
     } else {
       this.cantidades_varias[indice] = this.cantidades_varias[indice] + 1;
     }
   }
 
+  //Añadir productos al carrito
   addCarrito(producto_seleccionado: any, cantidad: any) {
     let hay_productos = false;
     //verificar que se agregaron productos
@@ -729,6 +723,7 @@ export class TiendaTipoComponent implements OnInit {
     this.cantidades_varias.splice(0, this.cantidades_varias.length);
   }
 
+  //Actualiza el total del pedido
   actualizarTotal() {
     let total_final = 0;
     this.pedidos.forEach(element => {
@@ -737,14 +732,17 @@ export class TiendaTipoComponent implements OnInit {
     this.precio_vusuario = this.NumberToString(total_final);
   }
 
+  //Convierte una cadena dada a MAYUSCULAS
   toMayus(cadena: string) {
     return cadena.toUpperCase();
   }
 
+  //Obtiene el total de las cantidades * el precio unitario del producto
   resolverPrecioCantidad(precio_Unidad: number, cantidad: number) {
     return precio_Unidad * cantidad;
   }
 
+  //Transforma numeros a string agregando 2 decimales para mostrar al usuario
   NumberToString(numero: number) {
     if (numero % 1 == 0) {
       //es entero 
@@ -761,67 +759,69 @@ export class TiendaTipoComponent implements OnInit {
     }
   }
 
+  //Cambiar a formulario pago 
   realizarPago() {
     this.carrito_pago = true;
   }
 
+  //regresar al carrito
   regresarCarrito() {
     this.carrito_pago = false;
     this.forma_pago = false;
   }
 
+  //regresa al formulario de datos del usuario (Facturacion)
   regresarFormulario() {
     this.forma_pago = false;
     this.confirmar_pago = false;
   }
 
+  //Quita un producto del carrito 
   eliminarProducto(indice: number) {
     this.pedidos.splice(indice, 1);
     this.carrito_cantidad = this.carrito_cantidad - 1;
     this.actualizarTotal()
   }
 
+  //Quita todos los productos añadidos al carrito, con alerta
   limpiarCarrito() {
-
     const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
       data: {
         tittle: "¿Vaciar Carrito?",
         description: "Es posible que se pierdan datos que no hayan sido guardados."
       }
     });
-
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-       this.vaciarPedido();
+        this.vaciarPedido();
       }
     });
-    
   }
 
-  vaciarPedido(){
+  //Quita todos los productos aladidos al carrito
+  vaciarPedido() {
     this.pedidos.splice(0, this.pedidos.length);
     this.carrito_cantidad = 0;
     this.precio_vusuario = "0.00"
   }
 
+  //Quita una unidad a la cantidad de un producto añadido
+  //si el producto solo tiene una unidad se elimina el producto del carrito
   restarProducto(cantidad: number, indice: number) {
-
     if (this.pedidos[indice].cantidad == 1) {
       this.pedidos.splice(indice, 1);
       this.carrito_cantidad = this.carrito_cantidad - 1;
       this.actualizarTotal()
     } else {
       this.pedidos[indice].cantidad = cantidad - 1;
-
       let nuevo_total = this.pedidos[indice].precio_cantidad - this.pedidos[indice].precio_unidad;
       this.pedidos[indice].precio_cantidad = nuevo_total;
       this.pedidos[indice].precio_cantidad_string = this.NumberToString(nuevo_total);
-
       this.actualizarTotal()
     }
-
   }
 
+  //Añade una unidad a la cantidad del producto
   sumarProducto(cantidad: number, indice: number) {
     this.pedidos[indice].cantidad = cantidad + 1;
     let nuevo_total = this.pedidos[indice].precio_cantidad + this.pedidos[indice].precio_unidad;
@@ -830,19 +830,18 @@ export class TiendaTipoComponent implements OnInit {
     this.actualizarTotal()
   }
 
+  //verificar si el usuario ya inició sesion
+  //Si sí irá a la configuracion de la ciuenta
+  //sino mostrar modal login
   login() {
-    //verificar si el usuario ya inició sesion
-    //Si sí irá a la configuracion de la ciuenta
-    //sino mostrar modal login
-
     if (!this.isSesssionLogin) {
       this.login_modal = true;
     } else {
       this.router.navigate(['/pedido']);
     }
-
   }
 
+  //Obtiene y muestra el detalle de un producto
   productoDetalle(producto_seleccionado: any) {
     this.detalle_producto = true;
     this.producto_seleccionado = producto_seleccionado;
@@ -852,7 +851,6 @@ export class TiendaTipoComponent implements OnInit {
       producto_seleccionado.unidad_Medida,
       1).subscribe(
         res => {
-
           let resJson = JSON.stringify(res);
           this.fotos = JSON.parse(resJson);
         },
@@ -863,43 +861,44 @@ export class TiendaTipoComponent implements OnInit {
       );
 
     //Verificar si el producto tiene variantes
-    this._productoService.getProductoDetalles(producto_seleccionado.producto, producto_seleccionado.unidad_Medida, this.tienda_seleccionada.bodega).subscribe(
-      res => {
-        let resJson = JSON.stringify(res);
-        this.presentacion_producto = JSON.parse(resJson);
+    this._productoService.getProductoDetalles(
+      producto_seleccionado.producto, producto_seleccionado.unidad_Medida,
+      this.tienda_seleccionada.bodega).subscribe(
+        res => {
+          let resJson = JSON.stringify(res);
+          this.presentacion_producto = JSON.parse(resJson);
 
-        if (this.presentacion_producto.length == 0) {
-          this.no_hay_producto_detalle = true;
-
-        } else {
-          this.no_hay_producto_detalle = false;
-          if (!this.presentacion_producto[0].variantes) {
-            this.presentacion = false
-            for (let index = 0; index < this.presentacion_producto.length; index++) {
-              this.cantidades_varias_TP[index] = 0;
-
-            }
+          if (this.presentacion_producto.length == 0) {
+            this.no_hay_producto_detalle = true;
           } else {
-            this.presentacion = true;
-
-            for (let index = 0; index < this.presentacion_producto.length; index++) {
-              this.cantidades_varias[index] = 0;
+            this.no_hay_producto_detalle = false;
+            if (!this.presentacion_producto[0].variantes) {
+              this.presentacion = false
+              for (let index = 0; index < this.presentacion_producto.length; index++) {
+                this.cantidades_varias_TP[index] = 0;
+              }
+            } else {
+              this.presentacion = true;
+              for (let index = 0; index < this.presentacion_producto.length; index++) {
+                this.cantidades_varias[index] = 0;
+              }
             }
           }
+        },
+        err => {
+          alert("Error de servidor.")
+          console.log(err)
         }
-      },
-      err => {
-        alert("Error de servidor.")
-        console.log(err)
-      }
-    );
+      );
   }
 
+  //Cambiar imagen al visualizar imagenes en el detalle del producto
   seleccionarImagen(indice: number) {
     this.indiceSeleccionado = indice;
     this.fotoSeleccionada = this.fotos[this.indiceSeleccionado].url_Img;
   }
 
+  //Remplaza una imagen por defecto en caso de que no hayan imagenes que mostrar
   resolverFoto(indice: any) {
     if (this.fotos.length == 0) {
       return ("assets/img/image-not-found.png");
@@ -912,17 +911,7 @@ export class TiendaTipoComponent implements OnInit {
     }
   }
 
-  filtrarCategorias_hijo(padres: any) {
-    let hijos: any = [];
-    this.categorias_hijo.forEach(cHijo => {
-      if (padres.categoria == cHijo.categoria_Padre) {
-        hijos.push(cHijo);
-      }
-    });
-
-    return hijos;
-  }
-
+  //Obtiene las categorias
   getCategorias() {
     let categoriasSession = sessionStorage.getItem("categorias")
 
@@ -946,11 +935,13 @@ export class TiendaTipoComponent implements OnInit {
     }
   }
 
+  //Obtiene la forma de pago seleccionada por el usuario
   tipoPagoLlave(formaPagoSelect: any) {
     this.confirmar_pago = true;
     this.forma_pago_select = formaPagoSelect;
   }
 
+  //Al hacer click en una categoria hijo se activa la categoria padre
   searchCategoriaPadre(categoria: number) {
     this.categorias.forEach((element: any) => {
       if (element.categoria == categoria) {
@@ -959,16 +950,15 @@ export class TiendaTipoComponent implements OnInit {
         } else {
           this.categoria_activa = element.categoria;
           //console.log(element.categoria);
-
         }
       }
     });
   }
 
+  //Obtiene las categorias según una categoría
   getProductos(categoria: number) {
-    //Funciona mas lento su se guarda en session storage patra evitar las llamadas http
+    //Funciona mas lento si se guarda en session storage patra evitar las llamadas http
     this.progress_product = true;
-
     if (categoria != 0) {
       this.searchCategoriaPadre(categoria);
     } else {
@@ -978,19 +968,13 @@ export class TiendaTipoComponent implements OnInit {
     this._productoService.producto(categoria).subscribe(
       res => {
         let resJson = JSON.stringify(res);
-        /*if (categoria == 0) {
-          sessionStorage.setItem("productos", resJson);
-        }*/
         sessionStorage.setItem("productos", resJson);
         this.productos = JSON.parse(resJson);
-
         if (this.productos.length == 0) {
           this.producto_exist = false;
           this.progress_product = false;
-
         } else {
           this.progress_product = false;
-
           this.producto_exist = true;
         }
       },
@@ -998,11 +982,11 @@ export class TiendaTipoComponent implements OnInit {
         alert("Error de servidor");
         console.log(err);
         this.progress_product = false;
-
       }
     );
   }
 
+  //Obtiene las formas de pago
   getFormaPago() {
     this._formaPagoService.getFormaPago(
       this.tienda_seleccionada.tipo_Documento,
@@ -1021,6 +1005,7 @@ export class TiendaTipoComponent implements OnInit {
     );
   }
 
+  //Obtiene el nombre del usuario loggeado
   getUserName(token: any): any {
     this._userService.getUserNameToken(token).subscribe(
       res => {
@@ -1031,16 +1016,12 @@ export class TiendaTipoComponent implements OnInit {
       });
   }
 
-
   //registrar Documento Estructura
   sendPedido() {
-
-    
-    
     let transacciones: Trasaccion[] = [];
 
     this.pedidos.forEach(element => {
-      let item:Trasaccion = {
+      let item: Trasaccion = {
         "Tra_Bodega": this.tienda_seleccionada.bodega,
         "Tra_Producto": element.producto,
         "Tra_Unidad_Medida": element.unidad_Medida,
@@ -1069,7 +1050,6 @@ export class TiendaTipoComponent implements OnInit {
       "Tra": transacciones
     };
 
-
     let docEstructura: DocumentoEstructura = {
       pEstructura: JSON.stringify(estructuraPedido),
       pUserName: this.nombre_user,
@@ -1078,9 +1058,6 @@ export class TiendaTipoComponent implements OnInit {
       pM_UserName: null
     };
 
-    
-
-
     //Consumo del api
     this._pedidoService.postDocumentoEstructura(docEstructura).subscribe(
       res => {
@@ -1088,15 +1065,13 @@ export class TiendaTipoComponent implements OnInit {
         this.dialog.open(GenericAcceptDialogComponent, {
           data: {
             tittle: "Su pedido ha sido recibido.",
-            description: `Puede consultar el estado de su pedido con el identificador: ${resOk.consecutivo_interno}` 
+            description: `Puede consultar el estado de su pedido con el identificador: ${resOk.consecutivo_interno}`
           }
         });
-
         //!carrito_pago && !forma_pago && !confirmar_pago forma_pago && !confirmar_pago
         this.vaciarPedido();
         this.regresarFormulario();
         this.regresarCarrito();
-        
       },
       err => {
         this.dialog.open(GenericAcceptDialogComponent, {

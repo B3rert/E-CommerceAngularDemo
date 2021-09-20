@@ -17,28 +17,34 @@
                 <li class="mb-1 child_hover" [ngClass]="categoria_activa == 0 ? 'active_cat': 'inactive'"
                     (click)="getProductos(0)">
                     <p class="cat_todas ">
-                        Todas
+                        TODAS
                     </p>
                 </li>
 
                 <span *ngFor="let item of navItems" class="container_down">
                     <!-- Handle branch node buttons here -->
                     <span *ngIf="item.children && item.children.length > 0">
-                        <div class="mat_categorias">
-                            <button class="btn_cat_infinite" mat-button [disabled]="item.disabled">
+                        <div class="mat_categorias"
+                            [ngClass]="categoria_activa == item.categoria ? 'active_cat': 'inactive'">
+                            <button class="btn_cat_infinite" mat-button [disabled]="item.disabled"
+                                (click)="getProductos(item.categoria)">
                                 {{item.displayName}}
                             </button>
-                            <fa-icon [icon]="faCaretRight" [matMenuTriggerFor]="menu.childMenu"></fa-icon>
+                            <fa-icon [icon]="faCaretRight" [matMenuTriggerFor]="menu.childMenu">
+                            </fa-icon>
                         </div>
-
-
-                        <app-menu-item #menu [items]="item.children"></app-menu-item>
+                        <app-menu-item #menu [items]="item.children" (categoria)="getProductos($event)">
+                        </app-menu-item>
                     </span>
                     <!-- Leaf node buttons here -->
                     <span *ngIf="!item.children || item.children.length === 0">
-                        <button mat-button class="mat_categorias">
-                            {{item.displayName}}
-                        </button>
+                        <div [ngClass]="categoria_activa == item.categoria ? 'active_cat': 'inactive'">
+                            <button mat-button class="mat_categorias"
+                                (click)="getProductos(item.categoria)">
+                                {{item.displayName}}
+                            </button>
+                        </div>
+
                     </span>
                 </span>
             </ul>
@@ -357,21 +363,29 @@
             <fa-icon [icon]="faEllipsisV" [matMenuTriggerFor]="menuOpt" class="icon_close_head"></fa-icon>
             <mat-menu #menuOpt="matMenu" class="menu_options">
                 <button mat-menu-item *ngIf="forma_pedido == 'domicilio'" (click)="cambiarTipoPedido()">
-                    <mat-icon><fa-icon [icon]="faShoppingCart"></fa-icon></mat-icon>
+                    <mat-icon>
+                        <fa-icon [icon]="faShoppingCart"></fa-icon>
+                    </mat-icon>
                     <span>A domicilio</span>
                 </button>
                 <button mat-menu-item *ngIf="forma_pedido == 'recoger'" (click)="cambiarTipoPedido()">
-                    <mat-icon><fa-icon [icon]="faShoppingCart"></fa-icon></mat-icon>
+                    <mat-icon>
+                        <fa-icon [icon]="faShoppingCart"></fa-icon>
+                    </mat-icon>
                     <span>Recoger en tienda</span>
                 </button>
-                <button mat-menu-item (click)="saveLastOrder()">
-                    <mat-icon><fa-icon [icon]="faClock"></fa-icon></mat-icon>
+                <button mat-menu-item (click)="saveLastOrder()" *ngIf="pedidos.length != 0">
+                    <mat-icon>
+                        <fa-icon [icon]="faClock"></fa-icon>
+                    </mat-icon>
                     <span>Guardar Pedido</span>
                 </button>
+                <!--
                 <button mat-menu-item (click)="downloadOrder()">
                     <mat-icon><fa-icon [icon]="faCartArrowDown"></fa-icon></mat-icon>
                     <span>Continuar pedido</span>
                 </button>
+                -->
             </mat-menu>
 
         </mat-toolbar>
@@ -521,6 +535,13 @@
                                                     #fecha="ngModel" name="fecha"
                                                     [(ngModel)]="userFactura.Fecha_Hora_Recoger" required>
                                             </div>
+                                            <textarea id="obEntrega" type="text"
+                                                class="input__tienda ng-pristine ng-untouched ng-valid ng-empty"
+                                                rows="5" cols="5" name="obEntrega" ng-model="pos.obEntrega"
+                                                placeholder="Referencias o comentarios adicionales"
+                                                #observacion="ngModel" name="observacion"
+                                                [(ngModel)]="userFactura.Observacion">
+                                        </textarea>
                                             <div class="text__more_prod">
                                                 <div ng-bind-html="observacionesPersonalizado.descripcion_fecha_tienda"
                                                     ng-if="tipoenviosucursal == 0" class="ng-binding ng-scope">
@@ -751,8 +772,16 @@
                 </span>
             </button>
         </mat-toolbar>
+
+        <!--Barra para ver categoria activa-->
+
+
         <!--Container-->
         <div class="container_page">
+            <mat-toolbar class="toolbarCateg">
+                <h1>{{nombreCategoriaActiva}}</h1>
+                <span class="example-spacer"></span>
+            </mat-toolbar>
             <div class="container_start">
                 <div class="container-fluid">
                     <div class="row">

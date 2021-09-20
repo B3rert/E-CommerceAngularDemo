@@ -1405,7 +1405,9 @@ mat-sidenav {
 
 .col_categorias_nav {
   margin-top: 114px;
-  height: calc(100vh - 158px);
+  
+  height: calc(100vh - 198px);
+  
   width: 100%;
   overflow: auto;
 }
@@ -1630,4 +1632,20 @@ ng-autocomplete {
   font-size: 10px !important;
   height: 10px !important;
   
+}
+
+/**Toolbar Categoria*/
+
+.toolbarCateg{
+  padding: none;
+  margin: none;
+  height: 40px;
+}
+
+.toolbarCateg h1{
+  font-size: 15px;
+}
+
+.toolbarlarge {
+  box-shadow: 0 3px 5px -1px rgb(0 0 0 / 20%), 0 6px 10px 0 rgb(0 0 0 / 14%), 0 1px 18px 0 rgb(0 0 0 / 12%);
 }

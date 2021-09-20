@@ -140,6 +140,7 @@ export class TiendaTipoComponent implements OnInit {
   favoriteSeason: string = "Descripción";
   seasons: string[] = ['Descripción', 'SKU'];
   nombre_user = "Nombre usuario"
+  nombreCategoriaActiva = "TODAS"
 
   constructor(
     private router: Router,
@@ -150,7 +151,7 @@ export class TiendaTipoComponent implements OnInit {
     private _userService: UserService,
     private _pedidoService: PedidoService
   ) {
-   
+
     var fecha_hora = this.getHoraActual();
     this.userFactura = new UserFactura("", "", "", "", "", fecha_hora, "", "", "");
     this.inputRegisterUser = new RegistroUser("", "", "", "");
@@ -174,7 +175,7 @@ export class TiendaTipoComponent implements OnInit {
     this.getCategorias();
     this.getProductos(0);
     this.products_autocomplete = JSON.parse(sessionStorage.getItem("productos")!);
-    
+
     let tienda = sessionStorage.getItem("tienda");
     this.tienda_seleccionada = JSON.parse(tienda!);
     this.forma_pedido = sessionStorage.getItem("FormaPedido");
@@ -272,7 +273,7 @@ export class TiendaTipoComponent implements OnInit {
     //submit
   }
 
-  //Boton regresar arriba
+  //Ecuchando scroll en todos los elementos
   scrollEvent = (event: any): void => {
     const number = event.srcElement.scrollTop;
     if (event.srcElement.className == "container_main") {
@@ -280,6 +281,19 @@ export class TiendaTipoComponent implements OnInit {
         this.showGoUpButton = true;
       } else if (number < this.hideScrollHeight) {
         this.showGoUpButton = false;
+      }
+    }
+
+    if (event.srcElement.className == "container_main"
+      || event.srcElement.className == "container_start"
+      || event.srcElement.className == "toolbarCateg") {
+      if (number != 0) {
+        $('.toolbarCateg').slideUp(180);
+        $('.col_categorias_nav').height('calc(100vh - 18px)');
+
+      } else if (number < 1) {
+        $('.toolbarCateg').slideDown(180);
+        $('.col_categorias_nav').height('calc(100vh - 198px)');
       }
     }
   }
@@ -385,13 +399,9 @@ export class TiendaTipoComponent implements OnInit {
   //Iniciar sesión
   accsesLogin() {
     if (!this.inputUserLogin.user) {
-      this.dialog.open(GenericAcceptDialogComponent, {
-        data: { tittle: "Usuario requerido." }
-      });
+      this.dialogAccept("Usuario requerido.");
     } else if (!this.inputUserLogin.pass) {
-      this.dialog.open(GenericAcceptDialogComponent, {
-        data: { tittle: "Contraseña requerida." }
-      });
+      this.dialogAccept("Contraseña requerida.");
     } else {
       this.progressLogin = true;
       this._userService.posLogin(this.inputUserLogin).subscribe(
@@ -438,25 +448,15 @@ export class TiendaTipoComponent implements OnInit {
   regitroUser() {
     let re = /^([\da-z_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
     if (!this.inputRegisterUser.Nombre) {
-      this.dialog.open(GenericAcceptDialogComponent, {
-        data: { tittle: "Nombre requerido." }
-      });
+      this.dialogAccept("Nombre requerido.");
     } else if (!this.inputRegisterUser.Apellido) {
-      this.dialog.open(GenericAcceptDialogComponent, {
-        data: { tittle: "Apellido Requerido." }
-      });
+      this.dialogAccept("Apellido Requerido.");
     } else if (!this.inputRegisterUser.Celular) {
-      this.dialog.open(GenericAcceptDialogComponent, {
-        data: { tittle: "Número de teléfono requerido." }
-      });
+      this.dialogAccept("Número de teléfono requerido.");
     } else if (!this.inputRegisterUser.Correo_Electronico) {
-      this.dialog.open(GenericAcceptDialogComponent, {
-        data: { tittle: "Correo electrónico requerido." }
-      });
+      this.dialogAccept("Correo electrónico requerido.");
     } else if (!re.exec(this.inputRegisterUser.Correo_Electronico)) {
-      this.dialog.open(GenericAcceptDialogComponent, {
-        data: { tittle: "Correo electrónico invalido." }
-      });
+      this.dialogAccept("Correo electrónico invalido.");
     } else {
       this.progressLogin = true;
       this._userService.postRegitroUser(this.inputRegisterUser).subscribe(
@@ -570,9 +570,38 @@ export class TiendaTipoComponent implements OnInit {
 
   //cambiar a formulario para hacer el pago 
   continuarPago() {
-    this.forma_pago = true;
-    this.getFormaPago();
+    let re = /^([\da-z_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
+
+    if (this.userFactura.Nombre == "" || !this.userFactura.Nombre) {
+      this.dialogAccept("Nombre requerido.");
+    } else if (this.userFactura.Apellido == "" || !this.userFactura.Apellido) {
+      this.dialogAccept("Apellido Requerido.");
+    } else if (this.userFactura.Nit == "" || !this.userFactura.Nit) {
+      this.dialogAccept("NIT requerido.");
+    } else if (this.userFactura.Telefono == "" || !this.userFactura.Telefono) {
+      this.dialogAccept("Número de teléfono requerido.");
+    } else if (this.userFactura.Correo_electronico == "" || !this.userFactura.Correo_electronico) {
+      this.dialogAccept("Correo electrónico requerido.");
+    } else if (!re.exec(this.userFactura.Correo_electronico)) {
+      this.dialogAccept("Correo electrónico invalido.");
+    } else if (this.userFactura.Ciudad == "" || !this.userFactura.Ciudad) {
+      this.dialogAccept("Ciudad requerida.");
+    } else {
+      this.forma_pago = true;
+      this.getFormaPago();
+    }
+
   }
+
+  dialogAccept(dialog: string) {
+    this.dialog.open(GenericAcceptDialogComponent, {
+      data: {
+        tittle: dialog,
+      }
+    });
+  }
+
+
 
   //Agregar consumidor final
   nitcf() {
@@ -685,8 +714,8 @@ export class TiendaTipoComponent implements OnInit {
                    * let tienda = sessionStorage.getItem("tienda");
                     this.tienda_seleccionada = JSON.parse(tienda!);
                    */
-                  sessionStorage.setItem("tienda",JSON.stringify(tienda_pedido));
-                 this.ngOnInit();
+                  sessionStorage.setItem("tienda", JSON.stringify(tienda_pedido));
+                  this.ngOnInit();
                 }
               });
 
@@ -1016,18 +1045,38 @@ export class TiendaTipoComponent implements OnInit {
     this.forma_pago_select = formaPagoSelect;
   }
 
+
+  srcCategorias: any[] = [];
+
   //Al hacer click en una categoria hijo se activa la categoria padre
   searchCategoriaPadre(categoria: number) {
     this.categorias.forEach((element: any) => {
       if (element.categoria == categoria) {
         if (element.nivel != 1) {
           this.searchCategoriaPadre(element.categoria_Padre);
+          this.srcCategorias.push(element.descripcion);
         } else {
           this.categoria_activa = element.categoria;
-          //console.log(element.categoria);
+          this.srcCategorias.push(element.descripcion);
         }
       }
     });
+  }
+
+
+  generateSourceCategorias(arr: any[]) {
+    this.nombreCategoriaActiva = ""
+    arr.forEach(element => {
+      this.nombreCategoriaActiva = `${this.nombreCategoriaActiva}${this.transformCapitalize(element)}/`;
+    });
+  }
+
+  transformCapitalize(text:string) {
+    text = text.toLocaleLowerCase();
+    function capitalizarPrimeraLetra(str: string) {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+    return capitalizarPrimeraLetra(text);
   }
 
   //Obtiene las categorias según una categoría
@@ -1035,9 +1084,12 @@ export class TiendaTipoComponent implements OnInit {
     //Funciona mas lento si se guarda en session storage patra evitar las llamadas http
     this.progress_product = true;
     if (categoria != 0) {
+      this.srcCategorias.splice(0, this.srcCategorias.length);
       this.searchCategoriaPadre(categoria);
+      this.generateSourceCategorias(this.srcCategorias);
     } else {
       this.categoria_activa = categoria;
+      this.nombreCategoriaActiva = "TODAS"
     }
 
     this._productoService.producto(categoria).subscribe(
@@ -1115,12 +1167,12 @@ export class TiendaTipoComponent implements OnInit {
       "Doc_Serie_Documento": this.tienda_seleccionada.serie_Documento,
       "Doc_Empresa": this.tienda_seleccionada.empresa,
       "Doc_Estacion_Trabajo": this.tienda_seleccionada.estacion_Trabajo,
-      "Doc_UserName": "FACTURACIONaX",
-      "Doc_Nombre": "PEDRO PAXTOR",
-      "Doc_NIT": "7431480-7",
-      "Doc_Direccion": "Ciudad",
+      "Doc_UserName": this.nombre_user,
+      "Doc_Nombre": `${this.userFactura.Nombre} ${this.userFactura.Apellido}`,
+      "Doc_NIT": this.userFactura.Nit,
+      "Doc_Direccion": this.userFactura.Ciudad,
       "Doc_Referencia": null,
-      "Doc_Observacion_1": null,
+      "Doc_Observacion_1": this.userFactura.Observacion,
       "Doc_Tipo_Pago": 1,
       "Tra": transacciones
     };
@@ -1170,10 +1222,8 @@ export class TiendaTipoComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log("Cambiar pedido");
-
       }
     });
-
   }
 
   saveLastOrder() {
@@ -1185,8 +1235,7 @@ export class TiendaTipoComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log("Guardar pedido");
-
+        this.sendPedido();
       }
     });
   }
@@ -1202,7 +1251,6 @@ export class TiendaTipoComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log("Guardar pedido");
-
       }
     });
   }

@@ -649,36 +649,33 @@ export class TiendaTipoComponent implements OnInit {
       tipo_pedido: this.forma_pedido
     }
     localStorage.setItem("pedidoLocal", JSON.stringify(pedidoUp));
-    let pedidoSave = (localStorage.getItem("pedidoLocal"));
-    console.log(this.pedidos);
   }
 
-  getAndViewOrderLocal() {
+  async getAndViewOrderLocal() {
     if (this.isSesssionLogin) {
       let pedido = JSON.parse(localStorage.getItem("pedidoLocal")!);
-      console.log(pedido.tienda_pedido);
-      if (pedido.user == this.nombre_user) {
 
-        if (this.tienda_seleccionada != pedido.tienda_pedido) {
-          const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
-            data: {
-              tittle: "¿Cambiar Tienda?",
-              description: "Se ha encontrado un pedido pendiente de procesar, pero la tienda del pedido no coincide con la tienda seleccionada actualmente.",
-              verdadero: "Cambiar",
-              falso: "Mantener"
-            }
-          });
-          dialogRef.afterClosed().subscribe(result => {
-            if (result) {
-              console.log("Cambiar pedido");
+      await this._userService.getUserNameToken(this.tokenUser).subscribe(
+        res => {
+          let user = JSON.parse(JSON.stringify(res));
+          if (pedido.user == user.messege) {
+            let tienda_pedido = JSON.parse(JSON.stringify(pedido.tienda_pedido));
 
+            if (tienda_pedido.bodega == this.tienda_seleccionada.bodega) {
+              this.pedidos = pedido.pedido;
+            this.actualizarTotal();
+            this.carrito_cantidad = this.pedidos.length;
+
+            }else{
+              console.log("Pasamos por quí porque no son las mismas tiendas");
+              
             }
-          });
+          }
+        }, err => { 
+          console.log(err);
+          
         }
-        this.pedidos = pedido.pedido;
-        this.actualizarTotal();
-        this.carrito_cantidad = this.pedidos.length;
-      }
+      );
     }
   }
 

@@ -150,16 +150,14 @@ export class TiendaTipoComponent implements OnInit {
     private _userService: UserService,
     private _pedidoService: PedidoService
   ) {
-    this.updateDataSession();
-    this.getCategorias();
-    this.getProductos(0);
-    this.products_autocomplete = JSON.parse(sessionStorage.getItem("productos")!);
+   
     var fecha_hora = this.getHoraActual();
     this.userFactura = new UserFactura("", "", "", "", "", fecha_hora, "", "", "");
     this.inputRegisterUser = new RegistroUser("", "", "", "");
     this.inputUserLogin = new UserLogin("", "");
     this.inputRestorePass = new RestorePassword("");
     this.inputSearchBar = new SerachBar("");
+
     window.addEventListener('scroll', this.scrollEvent, true);
   }
 
@@ -172,10 +170,15 @@ export class TiendaTipoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.updateDataSession();
+    this.getCategorias();
+    this.getProductos(0);
+    this.products_autocomplete = JSON.parse(sessionStorage.getItem("productos")!);
+    
     let tienda = sessionStorage.getItem("tienda");
     this.tienda_seleccionada = JSON.parse(tienda!);
     this.forma_pedido = sessionStorage.getItem("FormaPedido");
-    this.getAndViewOrderLocal();
+    //this.getAndViewOrderLocal();
   }
 
   //categorias, generar estructura arból
@@ -663,17 +666,35 @@ export class TiendaTipoComponent implements OnInit {
 
             if (tienda_pedido.bodega == this.tienda_seleccionada.bodega) {
               this.pedidos = pedido.pedido;
-            this.actualizarTotal();
-            this.carrito_cantidad = this.pedidos.length;
+              this.actualizarTotal();
+              this.carrito_cantidad = this.pedidos.length;
 
-            }else{
-              console.log("Pasamos por quí porque no son las mismas tiendas");
-              
+            } else {
+              const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
+                data: {
+                  tittle: "¿Cambiar Tienda?",
+                  description: "Se ha encontrado un pedido pendiente de procesar, pero la tienda del pedido no coincide con la tienda seleccionada actualmente. Si decide mantener la tienda actual, el pedido se perderá.",
+                  verdadero: "Cambiar",
+                  falso: "Mantener"
+                }
+              });
+              dialogRef.afterClosed().subscribe(result => {
+                if (result) {
+
+                  /**
+                   * let tienda = sessionStorage.getItem("tienda");
+                    this.tienda_seleccionada = JSON.parse(tienda!);
+                   */
+                  sessionStorage.setItem("tienda",JSON.stringify(tienda_pedido));
+                 this.ngOnInit();
+                }
+              });
+
             }
           }
-        }, err => { 
+        }, err => {
           console.log(err);
-          
+
         }
       );
     }

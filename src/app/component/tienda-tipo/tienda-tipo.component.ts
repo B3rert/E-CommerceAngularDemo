@@ -140,7 +140,7 @@ export class TiendaTipoComponent implements OnInit {
   favoriteSeason: string = "Descripción";
   seasons: string[] = ['Descripción', 'SKU'];
   nombre_user = "Nombre usuario"
-  nombreCategoriaActiva = "TODAS"
+  srcActive = 0;
 
   constructor(
     private router: Router,
@@ -1046,7 +1046,7 @@ export class TiendaTipoComponent implements OnInit {
   }
 
 
-  srcCategorias: any[] = [];
+  srcCategorias: any[] = [{"name":"Todas","categoria":0}];
 
   //Al hacer click en una categoria hijo se activa la categoria padre
   searchCategoriaPadre(categoria: number) {
@@ -1054,22 +1054,23 @@ export class TiendaTipoComponent implements OnInit {
       if (element.categoria == categoria) {
         if (element.nivel != 1) {
           this.searchCategoriaPadre(element.categoria_Padre);
-          this.srcCategorias.push(element.descripcion);
+          let item = {
+            "name":this.transformCapitalize(element.descripcion),
+            "categoria":element.categoria
+          }
+          this.srcCategorias.push(item);
         } else {
           this.categoria_activa = element.categoria;
-          this.srcCategorias.push(element.descripcion);
+          let item = {
+            "name":this.transformCapitalize(element.descripcion),
+            "categoria":element.categoria
+          }
+          this.srcCategorias.push(item);
         }
       }
     });
   }
-
-
-  generateSourceCategorias(arr: any[]) {
-    this.nombreCategoriaActiva = ""
-    arr.forEach(element => {
-      this.nombreCategoriaActiva = `${this.nombreCategoriaActiva}${this.transformCapitalize(element)}/`;
-    });
-  }
+ 
 
   transformCapitalize(text:string) {
     text = text.toLocaleLowerCase();
@@ -1083,13 +1084,14 @@ export class TiendaTipoComponent implements OnInit {
   getProductos(categoria: number) {
     //Funciona mas lento si se guarda en session storage patra evitar las llamadas http
     this.progress_product = true;
+    this.srcActive = categoria;
     if (categoria != 0) {
       this.srcCategorias.splice(0, this.srcCategorias.length);
       this.searchCategoriaPadre(categoria);
-      this.generateSourceCategorias(this.srcCategorias);
     } else {
       this.categoria_activa = categoria;
-      this.nombreCategoriaActiva = "TODAS"
+      this.srcCategorias.splice(0, this.srcCategorias.length);
+      this.srcCategorias.push({"name":"Todas","categoria":0})
     }
 
     this._productoService.producto(categoria).subscribe(

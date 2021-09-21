@@ -735,7 +735,7 @@
                 </button>
             -->
             <div class="logo">
-                <h1>{{precio_vusuario}} GTQ</h1>
+                <h1 >{{precio_vusuario}} GTQ</h1>
             </div>
             <form class="d-flex search_toolbar" #searchProduct="ngForm" (ngSubmit)="searchProducts()">
                 <input class="form-control me-2" type="search" placeholder="Buscar" name="search" #search="ngModel"
@@ -779,7 +779,7 @@
         <!--Container-->
         <div class="container_page">
             <mat-toolbar class="toolbarCateg">
-                <h1>{{nombreCategoriaActiva}}</h1>
+                <h1 *ngFor="let item of srcCategorias" [ngClass]="srcActive == item.categoria ? 'srcActive': 'inactive'" (click)="getProductos(item.categoria)">{{item.name}}/</h1>
                 <span class="example-spacer"></span>
             </mat-toolbar>
             <div class="container_start">

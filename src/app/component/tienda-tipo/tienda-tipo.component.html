@@ -39,8 +39,7 @@
                     <!-- Leaf node buttons here -->
                     <span *ngIf="!item.children || item.children.length === 0">
                         <div [ngClass]="categoria_activa == item.categoria ? 'active_cat': 'inactive'">
-                            <button mat-button class="mat_categorias"
-                                (click)="getProductos(item.categoria)">
+                            <button mat-button class="mat_categorias" (click)="getProductos(item.categoria)">
                                 {{item.displayName}}
                             </button>
                         </div>
@@ -735,7 +734,7 @@
                 </button>
             -->
             <div class="logo">
-                <h1 >{{precio_vusuario}} GTQ</h1>
+                <h1>{{precio_vusuario}} GTQ</h1>
             </div>
             <form class="d-flex search_toolbar" #searchProduct="ngForm" (ngSubmit)="searchProducts()">
                 <input class="form-control me-2" type="search" placeholder="Buscar" name="search" #search="ngModel"
@@ -773,15 +772,15 @@
             </button>
         </mat-toolbar>
 
-        <!--Barra para ver categoria activa-->
-
-
         <!--Container-->
         <div class="container_page">
+            <!--Barra para ver categoria activa-->
             <mat-toolbar class="toolbarCateg">
-                <h1 *ngFor="let item of srcCategorias" [ngClass]="srcActive == item.categoria ? 'srcActive': 'inactive'" (click)="getProductos(item.categoria)">{{item.name}}/</h1>
+                <h1 *ngFor="let item of srcCategorias" [ngClass]="srcActive == item.categoria ? 'srcActive': 'inactive'"
+                    (click)="getProductos(item.categoria)">{{item.name}}/</h1>
                 <span class="example-spacer"></span>
             </mat-toolbar>
+            <!--Fin Barra para ver categoria activa-->
             <div class="container_start">
                 <div class="container-fluid">
                     <div class="row">

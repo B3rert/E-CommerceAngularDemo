@@ -141,6 +141,8 @@ export class TiendaTipoComponent implements OnInit {
   seasons: string[] = ['Descripción', 'SKU'];
   nombre_user = "Nombre usuario"
   srcActive = 0;
+  srcCategorias: any[] = [{"name":"Todas","categoria":0}];
+
 
   constructor(
     private router: Router,
@@ -590,9 +592,9 @@ export class TiendaTipoComponent implements OnInit {
       this.forma_pago = true;
       this.getFormaPago();
     }
-
   }
 
+  //Dialogo con un texto y un boton de aceptar
   dialogAccept(dialog: string) {
     this.dialog.open(GenericAcceptDialogComponent, {
       data: {
@@ -600,8 +602,6 @@ export class TiendaTipoComponent implements OnInit {
       }
     });
   }
-
-
 
   //Agregar consumidor final
   nitcf() {
@@ -1045,9 +1045,6 @@ export class TiendaTipoComponent implements OnInit {
     this.forma_pago_select = formaPagoSelect;
   }
 
-
-  srcCategorias: any[] = [{"name":"Todas","categoria":0}];
-
   //Al hacer click en una categoria hijo se activa la categoria padre
   searchCategoriaPadre(categoria: number) {
     this.categorias.forEach((element: any) => {
@@ -1071,7 +1068,7 @@ export class TiendaTipoComponent implements OnInit {
     });
   }
  
-
+  //Transforma la primera letra de un texto en Mayuscula
   transformCapitalize(text:string) {
     text = text.toLocaleLowerCase();
     function capitalizarPrimeraLetra(str: string) {
@@ -1214,6 +1211,7 @@ export class TiendaTipoComponent implements OnInit {
     );
   }
 
+  //Cambiar tipo del pedido (a domicilio, reco0ger en tienda, etc)
   cambiarTipoPedido() {
     const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
       data: {
@@ -1228,6 +1226,7 @@ export class TiendaTipoComponent implements OnInit {
     });
   }
 
+  //Guardar pedido sin confirmar
   saveLastOrder() {
     const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
       data: {
@@ -1242,7 +1241,7 @@ export class TiendaTipoComponent implements OnInit {
     });
   }
 
-
+  //Descargar Orden en carrito (En desuso)
   downloadOrder() {
     const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
       data: {
@@ -1258,4 +1257,3 @@ export class TiendaTipoComponent implements OnInit {
   }
 
 }
-

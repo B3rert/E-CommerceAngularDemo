@@ -17,4 +17,4 @@ const app_routes: Routes = [
   { path: '**', redirectTo: '/no-encontrado', pathMatch: 'full' },
 ];
 
-export const app_routing = RouterModule.forRoot(app_routes);
+export const app_routing = RouterModule.forRoot(app_routes, { useHash: true });

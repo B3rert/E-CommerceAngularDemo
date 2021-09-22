@@ -268,13 +268,10 @@ export class PedidoComponentComponent implements OnInit {
 
                   let _total = 0;
 
-                  console.log(pedidosPedidoActual.Tra);
-              
+                  //Calcular total Transaccion
                   pedidosPedidoActual.Tra.forEach(element => {
                     _total = _total + element.Tra_Monto;
-              
                   });
-
 
                   let item = {
                     "pedido": element.consecutivo_Interno,

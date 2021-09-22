@@ -21,7 +21,7 @@ import { faDolly } from '@fortawesome/free-solid-svg-icons';
 import { faPlaneArrival } from '@fortawesome/free-solid-svg-icons';
 import { faBuilding } from '@fortawesome/free-solid-svg-icons';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { PedidoEstructura } from 'src/app/interfaces/documento-estructura.interface';
+import { PedidoEstructura, Trasaccion } from 'src/app/interfaces/documento-estructura.interface';
 import { PedidoService } from 'src/app/services/pedido.service';
 
 import { UserService } from 'src/app/services/user.service';
@@ -97,6 +97,7 @@ export class PedidoComponentComponent implements OnInit {
   jsonHead: any[] = [];
   jsonPedidos: any[] = [];
   pedidoActual: any;
+  transacciones:Trasaccion[] = [];
   //pedidosPedidoActual: PedidoEstructura ={};
   token: any;
   userName: string = "Nombre_Usuario";
@@ -125,39 +126,12 @@ export class PedidoComponentComponent implements OnInit {
       this.getUserName(this.token);
     }
 
-
     this.getPedido();
     let tienda = sessionStorage.getItem("tienda");
     this.tienda_seleccionada = JSON.parse(tienda!);
   }
 
   ngOnInit(): void {
-  }
-
-  navStatusTracking(pedido: any) {
-    this.viewPedido = false;
-    this.viewAcount = false;
-    this.viewDetailsPedido = true;
-    this.pedidoActual = pedido;
-    let pedidosPedidoActual: PedidoEstructura = JSON.parse(this.spliceQuotes(pedido.estructura))
-
-    console.log(pedidosPedidoActual.Tra);
-
-    pedidosPedidoActual.Tra.forEach(element => {
-      console.log(element);
-
-    });
-
-  }
-
-  getUserName(token: any): any {
-    this._userService.getUserNameToken(token).subscribe(
-      res => {
-        this.userName = JSON.parse(JSON.stringify(res)).messege;
-      },
-      err => {
-        console.error(err);
-      });
   }
 
   changeClass(index: number) {
@@ -198,6 +172,32 @@ export class PedidoComponentComponent implements OnInit {
     }
   }
 
+  navStatusTracking(pedido: any) {
+    this.viewPedido = false;
+    this.viewAcount = false;
+    this.viewDetailsPedido = true;
+    this.pedidoActual = pedido;
+    
+    this.transacciones.splice(0, this.transacciones.length);
+    
+    let pedidosPedidoActual: PedidoEstructura = JSON.parse(this.spliceQuotes(pedido.estructura))
+
+    pedidosPedidoActual.Tra.forEach(element => {
+      this.transacciones.push(element);
+    });
+    
+  }
+
+  getUserName(token: any): any {
+    this._userService.getUserNameToken(token).subscribe(
+      res => {
+        this.userName = JSON.parse(JSON.stringify(res)).messege;
+      },
+      err => {
+        console.error(err);
+      });
+  }
+
   navigateToStore() {
     this.router.navigate(['/tienda']);
   }
@@ -209,14 +209,12 @@ export class PedidoComponentComponent implements OnInit {
   }
 
   navigateToSelectStore() {
-
     const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
       data: {
         tittle: "¿Cambiar Tienda?",
         description: "Es posible que se pierdan datos que no hayan sido guardados."
       }
     });
-
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.router.navigate(['/seleccion'])
@@ -243,11 +241,9 @@ export class PedidoComponentComponent implements OnInit {
         sessionStorage.removeItem("Token");
         localStorage.removeItem("Token");
         this.router.navigate(['/tienda']);
-
       }
     });
   }
-
 
   getPedido() {
     this._userService.getUserNameToken(this.token).subscribe(
@@ -259,37 +255,23 @@ export class PedidoComponentComponent implements OnInit {
               console.log(res);
               let pedidos = JSON.parse(JSON.stringify(res));
               pedidos.forEach((element: any) => {
-
-
                 //Quitar la condicion, solo es un pedido con una estructura distinta
                 if (element.consecutivo_Interno != 18) {
-
                   let pedidosPedidoActual: PedidoEstructura = JSON.parse(this.spliceQuotes(element.estructura))
-
-                  let _total = 0;
-
-                  //Calcular total Transaccion
-                  pedidosPedidoActual.Tra.forEach(element => {
-                    _total = _total + element.Tra_Monto;
-                  });
-
+                  this.calcTotal(pedidosPedidoActual.Tra);
                   let item = {
                     "pedido": element.consecutivo_Interno,
                     "fecha": element.fecha_Hora,
                     "estado": element.estado,
                     "estructura": element.estructura,
-                    "total": `Q.${this.NumberToString(_total)}`,
+                    "total": `Q.${this.NumberToString(this.calcTotal(pedidosPedidoActual.Tra))}`,
                   }
-
                   this.jsonPedidos.push(item);
                 }
-
-
               });
             },
             err => {
               console.error(err);
-
             });
         }
       }
@@ -299,6 +281,13 @@ export class PedidoComponentComponent implements OnInit {
       });
   }
 
+  calcTotal(arr:Trasaccion[]):number{
+    let total:number = 0;
+    arr.forEach(element => {
+      total = total + element.Tra_Monto;
+    });
+    return total;
+  }
 
   spliceQuotes(variable: string): string {
     variable = variable;
@@ -316,28 +305,7 @@ export class PedidoComponentComponent implements OnInit {
     const hours = date.getHours();
     const seconds = date.getSeconds();
     const myFormattedDate = `${day}/${(monthIndex + 1)}/${year} ${hours}:${minutes}`;
-
     return myFormattedDate;
-  }
-
-  calcTotalPedidos(index: number) {
-
-    let newStr = this.spliceQuotes(this.jsonPedidos[index].estructura);
-    let jsonPedido = JSON.parse(newStr);
-    let totalPedido = "Q.00.00"
-
-    //console.log(jsonPedido.Tra);
-
-
-    //this.loglength(jsonPedido.Tra);
-
-    //   console.log( jsonTransaccion);
-
-
-
-
-    return totalPedido
-
   }
 
   NumberToString(numero: number) {
@@ -355,5 +323,4 @@ export class PedidoComponentComponent implements OnInit {
       }
     }
   }
-
 }

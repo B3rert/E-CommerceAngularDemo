@@ -47,7 +47,7 @@
                     <fa-icon class="icon_toolbar" [icon]="faBars"></fa-icon>
                 </button>
                 <span class="spacer"></span>
-                <h1 (click)="navigateToSelectStore()">Tienda {{tienda_seleccionada.nombre}}</h1>
+                <h1 class="textTooolbar" (click)="navigateToSelectStore()">Tienda {{tienda_seleccionada.nombre}}</h1>
                 <span class="spacer"></span>
             </mat-toolbar-row>
         </mat-toolbar>
@@ -164,7 +164,7 @@
                                                 <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                                     data-bs-target="#collapseOne" aria-expanded="true"
                                                     aria-controls="collapseOne">
-                                                    Resumen del Pedido
+                                                    Detallles del Pedido
                                                 </button>
                                             </h2>
                                             <div id="collapseOne" class="accordion-collapse collapse show"
@@ -173,30 +173,297 @@
                                                     <div class="card text-center">
                                                         <div class="card-body">
                                                             <div id="detalle-tracking-ce" class="text-center">
-                                                                <p><strong>Pedido:</strong> {{pedidoActual.pedido}}</p>
-                                                                <p><strong>Estado:</strong> {{pedidoActual.estado}}</p>
-                                                                <p><strong>Fecha:</strong> {{formatterFecha(pedidoActual.fecha)}}</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="accordion-item">
-                                            <h2 class="accordion-header" id="headingTwo">
-                                                <button class="accordion-button collapsed" type="button"
-                                                    data-bs-toggle="collapse" data-bs-target="#collapseTwo"
-                                                    aria-expanded="false" aria-controls="collapseTwo">
-                                                    Detallles del Pedido
-                                                </button>
-                                            </h2>
-                                            <div id="collapseTwo" class="accordion-collapse collapse"
-                                                aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                                                <div class="accordion-body">
-                                                    <div class="card text-center">
-                                                        <div class="card-body">
-                                                            <div id="detalle-tracking-ce" class="text-center">
+                                                                <div class="es-wrapper-color">
+                                                                    <!--[if gte mso 9]>
+                                                                        <v:background xmlns:v="urn:schemas-microsoft-com:vml" fill="t">
+                                                                            <v:fill type="tile" color="#eeeeee"></v:fill>
+                                                                        </v:background>
+                                                                    <![endif]-->
+                                                                    <table class="es-wrapper" width="100%"
+                                                                        cellspacing="0" cellpadding="0">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td class="esd-email-paddings"
+                                                                                    valign="top">
 
+                                                                                    <table class="es-content"
+                                                                                        cellspacing="0" cellpadding="0"
+                                                                                        align="center">
+                                                                                        <tbody>
+                                                                                            <tr>
+                                                                                                <td class="esd-stripe"
+                                                                                                    align="center">
+                                                                                                    <table
+                                                                                                        class="es-content-body"
+                                                                                                        width="600"
+                                                                                                        cellspacing="0"
+                                                                                                        cellpadding="0"
+                                                                                                        bgcolor="#ffffff"
+                                                                                                        align="center">
+                                                                                                        <tbody>
+                                                                                                            <tr>
+                                                                                                                <td class="esd-structure es-p20t es-p35r es-p35l"
+                                                                                                                    align="left">
+                                                                                                                    <table
+                                                                                                                        width="100%"
+                                                                                                                        cellspacing="0"
+                                                                                                                        cellpadding="0">
+                                                                                                                        <tbody>
+                                                                                                                            <tr>
+                                                                                                                                <td class="esd-container-frame"
+                                                                                                                                    width="530"
+                                                                                                                                    valign="top"
+                                                                                                                                    align="center">
+                                                                                                                                    <table
+                                                                                                                                        width="100%"
+                                                                                                                                        cellspacing="0"
+                                                                                                                                        cellpadding="0">
+                                                                                                                                        <tbody>
+                                                                                                                                            <tr>
+                                                                                                                                                <td class="esd-block-text es-p10t es-p10b es-p10r es-p10l"
+                                                                                                                                                    bgcolor="#eeeeee"
+                                                                                                                                                    align="left">
+                                                                                                                                                    <table
+                                                                                                                                                        style="width: 500px;"
+                                                                                                                                                        class="cke_show_border"
+                                                                                                                                                        cellspacing="1"
+                                                                                                                                                        cellpadding="1"
+                                                                                                                                                        border="0"
+                                                                                                                                                        align="left">
+                                                                                                                                                        <tbody>
+                                                                                                                                                            <tr>
+                                                                                                                                                                <td
+                                                                                                                                                                    width="80%">
+                                                                                                                                                                    <h5>Pedido
+                                                                                                                                                                        #
+                                                                                                                                                                    </h5>
+                                                                                                                                                                </td>
+                                                                                                                                                                <td
+                                                                                                                                                                    width="20%">
+                                                                                                                                                                    <h5>{{pedidoActual.pedido}}
+                                                                                                                                                                    </h5>
+                                                                                                                                                                </td>
+                                                                                                                                                            </tr>
+                                                                                                                                                        </tbody>
+                                                                                                                                                    </table>
+                                                                                                                                                </td>
+                                                                                                                                            </tr>
+                                                                                                                                        </tbody>
+                                                                                                                                    </table>
+                                                                                                                                </td>
+                                                                                                                            </tr>
+                                                                                                                        </tbody>
+                                                                                                                    </table>
+                                                                                                                </td>
+                                                                                                            </tr>
+                                                                                                            <tr>
+                                                                                                                <td class="esd-structure es-p35r es-p35l"
+                                                                                                                    align="left">
+                                                                                                                    <table
+                                                                                                                        width="100%"
+                                                                                                                        cellspacing="0"
+                                                                                                                        cellpadding="0">
+                                                                                                                        <tbody>
+                                                                                                                            <tr>
+                                                                                                                                <td class="esd-container-frame"
+                                                                                                                                    width="530"
+                                                                                                                                    valign="top"
+                                                                                                                                    align="center">
+                                                                                                                                    <table
+                                                                                                                                        width="100%"
+                                                                                                                                        cellspacing="0"
+                                                                                                                                        cellpadding="0">
+                                                                                                                                        <tbody>
+                                                                                                                                            <tr>
+                                                                                                                                                <td class="esd-block-text es-p10t es-p10b es-p10r es-p10l"
+                                                                                                                                                    align="left">
+                                                                                                                                                    <table
+                                                                                                                                                        style="width: 500px;"
+                                                                                                                                                        class="cke_show_border"
+                                                                                                                                                        cellspacing="1"
+                                                                                                                                                        cellpadding="1"
+                                                                                                                                                        border="0"
+                                                                                                                                                        align="left">
+                                                                                                                                                        <tbody>
+                                                                                                                                                            <tr *ngFor="let item of transacciones">
+                                                                                                                                                                <td style="padding: 5px 10px 5px 0"
+                                                                                                                                                                    width="80%"
+                                                                                                                                                                    align="left">
+                                                                                                                                                                    <p>{{item.Tra_Cantidad}} Purchased
+                                                                                                                                                                        Item
+                                                                                                                                                                        (1)
+                                                                                                                                                                    </p>
+                                                                                                                                                                </td>
+                                                                                                                                                                <td style="padding: 5px 0"
+                                                                                                                                                                    width="20%"
+                                                                                                                                                                    align="left">
+                                                                                                                                                                    <p>Q.{{NumberToString(item.Tra_Monto)}}
+                                                                                                                                                                    </p>
+                                                                                                                                                                </td>
+                                                                                                                                                            </tr>
+                                                                                                                                                           
+                                                                                                                                                        </tbody>
+                                                                                                                                                    </table>
+                                                                                                                                                </td>
+                                                                                                                                            </tr>
+                                                                                                                                        </tbody>
+                                                                                                                                    </table>
+                                                                                                                                </td>
+                                                                                                                            </tr>
+                                                                                                                        </tbody>
+                                                                                                                    </table>
+                                                                                                                </td>
+                                                                                                            </tr>
+                                                                                                            <tr>
+                                                                                                                <td class="esd-structure es-p10t es-p35r es-p35l"
+                                                                                                                    align="left">
+                                                                                                                    <table
+                                                                                                                        width="100%"
+                                                                                                                        cellspacing="0"
+                                                                                                                        cellpadding="0">
+                                                                                                                        <tbody>
+                                                                                                                            <tr>
+                                                                                                                                <td class="esd-container-frame"
+                                                                                                                                    width="530"
+                                                                                                                                    valign="top"
+                                                                                                                                    align="center">
+                                                                                                                                    <table
+                                                                                                                                        style="border-top: 3px solid #eeeeee; border-bottom: 3px solid #eeeeee;"
+                                                                                                                                        width="100%"
+                                                                                                                                        cellspacing="0"
+                                                                                                                                        cellpadding="0">
+                                                                                                                                        <tbody>
+                                                                                                                                            <tr>
+                                                                                                                                                <td class="esd-block-text es-p15t es-p15b es-p10r es-p10l"
+                                                                                                                                                    align="left">
+                                                                                                                                                    <table
+                                                                                                                                                        style="width: 500px;"
+                                                                                                                                                        class="cke_show_border"
+                                                                                                                                                        cellspacing="1"
+                                                                                                                                                        cellpadding="1"
+                                                                                                                                                        border="0"
+                                                                                                                                                        align="left">
+                                                                                                                                                        <tbody>
+                                                                                                                                                            <tr>
+                                                                                                                                                                <td
+                                                                                                                                                                    width="80%">
+                                                                                                                                                                    <h6>TOTAL
+                                                                                                                                                                    </h6>
+                                                                                                                                                                </td>
+                                                                                                                                                                <td
+                                                                                                                                                                    width="20%">
+                                                                                                                                                                    <h6>{{pedidoActual.total}}
+                                                                                                                                                                    </h6>
+                                                                                                                                                                </td>
+                                                                                                                                                            </tr>
+                                                                                                                                                        </tbody>
+                                                                                                                                                    </table>
+                                                                                                                                                </td>
+                                                                                                                                            </tr>
+                                                                                                                                        </tbody>
+                                                                                                                                    </table>
+                                                                                                                                </td>
+                                                                                                                            </tr>
+                                                                                                                        </tbody>
+                                                                                                                    </table>
+                                                                                                                </td>
+                                                                                                            </tr>
+                                                                                                            <tr>
+                                                                                                                <td class="esd-structure es-p40t es-p40b es-p35r es-p35l"
+                                                                                                                    esd-custom-block-id="7796"
+                                                                                                                    align="left">
+                                                                                                                    <!--[if mso]><table width="530" cellpadding="0" cellspacing="0"><tr><td width="255" valign="top"><![endif]-->
+                                                                                                                    <table
+                                                                                                                        class="es-left"
+                                                                                                                        cellspacing="0"
+                                                                                                                        cellpadding="0"
+                                                                                                                        align="left">
+                                                                                                                        <tbody>
+                                                                                                                            <tr>
+                                                                                                                                <td class="esd-container-frame es-m-p20b"
+                                                                                                                                    width="255"
+                                                                                                                                    align="left">
+                                                                                                                                    <table
+                                                                                                                                        width="100%"
+                                                                                                                                        cellspacing="0"
+                                                                                                                                        cellpadding="0">
+                                                                                                                                        <tbody>
+                                                                                                                                            <tr>
+                                                                                                                                                <td class="esd-block-text es-p15b"
+                                                                                                                                                    align="left">
+                                                                                                                                                    <h6>Dirección</h6>
+                                                                                                                                                </td>
+                                                                                                                                            </tr>
+                                                                                                                                            <tr>
+                                                                                                                                                <td class="esd-block-text es-p10b"
+                                                                                                                                                    align="left">
+                                                                                                                                                    <p>675
+                                                                                                                                                        Massachusetts
+                                                                                                                                                        Avenue
+                                                                                                                                                    </p>
+                                                                                                                                                    <p>11th
+                                                                                                                                                        Floor
+                                                                                                                                                    </p>
+                                                                                                                                                    <p>Cambridge,
+                                                                                                                                                        MA
+                                                                                                                                                        02139
+                                                                                                                                                    </p>
+                                                                                                                                                </td>
+                                                                                                                                            </tr>
+                                                                                                                                        </tbody>
+                                                                                                                                    </table>
+                                                                                                                                </td>
+                                                                                                                            </tr>
+                                                                                                                        </tbody>
+                                                                                                                    </table>
+                                                                                                                    <!--[if mso]></td><td width="20"></td><td width="255" valign="top"><![endif]-->
+                                                                                                                    <table
+                                                                                                                        class="es-right"
+                                                                                                                        cellspacing="0"
+                                                                                                                        cellpadding="0"
+                                                                                                                        align="right">
+                                                                                                                        <tbody>
+                                                                                                                            <tr>
+                                                                                                                                <td class="esd-container-frame"
+                                                                                                                                    width="255"
+                                                                                                                                    align="left">
+                                                                                                                                    <table
+                                                                                                                                        width="100%"
+                                                                                                                                        cellspacing="0"
+                                                                                                                                        cellpadding="0">
+                                                                                                                                        <tbody>
+                                                                                                                                            <tr>
+                                                                                                                                                <td class="esd-block-text es-p15b"
+                                                                                                                                                    align="left">
+                                                                                                                                                    <h6>Fecha</h6>
+                                                                                                                                                </td>
+                                                                                                                                            </tr>
+                                                                                                                                            <tr>
+                                                                                                                                                <td class="esd-block-text"
+                                                                                                                                                    align="left">
+                                                                                                                                                    <p>{{formatterFecha(pedidoActual.fecha)}}</p>
+                                                                                                                                                </td>
+                                                                                                                                            </tr>
+                                                                                                                                        </tbody>
+                                                                                                                                    </table>
+                                                                                                                                </td>
+                                                                                                                            </tr>
+                                                                                                                        </tbody>
+                                                                                                                    </table>
+                                                                                                                    <!--[if mso]></td></tr></table><![endif]-->
+                                                                                                                </td>
+                                                                                                            </tr>
+                                                                                                        </tbody>
+                                                                                                    </table>
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -272,8 +539,8 @@
                             <div class="col-12">
                                 <div class="list-group" style="padding-top: 20px;">
                                     <div *ngFor="let pedido of jsonPedidos; let indexPedidos = index"
-                                        (click)="navStatusTracking(pedido)" class="list-group-item list-group-item-action"
-                                        aria-current="true">
+                                        (click)="navStatusTracking(pedido)"
+                                        class="list-group-item list-group-item-action" aria-current="true">
                                         <div class="d-flex w-100 justify-content-between">
                                             <h6 class="mb-1">Pedido: {{pedido.pedido}}</h6>
                                             <small>{{pedido.estado}}</small>

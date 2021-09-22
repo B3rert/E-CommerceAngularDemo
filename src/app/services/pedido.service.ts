@@ -17,4 +17,9 @@ export class PedidoService {
         let headers = new HttpHeaders({ "Content-Type": "application/json" });
         return this._http.post(`${this.url}pedidos`, params, { headers: headers });
     }
+
+    getDocumentoEstructuraUser(token:any, user:string){
+        let headers = new HttpHeaders({ "Content-Type": "application/json", "Authorization": `Bearer ${token}` });
+        return this._http.get(`${this.url}pedidos/${user}`, { headers: headers });
+    }
 }

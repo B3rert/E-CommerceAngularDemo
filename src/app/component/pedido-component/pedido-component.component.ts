@@ -21,6 +21,8 @@ import { faDolly } from '@fortawesome/free-solid-svg-icons';
 import { faPlaneArrival } from '@fortawesome/free-solid-svg-icons';
 import { faBuilding } from '@fortawesome/free-solid-svg-icons';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { PedidoEstructura } from 'src/app/interfaces/documento-estructura.interface';
+import { PedidoService } from 'src/app/services/pedido.service';
 
 import { UserService } from 'src/app/services/user.service';
 import { GenericActionsDialogComponent } from '../dialog/generic-actions-dialog/generic-actions-dialog.component';
@@ -30,7 +32,8 @@ import { GenericActionsDialogComponent } from '../dialog/generic-actions-dialog/
   templateUrl: './pedido-component.component.html',
   styleUrls: ['./pedido-component.component.css'],
   providers: [
-    UserService
+    UserService,
+    PedidoService
   ]
 })
 
@@ -61,8 +64,8 @@ export class PedidoComponentComponent implements OnInit {
   detalles_pedido = true;
   detalles_usuario = true;
 
-  tienda_seleccionada:any;
-  
+  tienda_seleccionada: any;
+
 
   optionsUser: boolean[] = [
     false, true, false, false
@@ -92,45 +95,9 @@ export class PedidoComponentComponent implements OnInit {
   ];
 
   jsonHead: any[] = [];
-  jsonPedidos: any[] = [
-    {
-      "pedido": "4564as8",
-      "fecha": "25/08/2021",
-      "estado": "Cancelado",
-      "total": "Q.205.00",
-    },
-    {
-      "pedido": "275257",
-      "fecha": "25/08/2021",
-      "estado": "Cancelado",
-      "total": "Q.205.00"
-    },
-    {
-      "pedido": "728728",
-      "fecha": "25/08/2021",
-      "estado": "Cancelado",
-      "total": "Q.205.00"
-    },
-    {
-      "pedido": "72872",
-      "fecha": "25/08/2021",
-      "estado": "Aceptar",
-      "total": "Q.205.00"
-    },
-    {
-      "pedido": "2877",
-      "fecha": "25/08/2021",
-      "estado": "Cancelado",
-      "total": "Q.205.00"
-    },
-    {
-      "pedido": "78737777",
-      "fecha": "25/08/2021",
-      "estado": "Cancelado",
-      "total": "Q.205.00"
-    }
-  ];
-
+  jsonPedidos: any[] = [];
+  pedidoActual: any;
+  //pedidosPedidoActual: PedidoEstructura ={};
   token: any;
   userName: string = "Nombre_Usuario";
 
@@ -148,7 +115,8 @@ export class PedidoComponentComponent implements OnInit {
   constructor(
     private router: Router,
     private dialog: MatDialog,
-    private _userService: UserService
+    private _userService: UserService,
+    private _pedidoService: PedidoService
   ) {
 
     this.token = _userService.getToken()
@@ -158,6 +126,7 @@ export class PedidoComponentComponent implements OnInit {
     }
 
 
+    this.getPedido();
     let tienda = sessionStorage.getItem("tienda");
     this.tienda_seleccionada = JSON.parse(tienda!);
   }
@@ -165,10 +134,20 @@ export class PedidoComponentComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  navStatusTracking() {
+  navStatusTracking(pedido: any) {
     this.viewPedido = false;
     this.viewAcount = false;
     this.viewDetailsPedido = true;
+    this.pedidoActual = pedido;
+    let pedidosPedidoActual: PedidoEstructura = JSON.parse(this.spliceQuotes(pedido.estructura))
+
+    console.log(pedidosPedidoActual.Tra);
+
+    pedidosPedidoActual.Tra.forEach(element => {
+      console.log(element);
+
+    });
+
   }
 
   getUserName(token: any): any {
@@ -268,4 +247,116 @@ export class PedidoComponentComponent implements OnInit {
       }
     });
   }
+
+
+  getPedido() {
+    this._userService.getUserNameToken(this.token).subscribe(
+      res => {
+        let user = JSON.parse(JSON.stringify(res));
+        if (user.messege) {
+          this._pedidoService.getDocumentoEstructuraUser(this.token, user.messege).subscribe(
+            res => {
+              console.log(res);
+              let pedidos = JSON.parse(JSON.stringify(res));
+              pedidos.forEach((element: any) => {
+
+
+                //Quitar la condicion, solo es un pedido con una estructura distinta
+                if (element.consecutivo_Interno != 18) {
+
+                  let pedidosPedidoActual: PedidoEstructura = JSON.parse(this.spliceQuotes(element.estructura))
+
+                  let _total = 0;
+
+                  console.log(pedidosPedidoActual.Tra);
+              
+                  pedidosPedidoActual.Tra.forEach(element => {
+                    _total = _total + element.Tra_Monto;
+              
+                  });
+
+
+                  let item = {
+                    "pedido": element.consecutivo_Interno,
+                    "fecha": element.fecha_Hora,
+                    "estado": element.estado,
+                    "estructura": element.estructura,
+                    "total": `Q.${this.NumberToString(_total)}`,
+                  }
+
+                  this.jsonPedidos.push(item);
+                }
+
+
+              });
+            },
+            err => {
+              console.error(err);
+
+            });
+        }
+      }
+      , err => {
+        console.error(err);
+
+      });
+  }
+
+
+  spliceQuotes(variable: string): string {
+    variable = variable;
+    var regex = new RegExp("'", "g");
+    var res = variable.replace(regex, "\"");
+    return res;
+  }
+
+  formatterFecha(fecha: Date) {
+    const date = new Date(fecha); // had to remove the colon (:) after the T in order to make it work
+    const day = date.getDate();
+    const monthIndex = date.getMonth();
+    const year = date.getFullYear();
+    const minutes = date.getMinutes();
+    const hours = date.getHours();
+    const seconds = date.getSeconds();
+    const myFormattedDate = `${day}/${(monthIndex + 1)}/${year} ${hours}:${minutes}`;
+
+    return myFormattedDate;
+  }
+
+  calcTotalPedidos(index: number) {
+
+    let newStr = this.spliceQuotes(this.jsonPedidos[index].estructura);
+    let jsonPedido = JSON.parse(newStr);
+    let totalPedido = "Q.00.00"
+
+    //console.log(jsonPedido.Tra);
+
+
+    //this.loglength(jsonPedido.Tra);
+
+    //   console.log( jsonTransaccion);
+
+
+
+
+    return totalPedido
+
+  }
+
+  NumberToString(numero: number) {
+    if (numero % 1 == 0) {
+      //es entero 
+      return numero.toString() + ".00";
+    } else {
+      //es decimal
+      let numeros = numero.toString().split(".", 2)
+
+      if (numeros[1].length == 1) {
+        return numero.toString() + "0"
+      } else {
+        return numero.toString();
+      }
+    }
+  }
+
 }

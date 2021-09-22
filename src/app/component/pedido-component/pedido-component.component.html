@@ -173,8 +173,9 @@
                                                     <div class="card text-center">
                                                         <div class="card-body">
                                                             <div id="detalle-tracking-ce" class="text-center">
-                                                                <p><strong>Pedido:</strong> x8s8s798945</p>
-                                                                <p><strong>Estado:</strong> Cancelado</p>
+                                                                <p><strong>Pedido:</strong> {{pedidoActual.pedido}}</p>
+                                                                <p><strong>Estado:</strong> {{pedidoActual.estado}}</p>
+                                                                <p><strong>Fecha:</strong> {{formatterFecha(pedidoActual.fecha)}}</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -271,15 +272,15 @@
                             <div class="col-12">
                                 <div class="list-group" style="padding-top: 20px;">
                                     <div *ngFor="let pedido of jsonPedidos; let indexPedidos = index"
-                                        (click)="navStatusTracking()" class="list-group-item list-group-item-action"
+                                        (click)="navStatusTracking(pedido)" class="list-group-item list-group-item-action"
                                         aria-current="true">
                                         <div class="d-flex w-100 justify-content-between">
                                             <h6 class="mb-1">Pedido: {{pedido.pedido}}</h6>
                                             <small>{{pedido.estado}}</small>
                                         </div>
-                                        <small class="text-muted">Fecha: {{pedido.fecha}}.</small>
+                                        <small class="text-muted">Fecha: {{ formatterFecha(pedido.fecha)}}.</small>
                                         <br>
-                                        <small class="text-muted">Total: {{pedido.total}}</small>
+                                        <small class="text-muted">Total: {{ pedido.total}}</small>
                                     </div>
                                 </div>
                             </div>

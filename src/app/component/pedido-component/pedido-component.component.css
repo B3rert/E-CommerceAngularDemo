@@ -117,7 +117,7 @@ font-size: 14px;
 
 .container_main {
   width: calc(100% - 190px);
-  height: 100%;
+  height: calc(100% - 75px);
   float: left;
   overflow: auto;
 }

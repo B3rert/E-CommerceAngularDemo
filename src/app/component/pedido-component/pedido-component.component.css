@@ -192,7 +192,29 @@ font-size: 14px;
 
 .list-group-item {
   cursor: pointer;
+  margin-top: 10px;
+  border: 1px solid rgba(0,0,0,.125);
+  border-bottom: none !important;
 }
+
+.actions_item_acordeon{
+  height: 35px;
+  width: 100%;
+  border: 1px solid rgba(0,0,0,.125);
+}
+
+.actions_item_acordeon button{
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: transparent;
+  font-size: 15px;
+  color: #6c757d!important;
+}
+
+
+
+/*Fin lista Estilos*/
 
 /*Detalles producto*/
 

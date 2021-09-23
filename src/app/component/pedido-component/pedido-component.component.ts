@@ -65,7 +65,7 @@ export class PedidoComponentComponent implements OnInit {
   detalles_usuario = true;
 
   tienda_seleccionada: any;
-
+  progress_pedidos = false;
 
   optionsUser: boolean[] = [
     false, true, false, false
@@ -246,13 +246,13 @@ export class PedidoComponentComponent implements OnInit {
   }
 
   getPedido() {
+    
     this._userService.getUserNameToken(this.token).subscribe(
       res => {
         let user = JSON.parse(JSON.stringify(res));
         if (user.messege) {
           this._pedidoService.getDocumentoEstructuraUser(this.token, user.messege).subscribe(
             res => {
-              console.log(res);
               let pedidos = JSON.parse(JSON.stringify(res));
               pedidos.forEach((element: any) => {
                 //Quitar la condicion, solo es un pedido con una estructura distinta
@@ -322,5 +322,11 @@ export class PedidoComponentComponent implements OnInit {
         return numero.toString();
       }
     }
+  }
+
+  //repetir pedido
+  repeatOrder(){
+    console.log("Repetir orden");
+    
   }
 }

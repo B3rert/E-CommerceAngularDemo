@@ -285,11 +285,13 @@
                                                                                                                                                         border="0"
                                                                                                                                                         align="left">
                                                                                                                                                         <tbody>
-                                                                                                                                                            <tr *ngFor="let item of transacciones">
+                                                                                                                                                            <tr
+                                                                                                                                                                *ngFor="let item of transacciones">
                                                                                                                                                                 <td style="padding: 5px 10px 5px 0"
                                                                                                                                                                     width="80%"
                                                                                                                                                                     align="left">
-                                                                                                                                                                    <p>{{item.Tra_Cantidad}} Purchased
+                                                                                                                                                                    <p>{{item.Tra_Cantidad}}
+                                                                                                                                                                        Purchased
                                                                                                                                                                         Item
                                                                                                                                                                         (1)
                                                                                                                                                                     </p>
@@ -301,7 +303,7 @@
                                                                                                                                                                     </p>
                                                                                                                                                                 </td>
                                                                                                                                                             </tr>
-                                                                                                                                                           
+
                                                                                                                                                         </tbody>
                                                                                                                                                     </table>
                                                                                                                                                 </td>
@@ -391,7 +393,8 @@
                                                                                                                                             <tr>
                                                                                                                                                 <td class="esd-block-text es-p15b"
                                                                                                                                                     align="left">
-                                                                                                                                                    <h6>Dirección</h6>
+                                                                                                                                                    <h6>Dirección
+                                                                                                                                                    </h6>
                                                                                                                                                 </td>
                                                                                                                                             </tr>
                                                                                                                                             <tr>
@@ -435,13 +438,15 @@
                                                                                                                                             <tr>
                                                                                                                                                 <td class="esd-block-text es-p15b"
                                                                                                                                                     align="left">
-                                                                                                                                                    <h6>Fecha</h6>
+                                                                                                                                                    <h6>Fecha
+                                                                                                                                                    </h6>
                                                                                                                                                 </td>
                                                                                                                                             </tr>
                                                                                                                                             <tr>
                                                                                                                                                 <td class="esd-block-text"
                                                                                                                                                     align="left">
-                                                                                                                                                    <p>{{formatterFecha(pedidoActual.fecha)}}</p>
+                                                                                                                                                    <p>{{formatterFecha(pedidoActual.fecha)}}
+                                                                                                                                                    </p>
                                                                                                                                                 </td>
                                                                                                                                             </tr>
                                                                                                                                         </tbody>
@@ -537,18 +542,27 @@
                     <div class="container" *ngIf="pedidos">
                         <div class="row">
                             <div class="col-12">
+                <mat-progress-bar *ngIf="progress_pedidos" mode="indeterminate" color="accent"></mat-progress-bar>
+
                                 <div class="list-group" style="padding-top: 20px;">
-                                    <div *ngFor="let pedido of jsonPedidos; let indexPedidos = index"
-                                        (click)="navStatusTracking(pedido)"
-                                        class="list-group-item list-group-item-action" aria-current="true">
-                                        <div class="d-flex w-100 justify-content-between">
-                                            <h6 class="mb-1">Pedido: {{pedido.pedido}}</h6>
-                                            <small>{{pedido.estado}}</small>
+
+                                    <div *ngFor="let pedido of jsonPedidos; let indexPedidos = index">
+                                        <div 
+                                            (click)="navStatusTracking(pedido)"
+                                            class="list-group-item list-group-item-action" aria-current="true">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h6 class="mb-1">Pedido: {{pedido.pedido}}</h6>
+                                                <small>{{pedido.estado}}</small>
+                                            </div>
+                                            <small class="text-muted">Fecha: {{ formatterFecha(pedido.fecha)}}.</small>
+                                            <br>
+                                            <small class="text-muted">Total: {{ pedido.total}}</small>
                                         </div>
-                                        <small class="text-muted">Fecha: {{ formatterFecha(pedido.fecha)}}.</small>
-                                        <br>
-                                        <small class="text-muted">Total: {{ pedido.total}}</small>
+                                        <div class="actions_item_acordeon">
+                                            <button mat-button (click)="repeatOrder()">Repetir pedido</button>
+                                        </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>

@@ -576,8 +576,6 @@ export class TiendaTipoComponent implements OnInit {
 
     if (this.userFactura.Nombre == "" || !this.userFactura.Nombre) {
       this.dialogAccept("Nombre requerido.");
-    } else if (this.userFactura.Apellido == "" || !this.userFactura.Apellido) {
-      this.dialogAccept("Apellido Requerido.");
     } else if (this.userFactura.Nit == "" || !this.userFactura.Nit) {
       this.dialogAccept("NIT requerido.");
     } else if (this.userFactura.Telefono == "" || !this.userFactura.Telefono) {

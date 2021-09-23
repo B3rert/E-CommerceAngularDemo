@@ -2,37 +2,37 @@
     <div class="logo_modal">
         <img src="assets/img/logo.jpg">
     </div>
-
     <!--  <h3>Nombre de la tienda</h3>-->
     <h4>There are many variations of passages of Lorem Ipsum available</h4>
-
     <div class="content_options__selects">
         <p class="store_select">¿Como deseas obtener tus productos?</p>
         <div class="container">
-            <div class="row">
+            <div class="row" *ngFor="let item of lista_tipos_pedidos">
                 <div class="col-sm-12 col-md-12 col-lg-6 col-xs-6">
                     <div class="container">
                         <div class="figure_container border_fig">
                             <div class="ico_figure icon_ciudad">
-                                <img src="assets/img/image-not-found.png">
+                                <img *ngIf="item.item[0].imagen_EA == 'n/a'" src="assets/img/image-not-found.png">
+                                <img *ngIf="item.item[0].imagen_EA != 'n/a'" [src]="item.item[1].imagen_EA">
                             </div>
-                            <button (click)="navEntregar()" class="btn btn_figure">Entregar a domicilio</button>
-                            <div class="content__addres">
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                <p>Lorem Ipsum</p>
+                            <button (click)="navEntregar()" class="btn btn_figure">{{item.item[0].descripcion}}</button>
+                            <div class="content__addres" *ngIf="item.item[0].observacion_1 != 'n/a'">
+                                <p >{{item.item[0].observacion_1}}</p>
                             </div>
                         </div>
                     </div>
                 </div>
+                
                 <div class="col-sm-12 col-md-12 col-lg-6 col-xs-6">
                     <div class="container">
                         <div class="figure_container">
                             <div class="ico_figure icon_tienda_sucursal">
-                                <img src="assets/img/image-not-found.png">
+                                <img *ngIf="item.item[1].imagen_EA == 'n/a'" src="assets/img/image-not-found.png">
+                                <img *ngIf="item.item[1].imagen_EA != 'n/a'" [src]="item.item[1].imagen_EA">
                             </div>
-                            <button (click)="navRecoger()" class="btn btn_figure">Recoger en tienda</button>
-                            <div class="content__addres">
-                                <p>There are many variations of passages of Lorem Ipsum available.</p>
+                            <button (click)="navRecoger()" class="btn btn_figure">{{item.item[1].descripcion}}</button>
+                            <div class="content__addres" *ngIf="item.item[1].observacion_1 != 'n/a'">
+                                <p >{{item.item[1].observacion_1}}</p>
                             </div>
                         </div>
                     </div>

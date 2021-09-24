@@ -68,6 +68,7 @@ import { GenericAcceptDialogComponent } from './component/dialog/generic-accept-
 import { GenericActionsDialogComponent } from './component/dialog/generic-actions-dialog/generic-actions-dialog.component';
 import { NotFoundComponentComponent } from './component/plantillas/plantillas-notfound/not-found-component/not-found-component.component';
 import { MenuItemComponent } from './component/menu-item/menu-item.component';
+import { OptionDialogComponent } from './component/dialog/option-dialog/option-dialog.component';
 
 @NgModule({
   declarations: [
@@ -84,6 +85,7 @@ import { MenuItemComponent } from './component/menu-item/menu-item.component';
     NotFoundPageComponentComponent,
     NotFoundComponentComponent,
     MenuItemComponent,
+    OptionDialogComponent,
   ],
   imports: [
     FormsModule,

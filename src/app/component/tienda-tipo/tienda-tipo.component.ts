@@ -43,6 +43,7 @@ import { PedidoService } from 'src/app/services/pedido.service';
 import { DocumentoEstructura, PedidoEstructura, Trasaccion } from 'src/app/interfaces/documento-estructura.interface'
 import { Pedido } from 'src/app/interfaces/pedido.interface';
 import { CuentaCorrentista } from 'src/app/services/cuenta-correntista.service';
+import { OptionDialogComponent } from '../dialog/option-dialog/option-dialog.component';
 
 @Component({
   selector: 'app-tienda-tipo',
@@ -1226,10 +1227,11 @@ export class TiendaTipoComponent implements OnInit {
 
   //Cambiar tipo del pedido (a domicilio, reco0ger en tienda, etc)
   cambiarTipoPedido() {
-    const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
+    const dialogRef = this.dialog.open(OptionDialogComponent, {
       data: {
         tittle: "¿Cambiar tipo pedido?",
-        description: "Es posible que se pierdan datos que no hayan sido guardados."
+        description: "Selecciona el tipo de pedido que deseas realizar.",
+        options:this.tipo_pedidos
       }
     });
     dialogRef.afterClosed().subscribe(result => {

@@ -542,28 +542,34 @@
                     <div class="container" *ngIf="pedidos">
                         <div class="row">
                             <div class="col-12">
-                <mat-progress-bar *ngIf="progress_pedidos" mode="indeterminate" color="accent"></mat-progress-bar>
+                                
 
-                                <div class="list-group" style="padding-top: 20px;">
+                                <mat-tab-group color="accent" mat-align-tabs="start" >
+                                    <mat-tab label="Pendientes">
+                                        <mat-progress-bar *ngIf="progress_pedidos" mode="indeterminate" color="accent">
+                                        </mat-progress-bar>
+                                        <div class="list-group" style="padding-top: 20px;">
 
-                                    <div *ngFor="let pedido of jsonPedidos; let indexPedidos = index">
-                                        <div 
-                                            (click)="navStatusTracking(pedido)"
-                                            class="list-group-item list-group-item-action" aria-current="true">
-                                            <div class="d-flex w-100 justify-content-between">
-                                                <h6 class="mb-1">Pedido: {{pedido.pedido}}</h6>
-                                                <small>{{pedido.estado}}</small>
+                                            <div *ngFor="let pedido of jsonPedidos; let indexPedidos = index">
+                                                <div (click)="navStatusTracking(pedido)"
+                                                    class="list-group-item list-group-item-action" aria-current="true">
+                                                    <div class="d-flex w-100 justify-content-between">
+                                                        <h6 class="mb-1">Pedido: {{pedido.pedido}}</h6>
+                                                        <small>{{pedido.estado}}</small>
+                                                    </div>
+                                                    <small class="text-muted">Fecha: {{ formatterFecha(pedido.fecha)}}.</small>
+                                                    <br>
+                                                    <small class="text-muted">Total: {{ pedido.total}}</small>
+                                                </div>
+                                                <div class="actions_item_acordeon">
+                                                    <button mat-button (click)="repeatOrder()">Repetir pedido</button>
+                                                </div>
                                             </div>
-                                            <small class="text-muted">Fecha: {{ formatterFecha(pedido.fecha)}}.</small>
-                                            <br>
-                                            <small class="text-muted">Total: {{ pedido.total}}</small>
+        
                                         </div>
-                                        <div class="actions_item_acordeon">
-                                            <button mat-button (click)="repeatOrder()">Repetir pedido</button>
-                                        </div>
-                                    </div>
-
-                                </div>
+                                    </mat-tab>
+                                    <mat-tab label="Confirmados">Confirmados</mat-tab>
+                                  </mat-tab-group>
                             </div>
                         </div>
                     </div>

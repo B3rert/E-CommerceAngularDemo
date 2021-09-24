@@ -1056,3 +1056,21 @@ button.es-button {
   padding: 0px;
 }
 /*Fin Detalles pedido*/
+
+/*Tabs Pedidos*/
+mat-tab-group{
+ position: fixed;
+ width: calc(100% - 250px);
+ height: calc(100% - 90px);
+}
+
+
+
+@media screen and (max-width: 767px) {
+  mat-tab-group{
+    width: 90%;
+    height: 85%;
+    left: 20px;
+  }
+}
+

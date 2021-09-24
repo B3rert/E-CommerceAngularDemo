@@ -364,18 +364,13 @@
             <span class="example-spacer head_carr_end">Mi Carrito</span>
             <fa-icon [icon]="faEllipsisV" [matMenuTriggerFor]="menuOpt" class="icon_close_head"></fa-icon>
             <mat-menu #menuOpt="matMenu" class="menu_options">
-                <button mat-menu-item *ngIf="forma_pedido == 'domicilio'" (click)="cambiarTipoPedido()">
+                <button mat-menu-item (click)="cambiarTipoPedido()">
                     <mat-icon>
                         <fa-icon [icon]="faShoppingCart"></fa-icon>
                     </mat-icon>
-                    <span>A domicilio</span>
+                    <span>{{tipo_pedido_seleccionado.descripcion}}</span>
                 </button>
-                <button mat-menu-item *ngIf="forma_pedido == 'recoger'" (click)="cambiarTipoPedido()">
-                    <mat-icon>
-                        <fa-icon [icon]="faShoppingCart"></fa-icon>
-                    </mat-icon>
-                    <span>Recoger en tienda</span>
-                </button>
+               
                 <button mat-menu-item (click)="saveLastOrder()" *ngIf="pedidos.length != 0">
                     <mat-icon>
                         <fa-icon [icon]="faClock"></fa-icon>

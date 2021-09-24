@@ -115,7 +115,7 @@ export class TiendaTipoComponent implements OnInit {
 
   carrito_cantidad = 0;
   categoria_activa = 0;
-  carrito_pago = true;
+  carrito_pago = false;
   forma_pago = false;
   presentacion = false;
   presentacion_producto: any;
@@ -138,6 +138,9 @@ export class TiendaTipoComponent implements OnInit {
   forma_pago_select: any;
   progressLogin = false;
   saveMyData = false;
+  elemento_asignado: number = 0;
+  tipo_pedidos: any;
+  tipo_pedido_seleccionado: any;
 
   favoriteSeason: string = "Descripción";
   seasons: string[] = ['Descripción', 'SKU'];
@@ -156,6 +159,9 @@ export class TiendaTipoComponent implements OnInit {
     private _pedidoService: PedidoService,
     private _cuentaCorrentistaService: CuentaCorrentista
   ) {
+
+
+
 
     var fecha_hora = this.getHoraActual();
     this.userFactura = new UserFactura("", "", "", "", "", fecha_hora, "", "", "");
@@ -183,7 +189,10 @@ export class TiendaTipoComponent implements OnInit {
 
     let tienda = sessionStorage.getItem("tienda");
     this.tienda_seleccionada = JSON.parse(tienda!);
-    this.forma_pedido = sessionStorage.getItem("FormaPedido");
+    this.elemento_asignado = + sessionStorage.getItem("elemento_asignado")!;
+    this.tipo_pedidos = JSON.parse(sessionStorage.getItem("tipoPedidos")!);
+
+    this.asignarTipoPedido();
     //this.getAndViewOrderLocal();
   }
 
@@ -679,7 +688,7 @@ export class TiendaTipoComponent implements OnInit {
       pedido: this.pedidos,
       user: this.nombre_user,
       tienda_pedido: this.tienda_seleccionada,
-      tipo_pedido: this.forma_pedido
+      tipo_pedido: this.elemento_asignado
     }
     localStorage.setItem("pedidoLocal", JSON.stringify(pedidoUp));
   }
@@ -687,46 +696,49 @@ export class TiendaTipoComponent implements OnInit {
   async getAndViewOrderLocal() {
     if (this.isSesssionLogin) {
       let pedido = JSON.parse(localStorage.getItem("pedidoLocal")!);
+      if (pedido.pedido.length != 0) {
+        await this._userService.getUserNameToken(this.tokenUser).subscribe(
+          res => {
+            let user = JSON.parse(JSON.stringify(res));
+            if (pedido.user == user.messege) {
+              let tienda_pedido = JSON.parse(JSON.stringify(pedido.tienda_pedido));
 
-      await this._userService.getUserNameToken(this.tokenUser).subscribe(
-        res => {
-          let user = JSON.parse(JSON.stringify(res));
-          if (pedido.user == user.messege) {
-            let tienda_pedido = JSON.parse(JSON.stringify(pedido.tienda_pedido));
+              if (tienda_pedido.bodega == this.tienda_seleccionada.bodega) {
+                this.pedidos = pedido.pedido;
+                this.actualizarTotal();
+                this.carrito_cantidad = this.pedidos.length;
 
-            if (tienda_pedido.bodega == this.tienda_seleccionada.bodega) {
-              this.pedidos = pedido.pedido;
-              this.actualizarTotal();
-              this.carrito_cantidad = this.pedidos.length;
+              } else {
+                const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
+                  data: {
+                    tittle: "¿Cambiar Tienda?",
+                    description: "Se ha encontrado un pedido pendiente de procesar, pero la tienda del pedido no coincide con la tienda seleccionada actualmente. Si decide mantener la tienda actual, el pedido se perderá.",
+                    verdadero: "Cambiar",
+                    falso: "Mantener"
+                  }
+                });
+                dialogRef.afterClosed().subscribe(result => {
+                  if (result) {
 
-            } else {
-              const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
-                data: {
-                  tittle: "¿Cambiar Tienda?",
-                  description: "Se ha encontrado un pedido pendiente de procesar, pero la tienda del pedido no coincide con la tienda seleccionada actualmente. Si decide mantener la tienda actual, el pedido se perderá.",
-                  verdadero: "Cambiar",
-                  falso: "Mantener"
-                }
-              });
-              dialogRef.afterClosed().subscribe(result => {
-                if (result) {
+                    /**
+                     * let tienda = sessionStorage.getItem("tienda");
+                      this.tienda_seleccionada = JSON.parse(tienda!);
+                     */
+                    sessionStorage.setItem("tienda", JSON.stringify(tienda_pedido));
+                    this.ngOnInit();
+                  }
+                });
 
-                  /**
-                   * let tienda = sessionStorage.getItem("tienda");
-                    this.tienda_seleccionada = JSON.parse(tienda!);
-                   */
-                  sessionStorage.setItem("tienda", JSON.stringify(tienda_pedido));
-                  this.ngOnInit();
-                }
-              });
-
+              }
             }
-          }
-        }, err => {
-          console.log(err);
+          }, err => {
+            console.log(err);
 
-        }
-      );
+          }
+        );
+
+      }
+
     }
   }
 
@@ -1268,7 +1280,7 @@ export class TiendaTipoComponent implements OnInit {
           let datos_nit = JSON.parse(JSON.stringify(res));
           if (datos_nit.length == 0) {
             this.dialogAccept("El NIT ingresado no se encuntra registrado en nuestro sistema.");
-          }else{
+          } else {
             this.userFactura.Nombre = datos_nit[0].factura_Nombre;
             this.userFactura.Correo_electronico = datos_nit[0].eMail;
             this.userFactura.Telefono = datos_nit[0].telefono;
@@ -1282,6 +1294,32 @@ export class TiendaTipoComponent implements OnInit {
 
         }
       );
+    }
+  }
+
+
+  //domicilio
+  //recoger
+
+
+  asignarTipoPedido() {
+    this.tipo_pedidos.forEach((element: any) => {
+      if (element.elemento_Asignado == this.elemento_asignado) {
+        this.tipo_pedido_seleccionado = element;
+        console.log(this.tipo_pedido_seleccionado.descripcion);
+      }
+    });
+
+    switch (this.elemento_asignado) {
+      case 2:
+        this.forma_pedido = "domicilio";
+        break;
+      case 3:
+        this.forma_pedido = "recoger"
+        break;
+      default:
+        this.forma_pedido = "domicilio";
+        break;
     }
   }
 }

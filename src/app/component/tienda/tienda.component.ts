@@ -26,26 +26,6 @@ export class TiendaComponent implements OnInit {
 
   navTipoPedido(elemento_Asignado: any) {
     sessionStorage.setItem("elemento_asignado",elemento_Asignado.toString());
-    switch (elemento_Asignado) {
-      case 2:
-        this.navEntregar();
-        break;
-      case 3:
-        this.navRecoger();
-        break;
-      default:
-        this.navEntregar();
-        break;
-    }
-  }
-
-  navRecoger() {
-    sessionStorage.setItem("FormaPedido", "recoger");
-    this.router.navigate(['/seleccion']);
-  }
-
-  navEntregar() {
-    sessionStorage.setItem("FormaPedido", "domicilio");
     this.router.navigate(['/seleccion']);
   }
 
@@ -53,7 +33,7 @@ export class TiendaComponent implements OnInit {
     this.progress_tipo_pedido = true;
     this._pedidoService.getTipoPedidos().subscribe(
       res => {
-        
+
         let tipo_pedido_string = JSON.stringify(res);
         sessionStorage.setItem("tipoPedidos",tipo_pedido_string);
         let tipo_pedido = JSON.parse(tipo_pedido_string);

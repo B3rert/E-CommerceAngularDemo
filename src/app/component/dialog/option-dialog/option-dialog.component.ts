@@ -8,8 +8,8 @@ import { DialogData } from 'src/app/interfaces/dialogdata.interface';
   styleUrls: ['./option-dialog.component.css']
 })
 export class OptionDialogComponent implements OnInit {
-  favoriteSeason: string = "";
-  seasons: string[] = [];
+  favoriteSeason: any;
+  seasons: any[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<OptionDialogComponent>,
@@ -19,9 +19,9 @@ export class OptionDialogComponent implements OnInit {
     let elemento_asignado:number =+ sessionStorage.getItem("elemento_asignado")!;
    
     data.options.forEach((element: any) => {
-      this.seasons.push(element.descripcion);
+      this.seasons.push(element);
       if (element.elemento_Asignado == elemento_asignado) {
-        this.favoriteSeason = element.descripcion;
+        this.favoriteSeason = element;
       }
     });
 
@@ -37,5 +37,11 @@ export class OptionDialogComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  saveTipoPedido(){
+   sessionStorage.setItem("elemento_asignado",this.favoriteSeason.elemento_Asignado.toString());
+  }
+    
+
 
 }

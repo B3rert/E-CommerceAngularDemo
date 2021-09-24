@@ -190,13 +190,16 @@ export class TiendaTipoComponent implements OnInit {
 
     let tienda = sessionStorage.getItem("tienda");
     this.tienda_seleccionada = JSON.parse(tienda!);
-    this.elemento_asignado = + sessionStorage.getItem("elemento_asignado")!;
     this.tipo_pedidos = JSON.parse(sessionStorage.getItem("tipoPedidos")!);
-
+    this.updateElementoAsignado();
     this.asignarTipoPedido();
     //this.getAndViewOrderLocal();
   }
 
+
+  updateElementoAsignado(){
+    this.elemento_asignado = + sessionStorage.getItem("elemento_asignado")!;
+  };
   //categorias, generar estructura arból
   generateMenuCat() {
     let children: NavItem[] = [];
@@ -1236,7 +1239,8 @@ export class TiendaTipoComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log("Cambiar pedido");
+       this.updateElementoAsignado();
+       this.asignarTipoPedido();
       }
     });
   }
@@ -1308,7 +1312,6 @@ export class TiendaTipoComponent implements OnInit {
     this.tipo_pedidos.forEach((element: any) => {
       if (element.elemento_Asignado == this.elemento_asignado) {
         this.tipo_pedido_seleccionado = element;
-        console.log(this.tipo_pedido_seleccionado.descripcion);
       }
     });
 

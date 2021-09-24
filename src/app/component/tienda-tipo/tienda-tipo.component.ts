@@ -197,7 +197,7 @@ export class TiendaTipoComponent implements OnInit {
   }
 
 
-  updateElementoAsignado(){
+  updateElementoAsignado() {
     this.elemento_asignado = + sessionStorage.getItem("elemento_asignado")!;
   };
   //categorias, generar estructura arból
@@ -692,6 +692,8 @@ export class TiendaTipoComponent implements OnInit {
       pedido: this.pedidos,
       user: this.nombre_user,
       tienda_pedido: this.tienda_seleccionada,
+
+
       tipo_pedido: this.elemento_asignado
     }
     localStorage.setItem("pedidoLocal", JSON.stringify(pedidoUp));
@@ -702,10 +704,13 @@ export class TiendaTipoComponent implements OnInit {
       let pedido = JSON.parse(localStorage.getItem("pedidoLocal")!);
       if (pedido.pedido.length != 0) {
         await this._userService.getUserNameToken(this.tokenUser).subscribe(
-          res => {
+          async res => {
             let user = JSON.parse(JSON.stringify(res));
             if (pedido.user == user.messege) {
               let tienda_pedido = JSON.parse(JSON.stringify(pedido.tienda_pedido));
+
+
+             
 
               if (tienda_pedido.bodega == this.tienda_seleccionada.bodega) {
                 this.pedidos = pedido.pedido;
@@ -734,17 +739,54 @@ export class TiendaTipoComponent implements OnInit {
                 });
 
               }
+
+
+              if (pedido.tipo_pedido != this.elemento_asignado) {
+
+                let descElAsigActual = await this.descElementoAsignado(this.elemento_asignado);
+                let descElAsigPedido = await this.descElementoAsignado(pedido.tipo_pedido)
+
+                const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
+                  data: {
+                    tittle: "¿Cambiar tipo de pedido?",
+                    description: `Se ha encontrado un pedido pendiente de procesar, el pedido está configurado para ser ${descElAsigPedido}, pero actualmente ha seleccionado ${descElAsigActual}, si selecciona la opcion cambiar la configuracion será ${descElAsigPedido}.`,
+                    verdadero: "Cambiar",
+                    falso: "Mantener"
+                  }
+                });
+                dialogRef.afterClosed().subscribe(async result => {
+                  if (result) {
+                    sessionStorage.setItem("elemento_asignado", pedido.tipo_pedido.toString());
+                    await this.updateElementoAsignado();
+                    await this.asignarTipoPedido();
+                  }else{
+                    sessionStorage.setItem("elemento_asignado", this.elemento_asignado.toString());
+                    await this.updateElementoAsignado();
+                   await this.asignarTipoPedido();
+                  }
+                });
+              }
             }
           }, err => {
             console.log(err);
-
           }
         );
-
       }
-
     }
   }
+
+
+  //Retorna la desripcion del elemento asignado
+  descElementoAsignado(elemento_asignado: number) {
+    let descripcion = "tipo_pedido"
+    this.tipo_pedidos.forEach((element: any) => {
+      if (element.elemento_Asignado == elemento_asignado) {
+        descripcion = element.descripcion;
+      }
+    });
+    return descripcion;
+  }
+
 
   //Añadir productos al carrito
   addCarrito(producto_seleccionado: any, cantidad: any) {
@@ -1234,13 +1276,13 @@ export class TiendaTipoComponent implements OnInit {
       data: {
         tittle: "¿Cambiar tipo pedido?",
         description: "Selecciona el tipo de pedido que deseas realizar.",
-        options:this.tipo_pedidos
+        options: this.tipo_pedidos
       }
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-       this.updateElementoAsignado();
-       this.asignarTipoPedido();
+        this.updateElementoAsignado();
+        this.asignarTipoPedido();
       }
     });
   }
@@ -1303,11 +1345,7 @@ export class TiendaTipoComponent implements OnInit {
     }
   }
 
-
-  //domicilio
-  //recoger
-
-
+  //Mustra el tipo de pedido 
   asignarTipoPedido() {
     this.tipo_pedidos.forEach((element: any) => {
       if (element.elemento_Asignado == this.elemento_asignado) {

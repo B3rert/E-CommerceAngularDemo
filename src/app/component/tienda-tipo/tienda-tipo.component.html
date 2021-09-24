@@ -150,8 +150,24 @@
                                 <div class="boxcontainer_form h_editarclientet">
                                     <div class="ed-container">
                                         <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
+                                           
                                             <div class="row">
-                                                <div class="col"></div>
+                                                <form class="d-flex">
+                                                    <div class="col mariginleftcomtainer">
+                                                        <input id="pos.nit" type="tel" class="input__tienda_nit ico_nit"
+                                                            placeholder="NIT" maxlength="14" #nit="ngModel" name="nit"
+                                                            [(ngModel)]="userFactura.Nit" required>
+
+                                                    </div>
+                                                    <button class="buscar-ico">
+                                                        <mat-icon>
+                                                            <fa-icon [icon]="faSearch"></fa-icon>
+                                                        </mat-icon>
+                                                    </button>
+                                                    
+                                                    <mat-slide-toggle  class="toggleNit" (click)="nitcf()">C/F
+                                                    </mat-slide-toggle>
+                                                </form>
                                             </div>
                                             <div class="row">
                                                 <div
@@ -167,32 +183,16 @@
                                                         name="apellido" [(ngModel)]="userFactura.Apellido" required>
                                                 </div>
                                             </div>
+                                           
                                             <div class="row">
-                                                <div
-                                                    class="col-sm-12 col-md-12 col-lg-6 col-xs-12 mariginleftcomtainer">
-                                                    <input id="pos.nit" type="tel" class="input__tienda ico_nit"
-                                                        placeholder="NIT" maxlength="14" #nit="ngModel" name="nit"
-                                                        [(ngModel)]="userFactura.Nit" required>
-
-                                                </div>
-
-                                                <div
-                                                    class="col-sm-12 col-md-12 col-lg-6 col-xs-12 mariginleftcomtainer">
-
-                                                    <mat-slide-toggle class="toggleNit" (click)="nitcf()">C/F
-                                                    </mat-slide-toggle>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col mariginleftcomtainer">
-                                                        <input id="email" type="email" class="input__tienda ico_email"
-                                                            placeholder="nombre@gmail.com" #email="ngModel" name="email"
-                                                            [(ngModel)]="userFactura.Correo_electronico" required>
-                                                        <input id="telefono" type="tel"
-                                                            class="input__tienda ico_telefono"
-                                                            placeholder="Número de teléfono (5555555)" minlength="6"
-                                                            maxlength="14" #telefono="ngModel" name="telefono"
-                                                            [(ngModel)]="userFactura.Telefono" required>
-                                                    </div>
+                                                <div class="col mariginleftcomtainer">
+                                                    <input id="email" type="email" class="input__tienda ico_email"
+                                                        placeholder="nombre@gmail.com" #email="ngModel" name="email"
+                                                        [(ngModel)]="userFactura.Correo_electronico" required>
+                                                    <input id="telefono" type="tel" class="input__tienda ico_telefono"
+                                                        placeholder="Número de teléfono (5555555)" minlength="6"
+                                                        maxlength="14" #telefono="ngModel" name="telefono"
+                                                        [(ngModel)]="userFactura.Telefono" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -477,8 +477,23 @@
                         <div class="boxcontainer_form h_editarclientet">
                             <div class="ed-container">
                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
+                                   
                                     <div class="row">
-                                        <div class="col"></div>
+                                        <form class="d-flex"  #searchNit="ngForm" (ngSubmit)="getDataNit()">
+                                            <div class="col mariginleftcomtainer">
+                                                <input id="pos.nit" type="tel" class="input__tienda_nit ico_nit"
+                                                    placeholder="NIT" maxlength="14" #nit="ngModel" name="nit"
+                                                    [(ngModel)]="userFactura.Nit" required>
+
+                                            </div>
+                                            <button class="buscar-ico" type="submit">
+                                                <mat-icon>
+                                                    <fa-icon [icon]="faSearch"></fa-icon>
+                                                </mat-icon>
+                                            </button>
+                                            <mat-slide-toggle class="toggleNit" (click)="nitcf()">C/F
+                                            </mat-slide-toggle>
+                                        </form>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12 col-md-12 col-lg-6 col-xs-12 mariginleftcomtainer">
@@ -492,33 +507,16 @@
                                                 [(ngModel)]="userFactura.Apellido" required>
                                         </div>
                                     </div>
+
                                     <div class="row">
-                                        <div class="col-sm-12 col-md-12 col-lg-6 col-xs-12 mariginleftcomtainer">
-                                            <input id="pos.nit" type="tel" class="input__tienda ico_nit"
-                                                placeholder="NIT" maxlength="14" #nit="ngModel" name="nit"
-                                                [(ngModel)]="userFactura.Nit" required>
-
-                                        </div>
-
-                                       
-
-                                        <div class="col-sm-12 col-md-12 col-lg-6 col-xs-12 mariginleftcomtainer">
-
-
-
-                                            <mat-slide-toggle class="toggleNit" (click)="nitcf()">C/F
-                                            </mat-slide-toggle>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col mariginleftcomtainer">
-                                                <input id="email" type="email" class="input__tienda ico_email"
-                                                    placeholder="nombre@gmail.com" #email="ngModel" name="email"
-                                                    [(ngModel)]="userFactura.Correo_electronico" required>
-                                                <input id="telefono" type="tel" class="input__tienda ico_telefono"
-                                                    placeholder="Número de teléfono (5555555)" minlength="6"
-                                                    maxlength="14" #telefono="ngModel" name="telefono"
-                                                    [(ngModel)]="userFactura.Telefono" required>
-                                            </div>
+                                        <div class="col mariginleftcomtainer">
+                                            <input id="email" type="email" class="input__tienda ico_email"
+                                                placeholder="nombre@gmail.com" #email="ngModel" name="email"
+                                                [(ngModel)]="userFactura.Correo_electronico" required>
+                                            <input id="telefono" type="tel" class="input__tienda ico_telefono"
+                                                placeholder="Número de teléfono (5555555)" minlength="6" maxlength="14"
+                                                #telefono="ngModel" name="telefono" [(ngModel)]="userFactura.Telefono"
+                                                required>
                                         </div>
                                     </div>
                                 </div>
@@ -694,7 +692,7 @@
                     <fa-icon class="icon_toolbar" [icon]="faBars"></fa-icon>
                 </button>
 
-                <form class="d-flex search_toolbar" #searchProduct="ngForm" (ngSubmit)="searchProducts()">
+                <form class="d-flex search_toolbar d-flex_pad" #searchProduct="ngForm" (ngSubmit)="searchProducts()">
                     <input class="form-control me-2" type="search" placeholder="Buscar" name="search" #search="ngModel"
                         [(ngModel)]="inputSearchBar.element" (ngModelChange)="valuechange()" required>
                     <button class="buscar-ico">
@@ -746,7 +744,7 @@
             <div class="logo">
                 <h1>{{precio_vusuario}} GTQ</h1>
             </div>
-            <form class="d-flex search_toolbar" #searchProduct="ngForm" (ngSubmit)="searchProducts()">
+            <form class="d-flex d-flex_pad search_toolbar" #searchProduct="ngForm" (ngSubmit)="searchProducts()">
                 <input class="form-control me-2" type="search" placeholder="Buscar" name="search" #search="ngModel"
                     [(ngModel)]="inputSearchBar.element" (ngModelChange)="valuechange()" required>
                 <button class="buscar-ico">

@@ -921,6 +921,18 @@ body {
   margin-top: 5px;
 }
 
+.input__tienda_nit{
+  float: left;
+  width: 100%;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  outline: none;
+  padding: 10px 0 10px 35px!important;
+  -webkit-transition: all .5s ease;
+  transition: all .5s ease;
+  margin-top: 5px;
+}
+
 .ico_nit {
   background: url(/assets/icons/file-alt-regular.svg) no-repeat 10px;
   background-size: 13px;
@@ -1109,7 +1121,7 @@ img.imagen-izquierda.seleccionada {
 
 /*Nav bar*/
 
-.d-flex {
+.d-flex_pad {
   padding-right: 20px;
   padding-left: 25px;
 }

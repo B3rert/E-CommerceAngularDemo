@@ -42,6 +42,7 @@ import { NavItem } from 'src/app/interfaces/nav-item.interface';
 import { PedidoService } from 'src/app/services/pedido.service';
 import { DocumentoEstructura, PedidoEstructura, Trasaccion } from 'src/app/interfaces/documento-estructura.interface'
 import { Pedido } from 'src/app/interfaces/pedido.interface';
+import { CuentaCorrentista } from 'src/app/services/cuenta-correntista.service';
 
 @Component({
   selector: 'app-tienda-tipo',
@@ -53,7 +54,8 @@ import { Pedido } from 'src/app/interfaces/pedido.interface';
     ProductoService,
     FormaPagoService,
     UserService,
-    PedidoService
+    PedidoService,
+    CuentaCorrentista
   ]
 })
 
@@ -113,7 +115,7 @@ export class TiendaTipoComponent implements OnInit {
 
   carrito_cantidad = 0;
   categoria_activa = 0;
-  carrito_pago = false;
+  carrito_pago = true;
   forma_pago = false;
   presentacion = false;
   presentacion_producto: any;
@@ -141,7 +143,7 @@ export class TiendaTipoComponent implements OnInit {
   seasons: string[] = ['Descripción', 'SKU'];
   nombre_user = "Nombre usuario"
   srcActive = 0;
-  srcCategorias: any[] = [{"name":"Todas","categoria":0}];
+  srcCategorias: any[] = [{ "name": "Todas", "categoria": 0 }];
 
 
   constructor(
@@ -151,7 +153,8 @@ export class TiendaTipoComponent implements OnInit {
     private _productoService: ProductoService,
     private _formaPagoService: FormaPagoService,
     private _userService: UserService,
-    private _pedidoService: PedidoService
+    private _pedidoService: PedidoService,
+    private _cuentaCorrentistaService: CuentaCorrentista
   ) {
 
     var fecha_hora = this.getHoraActual();
@@ -1050,24 +1053,24 @@ export class TiendaTipoComponent implements OnInit {
         if (element.nivel != 1) {
           this.searchCategoriaPadre(element.categoria_Padre);
           let item = {
-            "name":this.transformCapitalize(element.descripcion),
-            "categoria":element.categoria
+            "name": this.transformCapitalize(element.descripcion),
+            "categoria": element.categoria
           }
           this.srcCategorias.push(item);
         } else {
           this.categoria_activa = element.categoria;
           let item = {
-            "name":this.transformCapitalize(element.descripcion),
-            "categoria":element.categoria
+            "name": this.transformCapitalize(element.descripcion),
+            "categoria": element.categoria
           }
           this.srcCategorias.push(item);
         }
       }
     });
   }
- 
+
   //Transforma la primera letra de un texto en Mayuscula
-  transformCapitalize(text:string) {
+  transformCapitalize(text: string) {
     text = text.toLocaleLowerCase();
     function capitalizarPrimeraLetra(str: string) {
       return str.charAt(0).toUpperCase() + str.slice(1);
@@ -1086,7 +1089,7 @@ export class TiendaTipoComponent implements OnInit {
     } else {
       this.categoria_activa = categoria;
       this.srcCategorias.splice(0, this.srcCategorias.length);
-      this.srcCategorias.push({"name":"Todas","categoria":0})
+      this.srcCategorias.push({ "name": "Todas", "categoria": 0 })
     }
 
     this._productoService.producto(categoria).subscribe(
@@ -1254,4 +1257,31 @@ export class TiendaTipoComponent implements OnInit {
     });
   }
 
+  //Obtener datos por Nit 
+  getDataNit() {
+
+    if (!this.userFactura.Nit) {
+      this.dialogAccept("Nit requerido");
+    } else {
+      this._cuentaCorrentistaService.getCuentaCorrentistaNit(this.tokenUser, this.userFactura.Nit).subscribe(
+        res => {
+          let datos_nit = JSON.parse(JSON.stringify(res));
+          if (datos_nit.length == 0) {
+            this.dialogAccept("El NIT ingresado no se encuntra registrado en nuestro sistema.");
+          }else{
+            this.userFactura.Nombre = datos_nit[0].factura_Nombre;
+            this.userFactura.Correo_electronico = datos_nit[0].eMail;
+            this.userFactura.Telefono = datos_nit[0].telefono;
+            this.userFactura.Ciudad = datos_nit[0].factura_Direccion;
+            //console.log(datos_nit[0]);
+          }
+        },
+        err => {
+          this.dialogAccept("Algo salió mal, intenta más tarde.");
+          console.error(err.messege);
+
+        }
+      );
+    }
+  }
 }

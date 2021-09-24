@@ -97,7 +97,7 @@ export class PedidoComponentComponent implements OnInit {
   jsonHead: any[] = [];
   jsonPedidos: any[] = [];
   pedidoActual: any;
-  transacciones:Trasaccion[] = [];
+  transacciones: Trasaccion[] = [];
   //pedidosPedidoActual: PedidoEstructura ={};
   token: any;
   userName: string = "Nombre_Usuario";
@@ -177,15 +177,15 @@ export class PedidoComponentComponent implements OnInit {
     this.viewAcount = false;
     this.viewDetailsPedido = true;
     this.pedidoActual = pedido;
-    
+
     this.transacciones.splice(0, this.transacciones.length);
-    
+
     let pedidosPedidoActual: PedidoEstructura = JSON.parse(this.spliceQuotes(pedido.estructura))
 
     pedidosPedidoActual.Tra.forEach(element => {
       this.transacciones.push(element);
     });
-    
+
   }
 
   getUserName(token: any): any {
@@ -246,7 +246,7 @@ export class PedidoComponentComponent implements OnInit {
   }
 
   getPedido() {
-    
+    this.progress_pedidos = true;
     this._userService.getUserNameToken(this.token).subscribe(
       res => {
         let user = JSON.parse(JSON.stringify(res));
@@ -274,15 +274,16 @@ export class PedidoComponentComponent implements OnInit {
               console.error(err);
             });
         }
+        this.progress_pedidos = false;
       }
       , err => {
         console.error(err);
-
+        this.progress_pedidos = false;
       });
   }
 
-  calcTotal(arr:Trasaccion[]):number{
-    let total:number = 0;
+  calcTotal(arr: Trasaccion[]): number {
+    let total: number = 0;
     arr.forEach(element => {
       total = total + element.Tra_Monto;
     });
@@ -325,8 +326,8 @@ export class PedidoComponentComponent implements OnInit {
   }
 
   //repetir pedido
-  repeatOrder(){
+  repeatOrder() {
     console.log("Repetir orden");
-    
+
   }
 }

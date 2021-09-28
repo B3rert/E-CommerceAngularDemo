@@ -124,7 +124,7 @@ export class TiendaTipoComponent implements OnInit {
 
   carrito_cantidad = 0;
   categoria_activa = 0;
-  carrito_pago = true;
+  carrito_pago = false;
   forma_pago = false;
   presentacion = false;
   presentacion_producto: any;

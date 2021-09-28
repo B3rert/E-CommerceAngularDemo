@@ -1064,8 +1064,6 @@ mat-tab-group{
  height: calc(100% - 90px);
 }
 
-
-
 @media screen and (max-width: 767px) {
   mat-tab-group{
     width: 90%;
@@ -1073,4 +1071,3 @@ mat-tab-group{
     left: 20px;
   }
 }
-

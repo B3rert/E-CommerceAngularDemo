@@ -26,5 +26,4 @@ export class MenuItemComponent implements OnInit {
     this.categoria.emit(item.categoria)
    // console.log(item);
   }
-
 }

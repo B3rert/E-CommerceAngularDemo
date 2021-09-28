@@ -252,9 +252,7 @@ export class TiendaTipoComponent implements OnInit {
           alert("Error al recuperar datos de compra");
           console.error(err);
         });
-
     }
-
   }
 
 

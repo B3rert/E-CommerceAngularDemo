@@ -1337,6 +1337,28 @@ mat-sidenav {
   color: #fff;
 }
 
+
+.actions_foms_chain{
+  align-items: center;
+  justify-content: center;
+  width: 90%;
+  height: 100px;
+  margin: 10px;
+}
+.actions_foms_chain button{
+  margin-bottom: 10px;
+}
+
+.mbotton{
+  margin-bottom: 10px;
+}
+.icon_start_info{
+  float: right;
+}
+
+.checked_save_data{
+  color: #d84672;
+}
 /*Fin Carrito */
 
 /*Contendo derecho*/

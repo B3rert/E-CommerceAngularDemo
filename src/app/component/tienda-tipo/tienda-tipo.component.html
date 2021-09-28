@@ -150,7 +150,6 @@
                                 <div class="boxcontainer_form h_editarclientet">
                                     <div class="ed-container">
                                         <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
-                                           
                                             <div class="row">
                                                 <form class="d-flex">
                                                     <div class="col mariginleftcomtainer">
@@ -164,8 +163,8 @@
                                                             <fa-icon [icon]="faSearch"></fa-icon>
                                                         </mat-icon>
                                                     </button>
-                                                    
-                                                    <mat-slide-toggle  class="toggleNit" (click)="nitcf()">C/F
+
+                                                    <mat-slide-toggle class="toggleNit" (click)="nitcf()">C/F
                                                     </mat-slide-toggle>
                                                 </form>
                                             </div>
@@ -183,7 +182,7 @@
                                                         name="apellido" [(ngModel)]="userFactura.Apellido" required>
                                                 </div>
                                             </div>
-                                           
+
                                             <div class="row">
                                                 <div class="col mariginleftcomtainer">
                                                     <input id="email" type="email" class="input__tienda ico_email"
@@ -227,7 +226,7 @@
                                                     </div>
                                                     <div class="col-sm-12 col-xs-12 mtop">
                                                         <button type="submit" class="btn btn-primary  btn-siguiente"
-                                                            (click)="continuarPago()">Continuar</button>
+                                                            (click)="continuarPago()">Siguiente</button>
                                                     </div>
                                                     <div class="col-sm-12 col-xs-12 mtop">
                                                         <button type="submit" class="btn btn-primary  btn-siguiente"
@@ -265,13 +264,13 @@
                                                         placeholder="Referencias o comentarios adicionales"
                                                         #observacion="ngModel" name="observacion"
                                                         [(ngModel)]="userFactura.Observacion"></textarea>
-                                                    <div class="form-group col-xs-12 col-sm-12 inputWithIcon fleft_phone ng-scope"
-                                                        ng-if="tipoenviosucursal == 1">
+                                                    <div
+                                                        class="form-group col-xs-12 col-sm-12 inputWithIcon fleft_phone ng-scope">
                                                         <div class="content_envio">
                                                         </div>
                                                     </div>
                                                     <div ng-bind-html="observacionesPersonalizado.descripcion_fecha_domicilio"
-                                                        ng-if="tipoenviosucursal == 1" class="ng-binding ng-scope">
+                                                        class="ng-binding ng-scope">
                                                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing.</p>
                                                         <p>Lorem ipsum dolor sit amet consectetur adipisicing
                                                             elit.&nbsp;</p>
@@ -281,7 +280,7 @@
                                                     <div class="col-sm-12 col-xs-12 mtop">
                                                         <button type="submit" class="btn btn-primary  btn-siguiente"
                                                             (click)="continuarPago()"
-                                                            ng-disabled="frmC.$invalid">Continuar</button>
+                                                            ng-disabled="frmC.$invalid">Siguiente</button>
                                                     </div>
                                                     <div class="col-sm-12 col-xs-12 mtop">
                                                         <button type="submit" class="btn btn-primary  btn-siguiente"
@@ -370,7 +369,7 @@
                     </mat-icon>
                     <span>{{tipo_pedido_seleccionado.descripcion}}</span>
                 </button>
-               
+
                 <button mat-menu-item (click)="saveLastOrder()" *ngIf="pedidos.length != 0">
                     <mat-icon>
                         <fa-icon [icon]="faClock"></fa-icon>
@@ -464,85 +463,111 @@
             <div class="col-sm-12 col-xs-12 spd spi" *ngIf="carrito_pago && !forma_pago && !confirmar_pago">
                 <div class="form-group monto-container-tienda">
                     <small><strong>Total a pagar:</strong></small>
-                    <p ng-if="monedaSelected.gtq" class="ng-binding ng-scope">
+                    <p class="ng-binding ng-scope">
                         {{precio_vusuario}}<span>GTQ</span></p>
                 </div>
-                <form #datos_usuarioForm="ngForm">
-                    <div class="container_flexcenter">
-                        <div class="boxcontainer_form h_editarclientet">
-                            <div class="ed-container">
-                                <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
-                                   
-                                    <div class="row">
-                                        <form class="d-flex"  #searchNit="ngForm" (ngSubmit)="getDataNit()">
-                                            <div class="col mariginleftcomtainer">
-                                                <input id="pos.nit" type="tel" class="input__tienda_nit ico_nit"
-                                                    placeholder="NIT" maxlength="14" #nit="ngModel" name="nit"
-                                                    [(ngModel)]="userFactura.Nit" required>
 
-                                            </div>
-                                            <button class="buscar-ico" type="submit">
-                                                <mat-icon>
-                                                    <fa-icon [icon]="faSearch"></fa-icon>
-                                                </mat-icon>
-                                            </button>
-                                            <mat-slide-toggle class="toggleNit" (click)="nitcf()">C/F
-                                            </mat-slide-toggle>
-                                        </form>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-12 col-md-12 col-lg-6 col-xs-12 mariginleftcomtainer">
-                                            <input id="firstName" type="text" placeholder="Nombre"
-                                                class="input__tienda ico_nombre " #nombre="ngModel" name="nombre"
-                                                [(ngModel)]="userFactura.Nombre" required>
-                                        </div>
-                                        <div class="col-sm-12 col-md-12 col-lg-6 col-xs-12 mariginleftcomtainer">
-                                            <input id="lastName" type="text" placeholder="Apellido"
-                                                class="input__tienda ico_nombre " #apellido="ngModel" name="apellido"
-                                                [(ngModel)]="userFactura.Apellido" required>
-                                        </div>
-                                    </div>
+                <div class="container_flexcenter">
+                    <div class="boxcontainer_form h_editarclientet">
 
-                                    <div class="row">
-                                        <div class="col mariginleftcomtainer">
-                                            <input id="email" type="email" class="input__tienda ico_email"
-                                                placeholder="nombre@gmail.com" #email="ngModel" name="email"
-                                                [(ngModel)]="userFactura.Correo_electronico" required>
-                                            <input id="telefono" type="tel" class="input__tienda ico_telefono"
-                                                placeholder="Número de teléfono (5555555)" minlength="6" maxlength="14"
-                                                #telefono="ngModel" name="telefono" [(ngModel)]="userFactura.Telefono"
-                                                required>
-                                        </div>
+                        <div class="ed-container cross-start">
+                            <div class="form-group monto-container-tienda">
+                                <small><strong>Datos personales:</strong></small>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-12 col-lg-6 col-xs-12 mariginleftcomtainer">
+                                        <input id="firstName" type="text" placeholder="Nombre"
+                                            class="input__tienda ico_nombre" required
+                                            [(ngModel)]="datos_personales.nombre">
+                                    </div>
+                                    <div class="col-sm-12 col-md-12 col-lg-6 col-xs-12 mariginleftcomtainer">
+                                        <input id="lastName" type="text" placeholder="Apellido"
+                                            class="input__tienda ico_nombre" required
+                                            [(ngModel)]="datos_personales.apellido">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col mariginleftcomtainer">
+                                        <input id="email" type="email" class="input__tienda ico_email"
+                                            placeholder="correo@gmail.com" required
+                                            [(ngModel)]="datos_personales.correo_electronico">
+                                        <input id="telefono" type="tel" class="input__tienda ico_telefono"
+                                            placeholder="Teléfono (5555555)" required
+                                            [(ngModel)]="datos_personales.telefono">
+                                        <input id="telefono" type="tel" class="input__tienda ico_telefono"
+                                            placeholder="Teléfono Alterno (5555555)" required
+                                            [(ngModel)]="datos_personales.tlefono_alt">
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </form>
+                </div>
+                <div class="container_flexcenter">
+                    <div class="boxcontainer_form h_editarclientet">
+
+                        <div class="ed-container cross-start">
+                            <div class="form-group monto-container-tienda">
+                                <small><strong>Datos para la factura:</strong></small>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
+                                <div class="row">
+                                    <form class="d-flex" #searchNit="ngForm" (ngSubmit)="getDataNit()">
+                                        <div class="col mariginleftcomtainer">
+                                            <input id="pos.nit" type="tel" class="input__tienda_nit ico_nit"
+                                                placeholder="NIT" maxlength="14" #nit="ngModel" name="nit"
+                                                [(ngModel)]="datos_factura.nit" required>
+                                        </div>
+                                        <button class="buscar-ico" type="submit">
+                                            <mat-icon>
+                                                <fa-icon [icon]="faSearch"></fa-icon>
+                                            </mat-icon>
+                                        </button>
+                                        <mat-slide-toggle name="nitSlide" #nitSlide="ngModel" [(ngModel)]="isCheckedNit"
+                                            class="toggleNit" (click)="nitcf()">C/F
+                                        </mat-slide-toggle>
+                                    </form>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col mariginleftcomtainer">
+                                        <input id="firstName" type="text" placeholder="Nombre"
+                                            class="input__tienda ico_nombre" required
+                                            [(ngModel)]="datos_factura.nombre">
+                                        <input id="street1" type="text" class="input__tienda ico_street"
+                                            placeholder="Dirección" required [(ngModel)]="datos_factura.direccion">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!-- ngIf: recoger pedido-->
-                <form #recogerForm="ngForm" class="form-horizontal mtop" *ngIf="forma_pedido == 'recoger'">
+                <div class="form-horizontal mtop" *ngIf="forma_pedido == 'recoger'">
                     <div class="col-sm-12 col-xs-12 spd spi">
                         <div class="container_flexcenter">
                             <div class="boxcontainer_form h_direcciont">
                                 <div class="ed-container cross-start">
+                                    <div class="form-group monto-container-tienda">
+                                        <small><strong>Datos para la entrega:</strong></small>
+                                    </div>
                                     <div class="col-sm-12 col-md-12-col-lg-12 col-xs-12 mariginleftcomtainer">
                                         <div class="row">
                                             <input id="country" type="text" class="input__tienda ico_ciudad"
-                                                placeholder="Ciudad" #ciudad="ngModel" name="ciudad"
-                                                [(ngModel)]="userFactura.Ciudad" required>
+                                                placeholder="Ciudad" [(ngModel)]="datos_entrega.ciudad" required>
                                             <div
                                                 class="form-group col-xs-12 col-sm-12 inputWithIcon fleft_phone ng-scope">
                                                 <p class="label_cart">Fecha y hora para recojer el pedido.</p>
-                                                <input type="datetime-local" class="input__tienda ico_calendar"
-                                                    #fecha="ngModel" name="fecha"
-                                                    [(ngModel)]="userFactura.Fecha_Hora_Recoger" required>
+                                                <input type="datetime-local" class="input__tienda ico_calendar" required
+                                                    [(ngModel)]="datos_entrega.fecha_recoger">
                                             </div>
                                             <textarea id="obEntrega" type="text"
                                                 class="input__tienda ng-pristine ng-untouched ng-valid ng-empty"
-                                                rows="5" cols="5" name="obEntrega" ng-model="pos.obEntrega"
-                                                placeholder="Referencias o comentarios adicionales"
-                                                #observacion="ngModel" name="observacion"
-                                                [(ngModel)]="userFactura.Observacion">
+                                                rows="5" cols="5" placeholder="Referencias o comentarios adicionales"
+                                                [(ngModel)]="datos_entrega.observacion">
                                         </textarea>
                                             <div class="text__more_prod">
                                                 <div ng-bind-html="observacionesPersonalizado.descripcion_fecha_tienda"
@@ -551,74 +576,107 @@
                                                         de la tienda seleccionada.</p>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-12 col-xs-12 mtop">
-                                                <button type="submit" class="btn btn-primary  btn-siguiente"
-                                                    (click)="continuarPago()">Continuar</button>
-                                            </div>
-                                            <div class="col-sm-12 col-xs-12 mtop">
-                                                <button type="submit" class="btn btn-primary  btn-siguiente"
-                                                    (click)="regresarCarrito()"
-                                                    ng-disabled="frmC.$invalid">Atrás</button>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </form>
+                </div>
+
                 <!-- ngIf: pedido a domicilio-->
-                <form #domicilioForm="ngForm" class="form-horizontal mtop" *ngIf="forma_pedido == 'domicilio'">
+                <div class="form-horizontal mtop" *ngIf="forma_pedido == 'domicilio'">
                     <div class="col-sm-12 col-xs-12 spd spi">
                         <div class="container_flexcenter">
                             <div class="boxcontainer_form h_direcciont">
                                 <div class="ed-container cross-start">
+                                    <div class="form-group monto-container-tienda">
+                                        <small><strong>Datos para la entrega:</strong></small>
+                                    </div>
                                     <div class="col-sm-12 col-md-12-col-lg-12 col-xs-12 mariginleftcomtainer">
                                         <div class="row">
                                             <input id="country" type="text" class="input__tienda ico_ciudad"
                                                 name="country" ng-model="pos.city" placeholder="Ciudad"
-                                                #ciudad="ngModel" name="ciudad" [(ngModel)]="userFactura.Ciudad"
-                                                required>
+                                                [(ngModel)]="datos_entrega.ciudad" required>
                                             <input id="street1" type="text" class="input__tienda ico_street"
                                                 placeholder="Direccion Donde Recibiras El Pedido" #domicilio="ngModel"
-                                                name="domicilio" [(ngModel)]="userFactura.direccion_pedido" required>
+                                                name="domicilio" [(ngModel)]="datos_entrega.direccion_entrega" required>
                                             <textarea id="obEntrega" type="text"
                                                 class="input__tienda ng-pristine ng-untouched ng-valid ng-empty"
-                                                rows="5" cols="5" name="obEntrega" ng-model="pos.obEntrega"
-                                                placeholder="Referencias o comentarios adicionales"
-                                                #observacion="ngModel" name="observacion"
-                                                [(ngModel)]="userFactura.Observacion">
+                                                rows="5" cols="5" placeholder="Referencias o comentarios adicionales"
+                                                [(ngModel)]="datos_entrega.observacion">
                                             </textarea>
-                                            <div class="form-group col-xs-12 col-sm-12 inputWithIcon fleft_phone ng-scope"
-                                                ng-if="tipoenviosucursal == 1">
+                                            <div
+                                                class="form-group col-xs-12 col-sm-12 inputWithIcon fleft_phone ng-scope">
                                                 <div class="content_envio">
                                                 </div>
                                             </div>
                                             <div ng-bind-html="observacionesPersonalizado.descripcion_fecha_domicilio"
-                                                ng-if="tipoenviosucursal == 1" class="ng-binding ng-scope">
+                                                class="ng-binding ng-scope">
                                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing.</p>
                                                 <p>Lorem ipsum dolor sit amet consectetur adipisicing
                                                     elit.&nbsp;</p>
                                                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Id
                                                     iure error ullam esse itaque quisquam.</p>
                                             </div>
-                                            <div class="col-sm-12 col-xs-12 mtop">
-                                                <button type="submit" class="btn btn-primary  btn-siguiente"
-                                                    (click)="continuarPago()"
-                                                    ng-disabled="frmC.$invalid">Continuar</button>
-                                            </div>
-                                            <div class="col-sm-12 col-xs-12 mtop">
-                                                <button type="submit" class="btn btn-primary  btn-siguiente"
-                                                    (click)="regresarCarrito()"
-                                                    ng-disabled="frmC.$invalid">Atrás</button>
-                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </form>
+                </div>
+            </div>
+
+            <div *ngIf="carrito_pago && !forma_pago && !confirmar_pago">
+                <div class="container_flexcenter">
+                    <div class="boxcontainer_form h_editarclientet">
+
+                        <div class="ed-container cross-start">
+                            <div class="form-group monto-container-tienda">
+                                <mat-checkbox class="example-margin checked_save_data" [(ngModel)]="checked"
+                                    [(indeterminate)]="indeterminate" [labelPosition]="labelPosition"
+                                    [disabled]="disabled">
+                                    Guardar datos de compra
+                                </mat-checkbox>
+
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
+                                <div class="row">
+                                    <div class="MuiAlert-message">
+                                        <div *ngIf="!checked" class="text-center">
+                                            <strong>¿Deseas guardar tus datos de compra en este
+                                                navegador para futuras compras?
+                                            </strong>
+                                            <br>
+                                            Presiona en "Guardar datos
+                                            de compra" para guardarlo.
+                                        </div>
+                                    </div>
+                                    <div *ngIf="checked" class="MuiAlert-message">
+                                        <div class="text-center">
+                                            Datos almacenados en este navegador.
+                                            <br>
+                                            Presiona siguiente y continua comprando.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="actions_foms_chain">
+                    <div class="col-sm-12 col-xs-12 mtop">
+                        <button type="submit" class="btn btn-primary  btn-siguiente"
+                            (click)="continuarPago()">Siguiente</button>
+                    </div>
+                    <div class="col-sm-12 col-xs-12 mtop mbotton">
+                        <button type="submit" class="btn btn-primary  btn-siguiente"
+                            (click)="regresarCarrito()">Atrás</button>
+                    </div>
+                </div>
             </div>
             <!--Items Carrito-->
             <div class="carrito_container "
@@ -657,6 +715,8 @@
                     </div>
                 </div>
             </div>
+            <!--Fin Items Carrito-->
+            <!--Actions bottom-->
             <div class="footer_carrito" *ngIf="pedidos.length != 0 && !carrito_pago">
                 <div class="cont_sub">
                     <input type="button" value="Vaciar Carrito" (click)="limpiarCarrito()">
@@ -675,6 +735,7 @@
                     <input type="button" value="Carrito Vacio">
                 </div>
             </div>
+            <!--Fin Actions bottom-->
         </div>
     </mat-sidenav>
     <!--Fin SideNav Derecho-->

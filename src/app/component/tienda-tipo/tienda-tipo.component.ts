@@ -20,6 +20,7 @@ import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { faShippingFast } from '@fortawesome/free-solid-svg-icons';
 import { faClock } from '@fortawesome/free-solid-svg-icons';
 import { faCartArrowDown } from '@fortawesome/free-solid-svg-icons';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 /***/
 import * as $ from 'jquery';
 /** */
@@ -44,6 +45,7 @@ import { DocumentoEstructura, PedidoEstructura, Trasaccion } from 'src/app/inter
 import { Pedido } from 'src/app/interfaces/pedido.interface';
 import { CuentaCorrentista } from 'src/app/services/cuenta-correntista.service';
 import { OptionDialogComponent } from '../dialog/option-dialog/option-dialog.component';
+import { DataUser, DatosEntrega, DatosFactura, DatosPersonales } from 'src/app/interfaces/forms-order.service';
 
 @Component({
   selector: 'app-tienda-tipo',
@@ -61,6 +63,11 @@ import { OptionDialogComponent } from '../dialog/option-dialog/option-dialog.com
 })
 
 export class TiendaTipoComponent implements OnInit {
+
+  checked = false;
+  indeterminate = false;
+  labelPosition: 'before' | 'after' = 'after';
+  disabled = false;
 
   //Abrir/Cerrar SideNav
   @ViewChild('sidenav')
@@ -91,6 +98,7 @@ export class TiendaTipoComponent implements OnInit {
   faShippingFast = faShippingFast;
   faClock = faClock;
   faCartArrowDown = faCartArrowDown;
+  faInfoCircle = faInfoCircle;
 
   //Modelos
   public userFactura: UserFactura;
@@ -116,7 +124,7 @@ export class TiendaTipoComponent implements OnInit {
 
   carrito_cantidad = 0;
   categoria_activa = 0;
-  carrito_pago = false;
+  carrito_pago = true;
   forma_pago = false;
   presentacion = false;
   presentacion_producto: any;
@@ -142,6 +150,7 @@ export class TiendaTipoComponent implements OnInit {
   elemento_asignado: number = 0;
   tipo_pedidos: any;
   tipo_pedido_seleccionado: any;
+  isCheckedNit = false;
 
   favoriteSeason: string = "Descripción";
   seasons: string[] = ['Descripción', 'SKU'];
@@ -149,6 +158,31 @@ export class TiendaTipoComponent implements OnInit {
   srcActive = 0;
   srcCategorias: any[] = [{ "name": "Todas", "categoria": 0 }];
 
+  datos_personales: DatosPersonales = {
+    "nombre": "",
+    "apellido": "",
+    "correo_electronico": "",
+    "telefono": "",
+    "tlefono_alt": ""
+  };
+  datos_factura: DatosFactura = {
+    "nombre": "",
+    "direccion": "",
+    "nit": ""
+  };
+  datos_entrega: DatosEntrega = {
+    "ciudad": "",
+    "direccion_entrega": "",
+    "fecha_recoger": "",
+    "observacion": ""
+  };
+  datos_usuario: DataUser = {
+    "datos_personales": this.datos_personales,
+    "datos_factura": this.datos_factura,
+    "datos_entrega": this.datos_entrega,
+    "user_name": this.nombre_user,
+    "checked": this.checked
+  }
 
   constructor(
     private router: Router,
@@ -160,17 +194,12 @@ export class TiendaTipoComponent implements OnInit {
     private _pedidoService: PedidoService,
     private _cuentaCorrentistaService: CuentaCorrentista
   ) {
-
-
-
-
     var fecha_hora = this.getHoraActual();
     this.userFactura = new UserFactura("", "", "", "", "", fecha_hora, "", "", "");
     this.inputRegisterUser = new RegistroUser("", "", "", "");
     this.inputUserLogin = new UserLogin("", "");
     this.inputRestorePass = new RestorePassword("");
     this.inputSearchBar = new SerachBar("");
-
     window.addEventListener('scroll', this.scrollEvent, true);
   }
 
@@ -194,6 +223,38 @@ export class TiendaTipoComponent implements OnInit {
     this.updateElementoAsignado();
     this.asignarTipoPedido();
     //this.getAndViewOrderLocal();
+  }
+
+  getDataUser() {
+
+    let datos_personales = <DataUser>JSON.parse(localStorage.getItem("datos_personales")!);
+    if (datos_personales) {
+      this._userService.getUserNameToken(this.tokenUser).subscribe(
+        res => {
+          this.nombre_user = JSON.parse(JSON.stringify(res)).messege;
+          if (datos_personales.user_name == this.nombre_user) {
+            this.datos_personales.nombre = datos_personales.datos_personales.nombre;
+            this.datos_personales.apellido = datos_personales.datos_personales.apellido;
+            this.datos_personales.telefono = datos_personales.datos_personales.telefono;
+            this.datos_personales.tlefono_alt = datos_personales.datos_personales.tlefono_alt;
+            this.datos_personales.correo_electronico = datos_personales.datos_personales.correo_electronico;
+            this.datos_factura.nombre = datos_personales.datos_factura.nombre;
+            this.datos_factura.nit = datos_personales.datos_factura.nit;
+            this.datos_factura.direccion = datos_personales.datos_factura.direccion;
+            this.datos_entrega.ciudad = datos_personales.datos_entrega.ciudad;
+            this.datos_entrega.direccion_entrega = datos_personales.datos_entrega.direccion_entrega;
+            this.datos_entrega.fecha_recoger = datos_personales.datos_entrega.fecha_recoger;
+            this.datos_entrega.observacion = datos_personales.datos_entrega.observacion;
+            this.checked = datos_personales.checked;
+          }
+        },
+        err => {
+          alert("Error al recuperar datos de compra");
+          console.error(err);
+        });
+
+    }
+
   }
 
 
@@ -403,6 +464,7 @@ export class TiendaTipoComponent implements OnInit {
       this.isSesssionLogin = true;
       this.getUserName(this.tokenUser);
       this.getAndViewOrderLocal();
+      this.getDataUser();
     } else {
       this.tokenUser = false;
       this.isSesssionLogin = false;
@@ -588,21 +650,39 @@ export class TiendaTipoComponent implements OnInit {
 
   //cambiar a formulario para hacer el pago 
   continuarPago() {
-    let re = /^([\da-z_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
 
-    if (this.userFactura.Nombre == "" || !this.userFactura.Nombre) {
-      this.dialogAccept("Nombre requerido.");
-    } else if (this.userFactura.Nit == "" || !this.userFactura.Nit) {
-      this.dialogAccept("NIT requerido.");
-    } else if (this.userFactura.Telefono == "" || !this.userFactura.Telefono) {
-      this.dialogAccept("Número de teléfono requerido.");
-    } else if (this.userFactura.Correo_electronico == "" || !this.userFactura.Correo_electronico) {
-      this.dialogAccept("Correo electrónico requerido.");
-    } else if (!re.exec(this.userFactura.Correo_electronico)) {
-      this.dialogAccept("Correo electrónico invalido.");
-    } else if (this.userFactura.Ciudad == "" || !this.userFactura.Ciudad) {
-      this.dialogAccept("Ciudad requerida.");
+    let re = /^([\da-z_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
+
+    if (!this.datos_personales.nombre) {
+      this.dialogAccept("Nombre requerido en datos personales.");
+    } else if (!this.datos_personales.telefono) {
+      this.dialogAccept("Télefono requerido en datos personales.");
+    } else if (!this.datos_personales.correo_electronico) {
+      this.dialogAccept("Correo electrónico requerido en datos personales.");
+    } else if (!re.exec(this.datos_personales.correo_electronico)) {
+      this.dialogAccept("Correo electrónico invalido en datos personales.")
+    } else if (!this.datos_factura.nit) {
+      this.dialogAccept("NIT requerido en datos de facturación.");
+    } else if (!this.datos_factura.nombre) {
+      this.dialogAccept("Nombre requerido en datos para la factura");
+    } else if (!this.datos_factura.direccion) {
+      this.dialogAccept("Dirección requerida en datos de facturación.");
+    } else if (!this.datos_entrega.ciudad) {
+      this.dialogAccept("Ciudad requerida en datos de entrega.");
     } else {
+
+      if (this.checked) {
+
+        this.datos_usuario.user_name = this.nombre_user;
+        this.datos_usuario.checked = this.checked;
+        console.log(this.datos_usuario);
+
+
+        localStorage.setItem("datos_personales", JSON.stringify(this.datos_usuario));
+      } else {
+        localStorage.removeItem("datos_personales");
+      }
+
       this.forma_pago = true;
       this.getFormaPago();
     }
@@ -619,11 +699,15 @@ export class TiendaTipoComponent implements OnInit {
 
   //Agregar consumidor final
   nitcf() {
-    if (this.userFactura.Nit == "") {
-      this.userFactura.Nit = "C/F";
+    if (!this.isCheckedNit) {
+      this.datos_factura.nit = "C/F"
+      this.datos_factura.nombre = "Consumidor Final"
+      this.datos_factura.direccion = "Ciudad"
     }
     else {
-      this.userFactura.Nit = "";
+      this.datos_factura.nit = "";
+      this.datos_factura.nombre = "";
+      this.datos_factura.direccion = "";
     }
   }
 
@@ -710,7 +794,7 @@ export class TiendaTipoComponent implements OnInit {
               let tienda_pedido = JSON.parse(JSON.stringify(pedido.tienda_pedido));
 
 
-             
+
 
               if (tienda_pedido.bodega == this.tienda_seleccionada.bodega) {
                 this.pedidos = pedido.pedido;
@@ -759,10 +843,10 @@ export class TiendaTipoComponent implements OnInit {
                     sessionStorage.setItem("elemento_asignado", pedido.tipo_pedido.toString());
                     await this.updateElementoAsignado();
                     await this.asignarTipoPedido();
-                  }else{
+                  } else {
                     sessionStorage.setItem("elemento_asignado", this.elemento_asignado.toString());
                     await this.updateElementoAsignado();
-                   await this.asignarTipoPedido();
+                    await this.asignarTipoPedido();
                   }
                 });
               }
@@ -1195,11 +1279,13 @@ export class TiendaTipoComponent implements OnInit {
     this._userService.getUserNameToken(token).subscribe(
       res => {
         this.nombre_user = JSON.parse(JSON.stringify(res)).messege;
+
       },
       err => {
         console.error(err);
       });
   }
+
 
   //registrar Documento Estructura
   sendPedido() {
@@ -1320,19 +1406,17 @@ export class TiendaTipoComponent implements OnInit {
   //Obtener datos por Nit 
   getDataNit() {
 
-    if (!this.userFactura.Nit) {
+    if (!this.datos_factura.nit) {
       this.dialogAccept("Nit requerido");
     } else {
-      this._cuentaCorrentistaService.getCuentaCorrentistaNit(this.tokenUser, this.userFactura.Nit).subscribe(
+      this._cuentaCorrentistaService.getCuentaCorrentistaNit(this.tokenUser, this.datos_factura.nit).subscribe(
         res => {
           let datos_nit = JSON.parse(JSON.stringify(res));
           if (datos_nit.length == 0) {
             this.dialogAccept("El NIT ingresado no se encuntra registrado en nuestro sistema.");
           } else {
-            this.userFactura.Nombre = datos_nit[0].factura_Nombre;
-            this.userFactura.Correo_electronico = datos_nit[0].eMail;
-            this.userFactura.Telefono = datos_nit[0].telefono;
-            this.userFactura.Ciudad = datos_nit[0].factura_Direccion;
+            this.datos_factura.nombre = datos_nit[0].factura_Nombre;
+            this.datos_factura.direccion = datos_nit[0].factura_Direccion;
             //console.log(datos_nit[0]);
           }
         },

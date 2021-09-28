@@ -672,12 +672,8 @@ export class TiendaTipoComponent implements OnInit {
     } else {
 
       if (this.checked) {
-
         this.datos_usuario.user_name = this.nombre_user;
         this.datos_usuario.checked = this.checked;
-        console.log(this.datos_usuario);
-
-
         localStorage.setItem("datos_personales", JSON.stringify(this.datos_usuario));
       } else {
         localStorage.removeItem("datos_personales");
@@ -1312,11 +1308,12 @@ export class TiendaTipoComponent implements OnInit {
       "Doc_Empresa": this.tienda_seleccionada.empresa,
       "Doc_Estacion_Trabajo": this.tienda_seleccionada.estacion_Trabajo,
       "Doc_UserName": this.nombre_user,
-      "Doc_Nombre": `${this.userFactura.Nombre} ${this.userFactura.Apellido}`,
-      "Doc_NIT": this.userFactura.Nit,
-      "Doc_Direccion": this.userFactura.Ciudad,
+      //"Doc_Nombre": `${this.datos_personales.nombre} ${this.datos_personales.apellido}`,
+      "Doc_Nombre": this.datos_factura.nombre,
+      "Doc_NIT": this.datos_factura.nit,
+      "Doc_Direccion": this.datos_factura.direccion,
       "Doc_Referencia": null,
-      "Doc_Observacion_1": this.userFactura.Observacion,
+      "Doc_Observacion_1": this.datos_entrega.observacion,
       "Doc_Tipo_Pago": 1,
       "Tra": transacciones
     };

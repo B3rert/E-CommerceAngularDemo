@@ -127,6 +127,8 @@ export class TiendaTipoComponent implements OnInit {
   carrito_pago = false;
   forma_pago = false;
   presentacion = false;
+  confirmar_pago = false;
+
   presentacion_producto: any;
   formas_pago: any;
   fotos: any;
@@ -134,7 +136,6 @@ export class TiendaTipoComponent implements OnInit {
   fotoSeleccionada = "";
   vPresentaciones: any;
   producto_exist = true;
-  confirmar_pago = false;
   precio_vusuario: string = "0.00";
   no_hay_producto_detalle = false;
   progress_product = true;
@@ -680,6 +681,8 @@ export class TiendaTipoComponent implements OnInit {
 
       this.forma_pago = true;
       this.getFormaPago();
+
+
     }
   }
 
@@ -1179,6 +1182,8 @@ export class TiendaTipoComponent implements OnInit {
 
   //Obtiene la forma de pago seleccionada por el usuario
   tipoPagoLlave(formaPagoSelect: any) {
+    console.log(this.pedidos);
+    
     this.confirmar_pago = true;
     this.forma_pago_select = formaPagoSelect;
   }

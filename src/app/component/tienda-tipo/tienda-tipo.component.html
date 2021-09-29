@@ -66,7 +66,6 @@
                     </mat-icon>
                     <span>{{tipo_pedido_seleccionado.descripcion}}</span>
                 </button>
-
                 <button mat-menu-item (click)="saveLastOrder()" *ngIf="pedidos.length != 0">
                     <mat-icon>
                         <fa-icon [icon]="faClock"></fa-icon>
@@ -80,7 +79,6 @@
                 </button>
                 -->
             </mat-menu>
-
         </mat-toolbar>
         <div class="pago_container">
             <!--Resumen(Confirmar pedido)-->
@@ -89,28 +87,23 @@
                     <small><strong>Confirmar Pedido:</strong></small>
                 </div>
                 <div class="container_flexcenter">
-                    <div class="boxcontainer_form h_editarclientet"
-                        ng-class="{'h_clientet':!frmEditarcliente, 'h_editarclientet':frmEditarcliente}">
+                    <div class="boxcontainer_form">
                         <div class="ed-container">
                             <ul class="options_items">
                                 <!--icon_card-->
                                 <li class="items_paymen ">
-                                    Nombre factura: {{datos_factura.nombre}}
-                                </li>
-                                <li class="items_paymen ">
-                                    NIT: {{datos_factura.nit}}
-                                </li>
-                                <li class="items_paymen ">
-                                    Dirección factura: {{datos_factura.direccion}}
-                                </li>
-                                <li class="items_paymen ">
-                                    Correo Electronico: {{datos_personales.correo_electronico}}
+                                    Nombre: {{datos_personales.nombre}} {{datos_personales.apellido}}
                                 </li>
                                 <li class="items_paymen ">
                                     Forma de pago: {{forma_pago_select.descripcion}}
                                 </li>
-                                <li class="items_paymen ">
-                                    Total: {{precio_vusuario}}
+                                <br>
+                                <li *ngFor="let item of pedidos" class="items_paymen ">
+                                    {{item.cantidad}} {{item.descripcion_Alt}} Q.{{item.precio_cantidad_string}}
+                                </li>
+                                <br>
+                                <li class="items_paymen" style="text-align: end;">
+                                    Total: Q.{{precio_vusuario}}
                                 </li>
                             </ul>
                             <div class="container">
@@ -143,7 +136,8 @@
                         {{precio_vusuario}}<span>GTQ</span></p>
                 </div>
                 <div class="container_listpayment">
-                <mat-progress-bar *ngIf="progress_forma_pago" mode="indeterminate" color="accent"></mat-progress-bar>
+                    <mat-progress-bar *ngIf="progress_forma_pago" mode="indeterminate" color="accent">
+                    </mat-progress-bar>
 
                     <ul class="options_items">
                         <!--icon_card-->
@@ -165,7 +159,6 @@
                     <p class="ng-binding ng-scope">
                         {{precio_vusuario}}<span>GTQ</span></p>
                 </div>
-
                 <div class="container_flexcenter">
                     <div class="boxcontainer_form h_editarclientet">
 
@@ -186,7 +179,6 @@
                                             [(ngModel)]="datos_personales.apellido">
                                     </div>
                                 </div>
-
                                 <div class="row">
                                     <div class="col mariginleftcomtainer">
                                         <input id="email" type="email" class="input__tienda ico_email"

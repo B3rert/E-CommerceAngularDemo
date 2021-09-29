@@ -1182,8 +1182,6 @@ export class TiendaTipoComponent implements OnInit {
 
   //Obtiene la forma de pago seleccionada por el usuario
   tipoPagoLlave(formaPagoSelect: any) {
-    console.log(this.pedidos);
-    
     this.confirmar_pago = true;
     this.forma_pago_select = formaPagoSelect;
   }

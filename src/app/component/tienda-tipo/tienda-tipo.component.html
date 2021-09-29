@@ -398,16 +398,16 @@
                             <ul class="options_items">
                                 <!--icon_card-->
                                 <li class="items_paymen ">
-                                    Nombre: {{userFactura.Nombre}} {{userFactura.Apellido}}
+                                    Nombre factura: {{datos_factura.nombre}}
                                 </li>
                                 <li class="items_paymen ">
-                                    NIT: {{userFactura.Nit}}
+                                    NIT: {{datos_factura.nit}}
                                 </li>
                                 <li class="items_paymen ">
-                                    Dirección de entrega: {{userFactura.direccion_pedido}}
+                                    Dirección factura: {{datos_factura.direccion}}
                                 </li>
                                 <li class="items_paymen ">
-                                    Correo ELectronico: {{userFactura.Correo_electronico}}
+                                    Correo Electronico: {{datos_personales.correo_electronico}}
                                 </li>
                                 <li class="items_paymen ">
                                     Forma de pago: {{forma_pago_select.descripcion}}
@@ -446,6 +446,8 @@
                         {{precio_vusuario}}<span>GTQ</span></p>
                 </div>
                 <div class="container_listpayment">
+                <mat-progress-bar *ngIf="progress_forma_pago" mode="indeterminate" color="accent"></mat-progress-bar>
+
                     <ul class="options_items">
                         <!--icon_card-->
                         <li class="items_paymen " (click)="tipoPagoLlave(element)" *ngFor="let element of formas_pago">

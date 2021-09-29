@@ -151,6 +151,7 @@ export class TiendaTipoComponent implements OnInit {
   tipo_pedidos: any;
   tipo_pedido_seleccionado: any;
   isCheckedNit = false;
+  progress_forma_pago = false;
 
   favoriteSeason: string = "Descripción";
   seasons: string[] = ['Descripción', 'SKU'];
@@ -1251,6 +1252,7 @@ export class TiendaTipoComponent implements OnInit {
 
   //Obtiene las formas de pago
   getFormaPago() {
+    this.progress_forma_pago = true;
     this._formaPagoService.getFormaPago(
       this.tienda_seleccionada.tipo_Documento,
       this.tienda_seleccionada.serie_Documento,
@@ -1258,10 +1260,12 @@ export class TiendaTipoComponent implements OnInit {
       46, "1", 1*/
     ).subscribe(
       res => {
+        this.progress_forma_pago = false;
         let resJson = JSON.stringify(res);
         this.formas_pago = JSON.parse(resJson);
       },
       err => {
+        this.progress_forma_pago = false;
         alert("Error de servidor");
         console.log(err);
       }
@@ -1273,13 +1277,11 @@ export class TiendaTipoComponent implements OnInit {
     this._userService.getUserNameToken(token).subscribe(
       res => {
         this.nombre_user = JSON.parse(JSON.stringify(res)).messege;
-
       },
       err => {
         console.error(err);
       });
   }
-
 
   //registrar Documento Estructura
   sendPedido() {

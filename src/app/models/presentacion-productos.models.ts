@@ -23,5 +23,7 @@ export class PresentacionProductoModel{
     public des_Unidad_Medida: string,
     public url_Img: string,
     public cantidad: number
- ){}   
+ ){}
+ 
+ 
 }

@@ -98,7 +98,6 @@ export class PedidoComponentComponent implements OnInit {
     }
   ];
 
-  jsonHead: any[] = [];
   jsonPedidos: any[] = [];
   pedidoActual: any;
   transacciones: Trasaccion[] = [];

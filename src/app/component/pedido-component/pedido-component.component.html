@@ -551,7 +551,7 @@
                                                     class="list-group-item list-group-item-action" aria-current="true">
                                                     <div class="d-flex w-100 justify-content-between">
                                                         <h6 class="mb-1">Pedido: {{pedido.pedido}}</h6>
-                                                        <small>{{pedido.estado}}</small>
+                                                        <small>{{returnNameStatus(pedido.estado)}}</small>
                                                     </div>
                                                     <small class="text-muted">Fecha: {{
                                                         formatterFecha(pedido.fecha)}}.</small>

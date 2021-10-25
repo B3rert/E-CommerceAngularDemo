@@ -138,6 +138,17 @@ export class PedidoComponentComponent implements OnInit {
     this.tienda_seleccionada = JSON.parse(tienda!);
   }
 
+  returnNameStatus(status: any) {
+
+    let descripcion;
+    this.estados.forEach(element => {
+      if (status == element.estado_Objeto) {
+        descripcion = element.descripcion;
+      }
+
+    });
+    return descripcion;
+  }
 
   /*Obtinen los datos guradaddos en el navegador
   *si el usuario de los datos guaradaddos es igual al de la sesion
@@ -336,7 +347,7 @@ export class PedidoComponentComponent implements OnInit {
   async getPedido() {
     //Obtiene el nombre de usuario logeado
     await this.getUserName(this.token);
-    
+
     this._pedidoService.getDocumentoEstructuraUser(this.token, this.userName).subscribe(
       res => {
         let pedidos = JSON.parse(JSON.stringify(res));

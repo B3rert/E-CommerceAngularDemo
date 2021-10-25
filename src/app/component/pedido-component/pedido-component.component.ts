@@ -138,6 +138,7 @@ export class PedidoComponentComponent implements OnInit {
     this.tienda_seleccionada = JSON.parse(tienda!);
   }
 
+  //retorna la descriocion del estado 
   returnNameStatus(status: any) {
 
     let descripcion;

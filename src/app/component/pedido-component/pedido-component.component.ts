@@ -105,6 +105,7 @@ export class PedidoComponentComponent implements OnInit {
   //pedidosPedidoActual: PedidoEstructura ={};
   token: any;
   userName: string = "Nombre_Usuario";
+  datos_usuario: any;
 
   //Abrir/Cerrar SideNav
   @ViewChild('sidenav')
@@ -124,7 +125,10 @@ export class PedidoComponentComponent implements OnInit {
     private _pedidoService: PedidoService
   ) {
 
-    this.token = _userService.getToken()
+    this.token = _userService.getToken();
+
+    this.loadDataUser();
+    
 
     if (this.token) {
       this.getUserName(this.token);
@@ -135,6 +139,23 @@ export class PedidoComponentComponent implements OnInit {
     let tienda = sessionStorage.getItem("tienda");
     this.tienda_seleccionada = JSON.parse(tienda!);
   }
+
+  async loadDataUser(){
+    let datos_user = JSON.parse(localStorage.getItem("datos_personales")!);
+
+    if (datos_user) {
+      await this.getUserName(this.token);
+
+      if (datos_user.user_name = this.userName) {
+        this.datos_usuario = datos_user;
+      }
+    }else{
+      this.datos_usuario = null;
+    }
+    console.log(this.datos_usuario);
+    
+  }
+
 
   ngOnInit(): void {
   }
@@ -179,9 +200,6 @@ export class PedidoComponentComponent implements OnInit {
         });
 
         // console.log(this.estadosControl);
-
-
-
       },
       err => {
         console.error(err);
@@ -232,8 +250,8 @@ export class PedidoComponentComponent implements OnInit {
   navStatusTracking(pedido: any) {
 
     console.log(pedido);
-    
-    
+
+
     this.viewPedido = false;
     this.viewAcount = false;
     this.viewDetailsPedido = true;
@@ -249,15 +267,22 @@ export class PedidoComponentComponent implements OnInit {
 
   }
 
-  getUserName(token: any): any {
-    this._userService.getUserNameToken(token).subscribe(
-      res => {
-        this.userName = JSON.parse(JSON.stringify(res)).messege;
-      },
-      err => {
-        console.error(err);
-      });
+  async getUserName(token: any): Promise<void> {
+    
+    return new Promise((resolve, reject) => {
+      this._userService.getUserNameToken(token).subscribe(
+        res => {
+          this.userName = JSON.parse(JSON.stringify(res)).messege;
+          resolve();
+        },
+        err => {
+          console.error(err);
+          resolve();
+        });
+    });
   }
+
+
 
   navigateToStore() {
     this.router.navigate(['/tienda']);

@@ -93,14 +93,55 @@
                                             <div class="row">
                                                 <div class="col">
                                                     <h5>Datos de la cuenta:</h5>
+                                                    <div class="card text-center">
+                                                        <div class="card-body">
+                                                            <div id="detalle-tracking-ce" class="text-center">
+                                                                <p><strong>Usuario:</strong> {{userName}}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="container-fluid pad_top">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <h5>Datos personales:</h5>
 
                                                     <div class="card text-center">
                                                         <div class="card-body">
                                                             <div id="detalle-tracking-ce" class="text-center">
-                                                                <p><strong>Nombre:</strong> Nombre_usuario</p>
-                                                                <p><strong>Otros:</strong> Otros_datos</p>
-                                                                <p><strong>Otros:</strong> Otros_datos</p>
-                                                                <p><strong>Otros:</strong> Otros_datos</p>
+                                                                <p><strong>Nombre: </strong>{{datos_usuario.datos_personales.nombre}} {{datos_usuario.datos_personales.apellido}}</p>
+                                                                <p><strong>Teléfono: </strong>{{datos_usuario.datos_personales.telefono}}</p>
+                                                                <p><strong>Teléfono Alterno: </strong>{{datos_usuario.datos_personales.tlefono_alt}}</p>
+                                                                <p><strong>Correo Electrónico: </strong>{{datos_usuario.datos_personales.correo_electronico}}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="container-fluid pad_top">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <h5>Datos de Facturación:</h5>
+
+                                                    <div class="card text-center">
+                                                        <div class="card-body">
+                                                            <div id="detalle-tracking-ce" class="text-center">
+                                                                <p><strong>Nombre: </strong>{{datos_usuario.datos_factura.nombre}}</p>
+                                                                <p><strong>NIT: </strong>{{datos_usuario.datos_factura.nit}}</p>
+                                                                <p><strong>Dirección: </strong>{{datos_usuario.datos_factura.direccion}}</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -517,9 +558,11 @@
                                                     <br>
                                                     <small class="text-muted">Total: {{ pedido.total}}</small>
                                                 </div>
+                                               <!--
                                                 <div class="actions_item_acordeon">
                                                     <button mat-button (click)="repeatOrder()">Repetir pedido</button>
                                                 </div>
+                                                 -->
                                             </div>
 
                                         </div>

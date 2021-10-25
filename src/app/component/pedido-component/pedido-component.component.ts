@@ -128,7 +128,7 @@ export class PedidoComponentComponent implements OnInit {
     this.token = _userService.getToken();
 
     this.loadDataUser();
-    
+
 
     if (this.token) {
       this.getUserName(this.token);
@@ -140,22 +140,22 @@ export class PedidoComponentComponent implements OnInit {
     this.tienda_seleccionada = JSON.parse(tienda!);
   }
 
-  async loadDataUser(){
-    let datos_user = JSON.parse(localStorage.getItem("datos_personales")!);
 
+  /*Obtinen los datos guradaddos en el navegador
+  *si el usuario de los datos guaradaddos es igual al de la sesion
+  *se motrararn los dtaos gurdados, caso contrario no sucede nada
+  */
+  async loadDataUser() {
+    let datos_user = JSON.parse(localStorage.getItem("datos_personales")!);
     if (datos_user) {
       await this.getUserName(this.token);
-
       if (datos_user.user_name = this.userName) {
         this.datos_usuario = datos_user;
       }
-    }else{
+    } else {
       this.datos_usuario = null;
     }
-    console.log(this.datos_usuario);
-    
   }
-
 
   ngOnInit(): void {
   }
@@ -251,7 +251,6 @@ export class PedidoComponentComponent implements OnInit {
 
     console.log(pedido);
 
-
     this.viewPedido = false;
     this.viewAcount = false;
     this.viewDetailsPedido = true;
@@ -268,7 +267,7 @@ export class PedidoComponentComponent implements OnInit {
   }
 
   async getUserName(token: any): Promise<void> {
-    
+
     return new Promise((resolve, reject) => {
       this._userService.getUserNameToken(token).subscribe(
         res => {
@@ -331,40 +330,33 @@ export class PedidoComponentComponent implements OnInit {
     });
   }
 
-  getPedido() {
-    this.progress_pedidos = true;
-    this._userService.getUserNameToken(this.token).subscribe(
+  async getPedido() {
+    await this.getUserName(this.token);
+
+    this._pedidoService.getDocumentoEstructuraUser(this.token, this.userName).subscribe(
       res => {
-        let user = JSON.parse(JSON.stringify(res));
-        if (user.messege) {
-          this._pedidoService.getDocumentoEstructuraUser(this.token, user.messege).subscribe(
-            res => {
-              let pedidos = JSON.parse(JSON.stringify(res));
-              pedidos.forEach((element: any) => {
-                //Quitar la condicion, solo es un pedido con una estructura distinta
-                if (element.consecutivo_Interno != 18) {
-                  let pedidosPedidoActual: PedidoEstructura = JSON.parse(this.spliceQuotes(element.estructura))
-                  this.calcTotal(pedidosPedidoActual.Tra);
-                  let item = {
-                    "pedido": element.consecutivo_Interno,
-                    "fecha": element.fecha_Hora,
-                    "estado": element.estado,
-                    "estructura": element.estructura,
-                    "total": `Q.${this.NumberToString(this.calcTotal(pedidosPedidoActual.Tra))}`,
-                  }
-                  this.jsonPedidos.push(item);
-                }
-              });
-            },
-            err => {
-              console.error(err);
-            });
-        }
-        this.progress_pedidos = false;
-      }
-      , err => {
+        let pedidos = JSON.parse(JSON.stringify(res));
+        pedidos.forEach((element: any) => {
+          //Quitar la condicion, solo es un pedido con una estructura distinta
+          if (element.consecutivo_Interno != 18) {
+            let pedidosPedidoActual: PedidoEstructura = JSON.parse(this.spliceQuotes(element.estructura))
+            this.calcTotal(pedidosPedidoActual.Tra);
+            let item = {
+              "pedido": element.consecutivo_Interno,
+              "fecha": element.fecha_Hora,
+              "estado": element.estado,
+              "estructura": element.estructura,
+              "total": `Q.${this.NumberToString(this.calcTotal(pedidosPedidoActual.Tra))}`,
+            }
+            this.jsonPedidos.push(item);
+          }
+          this.progress_pedidos = false;
+        });
+      },
+      err => {
         console.error(err);
         this.progress_pedidos = false;
+
       });
   }
 

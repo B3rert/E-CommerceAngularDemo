@@ -27,4 +27,9 @@ export class PedidoService {
         let headers = new HttpHeaders({ "Content-Type": "application/json" });
         return this._http.get(`${this.url}Pedidos/tipo`, { headers: headers });
     }
+
+    getEstados(token:any){
+        let headers = new HttpHeaders({ "Content-Type": "application/json", "Authorization": `Bearer ${token}` });
+        return this._http.get(`${this.url}Pedidos/estados`, { headers: headers });
+    }
 }

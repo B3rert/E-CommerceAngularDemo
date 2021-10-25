@@ -366,6 +366,12 @@ font-size: 14px;
 
 .stepper-item.active {
   font-weight: bold;
+  color: #d84672;
+  
+}
+
+.active mat-icon{
+  color: #d84672;
 }
 
 .stepper-item.completed .step-counter {

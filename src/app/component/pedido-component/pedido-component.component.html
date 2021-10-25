@@ -123,36 +123,15 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="stepper-wrapper padd_top">
-                                            <div class="stepper-item completed">
+                                            <div class="stepper-item" *ngFor="let estado of estadosControl"
+                                                [ngClass]="{'completed':estado.icon == 'check', 'active':estado.icon == 'pending_actions'}">
                                                 <div class="step-counter">
-                                                    <fa-icon [icon]="faUserCheck" class="icon__step"></fa-icon>
+                                                    <mat-icon aria-hidden="false" class="icon__step">{{estado.icon}}
+                                                    </mat-icon>
                                                 </div>
-                                                <div class="step-name">Estado1</div>
+                                                <div class="step-name">{{estado.descripcion}}</div>
                                             </div>
-                                            <div class="stepper-item completed">
-                                                <div class="step-counter">
-                                                    <fa-icon [icon]="faDolly" class="icon__step"></fa-icon>
-                                                </div>
-                                                <div class="step-name">Estado2</div>
-                                            </div>
-                                            <div class="stepper-item completed">
-                                                <div class="step-counter">
-                                                    <fa-icon [icon]="faShuttleVan" class="icon__step"></fa-icon>
-                                                </div>
-                                                <div class="step-name">Estado3</div>
-                                            </div>
-                                            <div class="stepper-item active">
-                                                <div class="step-counter">
-                                                    <fa-icon [icon]="faPlaneArrival" class="icon__step"></fa-icon>
-                                                </div>
-                                                <div class="step-name">Estado4</div>
-                                            </div>
-                                            <div class="stepper-item">
-                                                <div class="step-counter">
-                                                    <fa-icon [icon]="faBuilding" class="icon__step"></fa-icon>
-                                                </div>
-                                                <div class="step-name">Estado5</div>
-                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -542,9 +521,9 @@
                     <div class="container" *ngIf="pedidos">
                         <div class="row">
                             <div class="col-12">
-                                
 
-                                <mat-tab-group color="accent" mat-align-tabs="start" >
+
+                                <mat-tab-group color="accent" mat-align-tabs="start">
                                     <mat-tab label="Pendientes">
                                         <mat-progress-bar *ngIf="progress_pedidos" mode="indeterminate" color="accent">
                                         </mat-progress-bar>
@@ -557,7 +536,8 @@
                                                         <h6 class="mb-1">Pedido: {{pedido.pedido}}</h6>
                                                         <small>{{pedido.estado}}</small>
                                                     </div>
-                                                    <small class="text-muted">Fecha: {{ formatterFecha(pedido.fecha)}}.</small>
+                                                    <small class="text-muted">Fecha: {{
+                                                        formatterFecha(pedido.fecha)}}.</small>
                                                     <br>
                                                     <small class="text-muted">Total: {{ pedido.total}}</small>
                                                 </div>
@@ -565,11 +545,11 @@
                                                     <button mat-button (click)="repeatOrder()">Repetir pedido</button>
                                                 </div>
                                             </div>
-        
+
                                         </div>
                                     </mat-tab>
                                     <mat-tab label="Confirmados">Confirmados</mat-tab>
-                                  </mat-tab-group>
+                                </mat-tab-group>
                             </div>
                         </div>
                     </div>

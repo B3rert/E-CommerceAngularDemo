@@ -22,6 +22,7 @@ import { faPlaneArrival } from '@fortawesome/free-solid-svg-icons';
 import { faBuilding } from '@fortawesome/free-solid-svg-icons';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { PedidoEstructura, Trasaccion } from 'src/app/interfaces/documento-estructura.interface';
+import { Estado, EstadosControl } from 'src/app/interfaces/estados.interface';
 import { PedidoService } from 'src/app/services/pedido.service';
 
 import { UserService } from 'src/app/services/user.service';
@@ -66,6 +67,9 @@ export class PedidoComponentComponent implements OnInit {
 
   tienda_seleccionada: any;
   progress_pedidos = false;
+
+  estados:Estado[] = [];
+  estadosControl:EstadosControl[] = [];
 
   optionsUser: boolean[] = [
     false, true, false, false
@@ -124,6 +128,7 @@ export class PedidoComponentComponent implements OnInit {
 
     if (this.token) {
       this.getUserName(this.token);
+      this.getStatusTracking();
     }
 
     this.getPedido();
@@ -132,6 +137,58 @@ export class PedidoComponentComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  getStatusTracking() {
+    this._pedidoService.getEstados(this.token).subscribe(
+      res => {
+        //console.log(res);
+        this.estados = <Estado[]>res;
+
+        this.estados.slice(0,5).forEach( (element, index) => {
+          
+          if (index == 3) {
+          
+            let item:EstadosControl = {
+              "descripcion": element.descripcion,
+              "estado":2,
+              "icon":"pending_actions"
+            }
+              
+            this.estadosControl.push(item);  
+          }else if (index == 4) {
+            
+          let item:EstadosControl = {
+            "descripcion": element.descripcion,
+            "estado":3,
+            "icon":"block"
+          }
+            
+          this.estadosControl.push(item);
+          }else{
+            
+          let item:EstadosControl = {
+            "descripcion": element.descripcion,
+            "estado":1,
+            "icon":"check"
+          }
+            
+          this.estadosControl.push(item);
+          }
+          
+      });
+
+        console.log(this.estadosControl);
+
+
+        
+      },
+      err => {
+        console.error(err);
+
+        alert("Error de servidor");
+      }
+    );
   }
 
   changeClass(index: number) {

@@ -128,7 +128,6 @@ export class PedidoComponentComponent implements OnInit {
 
     this.loadDataUser();
 
-
     if (this.token) {
       this.getUserName(this.token);
       this.getStatusTracking();
@@ -165,6 +164,7 @@ export class PedidoComponentComponent implements OnInit {
         //console.log(res);
         this.estados = <Estado[]>res;
 
+        //Muestra los primeros 5 elementos (slice)
         this.estados.slice(0, 5).forEach((element, index) => {
 
           if (index == 3) {
@@ -208,8 +208,8 @@ export class PedidoComponentComponent implements OnInit {
     );
   }
 
+  //Cambiar a clase activa cuando se haga click
   changeClass(index: number) {
-
     let countStatus = 0;
     this.optionsUser.forEach(element => {
       if (element) {
@@ -265,8 +265,8 @@ export class PedidoComponentComponent implements OnInit {
 
   }
 
+  //Ibtien ele nombrw de usuario a través del token de la sesion
   async getUserName(token: any): Promise<void> {
-
     return new Promise((resolve, reject) => {
       this._userService.getUserNameToken(token).subscribe(
         res => {
@@ -280,18 +280,19 @@ export class PedidoComponentComponent implements OnInit {
     });
   }
 
-
-
+  //Navega a la tienda
   navigateToStore() {
     this.router.navigate(['/tienda']);
   }
 
+  //Ver los pedidos
   viewPedidos() {
     this.viewPedido = true;
     this.viewAcount = false;
     this.viewDetailsPedido = false;
   }
 
+  //Navgea a la pantalla de seleccionar tienda
   navigateToSelectStore() {
     const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
       data: {
@@ -306,12 +307,14 @@ export class PedidoComponentComponent implements OnInit {
     });
   }
 
+  //ver informacion de la cuenta
   viewInfoAcount() {
     this.viewAcount = true;
     this.viewPedido = false;
     this.viewDetailsPedido = false;
   }
 
+  //Cerrar sesion
   singOut() {
     const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
       data: {
@@ -329,9 +332,11 @@ export class PedidoComponentComponent implements OnInit {
     });
   }
 
+  //Obtiene todos los pedidos hechos por el usuario
   async getPedido() {
+    //Obtiene el nombre de usuario logeado
     await this.getUserName(this.token);
-
+    
     this._pedidoService.getDocumentoEstructuraUser(this.token, this.userName).subscribe(
       res => {
         let pedidos = JSON.parse(JSON.stringify(res));
@@ -359,6 +364,7 @@ export class PedidoComponentComponent implements OnInit {
       });
   }
 
+  //calcula el totoal de un pedido
   calcTotal(arr: Trasaccion[]): number {
     let total: number = 0;
     arr.forEach(element => {
@@ -367,6 +373,7 @@ export class PedidoComponentComponent implements OnInit {
     return total;
   }
 
+  //Remplaza comillas simples po rcomillas dobles
   spliceQuotes(variable: string): string {
     variable = variable;
     var regex = new RegExp("'", "g");
@@ -374,6 +381,7 @@ export class PedidoComponentComponent implements OnInit {
     return res;
   }
 
+  //Fomrato de fecha
   formatterFecha(fecha: Date) {
     const date = new Date(fecha); // had to remove the colon (:) after the T in order to make it work
     const day = date.getDate();
@@ -386,6 +394,7 @@ export class PedidoComponentComponent implements OnInit {
     return myFormattedDate;
   }
 
+  //numero a string aladuendo decimales o 0
   NumberToString(numero: number) {
     if (numero % 1 == 0) {
       //es entero 
@@ -405,6 +414,5 @@ export class PedidoComponentComponent implements OnInit {
   //repetir pedido
   repeatOrder() {
     console.log("Repetir orden");
-
   }
 }

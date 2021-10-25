@@ -287,6 +287,7 @@ font-size: 14px;
 }
 
 .icon__descrip {
+  font-weight: bold;
   color: #d84672;
   font-size: 20px;
   padding-right: 5px;
@@ -312,6 +313,8 @@ font-size: 14px;
     display: none;
   }
 }
+
+/*Barra de pasos*/
 
 .stepper-wrapper {
   margin-top: auto;
@@ -399,7 +402,7 @@ font-size: 14px;
 .textTooolbar{
   font-size: 15px!important;
 }
-/**/
+/*Fin step bar*/
 
 /*Detalles pedido*/
 s {

@@ -468,40 +468,16 @@
                                                     <div class="card text-center">
                                                         <div class="card-body">
                                                             <div id="detalle-tracking-ce" class="text-center box__desc">
-                                                                <p>
-                                                                    <fa-icon [icon]="faUserCheck" class="icon__descrip">
-                                                                    </fa-icon><strong>Estado1: </strong> Lorem ipsum
+                                                                <p *ngFor="let estado of estadosControl">
+                                                                    <mat-icon aria-hidden="false" class="icon__descrip">
+                                                                        {{estado.icon}}
+                                                                    </mat-icon>
+                                                                    <strong>{{estado.descripcion}}: </strong> Lorem
+                                                                    ipsum
                                                                     dolor sit amet, consectetur adipisicing elit. Vel,
                                                                     ad. Odit facere porro pariatur atque.
                                                                 </p>
-                                                                <p>
-                                                                    <fa-icon [icon]="faDolly" class="icon__descrip">
-                                                                    </fa-icon><strong>Estado2: </strong> Lorem ipsum,
-                                                                    dolor sit amet consectetur adipisicing elit. Dolor
-                                                                    ratione ex aliquid nostrum enim eos, nam accusamus
-                                                                    fugit pariatur deleniti! Amet, quidem impedit.
-                                                                    Libero, quo!
-                                                                </p>
-                                                                <p>
-                                                                    <fa-icon [icon]="faShuttleVan"
-                                                                        class="icon__descrip"></fa-icon><strong>Estado3:
-                                                                    </strong> Lorem ipsum dolor sit amet, consectetur
-                                                                    adipisicing elit. Aspernatur fugit cupiditate
-                                                                    deleniti commodi ex quas est nostrum esse a
-                                                                    inventore voluptate itaque accusamus neque harum,
-                                                                    distinctio veniam necessitatibus alias sed.
-                                                                </p>
-                                                                <p>
-                                                                    <fa-icon [icon]="faPlaneArrival"
-                                                                        class="icon__descrip"></fa-icon><strong>Estado4:
-                                                                    </strong> Lorem ipsum dolor sit amet consectetur
-                                                                    adipisicing elit.o
-                                                                </p>
-                                                                <p>
-                                                                    <fa-icon [icon]="faBuilding" class="icon__descrip">
-                                                                    </fa-icon><strong>Estado5: </strong>Lorem ipsum
-                                                                    dolor sit amet.
-                                                                </p>
+
                                                             </div>
                                                         </div>
                                                     </div>

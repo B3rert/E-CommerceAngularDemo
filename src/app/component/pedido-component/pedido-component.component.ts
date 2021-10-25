@@ -68,8 +68,8 @@ export class PedidoComponentComponent implements OnInit {
   tienda_seleccionada: any;
   progress_pedidos = false;
 
-  estados:Estado[] = [];
-  estadosControl:EstadosControl[] = [];
+  estados: Estado[] = [];
+  estadosControl: EstadosControl[] = [];
 
   optionsUser: boolean[] = [
     false, true, false, false
@@ -145,43 +145,43 @@ export class PedidoComponentComponent implements OnInit {
         //console.log(res);
         this.estados = <Estado[]>res;
 
-        this.estados.slice(0,5).forEach( (element, index) => {
-          
+        this.estados.slice(0, 5).forEach((element, index) => {
+
           if (index == 3) {
-          
-            let item:EstadosControl = {
+
+            let item: EstadosControl = {
               "descripcion": element.descripcion,
-              "estado":2,
-              "icon":"pending_actions"
+              "estado": 2,
+              "icon": "pending_actions"
             }
-              
-            this.estadosControl.push(item);  
-          }else if (index == 4) {
-            
-          let item:EstadosControl = {
-            "descripcion": element.descripcion,
-            "estado":3,
-            "icon":"block"
-          }
-            
-          this.estadosControl.push(item);
-          }else{
-            
-          let item:EstadosControl = {
-            "descripcion": element.descripcion,
-            "estado":1,
-            "icon":"check"
-          }
-            
-          this.estadosControl.push(item);
-          }
-          
-      });
 
-        console.log(this.estadosControl);
+            this.estadosControl.push(item);
+          } else if (index == 4) {
+
+            let item: EstadosControl = {
+              "descripcion": element.descripcion,
+              "estado": 3,
+              "icon": "block"
+            }
+
+            this.estadosControl.push(item);
+          } else {
+
+            let item: EstadosControl = {
+              "descripcion": element.descripcion,
+              "estado": 1,
+              "icon": "check"
+            }
+
+            this.estadosControl.push(item);
+          }
+
+        });
+
+        // console.log(this.estadosControl);
 
 
-        
+
       },
       err => {
         console.error(err);
@@ -230,6 +230,10 @@ export class PedidoComponentComponent implements OnInit {
   }
 
   navStatusTracking(pedido: any) {
+
+    console.log(pedido);
+    
+    
     this.viewPedido = false;
     this.viewAcount = false;
     this.viewDetailsPedido = true;

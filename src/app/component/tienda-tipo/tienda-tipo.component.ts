@@ -1372,6 +1372,7 @@ export class TiendaTipoComponent implements OnInit {
       }
     });
   }
+  
 
   //Guardar pedido sin confirmar
   saveLastOrder() {

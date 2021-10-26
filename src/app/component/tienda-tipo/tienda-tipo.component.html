@@ -110,8 +110,8 @@
                                 <div class="row">
                                     <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
                                         <div class=" mtop">
-                                            <a class="btn-link text-center" (click)="regresarFormulario()">
-                                                Cancelar
+                                            <a class="btn-link text-center" (click)="regresarFormaPago()">
+                                                Regresar
                                             </a>
                                         </div>
                                     </div>
@@ -130,33 +130,76 @@
             </div>
             <!--Forma de pago-->
             <div *ngIf="forma_pago && !confirmar_pago">
-                <div class="form-group monto-container-tienda">
-                    <small><strong>Total a pagar:</strong></small>
-                    <p class="ng-binding ng-scope">
-                        {{precio_vusuario}}<span>GTQ</span></p>
-                </div>
-                <div class="container_listpayment">
-                    <mat-progress-bar *ngIf="progress_forma_pago" mode="indeterminate" color="accent">
-                    </mat-progress-bar>
 
-                    <ul class="options_items">
-                        <!--icon_card-->
-                        <li class="items_paymen " (click)="tipoPagoLlave(element)" *ngFor="let element of formas_pago">
-                            {{element.descripcion}}
-                        </li><!-- end ngIf: validarmontomini || tipoenviosucursal == 0 -->
-                    </ul>
+
+                
+                <div class="container">
+                    <div class="row">
+                        <div class="form-group monto-container-tienda">
+                            <small><strong>Forma de pago:</strong></small>
+                            <mat-slide-toggle labelPosition="before" class="slide_cargo_abono" [(ngModel)]="multiPayments"><small><strong>Multiple</strong></small></mat-slide-toggle>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="boxcontainer_form">
+                                <div class="container_listpayment">
+                                    <mat-progress-bar *ngIf="progress_forma_pago" mode="indeterminate" color="accent">
+                                    </mat-progress-bar>
+                                    
+                                    <ul class="options_items" *ngIf="!multiPayments">
+                                        <!--icon_card-->
+                                        <li class="items_paymen" (click)="tipoPagoLlave(element)" *ngFor="let element of formas_pago">
+                                            {{element.descripcion}}
+                                        </li><!-- end ngIf: validarmontomini || tipoenviosucursal == 0 -->
+                                    </ul>
+                                    <ul class="options_items" *ngIf="multiPayments">
+                                        <!--icon_card-->
+                                        <li class="items_paymen" *ngFor="let element of formas_pago">
+                                            <mat-checkbox >{{element.descripcion}}</mat-checkbox>
+                                            
+                                        </li><!-- end ngIf: validarmontomini || tipoenviosucursal == 0 -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mtop" *ngIf="multiPayments">
+                        <div class="col">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <a class="col-12 btn btn-link text-center spd spi" (click)="regresarFormulario()">
+                                            Regresar
+                                        </a>
+                                    </div>
+                                    <div class="col-6">
+                                        <a class="col-12 btn btn-link text-center spd spi" (click)="regresarFormulario()">
+                                            Continuar
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-sm-12 col-xs-12 mtop">
+               
+                <div class="col-sm-12 col-xs-12 mtop" *ngIf="!multiPayments">
                     <a class="col-xs-12 btn btn-link text-center col-sm-12 spd spi" (click)="regresarFormulario()">
                         Regresar
                     </a>
+                </div>
+                <div class="form-group monto-container-tienda">
+                    <small><strong>Total a pagar:</strong></small>
+                    <p>
+                        {{precio_vusuario}}<span>GTQ</span></p>
                 </div>
             </div>
             <!--Pago carrito-->
             <div class="col-sm-12 col-xs-12 spd spi" *ngIf="carrito_pago && !forma_pago && !confirmar_pago">
                 <div class="form-group monto-container-tienda">
                     <small><strong>Total a pagar:</strong></small>
-                    <p class="ng-binding ng-scope">
+                    <p>
                         {{precio_vusuario}}<span>GTQ</span></p>
                 </div>
                 <div class="container_flexcenter">
@@ -260,7 +303,7 @@
                                         </textarea>
                                             <div class="text__more_prod">
                                                 <div ng-bind-html="observacionesPersonalizado.descripcion_fecha_tienda"
-                                                    ng-if="tipoenviosucursal == 0" class="ng-binding ng-scope">
+                                                    ng-if="tipoenviosucursal == 0">
                                                     <p>Recuerda hacer tu pedido dentro de los horarios hábiles
                                                         de la tienda seleccionada.</p>
                                                 </div>
@@ -301,7 +344,7 @@
                                                 </div>
                                             </div>
                                             <div ng-bind-html="observacionesPersonalizado.descripcion_fecha_domicilio"
-                                                class="ng-binding ng-scope">
+                                               >
                                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing.</p>
                                                 <p>Lorem ipsum dolor sit amet consectetur adipisicing
                                                     elit.&nbsp;</p>

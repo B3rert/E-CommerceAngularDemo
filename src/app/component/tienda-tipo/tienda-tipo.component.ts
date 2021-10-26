@@ -165,6 +165,7 @@ export class TiendaTipoComponent implements OnInit {
   isCheckedNit = false;
   progress_forma_pago = false;
   progress_detalle=false;
+  multiPayments = false;
 
   favoriteSeason: string = "Descripción";
   seasons: string[] = ['Descripción', 'SKU'];
@@ -217,6 +218,7 @@ export class TiendaTipoComponent implements OnInit {
     window.addEventListener('scroll', this.scrollEvent, true);
   }
 
+  
   showScrollHeight = 400;
   hideScrollHeight = 200;
   showGoUpButton = false;
@@ -268,7 +270,6 @@ export class TiendaTipoComponent implements OnInit {
         });
     }
   }
-
 
   updateElementoAsignado() {
     this.elemento_asignado = + sessionStorage.getItem("elemento_asignado")!;
@@ -1018,6 +1019,10 @@ export class TiendaTipoComponent implements OnInit {
   //Cambiar a formulario pago 
   realizarPago() {
     this.carrito_pago = true;
+  }
+  regresarFormaPago(){
+    this.confirmar_pago = false;
+    this.forma_pago = true;
   }
 
   //regresar al carrito

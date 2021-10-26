@@ -870,6 +870,10 @@ body {
   border: 3px #f3c5d3;
 }
 
+
+.monto-container-tienda{
+  padding-top: 20px;
+}
 .monto-container-tienda small {
   color: #d84672;
   font-size: 15px;
@@ -887,6 +891,13 @@ body {
   background: transparent;
   border-radius: 5px;
   color: #FD306E;
+}
+
+
+.slide_cargo_abono{
+  float: right !important;
+  text-align: end;
+  margin: 20px;
 }
 
 .container_flexcenter {

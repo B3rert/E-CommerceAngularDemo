@@ -1102,6 +1102,7 @@ img.imagen-izquierda {
 
 img.imagen-derecha {
   float: left;
+  margin: 20px;
 }
 
 img.imagen-izquierda.seleccionada {

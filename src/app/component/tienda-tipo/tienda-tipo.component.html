@@ -132,7 +132,7 @@
             <div *ngIf="forma_pago && !confirmar_pago">
                 <div class="form-group monto-container-tienda">
                     <small><strong>Total a pagar:</strong></small>
-                    <p ng-if="monedaSelected.gtq" class="ng-binding ng-scope">
+                    <p class="ng-binding ng-scope">
                         {{precio_vusuario}}<span>GTQ</span></p>
                 </div>
                 <div class="container_listpayment">
@@ -198,7 +198,6 @@
                 </div>
                 <div class="container_flexcenter">
                     <div class="boxcontainer_form h_editarclientet">
-
                         <div class="ed-container cross-start">
                             <div class="form-group monto-container-tienda">
                                 <small><strong>Datos para la factura:</strong></small>
@@ -229,7 +228,6 @@
                                             [(ngModel)]="datos_factura.nombre">
                                         <input id="street1" type="text" class="input__tienda ico_street"
                                             placeholder="Dirección" required [(ngModel)]="datos_factura.direccion">
-
                                     </div>
                                 </div>
                             </div>
@@ -383,12 +381,12 @@
                         <div class="info_producto">
                             <div class="info__opciones">
                                 <div class="wformdatos">
-                                    <h3 class="ng-binding">
+                                    <h3 >
                                         {{element.descripcion}}
                                     </h3>
                                     <p ng-if="monedaSelected.gtq" class="ng-binding ">
                                         {{NumberToString(element.precio_unidad)}} GTQ x <strong
-                                            class="ng-binding">{{element.cantidad}}</strong>
+                                            >{{element.cantidad}}</strong>
                                     </p>
                                 </div>
                                 <div class="contmasform">
@@ -415,7 +413,7 @@
                 <div ng-if="totalVenta" class="">
                     <div class="cont_total">
                         <p>Total.</p>
-                        <p class="ng-binding">{{precio_vusuario}} GTQ</p>
+                        <p >{{precio_vusuario}} GTQ</p>
                     </div>
                 </div>
                 <input type="button" class="btn_paymentsales " ng-if="totalVenta" (click)="realizarPago()"
@@ -726,7 +724,10 @@
                                 <!--producto_seleccionado-->
                                 <div class="container_detalle">
                                     <div class="container">
-                                        <div class="row">
+                                        <mat-progress-bar *ngIf="progress_detalle" mode="indeterminate" color="accent">
+                                        </mat-progress-bar>
+                                        <div class="row" *ngIf="!progress_detalle">
+                                            
                                             <div class="col-sm-12 col-md-12 col-lg-6 col-xs-6">
                                                 <div class="container">
                                                     <div class="row">
@@ -759,39 +760,24 @@
                                             <div class="col-sm-12 col-md-12 col-lg-6 col-xs-6">
                                                 <div class="detalles-product">
                                                     <div class="tit_dprod">
-                                                        <p class="ng-binding">{{producto_seleccionado.descripcion}}</p>
+                                                        <p >{{producto_seleccionado.descripcion}}</p>
                                                     </div>
-                                                    <div class="producto_descri" *ngIf="no_hay_producto_detalle">
+                                                    <div class="producto_descri">
                                                         <div class="container_vermenos ng-scope">
-                                                            <p class="ng-binding">
+                                                            <p >
                                                                 SKU {{producto_seleccionado.producto_Id}}
                                                             </p>
-                                                            <p class="ng-binding">
-                                                                {{producto_seleccionado.descripcion_Alt}}
+                                                            <p >
+                                                                {{transformCapitalize(producto_seleccionado.descripcion_Alt)}}
                                                             </p>
                                                         </div>
                                                     </div>
-                                                    <div class="producto_descri"
-                                                        *ngIf="!presentacion && no_hay_producto_detalle">
-                                                        <div class="container_vermenos ng-scope">
-                                                            <p class="ng-binding">
-                                                                SKU {{presentacion_producto[0].iD_Producto}}
-                                                            </p>
-                                                            <p class="ng-binding">
-                                                                {{producto_seleccionado.descripcion_Alt}}
-                                                            </p>
-                                                        </div>
-                                                    </div>
+                                                   
                                                     <div class="producto_descri "
                                                         *ngIf="presentacion && !no_hay_producto_detalle">
                                                         <div class="container_vermenos ng-scope">
-                                                            <p class="ng-binding">
-                                                                SKU {{presentacion_producto[0].iD_Producto}}
-                                                            </p>
-                                                            <p class="ng-binding">
-                                                                {{presentacion_producto[0].descripcion_Alt_Producto}}
-                                                            </p>
-                                                            <p class="ng-binding">
+                                                            
+                                                            <p >
                                                                 Presentación
                                                             </p>
                                                         </div>
@@ -804,7 +790,7 @@
                                                                     <div class="container">
                                                                         <div class="row">
                                                                             <label class="m_unit">
-                                                                                No se ha encontrado información de este
+                                                                                No se ha encontrado más información de este
                                                                                 producto.
                                                                             </label>
                                                                         </div>
@@ -820,9 +806,6 @@
                                                             </div>
                                                         </form>
                                                     </div>
-
-
-
                                                     <!--Varias Presentaciones-->
                                                     <div class="col-sm-12 spi spd"
                                                         *ngIf="presentacion && !no_hay_producto_detalle">
@@ -937,7 +920,6 @@
                     <!--Fin modal detalle-->
                     <!--Lista de prfuctos-->
                     <div class="row">
-
                         <div class="container" *ngIf="!producto_exist && !progress_product">
                             <div class="row">
                                 <div class="col">
@@ -959,8 +941,8 @@
                                                 <img src="{{element.url_Img}}">
                                             </div>
                                             <div class="nombre_producto">
-                                                <h4 class="ng-binding">SKU {{element.producto_Id}}</h4>
-                                                <p class="ng-binding">{{resolveLargeString(element.descripcion)}}</p>
+                                                <h4 >SKU {{element.producto_Id}}</h4>
+                                                <p >{{resolveLargeString(element.descripcion)}}</p>
                                             </div>
                                         </div>
                                     </div>

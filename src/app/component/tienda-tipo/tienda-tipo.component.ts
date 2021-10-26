@@ -43,9 +43,12 @@ import { NavItem } from 'src/app/interfaces/nav-item.interface';
 import { PedidoService } from 'src/app/services/pedido.service';
 import { DocumentoEstructura, PedidoEstructura, Trasaccion } from 'src/app/interfaces/documento-estructura.interface'
 import { Pedido } from 'src/app/interfaces/pedido.interface';
+import { PictureProduct } from 'src/app/interfaces/picture-product.interface';
 import { CuentaCorrentista } from 'src/app/services/cuenta-correntista.service';
 import { OptionDialogComponent } from '../dialog/option-dialog/option-dialog.component';
 import { DataUser, DatosEntrega, DatosFactura, DatosPersonales } from 'src/app/interfaces/forms-order.service';
+import { Product } from 'src/app/interfaces/producto.interface';
+import { PresentacionProduto } from 'src/app/interfaces/prentacion.interface';
 
 @Component({
   selector: 'app-tienda-tipo',
@@ -111,9 +114,17 @@ export class TiendaTipoComponent implements OnInit {
   tienda_en_linea = true;
   tienda_seleccionada: any;
   categorias: any;
-  productos: any;
+  productos: Product[] = [];
   forma_pedido: any;
-  producto_seleccionado: any;
+  producto_seleccionado: Product = {
+    "producto_Id": "",
+    "descripcion": "",
+    "descripcion_Alt": "",
+    "url_Img": "",
+    "producto": 0,
+    "unidad_Medida": 0,
+    "des_Unidad_Medida": ""
+};
   detalle_producto = false;
   cantidad_producto = 0;
   pedidos: any[] = [];
@@ -129,9 +140,9 @@ export class TiendaTipoComponent implements OnInit {
   presentacion = false;
   confirmar_pago = false;
 
-  presentacion_producto: any;
+  presentacion_producto: PresentacionProduto[] = [];
   formas_pago: any;
-  fotos: any;
+  fotos: PictureProduct[] = [];
   indiceSeleccionado = 0;
   fotoSeleccionada = "";
   vPresentaciones: any;
@@ -153,6 +164,7 @@ export class TiendaTipoComponent implements OnInit {
   tipo_pedido_seleccionado: any;
   isCheckedNit = false;
   progress_forma_pago = false;
+  progress_detalle=false;
 
   favoriteSeason: string = "Descripción";
   seasons: string[] = ['Descripción', 'SKU'];
@@ -1086,32 +1098,43 @@ export class TiendaTipoComponent implements OnInit {
     }
   }
 
+
+    //Convierte una imagen dada en base64 la gurada en imageBase64
+    async getPicturesProduct(producto:number, unidad_medida:number, empresa:number): Promise<void> {
+      return new Promise((resolve, reject) => {
+        this._productoService.getVariasImagenes(
+          producto,
+          unidad_medida,
+          empresa).subscribe(
+            res => {
+              this.fotos = <PictureProduct[]>res;
+              resolve();
+            },
+            err => {
+              resolve();
+              console.log(err)
+              alert("Error de servidor.")
+            }
+          );
+      });
+    }
+
+
   //Obtiene y muestra el detalle de un producto
-  productoDetalle(producto_seleccionado: any) {
+  async productoDetalle(producto_seleccionado: Product) {
+
+    this.progress_detalle = true;
     this.detalle_producto = true;
     this.producto_seleccionado = producto_seleccionado;
-
-    this._productoService.getVariasImagenes(
-      producto_seleccionado.producto,
-      producto_seleccionado.unidad_Medida,
-      1).subscribe(
-        res => {
-          let resJson = JSON.stringify(res);
-          this.fotos = JSON.parse(resJson);
-        },
-        err => {
-          alert("Error de servidor.")
-          console.log(err)
-        }
-      );
+    
+    await this.getPicturesProduct(producto_seleccionado.producto,producto_seleccionado.unidad_Medida,this.tienda_seleccionada.empresa);
 
     //Verificar si el producto tiene variantes
     this._productoService.getProductoDetalles(
       producto_seleccionado.producto, producto_seleccionado.unidad_Medida,
       this.tienda_seleccionada.bodega).subscribe(
         res => {
-          let resJson = JSON.stringify(res);
-          this.presentacion_producto = JSON.parse(resJson);
+          this.presentacion_producto = <PresentacionProduto[]>res;
 
           if (this.presentacion_producto.length == 0) {
             this.no_hay_producto_detalle = true;
@@ -1129,8 +1152,12 @@ export class TiendaTipoComponent implements OnInit {
               }
             }
           }
+    this.progress_detalle = false;
+
         },
         err => {
+    this.progress_detalle = false;
+          
           alert("Error de servidor.")
           console.log(err)
         }
@@ -1234,9 +1261,9 @@ export class TiendaTipoComponent implements OnInit {
 
     this._productoService.producto(categoria).subscribe(
       res => {
-        let resJson = JSON.stringify(res);
-        sessionStorage.setItem("productos", resJson);
-        this.productos = JSON.parse(resJson);
+       
+        this.productos = <Product[]>res;
+
         if (this.productos.length == 0) {
           this.producto_exist = false;
           this.progress_product = false;
@@ -1372,7 +1399,7 @@ export class TiendaTipoComponent implements OnInit {
       }
     });
   }
-  
+
 
   //Guardar pedido sin confirmar
   saveLastOrder() {

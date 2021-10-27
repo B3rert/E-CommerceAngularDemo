@@ -132,33 +132,86 @@
             <div *ngIf="forma_pago && !confirmar_pago">
 
 
-                
                 <div class="container">
                     <div class="row">
                         <div class="form-group monto-container-tienda">
                             <small><strong>Forma de pago:</strong></small>
-                            <mat-slide-toggle labelPosition="before" class="slide_cargo_abono" [(ngModel)]="multiPayments"><small><strong>Multiple</strong></small></mat-slide-toggle>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <button mat-raised-button (click)="isLinear = !isLinear" id="toggle-linear">
+                            {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
+                          </button>
+                          <mat-stepper orientation="vertical" linear=true #stepper color="accent">
+                            <mat-step [stepControl]="firstFormGroup">
+                              <form [formGroup]="firstFormGroup">
+                                <ng-template matStepLabel>Fill out your name</ng-template>
+                                <mat-form-field appearance="fill">
+                                  <mat-label>Name</mat-label>
+                                  <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
+                                </mat-form-field>
+                                <div>
+                                  <button mat-button matStepperNext>Next</button>
+                                </div>
+                              </form>
+                            </mat-step>
+                            <mat-step [stepControl]="secondFormGroup">
+                              <form [formGroup]="secondFormGroup">
+                                <ng-template matStepLabel>Fill out your address</ng-template>
+                                <mat-form-field appearance="fill">
+                                  <mat-label>Address</mat-label>
+                                  <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
+                                         required>
+                                </mat-form-field>
+                                <div>
+                                  <button mat-button matStepperPrevious>Back</button>
+                                  <button mat-button matStepperNext>Next</button>
+                                </div>
+                              </form>
+                            </mat-step>
+                            <mat-step>
+                              <ng-template matStepLabel>Done</ng-template>
+                              <p>You are now done.</p>
+                              <div>
+                                <button mat-button matStepperPrevious>Back</button>
+                                <button mat-button (click)="stepper.reset()">Reset</button>
+                              </div>
+                            </mat-step>
+                          </mat-stepper>
+                          
+                    </div>
+                    <div class="row"></div>
+                </div>
+
+                <div class="container">
+                    <div class="row">
+                        <div class="form-group monto-container-tienda">
+                            <small><strong>Forma de pago:</strong></small>
+                            <mat-slide-toggle labelPosition="before" class="slide_cargo_abono"
+                                [(ngModel)]="multiPayments"><small><strong>Multiple</strong></small></mat-slide-toggle>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
-                            <div class="boxcontainer_form">
+                            <div class="boxcontainer_form" style="width: 330px !important;">
                                 <div class="container_listpayment">
                                     <mat-progress-bar *ngIf="progress_forma_pago" mode="indeterminate" color="accent">
                                     </mat-progress-bar>
-                                    
+
                                     <ul class="options_items" *ngIf="!multiPayments">
                                         <!--icon_card-->
-                                        <li class="items_paymen" (click)="tipoPagoLlave(element)" *ngFor="let element of formas_pago">
+                                        <li class="items_paymen" (click)="tipoPagoLlave(element)"
+                                            *ngFor="let element of formas_pago">
                                             {{element.descripcion}}
-                                        </li><!-- end ngIf: validarmontomini || tipoenviosucursal == 0 -->
+                                        </li>
                                     </ul>
                                     <ul class="options_items" *ngIf="multiPayments">
                                         <!--icon_card-->
-                                        <li class="items_paymen" *ngFor="let element of formas_pago">
-                                            <mat-checkbox >{{element.descripcion}}</mat-checkbox>
-                                            
-                                        </li><!-- end ngIf: validarmontomini || tipoenviosucursal == 0 -->
+                                        <section [formGroup]="payments">
+                                            <li class="items_paymen" *ngFor="let element of formas_pago">
+                                                <mat-checkbox [formControlName]="element.descripcion">{{element.descripcion}}</mat-checkbox>
+                                            </li>
+                                        </section>
                                     </ul>
                                 </div>
                             </div>
@@ -169,12 +222,13 @@
                             <div class="container-fluid">
                                 <div class="row">
                                     <div class="col-6">
-                                        <a class="col-12 btn btn-link text-center spd spi" (click)="regresarFormulario()">
+                                        <a class="col-12 btn btn-link text-center spd spi"
+                                            (click)="regresarFormulario()">
                                             Regresar
                                         </a>
                                     </div>
                                     <div class="col-6">
-                                        <a class="col-12 btn btn-link text-center spd spi" (click)="regresarFormulario()">
+                                        <a class="col-12 btn btn-link text-center spd spi" (click)="tipoPagoMultiple()">
                                             Continuar
                                         </a>
                                     </div>
@@ -183,7 +237,7 @@
                         </div>
                     </div>
                 </div>
-               
+
                 <div class="col-sm-12 col-xs-12 mtop" *ngIf="!multiPayments">
                     <a class="col-xs-12 btn btn-link text-center col-sm-12 spd spi" (click)="regresarFormulario()">
                         Regresar
@@ -343,8 +397,7 @@
                                                 <div class="content_envio">
                                                 </div>
                                             </div>
-                                            <div ng-bind-html="observacionesPersonalizado.descripcion_fecha_domicilio"
-                                               >
+                                            <div ng-bind-html="observacionesPersonalizado.descripcion_fecha_domicilio">
                                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing.</p>
                                                 <p>Lorem ipsum dolor sit amet consectetur adipisicing
                                                     elit.&nbsp;</p>
@@ -424,12 +477,12 @@
                         <div class="info_producto">
                             <div class="info__opciones">
                                 <div class="wformdatos">
-                                    <h3 >
+                                    <h3>
                                         {{element.descripcion}}
                                     </h3>
                                     <p ng-if="monedaSelected.gtq" class="ng-binding ">
-                                        {{NumberToString(element.precio_unidad)}} GTQ x <strong
-                                            >{{element.cantidad}}</strong>
+                                        {{NumberToString(element.precio_unidad)}} GTQ x
+                                        <strong>{{element.cantidad}}</strong>
                                     </p>
                                 </div>
                                 <div class="contmasform">
@@ -456,7 +509,7 @@
                 <div ng-if="totalVenta" class="">
                     <div class="cont_total">
                         <p>Total.</p>
-                        <p >{{precio_vusuario}} GTQ</p>
+                        <p>{{precio_vusuario}} GTQ</p>
                     </div>
                 </div>
                 <input type="button" class="btn_paymentsales " ng-if="totalVenta" (click)="realizarPago()"
@@ -770,7 +823,7 @@
                                         <mat-progress-bar *ngIf="progress_detalle" mode="indeterminate" color="accent">
                                         </mat-progress-bar>
                                         <div class="row" *ngIf="!progress_detalle">
-                                            
+
                                             <div class="col-sm-12 col-md-12 col-lg-6 col-xs-6">
                                                 <div class="container">
                                                     <div class="row">
@@ -803,24 +856,24 @@
                                             <div class="col-sm-12 col-md-12 col-lg-6 col-xs-6">
                                                 <div class="detalles-product">
                                                     <div class="tit_dprod">
-                                                        <p >{{producto_seleccionado.descripcion}}</p>
+                                                        <p>{{producto_seleccionado.descripcion}}</p>
                                                     </div>
                                                     <div class="producto_descri">
                                                         <div class="container_vermenos ng-scope">
-                                                            <p >
+                                                            <p>
                                                                 SKU {{producto_seleccionado.producto_Id}}
                                                             </p>
-                                                            <p >
+                                                            <p>
                                                                 {{transformCapitalize(producto_seleccionado.descripcion_Alt)}}
                                                             </p>
                                                         </div>
                                                     </div>
-                                                   
+
                                                     <div class="producto_descri "
                                                         *ngIf="presentacion && !no_hay_producto_detalle">
                                                         <div class="container_vermenos ng-scope">
-                                                            
-                                                            <p >
+
+                                                            <p>
                                                                 Presentación
                                                             </p>
                                                         </div>
@@ -833,7 +886,8 @@
                                                                     <div class="container">
                                                                         <div class="row">
                                                                             <label class="m_unit">
-                                                                                No se ha encontrado más información de este
+                                                                                No se ha encontrado más información de
+                                                                                este
                                                                                 producto.
                                                                             </label>
                                                                         </div>
@@ -984,8 +1038,8 @@
                                                 <img src="{{element.url_Img}}">
                                             </div>
                                             <div class="nombre_producto">
-                                                <h4 >SKU {{element.producto_Id}}</h4>
-                                                <p >{{resolveLargeString(element.descripcion)}}</p>
+                                                <h4>SKU {{element.producto_Id}}</h4>
+                                                <p>{{resolveLargeString(element.descripcion)}}</p>
                                             </div>
                                         </div>
                                     </div>

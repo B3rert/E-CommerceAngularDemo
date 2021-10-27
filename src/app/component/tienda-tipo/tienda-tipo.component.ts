@@ -49,6 +49,8 @@ import { OptionDialogComponent } from '../dialog/option-dialog/option-dialog.com
 import { DataUser, DatosEntrega, DatosFactura, DatosPersonales } from 'src/app/interfaces/forms-order.service';
 import { Product } from 'src/app/interfaces/producto.interface';
 import { PresentacionProduto } from 'src/app/interfaces/prentacion.interface';
+import { CargoAbono } from 'src/app/interfaces/tipo-cargo-abono.interface';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-tienda-tipo',
@@ -66,6 +68,10 @@ import { PresentacionProduto } from 'src/app/interfaces/prentacion.interface';
 })
 
 export class TiendaTipoComponent implements OnInit {
+
+  payments: FormGroup;
+
+
 
   checked = false;
   indeterminate = false;
@@ -141,7 +147,7 @@ export class TiendaTipoComponent implements OnInit {
   confirmar_pago = false;
 
   presentacion_producto: PresentacionProduto[] = [];
-  formas_pago: any;
+  formas_pago: CargoAbono[] = [];
   fotos: PictureProduct[] = [];
   indiceSeleccionado = 0;
   fotoSeleccionada = "";
@@ -199,7 +205,15 @@ export class TiendaTipoComponent implements OnInit {
     "checked": this.checked
   }
 
-  constructor(
+  jsonPayments = {};
+
+  isLinear = false;
+  firstFormGroup: FormGroup;
+  secondFormGroup: FormGroup;
+  
+   constructor(
+     
+    private fb: FormBuilder,
     private router: Router,
     private dialog: MatDialog,
     private _categoriaService: CategoriaService,
@@ -207,8 +221,16 @@ export class TiendaTipoComponent implements OnInit {
     private _formaPagoService: FormaPagoService,
     private _userService: UserService,
     private _pedidoService: PedidoService,
-    private _cuentaCorrentistaService: CuentaCorrentista
+    private _cuentaCorrentistaService: CuentaCorrentista,
   ) {
+    this.payments = fb.group({});
+    this.firstFormGroup = this.fb.group({
+      firstCtrl: ['', Validators.required]
+    });
+    this.secondFormGroup = this.fb.group({
+      secondCtrl: ['', Validators.required]
+    });
+    
     var fecha_hora = this.getHoraActual();
     this.userFactura = new UserFactura("", "", "", "", "", fecha_hora, "", "", "");
     this.inputRegisterUser = new RegistroUser("", "", "", "");
@@ -223,11 +245,15 @@ export class TiendaTipoComponent implements OnInit {
   hideScrollHeight = 200;
   showGoUpButton = false;
 
+  
+
   ngOnDestroy() {
     window.removeEventListener('scroll', this.scrollEvent, true);
   }
 
   ngOnInit(): void {
+   
+
     this.updateDataSession();
     this.getCategorias();
     this.getProductos(0);
@@ -240,6 +266,19 @@ export class TiendaTipoComponent implements OnInit {
     this.asignarTipoPedido();
     //this.getAndViewOrderLocal();
   }
+
+  //crear json multiples formas de pago
+  createMultiPaymentsJson(formas_pago:CargoAbono[]) {
+    
+    formas_pago.forEach(element => {
+     this.jsonPayments = Object.assign(this.jsonPayments, {[element.descripcion]: false});
+    });
+
+    console.log(this.jsonPayments);
+
+  }
+
+
 
   getDataUser() {
 
@@ -1218,6 +1257,12 @@ export class TiendaTipoComponent implements OnInit {
     this.forma_pago_select = formaPagoSelect;
   }
 
+  tipoPagoMultiple() {
+    //this.confirmar_pago = true;
+    console.log(this.payments.value);
+    
+  }
+
   //Al hacer click en una categoria hijo se activa la categoria padre
   searchCategoriaPadre(categoria: number) {
     this.categorias.forEach((element: any) => {
@@ -1285,27 +1330,33 @@ export class TiendaTipoComponent implements OnInit {
     );
   }
 
-  //Obtiene las formas de pago
-  getFormaPago() {
-    this.progress_forma_pago = true;
-    this._formaPagoService.getFormaPago(
-      this.tienda_seleccionada.tipo_Documento,
-      this.tienda_seleccionada.serie_Documento,
-      this.tienda_seleccionada.empresa/*
-      46, "1", 1*/
-    ).subscribe(
-      res => {
-        this.progress_forma_pago = false;
-        let resJson = JSON.stringify(res);
-        this.formas_pago = JSON.parse(resJson);
-      },
-      err => {
-        this.progress_forma_pago = false;
-        alert("Error de servidor");
-        console.log(err);
-      }
-    );
+  async getFormaPago(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.progress_forma_pago = true;
+      this._formaPagoService.getFormaPago(
+        this.tienda_seleccionada.tipo_Documento,
+        this.tienda_seleccionada.serie_Documento,
+        this.tienda_seleccionada.empresa/*
+        46, "1", 1*/
+      ).subscribe(
+        res => {
+          this.progress_forma_pago = false;
+          this.formas_pago = <CargoAbono[]>res;
+          this.createMultiPaymentsJson(this.formas_pago); 
+          this.payments = this.fb.group(this.jsonPayments);
+          resolve();
+        },
+        err => {
+          console.log(err);
+          this.progress_forma_pago = false;
+          resolve();
+          alert("Error de servidor");
+        }
+      );
+    });
   }
+
+ 
 
   //Obtiene el nombre del usuario loggeado
   getUserName(token: any): any {

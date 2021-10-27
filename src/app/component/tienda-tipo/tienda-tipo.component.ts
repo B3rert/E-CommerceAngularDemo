@@ -322,8 +322,8 @@ export class TiendaTipoComponent implements OnInit {
   //filtrando los resultados que encuentre
   valuechange() {
     this.progress_product = true;
-    let arr: any[] = [];
-    arr = JSON.parse(sessionStorage.getItem("productos")!);
+    let arr: Product[] = [];
+    arr = <Product[]>JSON.parse(sessionStorage.getItem("productos")!);
     let resfilter = this.transform(arr, this.inputSearchBar.element);
     this.productos = resfilter;
     if (resfilter.length == 0) {
@@ -341,7 +341,7 @@ export class TiendaTipoComponent implements OnInit {
   private data: any;
 
   //returna un arrgelo con los elemntos que coincidan con la entrada en el filtro
-  transform(arreglo: any[], texto: string): any[] {
+  transform(arreglo: Product[], texto: string): any[] {
     if (texto === '') {
       return arreglo;
     }

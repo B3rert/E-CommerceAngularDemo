@@ -21,6 +21,7 @@ import { faShippingFast } from '@fortawesome/free-solid-svg-icons';
 import { faClock } from '@fortawesome/free-solid-svg-icons';
 import { faCartArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 /***/
 import * as $ from 'jquery';
 /** */
@@ -50,7 +51,7 @@ import { DataUser, DatosEntrega, DatosFactura, DatosPersonales } from 'src/app/i
 import { Product } from 'src/app/interfaces/producto.interface';
 import { PresentacionProduto } from 'src/app/interfaces/prentacion.interface';
 import { CargoAbono } from 'src/app/interfaces/tipo-cargo-abono.interface';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-tienda-tipo',
@@ -108,6 +109,7 @@ export class TiendaTipoComponent implements OnInit {
   faClock = faClock;
   faCartArrowDown = faCartArrowDown;
   faInfoCircle = faInfoCircle;
+  faCheck= faCheck;
 
   //Modelos
   public userFactura: UserFactura;
@@ -210,6 +212,8 @@ export class TiendaTipoComponent implements OnInit {
   isLinear = false;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
+
+
   
    constructor(
      
@@ -223,6 +227,9 @@ export class TiendaTipoComponent implements OnInit {
     private _pedidoService: PedidoService,
     private _cuentaCorrentistaService: CuentaCorrentista,
   ) {
+    
+   
+    
     this.payments = fb.group({});
     this.firstFormGroup = this.fb.group({
       firstCtrl: ['', Validators.required]
@@ -245,7 +252,6 @@ export class TiendaTipoComponent implements OnInit {
   hideScrollHeight = 200;
   showGoUpButton = false;
 
-  
 
   ngOnDestroy() {
     window.removeEventListener('scroll', this.scrollEvent, true);
@@ -278,7 +284,9 @@ export class TiendaTipoComponent implements OnInit {
 
   }
 
-
+  confirmarMonto(){
+    console.log("confirmarMonto");
+  }
 
   getDataUser() {
 

@@ -22,3 +22,8 @@ export interface CargoAbono {
     bloquear_Documento: boolean;
     url: string;
 }
+
+export interface CargoAbonoInterface {
+    forma_pago:string;
+    value:string
+}

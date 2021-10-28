@@ -21,7 +21,8 @@ import { faShippingFast } from '@fortawesome/free-solid-svg-icons';
 import { faClock } from '@fortawesome/free-solid-svg-icons';
 import { faCartArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 /***/
 import * as $ from 'jquery';
 /** */
@@ -72,8 +73,6 @@ export class TiendaTipoComponent implements OnInit {
 
   payments: FormGroup;
 
-
-
   checked = false;
   indeterminate = false;
   labelPosition: 'before' | 'after' = 'after';
@@ -109,7 +108,8 @@ export class TiendaTipoComponent implements OnInit {
   faClock = faClock;
   faCartArrowDown = faCartArrowDown;
   faInfoCircle = faInfoCircle;
-  faCheck= faCheck;
+  faCheckCircle = faCheckCircle;
+  faTimesCircle = faTimesCircle;
 
   //Modelos
   public userFactura: UserFactura;
@@ -132,7 +132,7 @@ export class TiendaTipoComponent implements OnInit {
     "producto": 0,
     "unidad_Medida": 0,
     "des_Unidad_Medida": ""
-};
+  };
   detalle_producto = false;
   cantidad_producto = 0;
   pedidos: any[] = [];
@@ -156,6 +156,7 @@ export class TiendaTipoComponent implements OnInit {
   vPresentaciones: any;
   producto_exist = true;
   precio_vusuario: string = "0.00";
+  remainingBalance: string = "0.00";
   no_hay_producto_detalle = false;
   progress_product = true;
   products_autocomplete: any;
@@ -172,8 +173,9 @@ export class TiendaTipoComponent implements OnInit {
   tipo_pedido_seleccionado: any;
   isCheckedNit = false;
   progress_forma_pago = false;
-  progress_detalle=false;
+  progress_detalle = false;
   multiPayments = false;
+  multipaymentsInput = false;
 
   favoriteSeason: string = "Descripción";
   seasons: string[] = ['Descripción', 'SKU'];
@@ -208,15 +210,11 @@ export class TiendaTipoComponent implements OnInit {
   }
 
   jsonPayments = {};
+  inputsPayments: any[] = [];
+  paymentsAmount: any[] = [];
 
-  isLinear = false;
-  firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
+  constructor(
 
-
-  
-   constructor(
-     
     private fb: FormBuilder,
     private router: Router,
     private dialog: MatDialog,
@@ -227,17 +225,9 @@ export class TiendaTipoComponent implements OnInit {
     private _pedidoService: PedidoService,
     private _cuentaCorrentistaService: CuentaCorrentista,
   ) {
-    
-   
-    
+
     this.payments = fb.group({});
-    this.firstFormGroup = this.fb.group({
-      firstCtrl: ['', Validators.required]
-    });
-    this.secondFormGroup = this.fb.group({
-      secondCtrl: ['', Validators.required]
-    });
-    
+
     var fecha_hora = this.getHoraActual();
     this.userFactura = new UserFactura("", "", "", "", "", fecha_hora, "", "", "");
     this.inputRegisterUser = new RegistroUser("", "", "", "");
@@ -247,7 +237,7 @@ export class TiendaTipoComponent implements OnInit {
     window.addEventListener('scroll', this.scrollEvent, true);
   }
 
-  
+
   showScrollHeight = 400;
   hideScrollHeight = 200;
   showGoUpButton = false;
@@ -258,7 +248,7 @@ export class TiendaTipoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-   
+
 
     this.updateDataSession();
     this.getCategorias();
@@ -274,17 +264,17 @@ export class TiendaTipoComponent implements OnInit {
   }
 
   //crear json multiples formas de pago
-  createMultiPaymentsJson(formas_pago:CargoAbono[]) {
-    
+  createMultiPaymentsJson(formas_pago: CargoAbono[]) {
+
     formas_pago.forEach(element => {
-     this.jsonPayments = Object.assign(this.jsonPayments, {[element.descripcion]: false});
+      this.jsonPayments = Object.assign(this.jsonPayments, { [element.descripcion]: false });
     });
 
     console.log(this.jsonPayments);
 
   }
 
-  confirmarMonto(){
+  confirmarMonto() {
     console.log("confirmarMonto");
   }
 
@@ -389,7 +379,7 @@ export class TiendaTipoComponent implements OnInit {
 
   //returna un arrgelo con los elemntos que coincidan con la entrada en el filtro
   transform(arreglo: Product[], texto: string): Product[] {
-    
+
     if (texto === '') {
       return arreglo;
     }
@@ -1068,7 +1058,7 @@ export class TiendaTipoComponent implements OnInit {
   realizarPago() {
     this.carrito_pago = true;
   }
-  regresarFormaPago(){
+  regresarFormaPago() {
     this.confirmar_pago = false;
     this.forma_pago = true;
   }
@@ -1152,25 +1142,25 @@ export class TiendaTipoComponent implements OnInit {
   }
 
 
-    //Convierte una imagen dada en base64 la gurada en imageBase64
-    async getPicturesProduct(producto:number, unidad_medida:number, empresa:number): Promise<void> {
-      return new Promise((resolve, reject) => {
-        this._productoService.getVariasImagenes(
-          producto,
-          unidad_medida,
-          empresa).subscribe(
-            res => {
-              this.fotos = <PictureProduct[]>res;
-              resolve();
-            },
-            err => {
-              resolve();
-              console.log(err)
-              alert("Error de servidor.")
-            }
-          );
-      });
-    }
+  //Convierte una imagen dada en base64 la gurada en imageBase64
+  async getPicturesProduct(producto: number, unidad_medida: number, empresa: number): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this._productoService.getVariasImagenes(
+        producto,
+        unidad_medida,
+        empresa).subscribe(
+          res => {
+            this.fotos = <PictureProduct[]>res;
+            resolve();
+          },
+          err => {
+            resolve();
+            console.log(err)
+            alert("Error de servidor.")
+          }
+        );
+    });
+  }
 
 
   //Obtiene y muestra el detalle de un producto
@@ -1179,8 +1169,8 @@ export class TiendaTipoComponent implements OnInit {
     this.progress_detalle = true;
     this.detalle_producto = true;
     this.producto_seleccionado = producto_seleccionado;
-    
-    await this.getPicturesProduct(producto_seleccionado.producto,producto_seleccionado.unidad_Medida,this.tienda_seleccionada.empresa);
+
+    await this.getPicturesProduct(producto_seleccionado.producto, producto_seleccionado.unidad_Medida, this.tienda_seleccionada.empresa);
 
     //Verificar si el producto tiene variantes
     this._productoService.getProductoDetalles(
@@ -1205,12 +1195,12 @@ export class TiendaTipoComponent implements OnInit {
               }
             }
           }
-    this.progress_detalle = false;
+          this.progress_detalle = false;
 
         },
         err => {
-    this.progress_detalle = false;
-          
+          this.progress_detalle = false;
+
           alert("Error de servidor.")
           console.log(err)
         }
@@ -1267,10 +1257,106 @@ export class TiendaTipoComponent implements OnInit {
   }
 
   tipoPagoMultiple() {
+    this.remainingBalance = this.precio_vusuario;
+
     //this.confirmar_pago = true;
-    console.log(this.payments.value);
-    
+    this.inputsPayments = [];
+    for (var key in this.payments.value) {
+      // Controlando que json realmente tenga esa propiedad
+      if (this.payments.value.hasOwnProperty(key)) {
+        // Mostrando en pantalla la clave junto a su valor
+        //  console.log( `${key} is ${this.payments.value[key]}`);
+
+        if (this.payments.value[key]) {
+          let item = {
+            forma_pago: key,
+            value: null
+          }
+          this.inputsPayments.push(item);
+        }
+      }
+    }
+    //console.log(this.payments.value);
+
+    if (this.inputsPayments.length == 0) {
+      this.dialogAccept("Selecciona al menos una forma de pago.");
+    } else if (this.inputsPayments.length == 1) {
+
+      this.inputsPayments.forEach(forma_pago_select => {
+        this.formas_pago.forEach(formas_pago => {
+          if (forma_pago_select.forma_pago == formas_pago.descripcion) {
+            this.tipoPagoLlave(formas_pago);
+          }
+        });
+      });
+
+
+    } else {
+      this.multipaymentsInput = true;
+    }
+
   }
+
+  //Convert string to number
+  convertToNumber(value: string) {
+    return +value;
+  }
+
+  returnPayment() {
+    this.multipaymentsInput = false;
+  }
+
+  confirmAmount(key: any, amount: any) {
+
+
+    console.log(this.remainingBalance);
+
+    let amount_str = isNaN(this.convertToNumber(amount)) ? amount = 0 : amount = this.convertToNumber(amount);
+
+    if (amount_str == 0) {
+      this.dialogAccept("Los montos no pueden ser 0.");
+    } else if (amount_str > this.convertToNumber(this.remainingBalance)) {
+      this.dialogAccept("El monto no puede ser mayor al saldo restante.");
+    } else {
+      //update remaining balance
+      this.remainingBalance = this.NumberToString(this.convertToNumber(this.remainingBalance) - amount_str);
+
+    }
+
+    this.inputsPayments.forEach(element => {
+      if (key == element.forma_pago) {
+        element.value = this.NumberToString(amount_str);
+      }
+    });
+
+  }
+
+  continuePayment() {
+    //console.log(this.inputsPayments);
+    this.inputsPayments.forEach(element => {
+      //console.log(this.convertToNumber(element.value));
+      isNaN(this.convertToNumber(element.value)) ? element.value = 0 : element.value = this.convertToNumber(element.value);
+    });
+
+
+    for (let index = 0; index < this.inputsPayments.length; index++) {
+      if (this.inputsPayments[index].value == 0) {
+        this.dialogAccept("Los montos no pueden ser 0.");
+        break; // este bucle for no sigue iterando
+      }
+    }
+
+    this.inputsPayments.forEach(element => {
+      element.value = this.NumberToString(element.value);
+    });
+
+  }
+
+  //delete space from string and return new string
+  deleteSpace(string: string) {
+    return string.replace(/\s/g, "");
+  }
+
 
   //Al hacer click en una categoria hijo se activa la categoria padre
   searchCategoriaPadre(categoria: number) {
@@ -1320,7 +1406,7 @@ export class TiendaTipoComponent implements OnInit {
 
     this._productoService.producto(categoria).subscribe(
       res => {
-       
+
         this.productos = <Product[]>res;
         sessionStorage.setItem("productos", JSON.stringify(this.productos));
 
@@ -1352,7 +1438,7 @@ export class TiendaTipoComponent implements OnInit {
         res => {
           this.progress_forma_pago = false;
           this.formas_pago = <CargoAbono[]>res;
-          this.createMultiPaymentsJson(this.formas_pago); 
+          this.createMultiPaymentsJson(this.formas_pago);
           this.payments = this.fb.group(this.jsonPayments);
           resolve();
         },
@@ -1366,7 +1452,7 @@ export class TiendaTipoComponent implements OnInit {
     });
   }
 
- 
+
 
   //Obtiene el nombre del usuario loggeado
   getUserName(token: any): any {

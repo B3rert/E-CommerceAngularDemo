@@ -1700,3 +1700,25 @@ ng-autocomplete {
 .srcActive{
   color: #d84672;
 }
+
+
+.payment_multi mat-form-field{
+  /*width: 80%;*/
+  width: 100%;
+}
+
+.payment_multi fa-icon{
+  cursor: pointer;
+  width: 5%;
+  font-size: 17px;
+}
+
+.payment_multi button{
+  border: none;
+  background: transparent;
+  margin-left: 3%;
+}
+
+.saldo_restante{
+ text-align: end !important;
+}

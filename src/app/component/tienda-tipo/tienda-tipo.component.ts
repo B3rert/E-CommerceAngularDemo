@@ -388,7 +388,8 @@ export class TiendaTipoComponent implements OnInit {
   private data: any;
 
   //returna un arrgelo con los elemntos que coincidan con la entrada en el filtro
-  transform(arreglo: Product[], texto: string): any[] {
+  transform(arreglo: Product[], texto: string): Product[] {
+    
     if (texto === '') {
       return arreglo;
     }
@@ -1321,6 +1322,7 @@ export class TiendaTipoComponent implements OnInit {
       res => {
        
         this.productos = <Product[]>res;
+        sessionStorage.setItem("productos", JSON.stringify(this.productos));
 
         if (this.productos.length == 0) {
           this.producto_exist = false;

@@ -1703,8 +1703,8 @@ ng-autocomplete {
 
 
 .payment_multi mat-form-field{
-  /*width: 80%;*/
-  width: 100%;
+  width: 80%;
+  /*width: 100%;*/
 }
 
 .payment_multi fa-icon{
@@ -1721,4 +1721,9 @@ ng-autocomplete {
 
 .saldo_restante{
  text-align: end !important;
+}
+
+.mat-input-element:disabled, .mat-form-field-type-mat-native-select.mat-form-field-disabled .mat-form-field-infix::after {
+ /* color: #636262 !important;*/
+  color: #000 !important;
 }

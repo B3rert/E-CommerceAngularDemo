@@ -23,6 +23,7 @@ import { faCartArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { faEdit} from '@fortawesome/free-solid-svg-icons';
 /***/
 import * as $ from 'jquery';
 /** */
@@ -110,7 +111,7 @@ export class TiendaTipoComponent implements OnInit {
   faInfoCircle = faInfoCircle;
   faCheckCircle = faCheckCircle;
   faTimesCircle = faTimesCircle;
-
+  faEdit = faEdit;
   //Modelos
   public userFactura: UserFactura;
   public inputRegisterUser: RegistroUser;
@@ -174,7 +175,7 @@ export class TiendaTipoComponent implements OnInit {
   isCheckedNit = false;
   progress_forma_pago = false;
   progress_detalle = false;
-  multiPayments = false;
+  multiPayments = true;
   multipaymentsInput = false;
 
   favoriteSeason: string = "Descripción";
@@ -1270,7 +1271,8 @@ export class TiendaTipoComponent implements OnInit {
         if (this.payments.value[key]) {
           let item = {
             forma_pago: key,
-            value: null
+            value: null,
+            disabled: false
           }
           this.inputsPayments.push(item);
         }
@@ -1306,13 +1308,52 @@ export class TiendaTipoComponent implements OnInit {
     this.multipaymentsInput = false;
   }
 
+  editAmount(key:any, amount:any) {
+    this.inputsPayments.forEach(element => {
+      if (key == element.forma_pago) {
+        element.disabled = false;
+        element.value = null;
+      }
+    });
+
+    this.remainingBalance = this.NumberToString(this.convertToNumber(this.remainingBalance) + this.convertToNumber(amount));
+    
+
+  }
+
   confirmAmount(key: any, amount: any) {
 
+    let amount_str = 0;
+    isNaN(this.convertToNumber(amount)) ? amount_str = 0 : amount_str = this.convertToNumber(amount);
 
-    console.log(this.remainingBalance);
+    //Invalid number negative and zero and string values in amount_str
+    if (amount_str <= 0 || isNaN(amount_str)) {
+      console.log("Invalid number negative and zero and string values in amount");
+    }else{
 
-    let amount_str = isNaN(this.convertToNumber(amount)) ? amount = 0 : amount = this.convertToNumber(amount);
+      //ivalid mount greater than remaining balance
+      if (amount_str > this.convertToNumber(this.remainingBalance)) {
+        console.log("Invalid mount greater than remaining balance");
+      }else{
+        this.inputsPayments.forEach(element => {
+          if (key == element.forma_pago) {
+           element.value = this.NumberToString(amount_str);
+            element.disabled = true;
+          }
+        });
+  
+        this.remainingBalance = this.NumberToString(this.convertToNumber(this.remainingBalance) - amount_str);
+      }     
 
+    }
+
+
+
+    
+
+
+
+    return;
     if (amount_str == 0) {
       this.dialogAccept("Los montos no pueden ser 0.");
     } else if (amount_str > this.convertToNumber(this.remainingBalance)) {

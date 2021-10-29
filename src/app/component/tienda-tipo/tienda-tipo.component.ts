@@ -355,6 +355,8 @@ export class TiendaTipoComponent implements OnInit {
     this.navItems = padre;
   }
 
+ 
+
   //Se activa cuando hay algun cambio en la barra de busqueda 
   //filtrando los resultados que encuentre
   valuechange() {
@@ -1256,6 +1258,7 @@ export class TiendaTipoComponent implements OnInit {
     this.forma_pago_select = formaPagoSelect;
   }
 
+
   tipoPagoMultiple() {
     this.remainingBalance = this.precio_vusuario;
 
@@ -1306,6 +1309,26 @@ export class TiendaTipoComponent implements OnInit {
     this.multipaymentsInput = false;
   }
 
+
+  amountChange(key:any){
+
+    let amount = this.inputsPayments[key].value;
+    let amount_str = isNaN(this.convertToNumber(amount)) ? amount = 0 : amount = this.convertToNumber(amount);
+    //invalid number negative 
+    if(amount_str < 0){
+      console.log("invalid number negative or string");
+    }else if(amount_str == 0){
+      console.log("invalide value 0 or string");
+    }else{
+      console.log("valid number");
+      let str_amount_length = 0;
+      str_amount_length = amount_str.toString().length;
+     
+
+    }
+    
+  }
+
   confirmAmount(key: any, amount: any) {
 
 
@@ -1338,10 +1361,16 @@ export class TiendaTipoComponent implements OnInit {
       isNaN(this.convertToNumber(element.value)) ? element.value = 0 : element.value = this.convertToNumber(element.value);
     });
 
+    //replace number negative for 0
+    this.inputsPayments.forEach(element => {
+      if (element.value < 0) {
+        element.value = 0;
+      }
+    });
 
     for (let index = 0; index < this.inputsPayments.length; index++) {
-      if (this.inputsPayments[index].value == 0) {
-        this.dialogAccept("Los montos no pueden ser 0.");
+      if (this.inputsPayments[index].value == 0 ) {
+        this.dialogAccept("Los montos no pueden ser 0 o negativos.");
         break; // este bucle for no sigue iterando
       }
     }

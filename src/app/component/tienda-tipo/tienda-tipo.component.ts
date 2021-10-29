@@ -52,7 +52,7 @@ import { DataUser, DatosEntrega, DatosFactura, DatosPersonales } from 'src/app/i
 import { Product } from 'src/app/interfaces/producto.interface';
 import { PresentacionProduto } from 'src/app/interfaces/prentacion.interface';
 import { CargoAbono } from 'src/app/interfaces/tipo-cargo-abono.interface';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-tienda-tipo',
@@ -155,8 +155,12 @@ export class TiendaTipoComponent implements OnInit {
   fotoSeleccionada = "";
   vPresentaciones: any;
   producto_exist = true;
+
   precio_vusuario: string = "0.00";
+
   remainingBalance: string = "0.00";
+  subtotal_pago: any;
+
   no_hay_producto_detalle = false;
   progress_product = true;
   products_autocomplete: any;
@@ -174,7 +178,7 @@ export class TiendaTipoComponent implements OnInit {
   isCheckedNit = false;
   progress_forma_pago = false;
   progress_detalle = false;
-  multiPayments = false;
+  multiPayments = true;
   multipaymentsInput = false;
 
   favoriteSeason: string = "Descripción";
@@ -355,7 +359,7 @@ export class TiendaTipoComponent implements OnInit {
     this.navItems = padre;
   }
 
- 
+
 
   //Se activa cuando hay algun cambio en la barra de busqueda 
   //filtrando los resultados que encuentre
@@ -1293,7 +1297,6 @@ export class TiendaTipoComponent implements OnInit {
         });
       });
 
-
     } else {
       this.multipaymentsInput = true;
     }
@@ -1310,23 +1313,58 @@ export class TiendaTipoComponent implements OnInit {
   }
 
 
-  amountChange(key:any){
+  amountChange(key: any) {
+
+    let total = this.convertToNumber(this.precio_vusuario);
+
+    this.inputsPayments.forEach(element => {
+
+      if (!isNaN(this.convertToNumber(element.value))) {
+        total = total - element.value;
+      }else{
+        total = total - 0;
+      }
+
+    });
+    
+    
+    
+    if (this.subtotal_pago) {
+      if (this.subtotal_pago.key != key) {
+        this.subtotal_pago = {
+          key: key,
+          value: total
+        }
+      }
+
+    } else {
+      this.subtotal_pago = {
+        key: key,
+        value: total
+      }
+
+    }
+
+    //console.log(this.subtotal_pago);
+
 
     let amount = this.inputsPayments[key].value;
     let amount_str = isNaN(this.convertToNumber(amount)) ? amount = 0 : amount = this.convertToNumber(amount);
     //invalid number negative 
-    if(amount_str < 0){
+    if (amount_str < 0) {
       console.log("invalid number negative or string");
-    }else if(amount_str == 0){
+      this.remainingBalance = this.NumberToString(this.subtotal_pago.value - amount_str);
+    } else if (amount_str == 0) {
       console.log("invalide value 0 or string");
-    }else{
+      this.remainingBalance = this.NumberToString(this.subtotal_pago.value - amount_str);
+    } else {
       console.log("valid number");
-      let str_amount_length = 0;
-      str_amount_length = amount_str.toString().length;
-     
+
+
+
+      this.remainingBalance = this.NumberToString(this.subtotal_pago.value - amount_str);
 
     }
-    
   }
 
   confirmAmount(key: any, amount: any) {
@@ -1369,7 +1407,7 @@ export class TiendaTipoComponent implements OnInit {
     });
 
     for (let index = 0; index < this.inputsPayments.length; index++) {
-      if (this.inputsPayments[index].value == 0 ) {
+      if (this.inputsPayments[index].value == 0) {
         this.dialogAccept("Los montos no pueden ser 0 o negativos.");
         break; // este bucle for no sigue iterando
       }

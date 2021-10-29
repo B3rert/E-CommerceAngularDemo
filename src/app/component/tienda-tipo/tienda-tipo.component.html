@@ -145,7 +145,7 @@
                                 <mat-label>Monto {{cargo_abono.forma_pago}}</mat-label>
                                 <input type="text" matInput placeholder="Q.00.00" [(ngModel)]="cargo_abono.value"
                                     [name]="deleteSpace(cargo_abono.forma_pago)" (ngModelChange)="amountChange(index)">
-                                <button *ngIf="cargo_abono.value" matSuffix  (click)="cargo_abono.value=''">
+                                <button *ngIf="cargo_abono.value" matSuffix  (click)="cargo_abono.value='';amountChange(index)">
                                     <mat-icon><fa-icon [icon]="faTimes"></fa-icon></mat-icon>
                                 </button>
                             </mat-form-field>
@@ -198,10 +198,10 @@
                     <div class="row">
                         <div class="form-group monto-container-tienda">
                             <small><strong>Forma de pago:</strong></small>
-                            <!--
+                            
                             <mat-slide-toggle labelPosition="before" class="slide_cargo_abono"
                                 [(ngModel)]="multiPayments"><small><strong>Multiple</strong></small></mat-slide-toggle>
-                       -->
+                       
                             </div>
 
                     </div>

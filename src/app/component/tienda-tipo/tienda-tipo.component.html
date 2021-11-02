@@ -138,25 +138,20 @@
                     </div>
                     <div class="row" style="padding-top: 20px;">
                         <!--#pay_amout="ngForm" (ngSubmit)="confirmAmount( cargo_abono.forma_pago, cargo_abono.value)"-->
-                        <form class="payment_multi" *ngFor="let cargo_abono of inputsPayments; let index = index">
-                            
-
+                        <form class="payment_multi" *ngFor="let cargo_abono of inputsPayments" #pay_amout="ngForm" (ngSubmit)="confirmAmount( cargo_abono.forma_pago, cargo_abono.value)">
                             <mat-form-field appearance="outline" color="accent">
                                 <mat-label>Monto {{cargo_abono.forma_pago}}</mat-label>
-                                <input type="text" matInput placeholder="Q.00.00" [(ngModel)]="cargo_abono.value"
-                                    [name]="deleteSpace(cargo_abono.forma_pago)" (ngModelChange)="amountChange(index)">
-                                <button *ngIf="cargo_abono.value" matSuffix  (click)="cargo_abono.value='';amountChange(index)">
-                                    <mat-icon><fa-icon [icon]="faTimes"></fa-icon></mat-icon>
-                                </button>
+                                <input [disabled]="cargo_abono.disabled" type="text" matInput placeholder="Q.00.00" min="0"
+                                    [(ngModel)]="cargo_abono.value" [name]="deleteSpace(cargo_abono.forma_pago)">
                             </mat-form-field>
-                            <!--
-                            <button type="submit">
+                            
+                            <button *ngIf="!cargo_abono.disabled" type="submit">
                                 <fa-icon [icon]="faCheckCircle"></fa-icon>
                             </button>
-                            <button>
-                                <fa-icon [icon]="faTimesCircle"></fa-icon>
+                            <button *ngIf="cargo_abono.disabled" (click)="editAmount(cargo_abono.forma_pago, cargo_abono.value)">
+                                <fa-icon [icon]="faEdit"></fa-icon>
                             </button>
-                            -->
+                            
                         </form>
                     </div>
                     <!-- class="saldo_restante"-->
@@ -171,7 +166,7 @@
                         </div>
 
                     </div>
-               
+                
                     <div class="row mtop">
                         <div class="col">
                             <div class="container-fluid">

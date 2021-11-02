@@ -1,1 +1,13 @@
-<p>option-multiple-dialog works!</p>
+<h2 mat-dialog-title>{{data.tittle}}</h2>
+<mat-dialog-content class="mat-typography">
+    <section [formGroup]="options_payment">
+        <li class="items_paymen" *ngFor="let element of  data.options">
+            <mat-checkbox [formControlName]="element">
+                {{element}}</mat-checkbox>
+        </li>
+    </section>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="false">{{data.falso}}</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="saveTipoPedido()">{{data.verdadero}}</button>
+</mat-dialog-actions>

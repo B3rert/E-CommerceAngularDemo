@@ -54,6 +54,7 @@ import { Product } from 'src/app/interfaces/producto.interface';
 import { PresentacionProduto } from 'src/app/interfaces/prentacion.interface';
 import { CargoAbono } from 'src/app/interfaces/tipo-cargo-abono.interface';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { OptionMultipleDialogComponent } from '../dialog/option-multiple-dialog/option-multiple-dialog.component';
 
 @Component({
   selector: 'app-tienda-tipo',
@@ -181,6 +182,8 @@ export class TiendaTipoComponent implements OnInit {
   progress_detalle = false;
   multiPayments = true;
   multipaymentsInput = false;
+  addPayment = false;
+  various_amounts = true;
 
   favoriteSeason: string = "Descripción";
   seasons: string[] = ['Descripción', 'SKU'];
@@ -217,6 +220,7 @@ export class TiendaTipoComponent implements OnInit {
   jsonPayments = {};
   inputsPayments: any[] = [];
   paymentsAmount: any[] = [];
+  finallyPayments: any[] = [];
 
   constructor(
 
@@ -275,7 +279,7 @@ export class TiendaTipoComponent implements OnInit {
       this.jsonPayments = Object.assign(this.jsonPayments, { [element.descripcion]: false });
     });
 
-    console.log(this.jsonPayments);
+    
 
   }
 
@@ -1260,11 +1264,22 @@ export class TiendaTipoComponent implements OnInit {
   //Obtiene la forma de pago seleccionada por el usuario
   tipoPagoLlave(formaPagoSelect: any) {
     this.confirmar_pago = true;
+
+    this.finallyPayments = [];
+    
+    let item = {
+      descripcion: formaPagoSelect.descripcion,
+      monto: this.precio_vusuario
+    }
+
+    this.finallyPayments.push(item);
+
     this.forma_pago_select = formaPagoSelect;
   }
 
 
   tipoPagoMultiple() {
+    
     this.remainingBalance = this.precio_vusuario;
 
     //this.confirmar_pago = true;
@@ -1300,7 +1315,57 @@ export class TiendaTipoComponent implements OnInit {
       });
 
     } else {
+    
+      let options: string[] = [];
+
+      //Add payments not selected in options
+      this.formas_pago.forEach(formas_pago => {
+        let existe = false;
+        this.inputsPayments.forEach(inputsPayments => {
+          if (inputsPayments.forma_pago == formas_pago.descripcion) {
+            existe = true;
+          }
+        });
+        if (!existe) {
+          options.push(formas_pago.descripcion);
+        }
+      });
+
+
+      if (options.length == 0) {
+        this.addPayment = false;
+      } else{
+        this.addPayment = true;
+      }
+
       this.multipaymentsInput = true;
+
+    }
+
+  }
+
+
+  updateAddPayment(){
+    let options: string[] = [];
+
+    //Add payments not selected in options
+    this.formas_pago.forEach(formas_pago => {
+      let existe = false;
+      this.inputsPayments.forEach(inputsPayments => {
+        if (inputsPayments.forma_pago == formas_pago.descripcion) {
+          existe = true;
+        }
+      });
+      if (!existe) {
+        options.push(formas_pago.descripcion);
+      }
+    });
+
+
+    if (options.length == 0) {
+      this.addPayment = false;
+    } else{
+      this.addPayment = true;
     }
 
   }
@@ -1332,13 +1397,62 @@ export class TiendaTipoComponent implements OnInit {
             });
           });
         }
+        this.updateAddPayment();
       }
     });
   }
 
 
-  addFormaPago(){
-    console.log("Agregar forma de pago");
+  addFormaPago() {
+
+    let options: string[] = [];
+
+    //Add payments not selected in options
+    this.formas_pago.forEach(formas_pago => {
+      let existe = false;
+      this.inputsPayments.forEach(inputsPayments => {
+        if (inputsPayments.forma_pago == formas_pago.descripcion) {
+          existe = true;
+        }
+      });
+      if (!existe) {
+        options.push(formas_pago.descripcion);
+      }
+    });
+    
+    const dialogRef = this.dialog.open(OptionMultipleDialogComponent, {
+      data: {
+        tittle: "¿Agregar forma de pago?",
+        verdadero: "Agregar",
+        options: options
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+
+        let payments_dialog = JSON.parse(sessionStorage.getItem("payments_dialog")!);
+
+        for (var key in payments_dialog) {
+          // Controlando que json realmente tenga esa propiedad
+          if (payments_dialog.hasOwnProperty(key)) {
+            // Mostrando en pantalla la clave junto a su valor
+            //  console.log( `${key} is ${this.payments.value[key]}`);
+    
+            if (payments_dialog[key]) {
+              let item = {
+                forma_pago: key,
+                value: null,
+                disabled: false
+              }
+              this.inputsPayments.push(item);
+            }
+          }
+        }
+
+        this.updateAddPayment();
+        sessionStorage.removeItem("payments_dialog");
+      }
+    });
   }
 
   //Convert string to number
@@ -1410,6 +1524,22 @@ export class TiendaTipoComponent implements OnInit {
       if (this.convertToNumber(this.remainingBalance) != 0) {
         console.log("No se ha pagado el saldo total.");
 
+      }else{
+        console.log("Pago completado.");  
+        this.confirmar_pago = true;
+
+        this.finallyPayments = [];
+
+        this.inputsPayments.forEach(inputsPayments => {
+         let item = {
+          descripcion: inputsPayments.forma_pago,
+           monto: inputsPayments.value
+         }
+
+         this.finallyPayments.push(item);
+        });
+
+        
       }
 
 

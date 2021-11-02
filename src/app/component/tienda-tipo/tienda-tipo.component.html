@@ -95,8 +95,12 @@
                                     Nombre: {{datos_personales.nombre}} {{datos_personales.apellido}}
                                 </li>
                                 <li class="items_paymen ">
-                                    Forma de pago: {{forma_pago_select.descripcion}}
+                                    Formas de pago:
                                 </li>
+                                <li class="items_paymen" style="text-align: end;" *ngFor="let cargo_abono of finallyPayments">
+                                    {{cargo_abono.descripcion}}: Q.{{cargo_abono.monto}}
+                                </li>
+                                
                                 <br>
                                 <li *ngFor="let item of pedidos" class="items_paymen ">
                                     {{item.cantidad}} {{item.descripcion_Alt}} Q.{{item.precio_cantidad_string}}
@@ -125,6 +129,7 @@
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
             </div>
@@ -194,7 +199,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" *ngIf="addPayment">
                         <button  mat-mini-fab class="button_add_forma_pago" (click)="addFormaPago()">
                             <fa-icon [icon]="faPlus"></fa-icon>
                         </button>

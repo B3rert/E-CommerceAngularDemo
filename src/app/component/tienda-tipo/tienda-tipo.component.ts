@@ -23,7 +23,7 @@ import { faCartArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
-import { faEdit} from '@fortawesome/free-solid-svg-icons';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 /***/
 import * as $ from 'jquery';
 /** */
@@ -158,7 +158,7 @@ export class TiendaTipoComponent implements OnInit {
   producto_exist = true;
 
   precio_vusuario: string = "0.00";
-
+  amount_paid: string = "0.00";
   remainingBalance: string = "0.00";
   subtotal_pago: any;
 
@@ -1305,6 +1305,42 @@ export class TiendaTipoComponent implements OnInit {
 
   }
 
+  deleteFormaPago(key: any) {
+
+    const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
+      data: {
+        tittle: "¿Eliminar forma de pago?"
+      }
+    });
+    dialogRef.afterClosed().subscribe(async result => {
+      if (result) {
+
+        if (this.inputsPayments[key].disabled) {
+          this.remainingBalance = this.NumberToString(this.convertToNumber(this.remainingBalance) + this.convertToNumber(this.inputsPayments[key].value));
+          this.amount_paid = this.NumberToString(this.convertToNumber(this.amount_paid) - this.convertToNumber(this.inputsPayments[key].value));
+        }
+
+        this.inputsPayments.splice(key, 1);
+
+        if (this.inputsPayments.length == 1) {
+          this.inputsPayments.forEach(forma_pago_select => {
+            this.formas_pago.forEach(formas_pago => {
+              if (forma_pago_select.forma_pago == formas_pago.descripcion) {
+                this.tipoPagoLlave(formas_pago);
+                this.multipaymentsInput = false;
+              }
+            });
+          });
+        }
+      }
+    });
+  }
+
+
+  addFormaPago(){
+    console.log("Agregar forma de pago");
+  }
+
   //Convert string to number
   convertToNumber(value: string) {
     return +value;
@@ -1314,7 +1350,7 @@ export class TiendaTipoComponent implements OnInit {
     this.multipaymentsInput = false;
   }
 
-  editAmount(key:any, amount:any) {
+  editAmount(key: any, amount: any) {
     this.inputsPayments.forEach(element => {
       if (key == element.forma_pago) {
         element.disabled = false;
@@ -1323,7 +1359,8 @@ export class TiendaTipoComponent implements OnInit {
     });
 
     this.remainingBalance = this.NumberToString(this.convertToNumber(this.remainingBalance) + this.convertToNumber(amount));
-    
+    this.amount_paid = this.NumberToString(this.convertToNumber(this.amount_paid) - this.convertToNumber(amount));
+
 
   }
 
@@ -1335,34 +1372,49 @@ export class TiendaTipoComponent implements OnInit {
     //Invalid number negative and zero and string values in amount_str
     if (amount_str <= 0 || isNaN(amount_str)) {
       console.log("Invalid number negative and zero and string values in amount");
-    }else{
+    } else {
 
       //ivalid mount greater than remaining balance
       if (amount_str > this.convertToNumber(this.remainingBalance)) {
         console.log("Invalid mount greater than remaining balance");
-      }else{
+      } else {
         this.inputsPayments.forEach(element => {
           if (key == element.forma_pago) {
-           element.value = this.NumberToString(amount_str);
+            element.value = this.NumberToString(amount_str);
             element.disabled = true;
           }
         });
-  
+
         this.remainingBalance = this.NumberToString(this.convertToNumber(this.remainingBalance) - amount_str);
-      }     
+        this.amount_paid = this.NumberToString(this.convertToNumber(this.amount_paid) + amount_str);
+
+      }
 
     }
   }
 
   continuePayment() {
-    this.inputsPayments.forEach(element => {
+    let montos_confirmados = true;;
 
-      if (!element.disabled){
+    for (let index = 0; index < this.inputsPayments.length; index++) {
+      if (!this.inputsPayments[index].disabled) {
         console.log("Por favor confirme todos los montos.");
+        montos_confirmados = false;
+        break; // este bucle for no sigue iterando
       }
-      
-      console.log(element.disabled);
-    });
+    }
+
+    if (montos_confirmados) {
+
+
+      if (this.convertToNumber(this.remainingBalance) != 0) {
+        console.log("No se ha pagado el saldo total.");
+
+      }
+
+
+    }
+
   }
 
   //delete space from string and return new string

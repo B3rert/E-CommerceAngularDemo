@@ -1569,6 +1569,15 @@ mat-sidenav {
 
 /*Boton regresar arriba*/
 
+.button_add_forma_pago {
+  position: fixed;
+  z-index: 1000;
+  bottom: 25px;
+  right: 25px;
+  font-size: 20px;
+}
+
+
 .button_up_content {
   position: fixed;
   z-index: 1000;
@@ -1717,6 +1726,7 @@ ng-autocomplete {
   border: none;
   background: transparent;
   margin-left: 3%;
+  margin-right: 0 !important;
 }
 
 .saldo_restante{
@@ -1726,4 +1736,22 @@ ng-autocomplete {
 .mat-input-element:disabled, .mat-form-field-type-mat-native-select.mat-form-field-disabled .mat-form-field-infix::after {
  /* color: #636262 !important;*/
   color: #000 !important;
+}
+
+.monto_abonado{
+  color: rgb(20, 19, 19) !important;
+  /*color: #0d6efd !important;*/
+}
+
+.monto_por_abonar{
+  color: rgb(20, 19, 19) !important
+  /*color: #BE0101 !important*/
+}
+
+.monto_por_pagar{
+  border-top: rgb(20, 19, 19) 1px solid;
+  /*
+  border-top: #138106 1px solid;
+  color: #138106 !important;*/
+  color: rgb(20, 19, 19) !important;
 }

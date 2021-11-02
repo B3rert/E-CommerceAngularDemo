@@ -131,14 +131,15 @@
             <!--Forma de pago-->
             <div *ngIf="forma_pago && !confirmar_pago">
                 <div class="container" *ngIf="multipaymentsInput">
-                    <div class="row">
+                    <div class="row" style="padding-bottom: 20px;">
                         <div class="form-group monto-container-tienda">
                             <small><strong>Especificar montos:</strong></small>
                         </div>
                     </div>
-                    <div class="row" style="padding-top: 20px;">
+                    <div *ngFor="let cargo_abono of inputsPayments; let index = index" class="row">
                         <!--#pay_amout="ngForm" (ngSubmit)="confirmAmount( cargo_abono.forma_pago, cargo_abono.value)"-->
-                        <form class="payment_multi" *ngFor="let cargo_abono of inputsPayments" #pay_amout="ngForm" (ngSubmit)="confirmAmount( cargo_abono.forma_pago, cargo_abono.value)">
+                       <div class="col-11">
+                        <form class="payment_multi"  #pay_amout="ngForm" (ngSubmit)="confirmAmount( cargo_abono.forma_pago, cargo_abono.value)">
                             <mat-form-field appearance="outline" color="accent">
                                 <mat-label>Monto {{cargo_abono.forma_pago}}</mat-label>
                                 <input [disabled]="cargo_abono.disabled" type="text" matInput placeholder="Q.00.00" min="0"
@@ -153,6 +154,12 @@
                             </button>
                             
                         </form>
+                       </div>
+                       <div class="col-1 payment_multi">
+                        <button (click)="deleteFormaPago(index)">
+                            <fa-icon [icon]="faTimes"></fa-icon>
+                        </button>
+                       </div>
                     </div>
                     <!-- class="saldo_restante"-->
                     
@@ -160,11 +167,13 @@
                         <div class="col" style="margin-bottom: 20px;">
                             <div class="form-group monto-container-tienda ">
                                 
-                                <small><strong>Saldo restante: </strong>{{remainingBalance}}GTQ</small>
+                                <small class="monto_abonado"><strong>Monto abonado: </strong>{{amount_paid}}GTQ</small>
+                                <small class="monto_por_abonar"><strong>Monto por abonar: </strong>{{remainingBalance}}GTQ</small>
+                                <small class="monto_por_pagar"><strong>Monto a pagar: </strong>{{precio_vusuario}}GTQ</small>
 
                             </div>
                         </div>
-
+ 
                     </div>
                 
                     <div class="row mtop">
@@ -185,7 +194,11 @@
                             </div>
                         </div>
                     </div>
-
+                    <div class="row">
+                        <button  mat-mini-fab class="button_add_forma_pago" (click)="addFormaPago()">
+                            <fa-icon [icon]="faPlus"></fa-icon>
+                        </button>
+                    </div>
 
                 </div>
 
@@ -254,7 +267,7 @@
                         Regresar
                     </a>
                 </div>
-                <div class="form-group monto-container-tienda">
+                <div class="form-group monto-container-tienda" *ngIf="!multiPayments">
                     <small><strong>Total a pagar:</strong></small>
                     <p>
                         {{precio_vusuario}}<span>GTQ</span></p>

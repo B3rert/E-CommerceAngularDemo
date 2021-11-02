@@ -69,6 +69,7 @@ import { GenericActionsDialogComponent } from './component/dialog/generic-action
 import { NotFoundComponentComponent } from './component/plantillas/plantillas-notfound/not-found-component/not-found-component.component';
 import { MenuItemComponent } from './component/menu-item/menu-item.component';
 import { OptionDialogComponent } from './component/dialog/option-dialog/option-dialog.component';
+import { OptionMultipleDialogComponent } from './component/dialog/option-multiple-dialog/option-multiple-dialog.component';
 
 @NgModule({
   declarations: [
@@ -86,6 +87,7 @@ import { OptionDialogComponent } from './component/dialog/option-dialog/option-d
     NotFoundComponentComponent,
     MenuItemComponent,
     OptionDialogComponent,
+    OptionMultipleDialogComponent,
   ],
   imports: [
     FormsModule,

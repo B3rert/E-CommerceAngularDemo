@@ -73,6 +73,7 @@ import { OptionMultipleDialogComponent } from '../dialog/option-multiple-dialog/
 
 export class TiendaTipoComponent implements OnInit {
 
+  error_input: string = "Algun error";
   payments: FormGroup;
 
   checked = false;

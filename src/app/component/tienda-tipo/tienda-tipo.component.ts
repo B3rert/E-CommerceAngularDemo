@@ -1352,57 +1352,17 @@ export class TiendaTipoComponent implements OnInit {
       }     
 
     }
-
-
-
-    
-
-
-
-    return;
-    if (amount_str == 0) {
-      this.dialogAccept("Los montos no pueden ser 0.");
-    } else if (amount_str > this.convertToNumber(this.remainingBalance)) {
-      this.dialogAccept("El monto no puede ser mayor al saldo restante.");
-    } else {
-      //update remaining balance
-      this.remainingBalance = this.NumberToString(this.convertToNumber(this.remainingBalance) - amount_str);
-
-    }
-
-    this.inputsPayments.forEach(element => {
-      if (key == element.forma_pago) {
-        element.value = this.NumberToString(amount_str);
-      }
-    });
-
   }
 
   continuePayment() {
-    //console.log(this.inputsPayments);
     this.inputsPayments.forEach(element => {
-      //console.log(this.convertToNumber(element.value));
-      isNaN(this.convertToNumber(element.value)) ? element.value = 0 : element.value = this.convertToNumber(element.value);
-    });
 
-    //replace number negative for 0
-    this.inputsPayments.forEach(element => {
-      if (element.value < 0) {
-        element.value = 0;
+      if (!element.disabled){
+        console.log("Por favor confirme todos los montos.");
       }
+      
+      console.log(element.disabled);
     });
-
-    for (let index = 0; index < this.inputsPayments.length; index++) {
-      if (this.inputsPayments[index].value == 0) {
-        this.dialogAccept("Los montos no pueden ser 0 o negativos.");
-        break; // este bucle for no sigue iterando
-      }
-    }
-
-    this.inputsPayments.forEach(element => {
-      element.value = this.NumberToString(element.value);
-    });
-
   }
 
   //delete space from string and return new string

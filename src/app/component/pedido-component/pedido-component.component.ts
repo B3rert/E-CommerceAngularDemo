@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSidenav } from '@angular/material/sidenav';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 /**
  * Icons fontawesome
  */
@@ -23,10 +23,12 @@ import { faBuilding } from '@fortawesome/free-solid-svg-icons';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { PedidoEstructura, Trasaccion } from 'src/app/interfaces/documento-estructura.interface';
 import { Estado, EstadosControl } from 'src/app/interfaces/estados.interface';
-import { GetDocumentoEstructura } from 'src/app/interfaces/pedido.interface';
+import { GetDocumentoEstructura, Pedido } from 'src/app/interfaces/pedido.interface';
+import { ProductPedidoModel } from 'src/app/models/producto-pedido.model';
 import { PedidoService } from 'src/app/services/pedido.service';
 
 import { UserService } from 'src/app/services/user.service';
+import { GenericAcceptDialogComponent } from '../dialog/generic-accept-dialog/generic-accept-dialog.component';
 import { GenericActionsDialogComponent } from '../dialog/generic-actions-dialog/generic-actions-dialog.component';
 
 @Component({
@@ -65,6 +67,7 @@ export class PedidoComponentComponent implements OnInit {
   pedidos = true;
   detalles_pedido = true;
   detalles_usuario = true;
+  carrito_exist: string = "false";
 
   tienda_seleccionada: any;
   progress_pedidos = false;
@@ -100,7 +103,8 @@ export class PedidoComponentComponent implements OnInit {
   ];
 
   pedidosPendientes: any[] = [];
-  pedidosConfimados:any[] = [];
+  pedidosConfimados: any[] = [];
+  pedido_carrito: any[] = [];
   pedidoActual: any;
   transacciones: Trasaccion[] = [];
   //pedidosPedidoActual: PedidoEstructura ={};
@@ -120,11 +124,18 @@ export class PedidoComponentComponent implements OnInit {
   }
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private router: Router,
     private dialog: MatDialog,
     private _userService: UserService,
     private _pedidoService: PedidoService
   ) {
+
+    this.activatedRoute.params.subscribe(params => {
+      this.carrito_exist = params.carrito;
+    });
+
+
 
     this.token = _userService.getToken();
 
@@ -139,6 +150,16 @@ export class PedidoComponentComponent implements OnInit {
     let tienda = sessionStorage.getItem("tienda");
     this.tienda_seleccionada = JSON.parse(tienda!);
   }
+
+  //Transforma la primera letra de un texto en Mayuscula
+  transformCapitalize(text: string) {
+    text = text.toLocaleLowerCase();
+    function capitalizarPrimeraLetra(str: string) {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+    return capitalizarPrimeraLetra(text);
+  }
+
 
   //retorna la descriocion del estado 
   returnNameStatus(status: any) {
@@ -353,13 +374,13 @@ export class PedidoComponentComponent implements OnInit {
 
     this._pedidoService.getDocumentoEstructuraUser(this.token, this.userName).subscribe(
       res => {
-        let pedidos:GetDocumentoEstructura[] = <GetDocumentoEstructura[]>res;
+        let pedidos: GetDocumentoEstructura[] = <GetDocumentoEstructura[]>res;
         pedidos.forEach(element => {
           //Quitar la condicion, solo es un pedido con una estructura distinta
-          if (element.consecutivo_Interno != "18") {
+          if (element.consecutivo_Interno > "63") {
             let pedidosPedidoActual: PedidoEstructura = JSON.parse(this.spliceQuotes(element.estructura))
             this.calcTotal(pedidosPedidoActual.Tra);
-            
+
             let item = {
               "pedido": element.consecutivo_Interno,
               "fecha": element.fecha_Hora,
@@ -369,13 +390,13 @@ export class PedidoComponentComponent implements OnInit {
             }
 
             if (element.estado == 1) {
-            this.pedidosPendientes.push(item);
-              
-            }else if (element.estado == 10) {
+              this.pedidosPendientes.push(item);
+
+            } else if (element.estado == 10) {
               this.pedidosConfimados.push(item);
-              
+
             }
-            
+
           }
           this.progress_pedidos = false;
         });
@@ -434,8 +455,108 @@ export class PedidoComponentComponent implements OnInit {
     }
   }
 
+  //Dialogo con un texto y un boton de aceptar
+  dialogAccept(dialog: string) {
+    this.dialog.open(GenericAcceptDialogComponent, {
+      data: {
+        tittle: dialog,
+      }
+    });
+  }
+
   //repetir pedido
-  repeatOrder() {
-    console.log("Repetir orden");
+  repeatOrder(pedido: any) {
+
+    if (this.carrito_exist == "true") {
+      const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
+        data: {
+          tittle: "¿Coninuar pedido?",
+          description: "El carrito actualemente contiene un pedido, es posible que se pierdan datos que no hayan sido guardados.",
+          verdadero: "Continuar de todas formas"
+        }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+
+          this.loadOrder(pedido);
+
+          console.log("Cargar pedido");
+
+        }
+      });
+    } else {
+      this.loadOrder(pedido);
+
+    }
+
+  }
+
+  loadOrder(pedido: any) {
+    let pedidosPedidoActual: PedidoEstructura = <PedidoEstructura>JSON.parse(this.spliceQuotes(pedido.estructura));
+
+    this.pedido_carrito = [];
+
+    pedidosPedidoActual.Tra.forEach(element => {
+      console.log(element);
+
+      let producto_pedido: ProductPedidoModel = new ProductPedidoModel(
+        element.Tra_Producto.toString(),
+        element.Tra_Descripcion.toUpperCase(),
+        element.Tra_Descripcion,
+        element.Tra_Imagen?.toString(),
+        element.Tra_Producto,
+        element.Tra_Unidad_Medida,
+        this.resolverPrecioUnidad(element.Tra_Monto, element.Tra_Cantidad),
+        this.resolverPrecioCantidad(this.resolverPrecioUnidad(element.Tra_Monto, element.Tra_Cantidad), element.Tra_Cantidad),
+        this.NumberToString(this.resolverPrecioCantidad(this.resolverPrecioUnidad(element.Tra_Monto, element.Tra_Cantidad), element.Tra_Cantidad)),
+        element.Tra_Moneda,
+        element.Tra_Tipo_Precio,
+        element.Tra_Cantidad,
+      );
+      this.pedido_carrito.push(producto_pedido);
+
+    });
+
+
+    let pedidoUp: Pedido = {
+      pedido: this.pedido_carrito,
+      user: this.userName,
+      tienda_pedido: this.tienda_seleccionada,
+      tipo_pedido: pedidosPedidoActual.Doc_Elemento_Asignado
+    }
+
+    localStorage.removeItem("pedidoLocal");
+    localStorage.setItem("pedidoLocal", JSON.stringify(pedidoUp));
+
+    const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
+      data: {
+        tittle: "¿Ir al carrito?",
+        description: "EL pedido ha sido cargado correctamente en el carrito, puede verlo en tineda en linea.",
+        verdadero: "Ir a tienda en linea.",
+        falso: "Permanecer en esta sección",
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+
+        this.navigateToStore();
+
+      } else {
+        this.progress_pedidos = false;
+
+      }
+    });
+
+  }
+
+  resolverPrecioUnidad(precio: number, cantidad: number) {
+    return precio / cantidad;
+  }
+
+  //Obtiene el total de las cantidades * el precio unitario del producto
+  resolverPrecioCantidad(precio_Unidad: number, cantidad: number) {
+    return precio_Unidad * cantidad;
   }
 }

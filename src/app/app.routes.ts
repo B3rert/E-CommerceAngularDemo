@@ -12,7 +12,7 @@ const app_routes: Routes = [
   { path: 'tienda', component: TiendaTipoComponent },
   { path: 'pruebas', component: PruebasComponentComponent },
   { path: 'no-encontrado', component: NotFoundPageComponentComponent },
-  { path: 'pedido', component: PedidoComponentComponent },
+  { path: 'pedido/:carrito', component: PedidoComponentComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/no-encontrado', pathMatch: 'full' },
 ];

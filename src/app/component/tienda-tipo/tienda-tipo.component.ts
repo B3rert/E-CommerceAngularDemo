@@ -164,7 +164,7 @@ export class TiendaTipoComponent implements OnInit {
   remainingBalance: string = "0.00";
   subtotal_pago: any;
   error_message = {
-    "disabled":true,
+    "disabled": true,
     "key": "none",
     "error": false,
     "message": ""
@@ -839,8 +839,6 @@ export class TiendaTipoComponent implements OnInit {
       pedido: this.pedidos,
       user: this.nombre_user,
       tienda_pedido: this.tienda_seleccionada,
-
-
       tipo_pedido: this.elemento_asignado
     }
     localStorage.setItem("pedidoLocal", JSON.stringify(pedidoUp));
@@ -855,9 +853,6 @@ export class TiendaTipoComponent implements OnInit {
             let user = JSON.parse(JSON.stringify(res));
             if (pedido.user == user.messege) {
               let tienda_pedido = JSON.parse(JSON.stringify(pedido.tienda_pedido));
-
-
-
 
               if (tienda_pedido.bodega == this.tienda_seleccionada.bodega) {
                 this.pedidos = pedido.pedido;
@@ -1151,7 +1146,11 @@ export class TiendaTipoComponent implements OnInit {
     if (!this.isSesssionLogin) {
       this.login_modal = true;
     } else {
-      this.router.navigate(['/pedido']);
+      if (this.pedidos.length == 0) {
+        this.router.navigate(['/pedido', false]);
+      } else {
+        this.router.navigate(['/pedido', true]);
+      }
     }
   }
 
@@ -1269,7 +1268,7 @@ export class TiendaTipoComponent implements OnInit {
     this.confirmar_pago = true;
 
     this.finallyPayments = [];
-    
+
     let item = {
       descripcion: formaPagoSelect.descripcion,
       monto: this.precio_vusuario
@@ -1282,7 +1281,7 @@ export class TiendaTipoComponent implements OnInit {
 
 
   tipoPagoMultiple() {
-    
+
     this.remainingBalance = this.precio_vusuario;
 
     //this.confirmar_pago = true;
@@ -1318,7 +1317,7 @@ export class TiendaTipoComponent implements OnInit {
       });
 
     } else {
-    
+
       let options: string[] = [];
 
       //Add payments not selected in options
@@ -1337,7 +1336,7 @@ export class TiendaTipoComponent implements OnInit {
 
       if (options.length == 0) {
         this.addPayment = false;
-      } else{
+      } else {
         this.addPayment = true;
       }
 
@@ -1348,7 +1347,7 @@ export class TiendaTipoComponent implements OnInit {
   }
 
 
-  updateAddPayment(){
+  updateAddPayment() {
     let options: string[] = [];
 
     //Add payments not selected in options
@@ -1367,7 +1366,7 @@ export class TiendaTipoComponent implements OnInit {
 
     if (options.length == 0) {
       this.addPayment = false;
-    } else{
+    } else {
       this.addPayment = true;
     }
 
@@ -1422,7 +1421,7 @@ export class TiendaTipoComponent implements OnInit {
         options.push(formas_pago.descripcion);
       }
     });
-    
+
     const dialogRef = this.dialog.open(OptionMultipleDialogComponent, {
       data: {
         tittle: "¿Agregar forma de pago?",
@@ -1440,7 +1439,7 @@ export class TiendaTipoComponent implements OnInit {
           if (payments_dialog.hasOwnProperty(key)) {
             // Mostrando en pantalla la clave junto a su valor
             //  console.log( `${key} is ${this.payments.value[key]}`);
-    
+
             if (payments_dialog[key]) {
               let item = {
                 forma_pago: key,
@@ -1482,21 +1481,21 @@ export class TiendaTipoComponent implements OnInit {
         "error": true,
         "message": "El monto debe ser mayor a cero y no contener texto."
       };
-      
+
     } else {
 
       //ivalid mount greater than remaining balance
       if (amount_str > this.convertToNumber(this.remainingBalance)) {
         this.error_message = {
-          "disabled":false,
+          "disabled": false,
           "key": key,
           "error": true,
           "message": "El monto debe ser menor o igual al monto por abonar."
         };
-        
+
       } else {
         this.error_message = {
-          "disabled":false,
+          "disabled": false,
           "key": key,
           "error": false,
           "message": "Monto valido."
@@ -1567,22 +1566,22 @@ export class TiendaTipoComponent implements OnInit {
         this.dialogAccept("No se ha pagado el monto total.");
         console.log("No se ha pagado el saldo total.");
 
-      }else{
-        console.log("Pago completado.");  
+      } else {
+        console.log("Pago completado.");
         this.confirmar_pago = true;
 
         this.finallyPayments = [];
 
         this.inputsPayments.forEach(inputsPayments => {
-         let item = {
-          descripcion: inputsPayments.forma_pago,
-           monto: inputsPayments.value
-         }
+          let item = {
+            descripcion: inputsPayments.forma_pago,
+            monto: inputsPayments.value
+          }
 
-         this.finallyPayments.push(item);
+          this.finallyPayments.push(item);
         });
 
-        
+
       }
 
 
@@ -1720,7 +1719,7 @@ export class TiendaTipoComponent implements OnInit {
         "Tra_Tipo_Precio": element.tipo_Precio,
         "Tra_Factor_Conversion": null,
         "Tra_Descripcion": element.descripcion,
-        "Tra_Imagen" : element.url_Img,
+        "Tra_Imagen": element.url_Img,
       }
       transacciones.push(item);
     });
@@ -1738,6 +1737,7 @@ export class TiendaTipoComponent implements OnInit {
       "Doc_Referencia": null,
       "Doc_Observacion_1": this.datos_entrega.observacion,
       "Doc_Tipo_Pago": 1,
+      "Doc_Elemento_Asignado":this.elemento_asignado,
       "Tra": transacciones
     };
 

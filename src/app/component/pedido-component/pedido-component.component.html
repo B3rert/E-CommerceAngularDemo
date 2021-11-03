@@ -311,9 +311,7 @@
                                                                                                                                                                     width="80%"
                                                                                                                                                                     align="left">
                                                                                                                                                                     <p>{{item.Tra_Cantidad}}
-                                                                                                                                                                        Purchased
-                                                                                                                                                                        Item
-                                                                                                                                                                        (1)
+                                                                                                                                                                        {{transformCapitalize(item.Tra_Descripcion)}}
                                                                                                                                                                     </p>
                                                                                                                                                                 </td>
                                                                                                                                                                 <td style="padding: 5px 0"
@@ -413,13 +411,14 @@
                                                                                                                                             <tr>
                                                                                                                                                 <td class="esd-block-text es-p15b"
                                                                                                                                                     align="left">
-                                                                                                                                                    <h6>Dirección
-                                                                                                                                                    </h6>
+                                                                                                                                                   <!-- <h6>Dirección
+                                                                                                                                                    </h6>-->
                                                                                                                                                 </td>
                                                                                                                                             </tr>
                                                                                                                                             <tr>
                                                                                                                                                 <td class="esd-block-text es-p10b"
                                                                                                                                                     align="left">
+                                                                                                                                                    <!--
                                                                                                                                                     <p>675
                                                                                                                                                         Massachusetts
                                                                                                                                                         Avenue
@@ -431,6 +430,7 @@
                                                                                                                                                         MA
                                                                                                                                                         02139
                                                                                                                                                     </p>
+                                                                                                                                                    -->
                                                                                                                                                 </td>
                                                                                                                                             </tr>
                                                                                                                                         </tbody>
@@ -558,11 +558,11 @@
                                                     <br>
                                                     <small class="text-muted">Total: {{ pedido.total}}</small>
                                                 </div>
-                                               <!--
+                                               
                                                 <div class="actions_item_acordeon">
-                                                    <button mat-button (click)="repeatOrder()">Repetir pedido</button>
+                                                    <button mat-button (click)="repeatOrder(pedido)">Continuar pedido</button>
                                                 </div>
-                                                 -->
+                                                 
                                             </div>
 
                                         </div>
@@ -583,11 +583,11 @@
                                                 <br>
                                                 <small class="text-muted">Total: {{ pedido.total}}</small>
                                             </div>
-                                           <!--
+                                           
                                             <div class="actions_item_acordeon">
-                                                <button mat-button (click)="repeatOrder()">Repetir pedido</button>
+                                                <button mat-button (click)="repeatOrder(pedido)">Repetir pedido</button>
                                             </div>
-                                             -->
+                                             
                                         </div>
 
                                     </div></mat-tab>

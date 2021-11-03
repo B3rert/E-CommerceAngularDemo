@@ -1704,7 +1704,7 @@ export class TiendaTipoComponent implements OnInit {
   }
 
   //registrar Documento Estructura
-  sendPedido() {
+  sendPedido(status: number) {
     let transacciones: Trasaccion[] = [];
 
     this.pedidos.forEach(element => {
@@ -1742,7 +1742,7 @@ export class TiendaTipoComponent implements OnInit {
       pEstructura: JSON.stringify(estructuraPedido),
       pUserName: this.nombre_user,
       pTipo_Estructura: 1,
-      pEstado: 1,
+      pEstado: status,
       pM_UserName: null
     };
 
@@ -1801,7 +1801,7 @@ export class TiendaTipoComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.sendPedido();
+        this.sendPedido(1);
       }
     });
   }

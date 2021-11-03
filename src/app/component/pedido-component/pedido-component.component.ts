@@ -23,6 +23,7 @@ import { faBuilding } from '@fortawesome/free-solid-svg-icons';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { PedidoEstructura, Trasaccion } from 'src/app/interfaces/documento-estructura.interface';
 import { Estado, EstadosControl } from 'src/app/interfaces/estados.interface';
+import { GetDocumentoEstructura } from 'src/app/interfaces/pedido.interface';
 import { PedidoService } from 'src/app/services/pedido.service';
 
 import { UserService } from 'src/app/services/user.service';
@@ -98,7 +99,8 @@ export class PedidoComponentComponent implements OnInit {
     }
   ];
 
-  jsonPedidos: any[] = [];
+  pedidosPendientes: any[] = [];
+  pedidosConfimados:any[] = [];
   pedidoActual: any;
   transacciones: Trasaccion[] = [];
   //pedidosPedidoActual: PedidoEstructura ={};
@@ -260,7 +262,7 @@ export class PedidoComponentComponent implements OnInit {
 
   navStatusTracking(pedido: any) {
 
-    console.log(pedido);
+    //console.log(pedido);
 
     this.viewPedido = false;
     this.viewAcount = false;
@@ -351,12 +353,13 @@ export class PedidoComponentComponent implements OnInit {
 
     this._pedidoService.getDocumentoEstructuraUser(this.token, this.userName).subscribe(
       res => {
-        let pedidos = JSON.parse(JSON.stringify(res));
-        pedidos.forEach((element: any) => {
+        let pedidos:GetDocumentoEstructura[] = <GetDocumentoEstructura[]>res;
+        pedidos.forEach(element => {
           //Quitar la condicion, solo es un pedido con una estructura distinta
-          if (element.consecutivo_Interno != 18) {
+          if (element.consecutivo_Interno != "18") {
             let pedidosPedidoActual: PedidoEstructura = JSON.parse(this.spliceQuotes(element.estructura))
             this.calcTotal(pedidosPedidoActual.Tra);
+            
             let item = {
               "pedido": element.consecutivo_Interno,
               "fecha": element.fecha_Hora,
@@ -364,7 +367,15 @@ export class PedidoComponentComponent implements OnInit {
               "estructura": element.estructura,
               "total": `Q.${this.NumberToString(this.calcTotal(pedidosPedidoActual.Tra))}`,
             }
-            this.jsonPedidos.push(item);
+
+            if (element.estado == 1) {
+            this.pedidosPendientes.push(item);
+              
+            }else if (element.estado == 10) {
+              this.pedidosConfimados.push(item);
+              
+            }
+            
           }
           this.progress_pedidos = false;
         });

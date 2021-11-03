@@ -163,6 +163,12 @@ export class TiendaTipoComponent implements OnInit {
   amount_paid: string = "0.00";
   remainingBalance: string = "0.00";
   subtotal_pago: any;
+  error_message = {
+    "disabled":true,
+    "key": "none",
+    "error": false,
+    "message": ""
+  };
 
   no_hay_producto_detalle = false;
   progress_product = true;
@@ -181,10 +187,9 @@ export class TiendaTipoComponent implements OnInit {
   isCheckedNit = false;
   progress_forma_pago = false;
   progress_detalle = false;
-  multiPayments = true;
+  multiPayments = false;
   multipaymentsInput = false;
   addPayment = false;
-  various_amounts = true;
 
   favoriteSeason: string = "Descripción";
   seasons: string[] = ['Descripción', 'SKU'];
@@ -279,9 +284,6 @@ export class TiendaTipoComponent implements OnInit {
     formas_pago.forEach(element => {
       this.jsonPayments = Object.assign(this.jsonPayments, { [element.descripcion]: false });
     });
-
-    
-
   }
 
   confirmarMonto() {
@@ -866,9 +868,9 @@ export class TiendaTipoComponent implements OnInit {
                 const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
                   data: {
                     tittle: "¿Cambiar Tienda?",
-                    description: "Se ha encontrado un pedido pendiente de procesar, pero la tienda del pedido no coincide con la tienda seleccionada actualmente. Si decide mantener la tienda actual, el pedido se perderá.",
-                    verdadero: "Cambiar",
-                    falso: "Mantener"
+                    description: "Se ha encontrado un pedido pendiente de procesar, pero la tienda del pedido pendiente no coincide con la tienda seleccionada en la sesion acrual. Si decide mantener la tienda actual, el pedido se perderá.",
+                    verdadero: "Mantener tienda del pedido encontrado.",
+                    falso: "Mantener tienda actual"
                   }
                 });
                 dialogRef.afterClosed().subscribe(result => {
@@ -894,9 +896,9 @@ export class TiendaTipoComponent implements OnInit {
                 const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
                   data: {
                     tittle: "¿Cambiar tipo de pedido?",
-                    description: `Se ha encontrado un pedido pendiente de procesar, el pedido está configurado para ser ${descElAsigPedido}, pero actualmente ha seleccionado ${descElAsigActual}, si selecciona la opcion cambiar la configuracion será ${descElAsigPedido}.`,
-                    verdadero: "Cambiar",
-                    falso: "Mantener"
+                    description: `Se ha encontrado un pedido pendiente de procesar, el pedido encontrado está configurado para ser ${descElAsigPedido}, pero en la session actual ha seleccionado ${descElAsigActual}, puede cambiar o mantener esta configuracion`,
+                    verdadero: descElAsigPedido,
+                    falso: descElAsigActual
                   }
                 });
                 dialogRef.afterClosed().subscribe(async result => {
@@ -1465,6 +1467,45 @@ export class TiendaTipoComponent implements OnInit {
     this.multipaymentsInput = false;
   }
 
+
+  //Show error on input payment
+  showError(key: any, amount: any) {
+    let amount_str = 0;
+    isNaN(this.convertToNumber(amount)) ? amount_str = 0 : amount_str = this.convertToNumber(amount);
+
+    //Invalid number negative and zero and string values in amount_str
+    if (amount_str <= 0 || isNaN(amount_str)) {
+      this.error_message =
+      {
+        "disabled": false,
+        "key": key,
+        "error": true,
+        "message": "El monto debe ser mayor a cero y no contener texto."
+      };
+      
+    } else {
+
+      //ivalid mount greater than remaining balance
+      if (amount_str > this.convertToNumber(this.remainingBalance)) {
+        this.error_message = {
+          "disabled":false,
+          "key": key,
+          "error": true,
+          "message": "El monto debe ser menor o igual al monto por abonar."
+        };
+        
+      } else {
+        this.error_message = {
+          "disabled":false,
+          "key": key,
+          "error": false,
+          "message": "Monto valido."
+        };
+      }
+    }
+  }
+
+
   editAmount(key: any, amount: any) {
     this.inputsPayments.forEach(element => {
       if (key == element.forma_pago) {
@@ -1475,7 +1516,6 @@ export class TiendaTipoComponent implements OnInit {
 
     this.remainingBalance = this.NumberToString(this.convertToNumber(this.remainingBalance) + this.convertToNumber(amount));
     this.amount_paid = this.NumberToString(this.convertToNumber(this.amount_paid) - this.convertToNumber(amount));
-
 
   }
 
@@ -1513,6 +1553,7 @@ export class TiendaTipoComponent implements OnInit {
 
     for (let index = 0; index < this.inputsPayments.length; index++) {
       if (!this.inputsPayments[index].disabled) {
+        this.dialogAccept("Por favor confirme todos los montos.");
         console.log("Por favor confirme todos los montos.");
         montos_confirmados = false;
         break; // este bucle for no sigue iterando
@@ -1523,6 +1564,7 @@ export class TiendaTipoComponent implements OnInit {
 
 
       if (this.convertToNumber(this.remainingBalance) != 0) {
+        this.dialogAccept("No se ha pagado el monto total.");
         console.log("No se ha pagado el saldo total.");
 
       }else{

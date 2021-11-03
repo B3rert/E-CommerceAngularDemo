@@ -148,8 +148,8 @@
                             <mat-form-field appearance="outline" color="accent">
                                 <mat-label>Monto {{cargo_abono.forma_pago}}</mat-label>
                                 <input [disabled]="cargo_abono.disabled" type="text" matInput placeholder="Q.00.00" min="0"
-                                    [(ngModel)]="cargo_abono.value" [name]="deleteSpace(cargo_abono.forma_pago)">
-                                    <mat-hint align="start" style="color: red;"><strong>Aqui cualquier error en rojo</strong> </mat-hint>
+                                    [(ngModel)]="cargo_abono.value" [name]="deleteSpace(cargo_abono.forma_pago)" (ngModelChange)="showError(cargo_abono.forma_pago, cargo_abono.value)">
+                                    <mat-hint align="start" style="color: #f44336;" *ngIf="!error_message.disabled && error_message.key == cargo_abono.forma_pago && error_message.error">{{error_message.message}}.</mat-hint>
                             </mat-form-field>
                             
                             <button *ngIf="!cargo_abono.disabled" type="submit">

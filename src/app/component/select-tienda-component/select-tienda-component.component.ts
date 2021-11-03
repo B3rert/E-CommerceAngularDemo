@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Tienda } from 'src/app/interfaces/tienda.interface';
 import { TiendaService } from 'src/app/services/tienda.service';
 
 @Component({
@@ -14,27 +15,24 @@ export class SelectTiendaComponentComponent implements OnInit {
 
 
   forma_pedido: any;
-  tiendas:any;
+  tiendas:Tienda[] = [];
   progressBar = true;
 
   constructor(
-    private _ac: ActivatedRoute,
     private router:Router,
     private _tiendaService:TiendaService
   ) { 
 
     this.getTiendas();
-    
 
     this.forma_pedido = sessionStorage.getItem("FormaPedido");
-
-    
   }
 
   ngOnInit(): void {
   }
 
   tiendaSeleccionada(tienda:any){
+    
     sessionStorage.setItem('tienda',JSON.stringify(tienda));
     //let tiendasel = JSON.stringify(tienda);
     this.router.navigate(['/tienda'])
@@ -45,8 +43,12 @@ export class SelectTiendaComponentComponent implements OnInit {
     this.progressBar = true;
     this._tiendaService.getTienda().subscribe(
       res => {
-        let resJson = JSON.stringify(res);
-        this.tiendas = JSON.parse(resJson);
+        this.tiendas = <Tienda[]>res;
+
+        if (this.tiendas.length == 1) {
+          this.tiendaSeleccionada(this.tiendas[0]);
+        }
+
         this.progressBar = false;
       },
       err => {

@@ -896,7 +896,7 @@ export class TiendaTipoComponent implements OnInit {
                 const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
                   data: {
                     tittle: "¿Cambiar tipo de pedido?",
-                    description: `Se ha encontrado un pedido pendiente de procesar, el pedido encontrado está configurado para ser ${descElAsigPedido}, pero en la session actual ha seleccionado ${descElAsigActual}, puede cambiar o mantener esta configuracion`,
+                    description: `Se ha encontrado un pedido pendiente de procesar, el pedido encontrado está configurado para ser ${descElAsigPedido}, pero en la sesion actual ha seleccionado ${descElAsigActual}, puede cambiar o mantener esta configuración.`,
                     verdadero: descElAsigPedido,
                     falso: descElAsigActual
                   }

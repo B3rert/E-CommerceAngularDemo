@@ -1708,6 +1708,7 @@ export class TiendaTipoComponent implements OnInit {
     let transacciones: Trasaccion[] = [];
 
     this.pedidos.forEach(element => {
+
       let item: Trasaccion = {
         "Tra_Bodega": this.tienda_seleccionada.bodega,
         "Tra_Producto": element.producto,
@@ -1717,7 +1718,9 @@ export class TiendaTipoComponent implements OnInit {
         "Tra_Tipo_Cambio": 7.700000,
         "Tra_Moneda": element.moneda,
         "Tra_Tipo_Precio": element.tipo_Precio,
-        "Tra_Factor_Conversion": null
+        "Tra_Factor_Conversion": null,
+        "Tra_Descripcion": element.descripcion,
+        "Tra_Imagen" : element.url_Img,
       }
       transacciones.push(item);
     });

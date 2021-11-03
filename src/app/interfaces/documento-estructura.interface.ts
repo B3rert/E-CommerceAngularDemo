@@ -16,6 +16,8 @@ export interface Trasaccion {
     Tra_Moneda: number;
     Tra_Tipo_Precio: number;
     Tra_Factor_Conversion?: any;
+    Tra_Descripcion: string;
+    Tra_Imagen?: string;
 }
 
 export interface PedidoEstructura {

@@ -870,10 +870,10 @@ body {
   border: 3px #f3c5d3;
 }
 
-
-.monto-container-tienda{
+.monto-container-tienda {
   padding-top: 20px;
 }
+
 .monto-container-tienda small {
   color: #d84672;
   font-size: 15px;
@@ -893,8 +893,7 @@ body {
   color: #FD306E;
 }
 
-
-.slide_cargo_abono{
+.slide_cargo_abono {
   float: right !important;
   text-align: end;
   margin: 20px;
@@ -932,7 +931,7 @@ body {
   margin-top: 5px;
 }
 
-.input__tienda_nit{
+.input__tienda_nit {
   float: left;
   width: 100%;
   border: 1px solid #aaa;
@@ -1349,28 +1348,30 @@ mat-sidenav {
   color: #fff;
 }
 
-
-.actions_foms_chain{
+.actions_foms_chain {
   align-items: center;
   justify-content: center;
   width: 90%;
   height: 100px;
   margin: 10px;
 }
-.actions_foms_chain button{
+
+.actions_foms_chain button {
   margin-bottom: 10px;
 }
 
-.mbotton{
+.mbotton {
   margin-bottom: 10px;
 }
-.icon_start_info{
+
+.icon_start_info {
   float: right;
 }
 
-.checked_save_data{
+.checked_save_data {
   color: #d84672;
 }
+
 /*Fin Carrito */
 
 /*Contendo derecho*/
@@ -1403,7 +1404,7 @@ mat-sidenav {
 }
 
 .container_main {
-  width: calc(100% - 190px);
+  width: calc(100% - 200px);
   height: 100%;
   float: left;
   overflow: auto;
@@ -1439,22 +1440,20 @@ mat-sidenav {
 /*Categorías*/
 
 .logos {
-  height: 114px;
   width: 190px;
   position: fixed;
-  padding: 5px;
+  display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .logos img {
-  width: 100%;
-  height: auto;
+ width: 150px;
 }
 
 .col_categorias_nav {
-  margin-top: 114px;
-  
-  height: calc(100vh - 238px);
-  
+  margin-top: 140px;
+  height: calc(100vh - 270px);
   width: 100%;
   overflow: auto;
 }
@@ -1578,7 +1577,6 @@ mat-sidenav {
   font-size: 20px;
 }
 
-
 .button_up_content {
   position: fixed;
   z-index: 1000;
@@ -1675,30 +1673,30 @@ ng-autocomplete {
   text-align: start;
 }
 
-.todas_cat{
+.todas_cat {
   padding-left: 10px !important;
 }
 
 /*Menu opciones*/
-.menu_options{
+
+.menu_options {
   font-size: 17px;
 }
 
-.menu_options mat-icon{
+.menu_options mat-icon {
   font-size: 10px !important;
   height: 10px !important;
-  
 }
 
 /**Toolbar Categoria*/
 
-.toolbarCateg{
+.toolbarCateg {
   padding: none;
   margin: none;
   height: 40px;
 }
 
-.toolbarCateg h1{
+.toolbarCateg h1 {
   font-size: 15px;
   cursor: pointer;
 }
@@ -1707,49 +1705,48 @@ ng-autocomplete {
   box-shadow: 0 3px 5px -1px rgb(0 0 0 / 20%), 0 6px 10px 0 rgb(0 0 0 / 14%), 0 1px 18px 0 rgb(0 0 0 / 12%);
 }
 
-.srcActive{
+.srcActive {
   color: #d84672;
 }
 
-
-.payment_multi mat-form-field{
+.payment_multi mat-form-field {
   width: 80%;
   /*width: 100%;*/
 }
 
-.payment_multi fa-icon{
+.payment_multi fa-icon {
   cursor: pointer;
   width: 5%;
   font-size: 17px;
 }
 
-.payment_multi button{
+.payment_multi button {
   border: none;
   background: transparent;
   margin-left: 3%;
   margin-right: 0 !important;
 }
 
-.saldo_restante{
- text-align: end !important;
+.saldo_restante {
+  text-align: end !important;
 }
 
 .mat-input-element:disabled, .mat-form-field-type-mat-native-select.mat-form-field-disabled .mat-form-field-infix::after {
- /* color: #636262 !important;*/
+  /* color: #636262 !important;*/
   color: #000 !important;
 }
 
-.monto_abonado{
+.monto_abonado {
   color: rgb(20, 19, 19) !important;
   /*color: #0d6efd !important;*/
 }
 
-.monto_por_abonar{
+.monto_por_abonar {
   color: rgb(20, 19, 19) !important
   /*color: #BE0101 !important*/
 }
 
-.monto_por_pagar{
+.monto_por_pagar {
   border-top: rgb(20, 19, 19) 1px solid;
   /*
   border-top: #138106 1px solid;
@@ -1757,31 +1754,54 @@ ng-autocomplete {
   color: rgb(20, 19, 19) !important;
 }
 
-
 /*Footer*/
-.footer_page{
+
+.footer_page {
   position: fixed;
   bottom: 0;
   top: 10;
   width: 100%;
   z-index: 9999;
-  height: 40px;
+  height: 50px;
   background: #f5f5f5;
   margin: 0;
   display: flex;
   align-items: center;
-  justify-content: end;
+  justify-content: center;
   font-size: 12px;
 }
 
-.logo_footer{
-  width: 40px;
+.logo_footer {
+  height: 90%;
   margin-left: 10px;
   margin-right: 10px;
 }
+
+@media screen and (max-width: 992px) {
+  .footer_page {
+    position: fixed;
+    bottom: 0;
+    top: 10;
+    width: 100%;
+    z-index: 9999;
+    height: 40px;
+    background: #f5f5f5;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+  }
+  .logo_footer {
+    height: 80%;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}
+
 /*Fin Footer*/
 
-.logos_logo2{
+.logos_logo2 {
   height: 100% !important;
   width: 85% !important;
 }

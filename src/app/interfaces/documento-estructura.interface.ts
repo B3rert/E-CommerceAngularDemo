@@ -33,5 +33,6 @@ export interface PedidoEstructura {
     Doc_Observacion_1?: any;
     Doc_Tipo_Pago: number;
     Doc_Elemento_Asignado: number;
+    Doc_Bodega: number;
     Tra: Trasaccion[];
 }

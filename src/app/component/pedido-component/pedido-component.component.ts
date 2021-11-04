@@ -478,16 +478,11 @@ export class PedidoComponentComponent implements OnInit {
 
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
-
           this.loadOrder(pedido);
-
-          console.log("Cargar pedido");
-
         }
       });
     } else {
       this.loadOrder(pedido);
-
     }
 
   }
@@ -522,7 +517,7 @@ export class PedidoComponentComponent implements OnInit {
     let pedidoUp: Pedido = {
       pedido: this.pedido_carrito,
       user: this.userName,
-      tienda_pedido: this.tienda_seleccionada,
+      tienda_pedido: pedidosPedidoActual.Doc_Bodega,
       tipo_pedido: pedidosPedidoActual.Doc_Elemento_Asignado
     }
 

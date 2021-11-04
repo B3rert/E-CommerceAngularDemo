@@ -1738,6 +1738,7 @@ export class TiendaTipoComponent implements OnInit {
       "Doc_Observacion_1": this.datos_entrega.observacion,
       "Doc_Tipo_Pago": 1,
       "Doc_Elemento_Asignado":this.elemento_asignado,
+      "Doc_Bodega": this.tienda_seleccionada.bodega,
       "Tra": transacciones
     };
 

@@ -110,14 +110,14 @@ font-size: 14px;
 
 .container_start {
   width: 190px;
-  height: 100%;
+  height: calc(100% - 40px);
   float: left;
   overflow: auto;
 }
 
 .container_main {
   width: calc(100% - 190px);
-  height: calc(100% - 75px);
+  height: calc(100% - 110px);
   float: left;
   overflow: auto;
 }
@@ -1070,7 +1070,7 @@ button.es-button {
 mat-tab-group{
  position: fixed;
  width: calc(100% - 250px);
- height: calc(100% - 90px);
+ height: calc(100% - 120px);
 }
 
 @media screen and (max-width: 767px) {
@@ -1080,3 +1080,26 @@ mat-tab-group{
     left: 20px;
   }
 }
+
+
+/*Footer*/
+.footer_page{
+  position: fixed;
+  bottom: 0;
+  top: 10;
+  width: 100%;
+  z-index: 9999;
+  height: 40px;
+  background: #f5f5f5;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  font-size: 12px;
+}
+
+.logo_footer{
+  width: 40px;
+  margin-left: 10px;
+}
+/*Fin Footer*/

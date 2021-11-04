@@ -433,11 +433,11 @@ export class TiendaTipoComponent implements OnInit {
       || event.srcElement.className == "toolbarCateg") {
       if (number != 0) {
         $('.toolbarCateg').slideUp(180);
-        $('.col_categorias_nav').height('calc(100vh - 18px)');
+        $('.col_categorias_nav').height('calc(100vh - 198px)');
 
       } else if (number < 1) {
         $('.toolbarCateg').slideDown(180);
-        $('.col_categorias_nav').height('calc(100vh - 198px)');
+        $('.col_categorias_nav').height('calc(100vh - 238px)');
       }
     }
   }

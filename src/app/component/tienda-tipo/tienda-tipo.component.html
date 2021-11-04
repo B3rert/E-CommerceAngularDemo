@@ -1,4 +1,4 @@
-<mat-sidenav-container class="example-container" (backdropClick)="close('backdrop')">
+<mat-sidenav-container class="example-container" (backdropClick)="close('backdrop')" >
     <!--SideNav Izquierdo-->
     <mat-sidenav #sidenav (keydown.escape)="close('escape')" disableClose>
         <!--Encabezado-->
@@ -598,7 +598,7 @@
                     <h1>{{precio_vusuario}} GTQ</h1>
                 </div>
                 <span class="example-spacer"></span>
-                <img class="logo_phone" src="assets/img/logo.jpg">
+                <img class="logo_phone" src="assets/img/logo_empresa.png">
 
                 <div (click)="login()">
                     <fa-icon [icon]="faUserCircle" class="login_toolbar"></fa-icon>
@@ -664,8 +664,8 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col logos">
-                            <!--<img class="logos_logo1" src="assets/img/logo.jpg">-->
-                            <img class="logos_logo2" src="assets/img/logo.jpg">
+                            <!--<img class="logos_logo1" src="assets/img/logo_empresa.png">-->
+                            <img class="logos_logo2" src="assets/img/logo_empresa.png">
                         </div>
                     </div>
                     <div class="row">
@@ -705,6 +705,7 @@
 
                                     </span>
                                 </span>
+                               
                             </div>
                         </div>
                     </div>
@@ -1080,10 +1081,17 @@
                             <fa-icon [icon]="faAngleDoubleUp"></fa-icon>
                         </button>
                     </div>
+                    
                     <!--Fin lista de productos-->
                 </div>
             </div>
+            <div class="container-fluid footer_page  border-top">
+                <span class="text-muted">© 2021 Powered By Dmosoft S.A.</span>
+                <img src="assets/img/demosoft.png" class="logo_footer">
+            </div>
+            
         </div>
     </mat-sidenav-content>
     <!-- FIn Contenido de la pagina-->
 </mat-sidenav-container>
+

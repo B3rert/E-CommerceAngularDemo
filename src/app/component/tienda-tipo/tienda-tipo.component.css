@@ -1422,6 +1422,7 @@ mat-sidenav {
   }
   .container_main {
     width: 100%;
+    height: calc(100% - 100px);
   }
 }
 
@@ -1452,7 +1453,7 @@ mat-sidenav {
 .col_categorias_nav {
   margin-top: 114px;
   
-  height: calc(100vh - 198px);
+  height: calc(100vh - 238px);
   
   width: 100%;
   overflow: auto;
@@ -1588,7 +1589,7 @@ mat-sidenav {
 
 @media screen and (max-width: 992px) {
   .button_up_content {
-    bottom: 35px;
+    bottom: 75px;
     right: 30px;
     font-size: 20px;
   }
@@ -1754,4 +1755,33 @@ ng-autocomplete {
   border-top: #138106 1px solid;
   color: #138106 !important;*/
   color: rgb(20, 19, 19) !important;
+}
+
+
+/*Footer*/
+.footer_page{
+  position: fixed;
+  bottom: 0;
+  top: 10;
+  width: 100%;
+  z-index: 9999;
+  height: 40px;
+  background: #f5f5f5;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  font-size: 12px;
+}
+
+.logo_footer{
+  width: 40px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+/*Fin Footer*/
+
+.logos_logo2{
+  height: 100% !important;
+  width: 85% !important;
 }

@@ -66,12 +66,13 @@
                     </mat-icon>
                     <span>{{tipo_pedido_seleccionado.descripcion}}</span>
                 </button>
-                <button mat-menu-item (click)="saveLastOrder()" *ngIf="pedidos.length != 0">
+                <button mat-menu-item (click)="saveLastOrder()" *ngIf="pedidos.length != 0 && !carrito_pago">
                     <mat-icon>
                         <fa-icon [icon]="faClock"></fa-icon>
                     </mat-icon>
                     <span>Guardar Pedido</span>
                 </button>
+                
             </mat-menu>
         </mat-toolbar>
         <div class="pago_container">

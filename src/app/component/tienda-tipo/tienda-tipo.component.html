@@ -106,13 +106,11 @@
                                 <li *ngFor="let item of pedidos" class="items_paymen border-top">
                                     <div class="container-fluid">
                                         <div class="row">
-                                            <div class="col-1">
-                                                {{item.cantidad}}
-                                            </div>
+                                         
                                             <div class="col-9">
-                                                {{transformCapitalize(item.descripcion_Alt)}}
+                                                {{item.cantidad}}  {{transformCapitalize(item.descripcion_Alt)}}
                                             </div>
-                                            <div class="col-2 ">
+                                            <div class="col-3 ">
                                                 <div class="row">
                                                     <div class="col_precio">
                                                         <p>Q.{{item.precio_cantidad_string}}</p>
@@ -1096,7 +1094,7 @@
                                             </div>
                                             <div class="nombre_producto">
                                                 <h4>SKU {{element.producto_Id}}</h4>
-                                                <p>{{resolveLargeString(element.descripcion)}}</p>
+                                                <p>{{resolveLargeString(element.descripcion, 70)}}</p>
                                             </div>
                                         </div>
                                     </div>

@@ -21,5 +21,6 @@ export interface PresentacionProduto {
     descripcion_Alt_Producto: string;
     iD_Producto: string;
     des_Unidad_Medida: string;
+    tipo_Cambio: number;
     precio: number;
 }

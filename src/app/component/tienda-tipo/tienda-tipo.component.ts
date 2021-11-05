@@ -449,10 +449,10 @@ export class TiendaTipoComponent implements OnInit {
   }
 
   //Acortar un texto a 73 caracteres donde los ultimos 3 son puntos(...)
-  resolveLargeString(text: string) {
+  resolveLargeString(text: string, length: number) {
     let totalCharacteres = text.length;
-    if (totalCharacteres > 70) {
-      let cutCharacter = totalCharacteres - 70;
+    if (totalCharacteres > length) {
+      let cutCharacter = totalCharacteres - length;
       text = text.slice(0, - cutCharacter);
       text = text.replace(/\s*$/, "");
       text = `${text}...`;
@@ -975,6 +975,7 @@ export class TiendaTipoComponent implements OnInit {
               this.NumberToString(this.resolverPrecioCantidad(this.presentacion_producto[indice].precio_Unidad, element)),
               this.presentacion_producto[indice].moneda,
               this.presentacion_producto[indice].tipo_Precio,
+              this.presentacion_producto[indice].tipo_Cambio,
               element,
             );
             this.pedidos.push(producto_pedido);
@@ -1004,6 +1005,7 @@ export class TiendaTipoComponent implements OnInit {
               this.NumberToString(this.resolverPrecioCantidad(this.presentacion_producto[indice].precio_Unidad, element)),
               this.presentacion_producto[indice].moneda,
               this.presentacion_producto[indice].tipo_Precio,
+              this.presentacion_producto[indice].tipo_Cambio,
               element,
             );
             this.pedidos.push(producto_pedido);
@@ -1578,21 +1580,18 @@ export class TiendaTipoComponent implements OnInit {
             if (element.descripcion == inputsPayments.forma_pago) {
               let item = {
                 tipo_cargo_abono: element.tipo_Cargo_Abono,
-                forma_pago: element.descripcion,
-                value: inputsPayments.value
+                descripcion: element.descripcion,
+                monto: inputsPayments.value
               }
               this.finallyPayments.push(item);
             }
           });
-
         });
 
-
+        console.log(this.finallyPayments);
+        
       }
-
-
     }
-
   }
 
   //delete space from string and return new string
@@ -1733,25 +1732,19 @@ export class TiendaTipoComponent implements OnInit {
 
     let docCargoAbono: DocCargoAbono[] = [];
 
-
     this.finallyPayments.forEach(element => {
       let cargoAbono: DocCargoAbono = {
         "Tipo_Cargo_Abono": element.tipo_cargo_abono,
         "Monto": null,
-        "Tipo_Cambio": null,
-        "Moneda": null,
-        "Monto_Moneda": null,
-        "Autorizacion": null,
-        "Referencia": null,
-        "Banco": null,
-        "Cuenta_Bancaria": null
-
+        "Tipo_Cambio": this.pedidos[0].tipo_Cambio,
+        "Moneda": this.pedidos[0].moneda,
+        "Monto_Moneda": null
       }
 
       docCargoAbono.push(cargoAbono);
     });
 
-
+    
 
     let estructuraPedido: PedidoEstructura = {
       "Doc_Tipo_Documento": this.tienda_seleccionada.tipo_Documento,
@@ -1779,12 +1772,6 @@ export class TiendaTipoComponent implements OnInit {
       pEstado: status,
       pM_UserName: null
     };
-
-
-    console.log(docCargoAbono);
-    
-
-    return;
 
     //Consumo del api
     this._pedidoService.postDocumentoEstructura(docEstructura).subscribe(

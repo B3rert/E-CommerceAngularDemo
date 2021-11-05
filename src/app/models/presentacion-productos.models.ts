@@ -21,6 +21,7 @@ export class PresentacionProductoModel{
     public descripcion_Alt_Producto: string,
     public iD_Producto: string,
     public des_Unidad_Medida: string,
+    public tipo_Cambio:number,
     public url_Img: string,
     public cantidad: number
  ){}

@@ -11,7 +11,8 @@ export class ProductPedidoModel {
         public precio_cantidad_string?:string,
         public moneda?:number,
         public tipo_Precio?:number,
-        public cantidad?: number
+        public tipo_Cambio?:number,
+        public cantidad?: number,
     ){}
 
 }

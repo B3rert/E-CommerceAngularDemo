@@ -229,7 +229,6 @@ export class TiendaTipoComponent implements OnInit {
   finallyPayments: any[] = [];
 
   constructor(
-
     private fb: FormBuilder,
     private router: Router,
     private dialog: MatDialog,
@@ -240,9 +239,7 @@ export class TiendaTipoComponent implements OnInit {
     private _pedidoService: PedidoService,
     private _cuentaCorrentistaService: CuentaCorrentista,
   ) {
-
     this.payments = fb.group({});
-
     var fecha_hora = this.getHoraActual();
     this.userFactura = new UserFactura("", "", "", "", "", fecha_hora, "", "", "");
     this.inputRegisterUser = new RegistroUser("", "", "", "");
@@ -252,19 +249,15 @@ export class TiendaTipoComponent implements OnInit {
     window.addEventListener('scroll', this.scrollEvent, true);
   }
 
-
   showScrollHeight = 400;
   hideScrollHeight = 200;
   showGoUpButton = false;
-
 
   ngOnDestroy() {
     window.removeEventListener('scroll', this.scrollEvent, true);
   }
 
   ngOnInit(): void {
-
-
     this.updateDataSession();
     this.getCategorias();
     this.getProductos(0);
@@ -280,18 +273,13 @@ export class TiendaTipoComponent implements OnInit {
 
   //crear json multiples formas de pago
   createMultiPaymentsJson(formas_pago: CargoAbono[]) {
-
     formas_pago.forEach(element => {
       this.jsonPayments = Object.assign(this.jsonPayments, { [element.descripcion]: false });
     });
   }
 
-  confirmarMonto() {
-    console.log("confirmarMonto");
-  }
-
+  //Obtinene los datos del usuario si han sido guardadados en el navegador anterirormente
   getDataUser() {
-
     let datos_personales = <DataUser>JSON.parse(localStorage.getItem("datos_personales")!);
     if (datos_personales) {
       this._userService.getUserNameToken(this.tokenUser).subscribe(
@@ -320,9 +308,11 @@ export class TiendaTipoComponent implements OnInit {
     }
   }
 
+  //Actuaiza la tienda seleccionada
   updateElementoAsignado() {
     this.elemento_asignado = + sessionStorage.getItem("elemento_asignado")!;
   };
+
   //categorias, generar estructura arból
   generateMenuCat() {
     let children: NavItem[] = [];
@@ -366,8 +356,6 @@ export class TiendaTipoComponent implements OnInit {
     });
     this.navItems = padre;
   }
-
-
 
   //Se activa cuando hay algun cambio en la barra de busqueda 
   //filtrando los resultados que encuentre
@@ -707,7 +695,6 @@ export class TiendaTipoComponent implements OnInit {
   //Cerrar Modal Login
   cModalLogin() {
     this.emptyInputsForms()
-
     this.login_modal = false;
     this.registro_form = false;
     this.restart_form = false;
@@ -746,8 +733,6 @@ export class TiendaTipoComponent implements OnInit {
 
       this.forma_pago = true;
       this.getFormaPago();
-
-
     }
   }
 
@@ -928,7 +913,6 @@ export class TiendaTipoComponent implements OnInit {
     });
     return descripcion;
   }
-
 
   //Añadir productos al carrito
   addCarrito(producto_seleccionado: any, cantidad: any) {
@@ -1211,11 +1195,9 @@ export class TiendaTipoComponent implements OnInit {
             }
           }
           this.progress_detalle = false;
-
         },
         err => {
           this.progress_detalle = false;
-
           alert("Error de servidor.")
           console.log(err)
         }
@@ -1268,7 +1250,6 @@ export class TiendaTipoComponent implements OnInit {
   //Obtiene la forma de pago seleccionada por el usuario
   tipoPagoLlave(formaPagoSelect: any) {
     this.confirmar_pago = true;
-
     this.finallyPayments = [];
 
     let item = {
@@ -1278,13 +1259,11 @@ export class TiendaTipoComponent implements OnInit {
     }
 
     this.finallyPayments.push(item);
-
     this.forma_pago_select = formaPagoSelect;
   }
 
-
+  //Genera controlador para seleccionar multiples formas de pago
   tipoPagoMultiple() {
-
     this.remainingBalance = this.precio_vusuario;
 
     //this.confirmar_pago = true;
@@ -1305,8 +1284,8 @@ export class TiendaTipoComponent implements OnInit {
         }
       }
     }
-    //console.log(this.payments.value);
 
+    //console.log(this.payments.value);
     if (this.inputsPayments.length == 0) {
       this.dialogAccept("Selecciona al menos una forma de pago.");
     } else if (this.inputsPayments.length == 1) {
@@ -1336,7 +1315,6 @@ export class TiendaTipoComponent implements OnInit {
         }
       });
 
-
       if (options.length == 0) {
         this.addPayment = false;
       } else {
@@ -1344,15 +1322,12 @@ export class TiendaTipoComponent implements OnInit {
       }
 
       this.multipaymentsInput = true;
-
     }
-
   }
 
-
+  //Actualiza las formas de pago que pueden ser agregadas
   updateAddPayment() {
     let options: string[] = [];
-
     //Add payments not selected in options
     this.formas_pago.forEach(formas_pago => {
       let existe = false;
@@ -1366,7 +1341,6 @@ export class TiendaTipoComponent implements OnInit {
       }
     });
 
-
     if (options.length == 0) {
       this.addPayment = false;
     } else {
@@ -1375,16 +1349,16 @@ export class TiendaTipoComponent implements OnInit {
 
   }
 
+  //Elimina una forma de pago seleccionada
   deleteFormaPago(key: any) {
-
     const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
       data: {
         tittle: "¿Eliminar forma de pago?"
       }
     });
+
     dialogRef.afterClosed().subscribe(async result => {
       if (result) {
-
         if (this.inputsPayments[key].disabled) {
           this.remainingBalance = this.NumberToString(this.convertToNumber(this.remainingBalance) + this.convertToNumber(this.inputsPayments[key].value));
           this.amount_paid = this.NumberToString(this.convertToNumber(this.amount_paid) - this.convertToNumber(this.inputsPayments[key].value));
@@ -1407,9 +1381,8 @@ export class TiendaTipoComponent implements OnInit {
     });
   }
 
-
+  //Agrega una forma de pago
   addFormaPago() {
-
     let options: string[] = [];
 
     //Add payments not selected in options
@@ -1432,11 +1405,10 @@ export class TiendaTipoComponent implements OnInit {
         options: options
       }
     });
+
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-
         let payments_dialog = JSON.parse(sessionStorage.getItem("payments_dialog")!);
-
         for (var key in payments_dialog) {
           // Controlando que json realmente tenga esa propiedad
           if (payments_dialog.hasOwnProperty(key)) {
@@ -1453,7 +1425,6 @@ export class TiendaTipoComponent implements OnInit {
             }
           }
         }
-
         this.updateAddPayment();
         sessionStorage.removeItem("payments_dialog");
       }
@@ -1465,6 +1436,7 @@ export class TiendaTipoComponent implements OnInit {
     return +value;
   }
 
+  //Regresar a formas de pago
   returnPayment() {
     this.multipaymentsInput = false;
   }
@@ -1486,7 +1458,6 @@ export class TiendaTipoComponent implements OnInit {
       };
 
     } else {
-
       //ivalid mount greater than remaining balance
       if (amount_str > this.convertToNumber(this.remainingBalance)) {
         this.error_message = {
@@ -1507,7 +1478,7 @@ export class TiendaTipoComponent implements OnInit {
     }
   }
 
-
+  //Editar monto confirmado 
   editAmount(key: any, amount: any) {
     this.inputsPayments.forEach(element => {
       if (key == element.forma_pago) {
@@ -1518,11 +1489,10 @@ export class TiendaTipoComponent implements OnInit {
 
     this.remainingBalance = this.NumberToString(this.convertToNumber(this.remainingBalance) + this.convertToNumber(amount));
     this.amount_paid = this.NumberToString(this.convertToNumber(this.amount_paid) - this.convertToNumber(amount));
-
   }
 
+  //Confirmar montos en forma de pago
   confirmAmount(key: any, amount: any) {
-
     let amount_str = 0;
     isNaN(this.convertToNumber(amount)) ? amount_str = 0 : amount_str = this.convertToNumber(amount);
 
@@ -1546,10 +1516,10 @@ export class TiendaTipoComponent implements OnInit {
         this.amount_paid = this.NumberToString(this.convertToNumber(this.amount_paid) + amount_str);
 
       }
-
     }
   }
 
+  //Multiples formas de pago agretar y confirmar
   continuePayment() {
     let montos_confirmados = true;;
 
@@ -1563,8 +1533,6 @@ export class TiendaTipoComponent implements OnInit {
     }
 
     if (montos_confirmados) {
-
-
       if (this.convertToNumber(this.remainingBalance) != 0) {
         this.dialogAccept("No se ha pagado el monto total.");
         console.log("No se ha pagado el saldo total.");
@@ -1598,7 +1566,6 @@ export class TiendaTipoComponent implements OnInit {
   deleteSpace(string: string) {
     return string.replace(/\s/g, "");
   }
-
 
   //Al hacer click en una categoria hijo se activa la categoria padre
   searchCategoriaPadre(categoria: number) {
@@ -1668,6 +1635,7 @@ export class TiendaTipoComponent implements OnInit {
     );
   }
 
+  //Obtener formas de pago (Cargo Abono)
   async getFormaPago(): Promise<void> {
     return new Promise((resolve, reject) => {
       this.progress_forma_pago = true;
@@ -1694,9 +1662,7 @@ export class TiendaTipoComponent implements OnInit {
     });
   }
 
-
-
-  //Obtiene el nombre del usuario loggeado
+  //Obtiene el nombre del usuario con sesión activa
   getUserName(token: any): any {
     this._userService.getUserNameToken(token).subscribe(
       res => {
@@ -1708,6 +1674,7 @@ export class TiendaTipoComponent implements OnInit {
   }
 
   //registrar Documento Estructura
+  //(enviar pedido al servidor)
   sendPedido(status: number) {
     let transacciones: Trasaccion[] = [];
 
@@ -1815,7 +1782,6 @@ export class TiendaTipoComponent implements OnInit {
     });
   }
 
-
   //Guardar pedido sin confirmar
   saveLastOrder() {
     const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
@@ -1831,24 +1797,8 @@ export class TiendaTipoComponent implements OnInit {
     });
   }
 
-  //Descargar Orden en carrito (En desuso)
-  downloadOrder() {
-    const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
-      data: {
-        tittle: "¿Obtener pedido?",
-        description: "El pedido se cargará en el carrito para que pueda continuarlo."
-      }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log("Guardar pedido");
-      }
-    });
-  }
-
   //Obtener datos por Nit 
   getDataNit() {
-
     if (!this.datos_factura.nit) {
       this.dialogAccept("Nit requerido");
     } else {
@@ -1866,7 +1816,6 @@ export class TiendaTipoComponent implements OnInit {
         err => {
           this.dialogAccept("Algo salió mal, intenta más tarde.");
           console.error(err.messege);
-
         }
       );
     }

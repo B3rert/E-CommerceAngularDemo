@@ -1,4 +1,4 @@
-<mat-sidenav-container class="example-container" (backdropClick)="close('backdrop')" >
+<mat-sidenav-container class="example-container" (backdropClick)="close('backdrop')">
     <!--SideNav Izquierdo-->
     <mat-sidenav #sidenav (keydown.escape)="close('escape')" disableClose>
         <!--Encabezado-->
@@ -97,13 +97,31 @@
                                 <li class="items_paymen ">
                                     Formas de pago:
                                 </li>
-                                <li class="items_paymen" style="text-align: end;" *ngFor="let cargo_abono of finallyPayments">
+                                <li class="items_paymen" style="text-align: end;"
+                                    *ngFor="let cargo_abono of finallyPayments">
                                     {{cargo_abono.descripcion}}: Q.{{cargo_abono.monto}}
                                 </li>
-                                
+
                                 <br>
                                 <li *ngFor="let item of pedidos" class="items_paymen border-top">
-                                    {{item.cantidad}} {{transformCapitalize(item.descripcion_Alt)}} Q.{{item.precio_cantidad_string}}
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-1">
+                                                {{item.cantidad}}
+                                            </div>
+                                            <div class="col-9">
+                                                {{transformCapitalize(item.descripcion_Alt)}}
+                                            </div>
+                                            <div class="col-2 ">
+                                                <div class="row">
+                                                    <div class="col_precio">
+                                                        <p>Q.{{item.precio_cantidad_string}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </li>
                                 <br>
                                 <li class="items_paymen" style="text-align: end;">
@@ -129,7 +147,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
@@ -143,45 +161,53 @@
                     </div>
                     <div *ngFor="let cargo_abono of inputsPayments; let index = index" class="row">
                         <!--#pay_amout="ngForm" (ngSubmit)="confirmAmount( cargo_abono.forma_pago, cargo_abono.value)"-->
-                       <div class="col-11">
-                        <form class="payment_multi"  #pay_amout="ngForm" (ngSubmit)="confirmAmount( cargo_abono.forma_pago, cargo_abono.value)">
-                            <mat-form-field appearance="outline" color="accent">
-                                <mat-label>Monto {{cargo_abono.forma_pago}}</mat-label>
-                                <input [disabled]="cargo_abono.disabled" type="text" matInput placeholder="Q.00.00" min="0"
-                                    [(ngModel)]="cargo_abono.value" [name]="deleteSpace(cargo_abono.forma_pago)" (ngModelChange)="showError(cargo_abono.forma_pago, cargo_abono.value)">
-                                    <mat-hint align="start" style="color: #f44336;" *ngIf="!error_message.disabled && error_message.key == cargo_abono.forma_pago && error_message.error">{{error_message.message}}.</mat-hint>
-                            </mat-form-field>
-                            
-                            <button *ngIf="!cargo_abono.disabled" type="submit">
-                                <fa-icon [icon]="faCheckCircle"></fa-icon>
+                        <div class="col-11">
+                            <form class="payment_multi" #pay_amout="ngForm"
+                                (ngSubmit)="confirmAmount( cargo_abono.forma_pago, cargo_abono.value)">
+                                <mat-form-field appearance="outline" color="accent">
+                                    <mat-label>Monto {{cargo_abono.forma_pago}}</mat-label>
+                                    <input [disabled]="cargo_abono.disabled" type="text" matInput placeholder="Q.00.00"
+                                        min="0" [(ngModel)]="cargo_abono.value"
+                                        [name]="deleteSpace(cargo_abono.forma_pago)"
+                                        (ngModelChange)="showError(cargo_abono.forma_pago, cargo_abono.value)">
+                                    <mat-hint align="start" style="color: #f44336;"
+                                        *ngIf="!error_message.disabled && error_message.key == cargo_abono.forma_pago && error_message.error">
+                                        {{error_message.message}}.</mat-hint>
+                                </mat-form-field>
+
+                                <button *ngIf="!cargo_abono.disabled" type="submit">
+                                    <fa-icon [icon]="faCheckCircle"></fa-icon>
+                                </button>
+                                <button *ngIf="cargo_abono.disabled"
+                                    (click)="editAmount(cargo_abono.forma_pago, cargo_abono.value)">
+                                    <fa-icon [icon]="faEdit"></fa-icon>
+                                </button>
+
+                            </form>
+                        </div>
+                        <div class="col-1 payment_multi">
+                            <button (click)="deleteFormaPago(index)">
+                                <fa-icon [icon]="faTimes"></fa-icon>
                             </button>
-                            <button *ngIf="cargo_abono.disabled" (click)="editAmount(cargo_abono.forma_pago, cargo_abono.value)">
-                                <fa-icon [icon]="faEdit"></fa-icon>
-                            </button>
-                            
-                        </form>
-                       </div>
-                       <div class="col-1 payment_multi">
-                        <button (click)="deleteFormaPago(index)">
-                            <fa-icon [icon]="faTimes"></fa-icon>
-                        </button>
-                       </div>
+                        </div>
                     </div>
                     <!-- class="saldo_restante"-->
-                    
+
                     <div class="row ">
                         <div class="col" style="margin-bottom: 20px;">
                             <div class="form-group monto-container-tienda ">
-                                
+
                                 <small class="monto_abonado"><strong>Monto abonado: </strong>{{amount_paid}}GTQ</small>
-                                <small class="monto_por_abonar"><strong>Monto por abonar: </strong>{{remainingBalance}}GTQ</small>
-                                <small class="monto_por_pagar"><strong>Monto a pagar: </strong>{{precio_vusuario}}GTQ</small>
+                                <small class="monto_por_abonar"><strong>Monto por abonar:
+                                    </strong>{{remainingBalance}}GTQ</small>
+                                <small class="monto_por_pagar"><strong>Monto a pagar:
+                                    </strong>{{precio_vusuario}}GTQ</small>
 
                             </div>
                         </div>
- 
+
                     </div>
-                
+
                     <div class="row mtop">
                         <div class="col">
                             <div class="container-fluid">
@@ -201,7 +227,7 @@
                         </div>
                     </div>
                     <div class="row" *ngIf="addPayment">
-                        <button  mat-mini-fab class="button_add_forma_pago" (click)="addFormaPago()">
+                        <button mat-mini-fab class="button_add_forma_pago" (click)="addFormaPago()">
                             <fa-icon [icon]="faPlus"></fa-icon>
                         </button>
                     </div>
@@ -212,11 +238,11 @@
                     <div class="row">
                         <div class="form-group monto-container-tienda">
                             <small><strong>Forma de pago:</strong></small>
-                            
+
                             <mat-slide-toggle labelPosition="before" class="slide_cargo_abono"
                                 [(ngModel)]="multiPayments"><small><strong>Multiple</strong></small></mat-slide-toggle>
-                       
-                            </div>
+
+                        </div>
 
                     </div>
                     <div class="row">
@@ -705,7 +731,7 @@
 
                                     </span>
                                 </span>
-                               
+
                             </div>
                         </div>
                     </div>
@@ -1081,7 +1107,7 @@
                             <fa-icon [icon]="faAngleDoubleUp"></fa-icon>
                         </button>
                     </div>
-                    
+
                     <!--Fin lista de productos-->
                 </div>
             </div>
@@ -1089,9 +1115,8 @@
                 <span class="text-muted">© 2021 Powered By Dmosoft S.A.</span>
                 <img src="assets/img/demosoft.png" class="logo_footer">
             </div>
-            
+
         </div>
     </mat-sidenav-content>
     <!-- FIn Contenido de la pagina-->
 </mat-sidenav-container>
-

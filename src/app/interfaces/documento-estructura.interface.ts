@@ -1,9 +1,9 @@
-export interface DocumentoEstructura{
-    pEstructura:      string;
-    pUserName:        string;
+export interface DocumentoEstructura {
+    pEstructura: string;
+    pUserName: string;
     pTipo_Estructura: number;
-    pEstado:          number;
-    pM_UserName:      any;
+    pEstado: number;
+    pM_UserName: any;
 }
 
 export interface Trasaccion {
@@ -34,5 +34,18 @@ export interface PedidoEstructura {
     Doc_Tipo_Pago: number;
     Doc_Elemento_Asignado: number;
     Doc_Tienda_Seleccionada: any;
+    Doc_Cargo_Abono:DocCargoAbono[];
     Tra: Trasaccion[];
+}
+
+export interface DocCargoAbono {
+    Tipo_Cargo_Abono: any,
+    Monto?: any,
+    Tipo_Cambio?: any,
+    Moneda?: any,
+    Monto_Moneda?: any,
+    Autorizacion?: any,
+    Referencia?: any,
+    Banco?: any,
+    Cuenta_Bancaria?: any,
 }

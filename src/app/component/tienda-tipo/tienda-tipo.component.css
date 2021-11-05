@@ -1078,14 +1078,7 @@ body {
   padding: 15px 0 15px 40px;
   font-size: 15px;
   color: #FD306E;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: start;
-  -ms-flex-pack: start;
-  justify-content: flex-start;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
   cursor: pointer;
 }
@@ -1804,4 +1797,10 @@ ng-autocomplete {
 .logos_logo2 {
   height: 100% !important;
   width: 85% !important;
+}
+
+.col_precio p{
+  display: flex;
+    align-items: center;
+    justify-content: end;
 }

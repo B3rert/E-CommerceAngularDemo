@@ -44,7 +44,7 @@ import { RestorePassword } from 'src/app/models/restore-pass.model';
 import { SerachBar } from 'src/app/models/search.models';
 import { NavItem } from 'src/app/interfaces/nav-item.interface';
 import { PedidoService } from 'src/app/services/pedido.service';
-import { DocumentoEstructura, PedidoEstructura, Trasaccion } from 'src/app/interfaces/documento-estructura.interface'
+import { DocCargoAbono, DocumentoEstructura, PedidoEstructura, Trasaccion } from 'src/app/interfaces/documento-estructura.interface'
 import { Pedido } from 'src/app/interfaces/pedido.interface';
 import { PictureProduct } from 'src/app/interfaces/picture-product.interface';
 import { CuentaCorrentista } from 'src/app/services/cuenta-correntista.service';
@@ -1270,6 +1270,7 @@ export class TiendaTipoComponent implements OnInit {
     this.finallyPayments = [];
 
     let item = {
+      tipo_cargo_abono: formaPagoSelect.tipo_Cargo_Abono,
       descripcion: formaPagoSelect.descripcion,
       monto: this.precio_vusuario
     }
@@ -1573,12 +1574,17 @@ export class TiendaTipoComponent implements OnInit {
         this.finallyPayments = [];
 
         this.inputsPayments.forEach(inputsPayments => {
-          let item = {
-            descripcion: inputsPayments.forma_pago,
-            monto: inputsPayments.value
-          }
+          this.formas_pago.forEach(element => {
+            if (element.descripcion == inputsPayments.forma_pago) {
+              let item = {
+                tipo_cargo_abono: element.tipo_Cargo_Abono,
+                forma_pago: element.descripcion,
+                value: inputsPayments.value
+              }
+              this.finallyPayments.push(item);
+            }
+          });
 
-          this.finallyPayments.push(item);
         });
 
 
@@ -1724,6 +1730,29 @@ export class TiendaTipoComponent implements OnInit {
       transacciones.push(item);
     });
 
+
+    let docCargoAbono: DocCargoAbono[] = [];
+
+
+    this.finallyPayments.forEach(element => {
+      let cargoAbono: DocCargoAbono = {
+        "Tipo_Cargo_Abono": element.tipo_cargo_abono,
+        "Monto": null,
+        "Tipo_Cambio": null,
+        "Moneda": null,
+        "Monto_Moneda": null,
+        "Autorizacion": null,
+        "Referencia": null,
+        "Banco": null,
+        "Cuenta_Bancaria": null
+
+      }
+
+      docCargoAbono.push(cargoAbono);
+    });
+
+
+
     let estructuraPedido: PedidoEstructura = {
       "Doc_Tipo_Documento": this.tienda_seleccionada.tipo_Documento,
       "Doc_Serie_Documento": this.tienda_seleccionada.serie_Documento,
@@ -1737,8 +1766,9 @@ export class TiendaTipoComponent implements OnInit {
       "Doc_Referencia": null,
       "Doc_Observacion_1": this.datos_entrega.observacion,
       "Doc_Tipo_Pago": 1,
-      "Doc_Elemento_Asignado":this.elemento_asignado,
-      "Doc_Tienda_Seleccionada":this.tienda_seleccionada,
+      "Doc_Elemento_Asignado": this.elemento_asignado,
+      "Doc_Tienda_Seleccionada": this.tienda_seleccionada,
+      "Doc_Cargo_Abono": docCargoAbono,
       "Tra": transacciones
     };
 
@@ -1749,6 +1779,12 @@ export class TiendaTipoComponent implements OnInit {
       pEstado: status,
       pM_UserName: null
     };
+
+
+    console.log(docCargoAbono);
+    
+
+    return;
 
     //Consumo del api
     this._pedidoService.postDocumentoEstructura(docEstructura).subscribe(

@@ -102,8 +102,8 @@
                                 </li>
                                 
                                 <br>
-                                <li *ngFor="let item of pedidos" class="items_paymen ">
-                                    {{item.cantidad}} {{item.descripcion_Alt}} Q.{{item.precio_cantidad_string}}
+                                <li *ngFor="let item of pedidos" class="items_paymen border-top">
+                                    {{item.cantidad}} {{transformCapitalize(item.descripcion_Alt)}} Q.{{item.precio_cantidad_string}}
                                 </li>
                                 <br>
                                 <li class="items_paymen" style="text-align: end;">

@@ -158,7 +158,6 @@ export class PedidoComponentComponent implements OnInit {
     return capitalizarPrimeraLetra(text);
   }
 
-
   //retorna la descriocion del estado 
   returnNameStatus(status: any) {
 
@@ -236,8 +235,8 @@ export class PedidoComponentComponent implements OnInit {
       err => {
         console.error(err);
 
-        alert("Error de servidor");
-      }
+        alert("Error de servidor (13)"); //13 no se han podido obtener los estados api/Pedidos/estados  PA_bsc_Estado_Objeto_2
+      } 
     );
   }
 
@@ -400,6 +399,7 @@ export class PedidoComponentComponent implements OnInit {
         });
       },
       err => {
+        alert("Error de servidro. (14)"); //14 no se han podido obtener los pedidos api/pedidos PA_bsc_documento_estructura_tienda
         console.error(err);
         this.progress_pedidos = false;
 

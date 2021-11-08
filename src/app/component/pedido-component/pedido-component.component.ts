@@ -135,8 +135,6 @@ export class PedidoComponentComponent implements OnInit {
       this.carrito_exist = params.carrito;
     });
 
-
-
     this.token = _userService.getToken();
 
     this.loadDataUser();

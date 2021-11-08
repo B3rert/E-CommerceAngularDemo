@@ -1706,7 +1706,7 @@ export class TiendaTipoComponent implements OnInit {
         "Monto": this.convertToNumber(this.precio_vusuario),
         "Tipo_Cambio": this.pedidos[0].tipo_Cambio,
         "Moneda": this.pedidos[0].moneda,
-        "Monto_Moneda":  this.convertDollar(this.precio_vusuario,"8") 
+        "Monto_Moneda":  this.convertDollar(this.precio_vusuario, this.pedidos[0].tipo_Cambio) 
       }
 
       docCargoAbono.push(cargoAbono);

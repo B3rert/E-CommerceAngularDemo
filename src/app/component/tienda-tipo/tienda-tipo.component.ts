@@ -1698,6 +1698,7 @@ export class TiendaTipoComponent implements OnInit {
 
       docCargoAbono.push(cargoAbono);
     });
+    
 
     let estructuraPedido: PedidoEstructura = {
       "Doc_Tipo_Documento": this.tienda_seleccionada.tipo_Documento,

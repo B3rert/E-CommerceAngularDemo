@@ -65,7 +65,7 @@ export class TiendaComponent implements OnInit {
       },
       err => {
         this.progress_tipo_pedido = false;
-        alert("Error de servidor");
+        alert("Error de servidor (1)"); //1 No se han podido obtener los tipos de pedidos /api/Pedidos/tipo  PA_bsc_Elemento_Asignado_Tienda_Linea
         console.error(err);
       }
     );

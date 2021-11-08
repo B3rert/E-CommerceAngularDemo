@@ -582,7 +582,7 @@
                     <fa-icon class="icon_toolbar" [icon]="faBars"></fa-icon>
                 </button>
 
-                <form class="d-flex search_toolbar d-flex_pad" #searchProduct="ngForm" (ngSubmit)="searchProducts()">
+                <form class="d-flex search_toolbar d-flex_pad" #searchProduct="ngForm" >
                     <input class="form-control me-2" type="search" placeholder="Buscar" name="search" #search="ngModel"
                         [(ngModel)]="inputSearchBar.element" (ngModelChange)="valuechange()" required>
                     <button class="buscar-ico">
@@ -634,7 +634,7 @@
             <div class="logo">
                 <h1>{{precio_vusuario}} GTQ</h1>
             </div>
-            <form class="d-flex d-flex_pad search_toolbar" #searchProduct="ngForm" (ngSubmit)="searchProducts()">
+            <form class="d-flex d-flex_pad search_toolbar" #searchProduct="ngForm" >
                 <input class="form-control me-2" type="search" placeholder="Buscar" name="search" #search="ngModel"
                     [(ngModel)]="inputSearchBar.element" (ngModelChange)="valuechange()" required>
                 <button class="buscar-ico">

@@ -55,6 +55,7 @@ import { PresentacionProduto } from 'src/app/interfaces/prentacion.interface';
 import { CargoAbono } from 'src/app/interfaces/tipo-cargo-abono.interface';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { OptionMultipleDialogComponent } from '../dialog/option-multiple-dialog/option-multiple-dialog.component';
+import { Categoria } from 'src/app/interfaces/categoria.interface';
 
 @Component({
   selector: 'app-tienda-tipo',
@@ -124,7 +125,7 @@ export class TiendaTipoComponent implements OnInit {
   //Variables
   tienda_en_linea = true;
   tienda_seleccionada: any;
-  categorias: any;
+  categorias: Categoria[] = [];
   productos: Product[] = [];
   forma_pedido: any;
   producto_seleccionado: Product = {
@@ -279,32 +280,25 @@ export class TiendaTipoComponent implements OnInit {
   }
 
   //Obtinene los datos del usuario si han sido guardadados en el navegador anterirormente
-  getDataUser() {
+  async getDataUser() {
     let datos_personales = <DataUser>JSON.parse(localStorage.getItem("datos_personales")!);
     if (datos_personales) {
-      this._userService.getUserNameToken(this.tokenUser).subscribe(
-        res => {
-          this.nombre_user = JSON.parse(JSON.stringify(res)).messege;
-          if (datos_personales.user_name == this.nombre_user) {
-            this.datos_personales.nombre = datos_personales.datos_personales.nombre;
-            this.datos_personales.apellido = datos_personales.datos_personales.apellido;
-            this.datos_personales.telefono = datos_personales.datos_personales.telefono;
-            this.datos_personales.tlefono_alt = datos_personales.datos_personales.tlefono_alt;
-            this.datos_personales.correo_electronico = datos_personales.datos_personales.correo_electronico;
-            this.datos_factura.nombre = datos_personales.datos_factura.nombre;
-            this.datos_factura.nit = datos_personales.datos_factura.nit;
-            this.datos_factura.direccion = datos_personales.datos_factura.direccion;
-            this.datos_entrega.ciudad = datos_personales.datos_entrega.ciudad;
-            this.datos_entrega.direccion_entrega = datos_personales.datos_entrega.direccion_entrega;
-            this.datos_entrega.fecha_recoger = datos_personales.datos_entrega.fecha_recoger;
-            this.datos_entrega.observacion = datos_personales.datos_entrega.observacion;
-            this.checked = datos_personales.checked;
-          }
-        },
-        err => {
-          alert("Error al recuperar datos de compra");
-          console.error(err);
-        });
+      await this.getUserName(this.tokenUser);
+      if (datos_personales.user_name == this.nombre_user) {
+        this.datos_personales.nombre = datos_personales.datos_personales.nombre;
+        this.datos_personales.apellido = datos_personales.datos_personales.apellido;
+        this.datos_personales.telefono = datos_personales.datos_personales.telefono;
+        this.datos_personales.tlefono_alt = datos_personales.datos_personales.tlefono_alt;
+        this.datos_personales.correo_electronico = datos_personales.datos_personales.correo_electronico;
+        this.datos_factura.nombre = datos_personales.datos_factura.nombre;
+        this.datos_factura.nit = datos_personales.datos_factura.nit;
+        this.datos_factura.direccion = datos_personales.datos_factura.direccion;
+        this.datos_entrega.ciudad = datos_personales.datos_entrega.ciudad;
+        this.datos_entrega.direccion_entrega = datos_personales.datos_entrega.direccion_entrega;
+        this.datos_entrega.fecha_recoger = datos_personales.datos_entrega.fecha_recoger;
+        this.datos_entrega.observacion = datos_personales.datos_entrega.observacion;
+        this.checked = datos_personales.checked;
+      }
     }
   }
 
@@ -318,7 +312,7 @@ export class TiendaTipoComponent implements OnInit {
     let children: NavItem[] = [];
     let pather: NavItem[] = [];
 
-    this.categorias.forEach((element: any) => {
+    this.categorias.forEach(element => {
       if (element.nivel == 1) {
         let item = {
           displayName: element.descripcion,
@@ -381,7 +375,6 @@ export class TiendaTipoComponent implements OnInit {
 
   //returna un arrgelo con los elemntos que coincidan con la entrada en el filtro
   transform(arreglo: Product[], texto: string): Product[] {
-
     if (texto === '') {
       return arreglo;
     }
@@ -399,10 +392,6 @@ export class TiendaTipoComponent implements OnInit {
     } else {
       return arreglo;
     }
-  }
-
-  searchProducts() {
-    //submit
   }
 
   //Ecuchando scroll en todos los elementos
@@ -487,11 +476,11 @@ export class TiendaTipoComponent implements OnInit {
             default:
               this.dialog.open(GenericAcceptDialogComponent, {
                 data: {
-                  tittle: "Error",
+                  tittle: "Error (4)", //4 respuesta no controlada el api /api/login/restore devuelve un  valor distinto de 1 y 0 y no pudo ser procesado
                   description: "Algo Salió mal, intentelo más tarde."
                 }
               });
-              console.error(res);
+              console.error(res); 
               break;
           }
         },
@@ -499,11 +488,12 @@ export class TiendaTipoComponent implements OnInit {
           this.progressLogin = false;
           this.dialog.open(GenericAcceptDialogComponent, {
             data: {
-              tittle: "Algo Salió mal",
-              description: err.message
+              tittle: "Algo Salió mal (3)",
+              description: "Intentelo más tarede."
             }
           });
-          console.error(err);
+          
+          console.error(err);//3 No se ha pidido restaurar la contraseña /api/login/restore PA_Recuperar_User
           return;
         });
     }
@@ -615,8 +605,8 @@ export class TiendaTipoComponent implements OnInit {
           this.progressLogin = false;
           this.dialog.open(GenericAcceptDialogComponent, {
             data: {
-              tittle: "Algo Salió mal",
-              description: err.message
+              tittle: "Algo Salió mal (5)",
+              description: "Intentelo más tarde." //5 no se ha podido registrar el usuario /api/registrouser PA_Registro_User_Tienda_Linea
             }
           });
           console.error(err);
@@ -833,71 +823,65 @@ export class TiendaTipoComponent implements OnInit {
     if (this.isSesssionLogin) {
       let pedido = JSON.parse(localStorage.getItem("pedidoLocal")!);
       if (pedido.pedido.length != 0) {
-        await this._userService.getUserNameToken(this.tokenUser).subscribe(
-          async res => {
-            let user = JSON.parse(JSON.stringify(res));
-            if (pedido.user == user.messege) {
-              let tienda_pedido = JSON.parse(JSON.stringify(pedido.tienda_pedido));
+        await this.getUserName(this.tokenUser);
 
-              if (tienda_pedido.bodega == this.tienda_seleccionada.bodega) {
-                this.pedidos = pedido.pedido;
-                this.actualizarTotal();
-                this.carrito_cantidad = this.pedidos.length;
+        if (pedido.user == this.nombre_user) {
+          let tienda_pedido = JSON.parse(JSON.stringify(pedido.tienda_pedido));
 
-              } else {
-                const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
-                  data: {
-                    tittle: "¿Cambiar Tienda?",
-                    description: "Se ha encontrado un pedido pendiente de procesar, pero la tienda del pedido pendiente no coincide con la tienda seleccionada en la sesion acrual. Si decide mantener la tienda actual, el pedido se perderá.",
-                    verdadero: "Mantener tienda del pedido encontrado.",
-                    falso: "Mantener tienda actual"
-                  }
-                });
-                dialogRef.afterClosed().subscribe(result => {
-                  if (result) {
+          if (tienda_pedido.bodega == this.tienda_seleccionada.bodega) {
+            this.pedidos = pedido.pedido;
+            this.actualizarTotal();
+            this.carrito_cantidad = this.pedidos.length;
 
-                    /**
-                     * let tienda = sessionStorage.getItem("tienda");
-                      this.tienda_seleccionada = JSON.parse(tienda!);
-                     */
-                    sessionStorage.setItem("tienda", JSON.stringify(tienda_pedido));
-                    this.ngOnInit();
-                  }
-                });
-
+          } else {
+            const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
+              data: {
+                tittle: "¿Cambiar Tienda?",
+                description: "Se ha encontrado un pedido pendiente de procesar, pero la tienda del pedido pendiente no coincide con la tienda seleccionada en la sesion acrual. Si decide mantener la tienda actual, el pedido se perderá.",
+                verdadero: "Mantener tienda del pedido encontrado.",
+                falso: "Mantener tienda actual"
               }
+            });
+            dialogRef.afterClosed().subscribe(result => {
+              if (result) {
 
-
-              if (pedido.tipo_pedido != this.elemento_asignado) {
-
-                let descElAsigActual = await this.descElementoAsignado(this.elemento_asignado);
-                let descElAsigPedido = await this.descElementoAsignado(pedido.tipo_pedido)
-
-                const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
-                  data: {
-                    tittle: "¿Cambiar tipo de pedido?",
-                    description: `Se ha encontrado un pedido pendiente de procesar, el pedido encontrado está configurado para ser ${descElAsigPedido}, pero en la sesion actual ha seleccionado ${descElAsigActual}, puede cambiar o mantener esta configuración.`,
-                    verdadero: descElAsigPedido,
-                    falso: descElAsigActual
-                  }
-                });
-                dialogRef.afterClosed().subscribe(async result => {
-                  if (result) {
-                    sessionStorage.setItem("elemento_asignado", pedido.tipo_pedido.toString());
-                    await this.updateElementoAsignado();
-                    await this.asignarTipoPedido();
-                  } else {
-                    sessionStorage.setItem("elemento_asignado", this.elemento_asignado.toString());
-                    await this.updateElementoAsignado();
-                    await this.asignarTipoPedido();
-                  }
-                });
+                /**
+                 * let tienda = sessionStorage.getItem("tienda");
+                  this.tienda_seleccionada = JSON.parse(tienda!);
+                 */
+                sessionStorage.setItem("tienda", JSON.stringify(tienda_pedido));
+                this.ngOnInit();
               }
-            }
-          }, err => {
-            console.log(err);
+            });
+
           }
-        );
+
+          if (pedido.tipo_pedido != this.elemento_asignado) {
+
+            let descElAsigActual = await this.descElementoAsignado(this.elemento_asignado);
+            let descElAsigPedido = await this.descElementoAsignado(pedido.tipo_pedido)
+
+            const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
+              data: {
+                tittle: "¿Cambiar tipo de pedido?",
+                description: `Se ha encontrado un pedido pendiente de procesar, el pedido encontrado está configurado para ser ${descElAsigPedido}, pero en la sesion actual ha seleccionado ${descElAsigActual}, puede cambiar o mantener esta configuración.`,
+                verdadero: descElAsigPedido,
+                falso: descElAsigActual
+              }
+            });
+            dialogRef.afterClosed().subscribe(async result => {
+              if (result) {
+                sessionStorage.setItem("elemento_asignado", pedido.tipo_pedido.toString());
+                await this.updateElementoAsignado();
+                await this.asignarTipoPedido();
+              } else {
+                sessionStorage.setItem("elemento_asignado", this.elemento_asignado.toString());
+                await this.updateElementoAsignado();
+                await this.asignarTipoPedido();
+              }
+            });
+          }
+        }
       }
     }
   }
@@ -1140,7 +1124,6 @@ export class TiendaTipoComponent implements OnInit {
     }
   }
 
-
   //Convierte una imagen dada en base64 la gurada en imageBase64
   async getPicturesProduct(producto: number, unidad_medida: number, empresa: number): Promise<void> {
     return new Promise((resolve, reject) => {
@@ -1154,8 +1137,8 @@ export class TiendaTipoComponent implements OnInit {
           },
           err => {
             resolve();
-            console.log(err)
-            alert("Error de servidor.")
+            console.log(err);
+            alert("Error de servidor. (6)"); //6 No se han podiddo obtener las imagenes relacionadas al producto api/imagenesproducto/ PA_bsc_Producto_Objeto_Tienda_Linea
           }
         );
     });
@@ -1198,9 +1181,9 @@ export class TiendaTipoComponent implements OnInit {
         },
         err => {
           this.progress_detalle = false;
-          alert("Error de servidor.")
+          alert("Error de servidor (7).") 
           this.presentacion_producto = [];
-          console.log(err)
+          console.log(err) //7 No se han podido obtner las variantes de  un produto  /api/presentacionproducto/ PA_Factor_Conversion_Tienda_Linea  
         }
       );
   }
@@ -1229,19 +1212,18 @@ export class TiendaTipoComponent implements OnInit {
     let categoriasSession = sessionStorage.getItem("categorias")
 
     if (categoriasSession) {
-      this.categorias = JSON.parse(categoriasSession);
+      this.categorias = <Categoria[]>JSON.parse(categoriasSession);
       this.generateMenuCat();
 
     } else {
       this._categoriaService.categoria().subscribe(
         res => {
-          let resJson = JSON.stringify(res);
-          sessionStorage.setItem("categorias", resJson);
-          this.categorias = JSON.parse(resJson);
+          sessionStorage.setItem("categorias", JSON.stringify(res));
+          this.categorias = <Categoria[]>res
           this.generateMenuCat();
         },
         err => {
-          alert("Error de servidor");
+          alert("Error de servidor (8)"); //8 No se han podido obtener las categorias  /api/categoria/ PA_bsc_Categoria_Tienda_Linea
           console.log(err);
         }
       );
@@ -1629,7 +1611,7 @@ export class TiendaTipoComponent implements OnInit {
         }
       },
       err => {
-        alert("Error de servidor");
+        alert("Error de servidor (9)"); //9 No se han podido obtener los productos de una catgoria /api/Producto PA_bsc_Producto_U_M_Tienda_Linea
         console.log(err);
         this.progress_product = false;
       }
@@ -1657,21 +1639,26 @@ export class TiendaTipoComponent implements OnInit {
           console.log(err);
           this.progress_forma_pago = false;
           resolve();
-          alert("Error de servidor");
+          alert("Error de servidor (10)"); //10 No se ha podido obtener las formas de pago (cargo abono)  api/formapago PA_bsc_Tipo_Cargo_Abono_1
         }
       );
     });
   }
 
   //Obtiene el nombre del usuario con sesión activa
-  getUserName(token: any): any {
-    this._userService.getUserNameToken(token).subscribe(
-      res => {
-        this.nombre_user = JSON.parse(JSON.stringify(res)).messege;
-      },
-      err => {
-        console.error(err);
-      });
+  async getUserName(token: any): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this._userService.getUserNameToken(token).subscribe(
+        res => {
+          this.nombre_user = JSON.parse(JSON.stringify(res)).messege;
+          resolve();
+        },
+        err => {
+          console.error(err);
+          alert("Error de servidor (11)"); //11 No se ha podido obtener el nombre del usuario con sesión activa api/login  
+          resolve();
+        });
+    });
   }
 
   //registrar Documento Estructura
@@ -1757,16 +1744,16 @@ export class TiendaTipoComponent implements OnInit {
       err => {
         this.dialog.open(GenericAcceptDialogComponent, {
           data: {
-            tittle: "Algo Salió mal",
-            description: err.message
+            tittle: "Algo Salió mal (11)",
+            description: "Intentelo más tarde."
           }
         });
-        console.error(err);
+        console.error(err); //11 No se ha podido enviar el pedido al servidor api/pedidos PA_tbl_Documento_Estructura
       }
     );
   }
 
-  //Convert gtq on usd
+  //Convertir quetza a dolar
   convertDollar(monto:any, tipo_Cambio:any){
     return this.convertToNumber(monto) / this.convertToNumber(tipo_Cambio);
   }
@@ -1820,8 +1807,8 @@ export class TiendaTipoComponent implements OnInit {
           }
         },
         err => {
-          this.dialogAccept("Algo salió mal, intenta más tarde.");
-          console.error(err.messege);
+          this.dialogAccept("Algo salió mal, intenta más tarde. (12)");
+          console.error(err); //12 No se ha podido obtener los datos del nit api/CuentaCorrentista PA_bsc_Cuenta_Correntista_3
         }
       );
     }

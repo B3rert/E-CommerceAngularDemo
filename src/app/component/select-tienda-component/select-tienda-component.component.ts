@@ -13,7 +13,6 @@ import { TiendaService } from 'src/app/services/tienda.service';
 })
 export class SelectTiendaComponentComponent implements OnInit {
 
-
   forma_pedido: any;
   tiendas:Tienda[] = [];
   progressBar = true;
@@ -52,7 +51,7 @@ export class SelectTiendaComponentComponent implements OnInit {
         this.progressBar = false;
       },
       err => {
-        alert("Error de servidor");
+        alert("Error de servidor (2)"); //2 No se han podido obtenmer las tiendas /api/Tienda  PA_bsc_Tienda_Linea
         console.log(err);
         this.progressBar = false;
       }

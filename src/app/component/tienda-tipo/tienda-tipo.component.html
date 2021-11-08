@@ -964,7 +964,7 @@
                                                                         <div class="row"><label
                                                                                 class="m_unit">{{element.presentacion}}</label>
                                                                         </div>
-                                                                        <div class="row">
+                                                                        <div class="row" *ngIf="!carrito_pago">
                                                                             <span (click)="cdetalle(); login()"
                                                                                 *ngIf="!isSesssionLogin" for="4951">
                                                                                 Para visualizar precios inicie sesión
@@ -973,8 +973,14 @@
                                                                                 Q.{{NumberToString(element.precio_Unidad)}}
                                                                             </span>
                                                                         </div>
+                                                                        <div class="row" *ngIf="isSesssionLogin && carrito_pago">
+                                                                           
+                                                                            <span for="4951" >
+                                                                                No puede agregar productos mientras confirma el pedido.
+                                                                            </span>
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="form_unit">
+                                                                    <div class="form_unit" *ngIf="isSesssionLogin && !carrito_pago">
                                                                         <fa-icon [icon]="faMinus" class="btn_menos"
                                                                             (click)="menosProductoVarios(indice)">
                                                                         </fa-icon>
@@ -990,15 +996,20 @@
                                                                 </div>
                                                                 <div class="container_buttonsdetaller ng-scope">
                                                                     <button type="submit" (click)="cdetalle(); login()"
-                                                                        *ngIf="!isSesssionLogin"
+                                                                        *ngIf="!isSesssionLogin && !carrito_pago"
                                                                         class="btn_agregarproducto ng-scope">
                                                                         Iniciar Sesión.
                                                                     </button>
-                                                                    <button type="submit" *ngIf="isSesssionLogin"
+                                                                    <button type="submit" *ngIf="isSesssionLogin && !carrito_pago"
                                                                         class="btn_agregarproducto ng-scope"
                                                                         (click)="addCarrito(producto_seleccionado,cantidad_producto)">
                                                                         Agregar al carrito
                                                                     </button>
+                                                                    <button type="submit" *ngIf="isSesssionLogin && carrito_pago"
+                                                                        class="btn_agregarproducto ng-scope" (click)="sidenavend.open()">
+                                                                        Ver carrito
+                                                                    </button>
+                                                                    
                                                                 </div>
                                                             </div>
                                                         </form>
@@ -1015,7 +1026,7 @@
                                                                         <div class="row"><label
                                                                                 class="m_unit">{{element.des_Tipo_Precio}}</label>
                                                                         </div>
-                                                                        <div class="row">
+                                                                        <div class="row" *ngIf="!carrito_pago">
                                                                             <span (click)="cdetalle(); login()"
                                                                                 *ngIf="!isSesssionLogin" for="4951">
                                                                                 Para visualizar precios inicie sesión
@@ -1024,8 +1035,14 @@
                                                                                 Q.{{NumberToString(element.precio_Unidad)}}
                                                                             </span>
                                                                         </div>
+                                                                        <div class="row" *ngIf="isSesssionLogin && carrito_pago">
+                                                                           
+                                                                            <span for="4951" >
+                                                                                No puede agregar productos mientras confirma el pedido.
+                                                                            </span>
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="form_unit">
+                                                                    <div class="form_unit" *ngIf="isSesssionLogin && !carrito_pago">
                                                                         <fa-icon [icon]="faMinus" class="btn_menos"
                                                                             (click)="menosProductoVarios(indice)">
                                                                         </fa-icon>
@@ -1041,14 +1058,18 @@
                                                                 </div>
                                                                 <div class="container_buttonsdetaller ng-scope">
                                                                     <button type="submit" (click)="cdetalle(); login()"
-                                                                        *ngIf="!isSesssionLogin"
+                                                                        *ngIf="!isSesssionLogin && !carrito_pago"
                                                                         class="btn_agregarproducto ng-scope">
                                                                         Iniciar Sesión.
                                                                     </button>
-                                                                    <button type="submit" *ngIf="isSesssionLogin"
+                                                                    <button type="submit" *ngIf="isSesssionLogin && !carrito_pago"
                                                                         class="btn_agregarproducto ng-scope"
                                                                         (click)="addCarrito(producto_seleccionado,cantidad_producto)">
                                                                         Agregar al carrito
+                                                                    </button>
+                                                                    <button type="submit" *ngIf="isSesssionLogin && carrito_pago"
+                                                                        class="btn_agregarproducto ng-scope" (click)="sidenavend.open()">
+                                                                        Ver carrito
                                                                     </button>
                                                                 </div>
                                                             </div>

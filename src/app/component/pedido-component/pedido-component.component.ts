@@ -377,7 +377,7 @@ export class PedidoComponentComponent implements OnInit {
         let pedidos: GetDocumentoEstructura[] = <GetDocumentoEstructura[]>res;
         pedidos.forEach(element => {
           //Quitar la condicion, solo es un pedido con una estructura distinta
-          if (element.consecutivo_Interno > "70") {
+          if (element.consecutivo_Interno > "75") {
             let pedidosPedidoActual: PedidoEstructura = JSON.parse(this.spliceQuotes(element.estructura))
             this.calcTotal(pedidosPedidoActual.Tra);
 

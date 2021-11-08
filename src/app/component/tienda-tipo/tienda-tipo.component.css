@@ -1754,7 +1754,7 @@ ng-autocomplete {
   bottom: 0;
   top: 10;
   width: 100%;
-  z-index: 9999;
+  z-index: 2000;
   height: 50px;
   background: #f5f5f5;
   margin: 0;

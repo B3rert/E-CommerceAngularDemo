@@ -1199,6 +1199,7 @@ export class TiendaTipoComponent implements OnInit {
         err => {
           this.progress_detalle = false;
           alert("Error de servidor.")
+          this.presentacion_producto = [];
           console.log(err)
         }
       );
@@ -1702,10 +1703,10 @@ export class TiendaTipoComponent implements OnInit {
     this.finallyPayments.forEach(element => {
       let cargoAbono: DocCargoAbono = {
         "Tipo_Cargo_Abono": element.tipo_cargo_abono,
-        "Monto": null,
+        "Monto": this.convertToNumber(this.precio_vusuario),
         "Tipo_Cambio": this.pedidos[0].tipo_Cambio,
         "Moneda": this.pedidos[0].moneda,
-        "Monto_Moneda": null
+        "Monto_Moneda":  this.convertDollar(this.precio_vusuario,"8") 
       }
 
       docCargoAbono.push(cargoAbono);
@@ -1763,6 +1764,11 @@ export class TiendaTipoComponent implements OnInit {
         console.error(err);
       }
     );
+  }
+
+  //Convert gtq on usd
+  convertDollar(monto:any, tipo_Cambio:any){
+    return this.convertToNumber(monto) / this.convertToNumber(tipo_Cambio);
   }
 
   //Cambiar tipo del pedido (a domicilio, reco0ger en tienda, etc)

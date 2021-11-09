@@ -24,6 +24,7 @@ import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faBan } from '@fortawesome/free-solid-svg-icons';
 /***/
 import * as $ from 'jquery';
 /** */
@@ -115,6 +116,8 @@ export class TiendaTipoComponent implements OnInit {
   faCheckCircle = faCheckCircle;
   faTimesCircle = faTimesCircle;
   faEdit = faEdit;
+  faBan = faBan;
+
   //Modelos
   public userFactura: UserFactura;
   public inputRegisterUser: RegistroUser;
@@ -1064,6 +1067,12 @@ export class TiendaTipoComponent implements OnInit {
     this.pedidos.splice(indice, 1);
     this.carrito_cantidad = this.carrito_cantidad - 1;
     this.actualizarTotal()
+  }
+
+  cancelEdit(){
+    this.vaciarPedido();
+    this.consecutivo_interno = 0;
+    this.status_pedido_local = 1;
   }
 
   //Quita todos los productos añadidos al carrito, con alerta

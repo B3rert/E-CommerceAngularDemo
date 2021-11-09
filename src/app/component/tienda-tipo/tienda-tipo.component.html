@@ -57,7 +57,8 @@
             <mat-icon class="icon_close_head" (click)="close('toggle button')">
                 <fa-icon [icon]="faTimes"></fa-icon>
             </mat-icon>
-            <span class="example-spacer head_carr_end">Mi Carrito</span>
+            <span class="example-spacer head_carr_end" *ngIf="consecutivo_interno == 0">Mi Carrito</span>
+            <span class="example-spacer head_carr_end" *ngIf="consecutivo_interno != 0">Pedido #{{consecutivo_interno}}</span>
             <fa-icon [icon]="faEllipsisV" [matMenuTriggerFor]="menuOpt" class="icon_close_head"></fa-icon>
             <mat-menu #menuOpt="matMenu" class="menu_options">
                 <button mat-menu-item (click)="cambiarTipoPedido()">
@@ -71,6 +72,12 @@
                         <fa-icon [icon]="faClock"></fa-icon>
                     </mat-icon>
                     <span>Guardar Pedido</span>
+                </button>
+                <button mat-menu-item (click)="cancelEdit()" *ngIf="pedidos.length != 0 && !carrito_pago && consecutivo_interno != 0">
+                    <mat-icon>
+                        <fa-icon [icon]="faBan"></fa-icon>
+                    </mat-icon>
+                    <span>Cancelar Edición</span>
                 </button>
                 
             </mat-menu>

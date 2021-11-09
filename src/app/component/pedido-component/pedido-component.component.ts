@@ -496,6 +496,7 @@ export class PedidoComponentComponent implements OnInit {
     pedidosPedidoActual.Tra.forEach(element => {
       console.log(element);
 
+      
       let producto_pedido: ProductPedidoModel = new ProductPedidoModel(
         element.Tra_Producto.toString(),
         element.Tra_Descripcion.toUpperCase(),
@@ -517,11 +518,31 @@ export class PedidoComponentComponent implements OnInit {
 
     let pedidoUp: Pedido = {
       pedido: this.pedido_carrito,
-      user: this.userName,
-      tienda_pedido: pedidosPedidoActual.Doc_Tienda_Seleccionada,
-      tipo_pedido: pedidosPedidoActual.Doc_Elemento_Asignado,
-      consecutivo:pedido.pedido,
-      status:stauts_pedido_local,
+        user: this.userName,
+        tienda_pedido: pedidosPedidoActual.Doc_Tienda_Seleccionada,
+        tipo_pedido: pedidosPedidoActual.Doc_Elemento_Asignado,
+        consecutivo:0,
+        status:stauts_pedido_local,
+    }
+
+    if (stauts_pedido_local == 1) {
+      pedidoUp  = {
+        pedido: this.pedido_carrito,
+        user: this.userName,
+        tienda_pedido: pedidosPedidoActual.Doc_Tienda_Seleccionada,
+        tipo_pedido: pedidosPedidoActual.Doc_Elemento_Asignado,
+        consecutivo:0,
+        status:stauts_pedido_local,
+      }
+    } else if (stauts_pedido_local == 2) {
+      pedidoUp = {
+        pedido: this.pedido_carrito,
+        user: this.userName,
+        tienda_pedido: pedidosPedidoActual.Doc_Tienda_Seleccionada,
+        tipo_pedido: pedidosPedidoActual.Doc_Elemento_Asignado,
+        consecutivo:pedido.pedido,
+        status:stauts_pedido_local,
+      }
     }
 
     localStorage.removeItem("pedidoLocal");

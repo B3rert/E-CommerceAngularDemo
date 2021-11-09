@@ -21,7 +21,7 @@ import { faDolly } from '@fortawesome/free-solid-svg-icons';
 import { faPlaneArrival } from '@fortawesome/free-solid-svg-icons';
 import { faBuilding } from '@fortawesome/free-solid-svg-icons';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { PedidoEstructura, Trasaccion } from 'src/app/interfaces/documento-estructura.interface';
+import { DocumnetoEstructuraOp, PedidoEstructura, Trasaccion } from 'src/app/interfaces/documento-estructura.interface';
 import { Estado, EstadosControl } from 'src/app/interfaces/estados.interface';
 import { GetDocumentoEstructura, Pedido } from 'src/app/interfaces/pedido.interface';
 import { ProductPedidoModel } from 'src/app/models/producto-pedido.model';
@@ -374,7 +374,7 @@ export class PedidoComponentComponent implements OnInit {
         let pedidos: GetDocumentoEstructura[] = <GetDocumentoEstructura[]>res;
         pedidos.forEach(element => {
           //Quitar la condicion, solo es un pedido con una estructura distinta
-          if (element.consecutivo_Interno > "75") {
+          if (element.consecutivo_Interno > "85") {
             let pedidosPedidoActual: PedidoEstructura = JSON.parse(this.spliceQuotes(element.estructura))
             this.calcTotal(pedidosPedidoActual.Tra);
 
@@ -463,7 +463,7 @@ export class PedidoComponentComponent implements OnInit {
   }
 
   //repetir pedido
-  repeatOrder(pedido: any) {
+  repeatOrder(pedido: any, status_pedido_local: number) {
 
     if (this.carrito_exist == "true") {
       const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
@@ -476,18 +476,21 @@ export class PedidoComponentComponent implements OnInit {
 
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
-          this.loadOrder(pedido);
+          this.loadOrder(pedido, status_pedido_local);
         }
       });
     } else {
-      this.loadOrder(pedido);
+      this.loadOrder(pedido, status_pedido_local);
     }
 
   }
 
-  loadOrder(pedido: any) {
-    let pedidosPedidoActual: PedidoEstructura = <PedidoEstructura>JSON.parse(this.spliceQuotes(pedido.estructura));
+ 
 
+
+  loadOrder(pedido: any, stauts_pedido_local: number) {
+    let pedidosPedidoActual: PedidoEstructura = <PedidoEstructura>JSON.parse(this.spliceQuotes(pedido.estructura));
+    
     this.pedido_carrito = [];
 
     pedidosPedidoActual.Tra.forEach(element => {
@@ -516,7 +519,9 @@ export class PedidoComponentComponent implements OnInit {
       pedido: this.pedido_carrito,
       user: this.userName,
       tienda_pedido: pedidosPedidoActual.Doc_Tienda_Seleccionada,
-      tipo_pedido: pedidosPedidoActual.Doc_Elemento_Asignado
+      tipo_pedido: pedidosPedidoActual.Doc_Elemento_Asignado,
+      consecutivo:pedido.pedido,
+      status:stauts_pedido_local,
     }
 
     localStorage.removeItem("pedidoLocal");
@@ -540,6 +545,51 @@ export class PedidoComponentComponent implements OnInit {
         this.progress_pedidos = false;
 
       }
+    });
+
+  }
+
+  deletePedido(pedido:any, index:number){
+
+    let docEstructuraOp: DocumnetoEstructuraOp = {
+      opcion: 3,
+      pConsecutivo_Interno: pedido.pedido,
+      pEstructura: "",
+      pUserName: this.userName,
+      pEstado: 10
+    }
+
+
+    const dialogRef = this.dialog.open(GenericActionsDialogComponent, {
+      data: {
+        tittle: "¿Eliminar pedido?",
+        description: "EL pedido se eliminará permanentemente y no podrá ser recuperado.",
+        verdadero: "Eliminar.",
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+
+        this._pedidoService.putDocumentoEstructura(docEstructuraOp).subscribe(
+          res=>{
+            console.log(res);
+            let resOk = JSON.parse(JSON.stringify(res));
+            if (resOk.consecutivo_interno != 0) {
+              this.dialogAccept("El pedio ha sido eliminado correctamente");
+              //Delete item from pedidosPendientes
+              this.pedidosPendientes.splice(index, 1);
+            }else{
+              this.dialogAccept("El pedio no ha sido eliminado correctamente. Intentelo más tarde.");
+            }
+          },
+          err=>{
+            alert("Error se servidor.");
+            console.log(err);
+            
+          });
+
+      } 
     });
 
   }

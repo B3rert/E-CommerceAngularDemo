@@ -13,7 +13,6 @@ export class PedidoService {
 
     postDocumentoEstructura(pedido: any) {
         let params = JSON.stringify(pedido);
-
         let headers = new HttpHeaders({ "Content-Type": "application/json" });
         return this._http.post(`${this.url}pedidos`, params, { headers: headers });
     }
@@ -21,6 +20,12 @@ export class PedidoService {
     getDocumentoEstructuraUser(token: any, user: string) {
         let headers = new HttpHeaders({ "Content-Type": "application/json", "Authorization": `Bearer ${token}` });
         return this._http.get(`${this.url}pedidos/${user}`, { headers: headers });
+    }
+
+    putDocumentoEstructura(pedido:any){
+        let params = JSON.stringify(pedido);
+        let headers = new HttpHeaders({ "Content-Type": "application/json" });
+        return this._http.put(`${this.url}pedidos`, params, { headers: headers });
     }
 
     getTipoPedidos() {

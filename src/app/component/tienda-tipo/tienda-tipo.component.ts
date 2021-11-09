@@ -44,7 +44,7 @@ import { RestorePassword } from 'src/app/models/restore-pass.model';
 import { SerachBar } from 'src/app/models/search.models';
 import { NavItem } from 'src/app/interfaces/nav-item.interface';
 import { PedidoService } from 'src/app/services/pedido.service';
-import { DocCargoAbono, DocumentoEstructura, PedidoEstructura, Trasaccion } from 'src/app/interfaces/documento-estructura.interface'
+import { DocCargoAbono, DocumentoEstructura, DocumnetoEstructuraOp, PedidoEstructura, Trasaccion } from 'src/app/interfaces/documento-estructura.interface'
 import { Pedido } from 'src/app/interfaces/pedido.interface';
 import { PictureProduct } from 'src/app/interfaces/picture-product.interface';
 import { CuentaCorrentista } from 'src/app/services/cuenta-correntista.service';
@@ -140,6 +140,8 @@ export class TiendaTipoComponent implements OnInit {
   detalle_producto = false;
   cantidad_producto = 0;
   pedidos: any[] = [];
+  status_pedido_local = 1; //1 Nuevo pedido, 2 Pedido anterior
+  consecutivo_interno = 0;
   cantidades_varias: any[] = [];
   cantidades_varias_TP: any[] = [];
   collapsedOrNot: boolean[] = [];
@@ -480,7 +482,7 @@ export class TiendaTipoComponent implements OnInit {
                   description: "Algo Salió mal, intentelo más tarde."
                 }
               });
-              console.error(res); 
+              console.error(res);
               break;
           }
         },
@@ -492,7 +494,7 @@ export class TiendaTipoComponent implements OnInit {
               description: "Intentelo más tarede."
             }
           });
-          
+
           console.error(err);//3 No se ha pidido restaurar la contraseña /api/login/restore PA_Recuperar_User
           return;
         });
@@ -814,14 +816,16 @@ export class TiendaTipoComponent implements OnInit {
       pedido: this.pedidos,
       user: this.nombre_user,
       tienda_pedido: this.tienda_seleccionada,
-      tipo_pedido: this.elemento_asignado
+      tipo_pedido: this.elemento_asignado,
+      consecutivo: this.consecutivo_interno,
+      status: this.status_pedido_local
     }
     localStorage.setItem("pedidoLocal", JSON.stringify(pedidoUp));
   }
 
   async getAndViewOrderLocal() {
     if (this.isSesssionLogin) {
-      let pedido = JSON.parse(localStorage.getItem("pedidoLocal")!);
+      let pedido: Pedido = <Pedido>JSON.parse(localStorage.getItem("pedidoLocal")!);
       if (pedido.pedido.length != 0) {
         await this.getUserName(this.tokenUser);
 
@@ -830,6 +834,8 @@ export class TiendaTipoComponent implements OnInit {
 
           if (tienda_pedido.bodega == this.tienda_seleccionada.bodega) {
             this.pedidos = pedido.pedido;
+            this.consecutivo_interno = pedido.consecutivo;
+            this.status_pedido_local = pedido.status;
             this.actualizarTotal();
             this.carrito_cantidad = this.pedidos.length;
 
@@ -1180,7 +1186,7 @@ export class TiendaTipoComponent implements OnInit {
         },
         err => {
           this.progress_detalle = false;
-          alert("Error de servidor (7).") 
+          alert("Error de servidor (7).")
           this.presentacion_producto = [];
           console.log(err) //7 No se han podido obtner las variantes de  un produto  /api/presentacionproducto/ PA_Factor_Conversion_Tienda_Linea  
         }
@@ -1539,7 +1545,7 @@ export class TiendaTipoComponent implements OnInit {
         });
 
         console.log(this.finallyPayments);
-        
+
       }
     }
   }
@@ -1692,12 +1698,12 @@ export class TiendaTipoComponent implements OnInit {
         "Monto": this.convertToNumber(this.precio_vusuario),
         "Tipo_Cambio": this.pedidos[0].tipo_Cambio,
         "Moneda": this.pedidos[0].moneda,
-        "Monto_Moneda":  this.convertDollar(this.precio_vusuario, this.pedidos[0].tipo_Cambio) 
+        "Monto_Moneda": this.convertDollar(this.precio_vusuario, this.pedidos[0].tipo_Cambio)
       }
 
       docCargoAbono.push(cargoAbono);
     });
-    
+
 
     let estructuraPedido: PedidoEstructura = {
       "Doc_Tipo_Documento": this.tienda_seleccionada.tipo_Documento,
@@ -1726,35 +1732,93 @@ export class TiendaTipoComponent implements OnInit {
       pM_UserName: null
     };
 
-    //Consumo del api
-    this._pedidoService.postDocumentoEstructura(docEstructura).subscribe(
-      res => {
-        let resOk = JSON.parse(JSON.stringify(res))
-        this.dialog.open(GenericAcceptDialogComponent, {
-          data: {
-            tittle: "Su pedido ha sido recibido.",
-            description: `Puede consultar el estado de su pedido con el identificador: ${resOk.consecutivo_interno}`
+    let docEstructuraOp: DocumnetoEstructuraOp = {
+      opcion: 2,
+      pConsecutivo_Interno: this.consecutivo_interno,
+      pEstructura: JSON.stringify(estructuraPedido),
+      pUserName: this.nombre_user,
+      pEstado: status
+    }
+
+    if (this.status_pedido_local == 2) {
+      console.log("Actualizar pedido");
+
+      this._pedidoService.putDocumentoEstructura(docEstructuraOp).subscribe(
+        res => {
+          let resOk = JSON.parse(JSON.stringify(res))
+
+          
+          if (resOk.consecutivo_interno != 0) {
+            this.dialog.open(GenericAcceptDialogComponent, {
+              data: {
+                tittle: "Su pedido ha sido recibido.",
+                description: `Puede consultar el estado de su pedido con el identificador: ${resOk.consecutivo_interno}`
+              }
+            });
+            //!carrito_pago && !forma_pago && !confirmar_pago forma_pago && !confirmar_pago
+            this.consecutivo_interno = 0;
+            this.status_pedido_local = 1;
+            this.vaciarPedido();
+            this.regresarFormulario();
+            this.regresarCarrito();
+          }else{
+            this.dialog.open(GenericAcceptDialogComponent, {
+              data: {
+                tittle: "Error al actualizar el pedido.",
+                description: `No se ha podido actualizar el pedido.`
+              }
+            });
           }
-        });
-        //!carrito_pago && !forma_pago && !confirmar_pago forma_pago && !confirmar_pago
-        this.vaciarPedido();
-        this.regresarFormulario();
-        this.regresarCarrito();
-      },
-      err => {
-        this.dialog.open(GenericAcceptDialogComponent, {
-          data: {
-            tittle: "Algo Salió mal (11)",
-            description: "Intentelo más tarde."
-          }
-        });
-        console.error(err); //11 No se ha podido enviar el pedido al servidor api/pedidos PA_tbl_Documento_Estructura
-      }
-    );
+        },
+        err => {
+          console.log(err);
+
+        }
+      );
+
+
+    } else if (this.status_pedido_local == 1) {
+      console.log("Nuevo pedido");
+      //Consumo del api
+      this._pedidoService.postDocumentoEstructura(docEstructura).subscribe(
+        res => {
+          let resOk = JSON.parse(JSON.stringify(res))
+          this.dialog.open(GenericAcceptDialogComponent, {
+            data: {
+              tittle: "Su pedido ha sido recibido.",
+              description: `Puede consultar el estado de su pedido con el identificador: ${resOk.consecutivo_interno}`
+            }
+          });
+          //!carrito_pago && !forma_pago && !confirmar_pago forma_pago && !confirmar_pago
+          this.consecutivo_interno = 0;
+          this.status_pedido_local = 1;
+          this.vaciarPedido();
+          this.regresarFormulario();
+          this.regresarCarrito();
+        },
+        err => {
+          this.dialog.open(GenericAcceptDialogComponent, {
+            data: {
+              tittle: "Algo Salió mal (11)",
+              description: "Intentelo más tarde."
+            }
+          });
+          console.error(err); //11 No se ha podido enviar el pedido al servidor api/pedidos PA_tbl_Documento_Estructura
+        }
+      );
+    }
+
+
+    console.log(this.status_pedido_local);
+    console.log(this.consecutivo_interno);
+
+    return;
+
+
   }
 
   //Convertir quetza a dolar
-  convertDollar(monto:any, tipo_Cambio:any){
+  convertDollar(monto: any, tipo_Cambio: any) {
     return this.convertToNumber(monto) / this.convertToNumber(tipo_Cambio);
   }
 

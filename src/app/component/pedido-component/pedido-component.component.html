@@ -561,8 +561,9 @@
                                                     <small class="text-muted">Total: {{ pedido.total}}</small>
                                                 </div>
                                                
-                                                <div class="actions_item_acordeon">
-                                                    <button mat-button (click)="repeatOrder(pedido)">Continuar pedido</button>
+                                                <div class="actions_item_acordeon d-flex">
+                                                    <button mat-button (click)="deletePedido(pedido, indexPedidos)">Eliminar pedido</button>
+                                                    <button mat-button (click)="repeatOrder(pedido, 2)">Continuar pedido</button>
                                                 </div>
                                                  
                                             </div>
@@ -587,7 +588,7 @@
                                             </div>
                                            
                                             <div class="actions_item_acordeon">
-                                                <button mat-button (click)="repeatOrder(pedido)">Repetir pedido</button>
+                                                <button mat-button (click)="repeatOrder(pedido,1)">Repetir pedido</button>
                                             </div>
                                              
                                         </div>

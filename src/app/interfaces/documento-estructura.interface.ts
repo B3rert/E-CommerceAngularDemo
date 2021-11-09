@@ -6,6 +6,15 @@ export interface DocumentoEstructura {
     pM_UserName: any;
 }
 
+export interface DocumnetoEstructuraOp {
+    opcion: number;
+    pConsecutivo_Interno: number;
+    pEstructura: string;
+    pUserName: string;
+    pEstado: number;
+}
+  
+
 export interface Trasaccion {
     Tra_Bodega: number;
     Tra_Producto: number;

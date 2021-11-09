@@ -3,6 +3,8 @@ export interface Pedido {
     user: string;
     tienda_pedido: any;
     tipo_pedido: any;
+    consecutivo: number;
+    status: number;
 }
 
 export interface GetDocumentoEstructura {

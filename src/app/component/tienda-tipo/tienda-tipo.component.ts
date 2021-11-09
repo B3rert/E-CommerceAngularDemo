@@ -886,7 +886,6 @@ export class TiendaTipoComponent implements OnInit {
     }
   }
 
-
   //Retorna la desripcion del elemento asignado
   descElementoAsignado(elemento_asignado: number) {
     let descripcion = "tipo_pedido"
@@ -1090,13 +1089,13 @@ export class TiendaTipoComponent implements OnInit {
     if (this.pedidos[indice].cantidad == 1) {
       this.pedidos.splice(indice, 1);
       this.carrito_cantidad = this.carrito_cantidad - 1;
-      this.actualizarTotal()
+      this.actualizarTotal();
     } else {
       this.pedidos[indice].cantidad = cantidad - 1;
       let nuevo_total = this.pedidos[indice].precio_cantidad - this.pedidos[indice].precio_unidad;
       this.pedidos[indice].precio_cantidad = nuevo_total;
       this.pedidos[indice].precio_cantidad_string = this.NumberToString(nuevo_total);
-      this.actualizarTotal()
+      this.actualizarTotal();
     }
   }
 
@@ -1106,7 +1105,7 @@ export class TiendaTipoComponent implements OnInit {
     let nuevo_total = this.pedidos[indice].precio_cantidad + this.pedidos[indice].precio_unidad;
     this.pedidos[indice].precio_cantidad = nuevo_total;
     this.pedidos[indice].precio_cantidad_string = this.NumberToString(nuevo_total);
-    this.actualizarTotal()
+    this.actualizarTotal();
   }
 
   //verificar si el usuario ya inició sesion

@@ -941,7 +941,7 @@ export class TiendaTipoComponent implements OnInit {
           if (element != 0) {
             let producto_pedido: ProductPedidoModel = new ProductPedidoModel(
               this.presentacion_producto[indice].iD_Producto,
-              this.toMayus(this.presentacion_producto[indice].presentacion),
+              this.presentacion_producto[indice].presentacion.toUpperCase(),
               this.presentacion_producto[indice].descripcion_Alt_Producto,
               producto_seleccionado.url_Img,
               this.presentacion_producto[indice].producto,
@@ -971,7 +971,7 @@ export class TiendaTipoComponent implements OnInit {
           if (element != 0) {
             let producto_pedido: ProductPedidoModel = new ProductPedidoModel(
               this.presentacion_producto[indice].iD_Producto,
-              this.toMayus(this.presentacion_producto[indice].descripcion_Alt_Producto + " " + this.presentacion_producto[indice].des_Tipo_Precio),
+              `${this.presentacion_producto[indice].descripcion_Alt_Producto} ${this.presentacion_producto[indice].des_Tipo_Precio}`.toUpperCase(),
               this.presentacion_producto[indice].descripcion_Alt_Producto,
               producto_seleccionado.url_Img,
               this.presentacion_producto[indice].producto,
@@ -1013,12 +1013,7 @@ export class TiendaTipoComponent implements OnInit {
       this.saveOrderLocal();
     }
   }
-
-  //Convierte una cadena dada a MAYUSCULAS
-  toMayus(cadena: string) {
-    return cadena.toUpperCase();
-  }
-
+  
   //Obtiene el total de las cantidades * el precio unitario del producto
   resolverPrecioCantidad(precio_Unidad: number, cantidad: number) {
     return precio_Unidad * cantidad;

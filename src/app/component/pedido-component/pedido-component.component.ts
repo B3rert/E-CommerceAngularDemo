@@ -494,8 +494,9 @@ export class PedidoComponentComponent implements OnInit {
     this.pedido_carrito = [];
 
     pedidosPedidoActual.Tra.forEach(element => {
-      console.log(element);
 
+      let precio_unidad = this.resolverPrecioUnidad(element.Tra_Monto, element.Tra_Cantidad);
+      let precio_cantidad = this.resolverPrecioCantidad(precio_unidad, element.Tra_Cantidad);
       
       let producto_pedido: ProductPedidoModel = new ProductPedidoModel(
         element.Tra_Producto.toString(),
@@ -504,15 +505,15 @@ export class PedidoComponentComponent implements OnInit {
         element.Tra_Imagen?.toString(),
         element.Tra_Producto,
         element.Tra_Unidad_Medida,
-        this.resolverPrecioUnidad(element.Tra_Monto, element.Tra_Cantidad),
-        this.resolverPrecioCantidad(this.resolverPrecioUnidad(element.Tra_Monto, element.Tra_Cantidad), element.Tra_Cantidad),
-        this.NumberToString(this.resolverPrecioCantidad(this.resolverPrecioUnidad(element.Tra_Monto, element.Tra_Cantidad), element.Tra_Cantidad)),
-        element.Tra_Moneda,
-        element.Tra_Tipo_Precio,
+        precio_unidad,
+        precio_cantidad,
+       this.NumberToString(precio_cantidad),
+       element.Tra_Moneda,
+       element.Tra_Tipo_Precio,
+        element.Tra_Tipo_Cambio,
         element.Tra_Cantidad,
       );
       this.pedido_carrito.push(producto_pedido);
-
     });
 
 

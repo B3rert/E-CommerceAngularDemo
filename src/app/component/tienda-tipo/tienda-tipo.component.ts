@@ -29,7 +29,6 @@ import { faBan } from '@fortawesome/free-solid-svg-icons';
 import * as $ from 'jquery';
 /** */
 import { UserFactura } from 'src/app/models/factura.model';
-import { ProductPedidoModel } from 'src/app/models/producto-pedido.model';
 import { CategoriaService } from 'src/app/services/categoria.service';
 import { FormaPagoService } from 'src/app/services/forma-pago.services';
 import { ProductoService } from 'src/app/services/producto.service';
@@ -46,7 +45,7 @@ import { SerachBar } from 'src/app/models/search.models';
 import { NavItem } from 'src/app/interfaces/nav-item.interface';
 import { PedidoService } from 'src/app/services/pedido.service';
 import { DocCargoAbono, DocumentoEstructura, DocumnetoEstructuraOp, PedidoEstructura, Trasaccion } from 'src/app/interfaces/documento-estructura.interface'
-import { Pedido } from 'src/app/interfaces/pedido.interface';
+import { Pedido, ProductPedido } from 'src/app/interfaces/pedido.interface';
 import { PictureProduct } from 'src/app/interfaces/picture-product.interface';
 import { CuentaCorrentista } from 'src/app/services/cuenta-correntista.service';
 import { OptionDialogComponent } from '../dialog/option-dialog/option-dialog.component';
@@ -939,22 +938,24 @@ export class TiendaTipoComponent implements OnInit {
 
         this.cantidades_varias.forEach(element => {
           if (element != 0) {
-            let producto_pedido: ProductPedidoModel = new ProductPedidoModel(
-              this.presentacion_producto[indice].iD_Producto,
-              this.presentacion_producto[indice].presentacion.toUpperCase(),
-              this.presentacion_producto[indice].descripcion_Alt_Producto,
-              producto_seleccionado.url_Img,
-              this.presentacion_producto[indice].producto,
-              this.presentacion_producto[indice].unidad_Medida,
-              this.presentacion_producto[indice].precio_Unidad,
-              this.resolverPrecioCantidad(this.presentacion_producto[indice].precio_Unidad, element),
-              this.NumberToString(this.resolverPrecioCantidad(this.presentacion_producto[indice].precio_Unidad, element)),
-              this.presentacion_producto[indice].moneda,
-              this.presentacion_producto[indice].tipo_Precio,
-              this.presentacion_producto[indice].tipo_Cambio,
-              element,
-            );
-            this.pedidos.push(producto_pedido);
+
+            let item: ProductPedido = {
+              producto_Id: this.presentacion_producto[indice].iD_Producto,
+              descripcion: this.presentacion_producto[indice].presentacion.toUpperCase(),
+              descripcion_Alt: this.presentacion_producto[indice].descripcion_Alt_Producto,
+              url_Img: producto_seleccionado.url_Img,
+              producto: this.presentacion_producto[indice].producto,
+              unidad_Medida: this.presentacion_producto[indice].unidad_Medida,
+              precio_unidad: this.presentacion_producto[indice].precio_Unidad,
+              precio_cantidad: this.resolverPrecioCantidad(this.presentacion_producto[indice].precio_Unidad, element),
+              precio_cantidad_string: this.NumberToString(this.resolverPrecioCantidad(this.presentacion_producto[indice].precio_Unidad, element)),
+              moneda: this.presentacion_producto[indice].moneda,
+              tipo_Precio: this.presentacion_producto[indice].tipo_Precio,
+              tipo_Cambio: this.presentacion_producto[indice].tipo_Cambio,
+              cantidad: element,
+            }
+         
+            this.pedidos.push(item);
             this.carrito_cantidad = this.carrito_cantidad + 1;
           }
           indice++;
@@ -969,22 +970,24 @@ export class TiendaTipoComponent implements OnInit {
 
         this.cantidades_varias_TP.forEach(element => {
           if (element != 0) {
-            let producto_pedido: ProductPedidoModel = new ProductPedidoModel(
-              this.presentacion_producto[indice].iD_Producto,
-              `${this.presentacion_producto[indice].descripcion_Alt_Producto} ${this.presentacion_producto[indice].des_Tipo_Precio}`.toUpperCase(),
-              this.presentacion_producto[indice].descripcion_Alt_Producto,
-              producto_seleccionado.url_Img,
-              this.presentacion_producto[indice].producto,
-              this.presentacion_producto[indice].unidad_Medida,
-              this.presentacion_producto[indice].precio_Unidad,
-              this.resolverPrecioCantidad(this.presentacion_producto[indice].precio_Unidad, element),
-              this.NumberToString(this.resolverPrecioCantidad(this.presentacion_producto[indice].precio_Unidad, element)),
-              this.presentacion_producto[indice].moneda,
-              this.presentacion_producto[indice].tipo_Precio,
-              this.presentacion_producto[indice].tipo_Cambio,
-              element,
-            );
-            this.pedidos.push(producto_pedido);
+
+            let item: ProductPedido = {
+              producto_Id: this.presentacion_producto[indice].iD_Producto,
+              descripcion: `${this.presentacion_producto[indice].descripcion_Alt_Producto} ${this.presentacion_producto[indice].des_Tipo_Precio}`.toUpperCase(),
+              descripcion_Alt: this.presentacion_producto[indice].descripcion_Alt_Producto,
+              url_Img: producto_seleccionado.url_Img,
+              producto: this.presentacion_producto[indice].producto,
+              unidad_Medida: this.presentacion_producto[indice].unidad_Medida,
+              precio_unidad: this.presentacion_producto[indice].precio_Unidad,
+              precio_cantidad: this.resolverPrecioCantidad(this.presentacion_producto[indice].precio_Unidad, element),
+              precio_cantidad_string: this.NumberToString(this.resolverPrecioCantidad(this.presentacion_producto[indice].precio_Unidad, element)),
+              moneda: this.presentacion_producto[indice].moneda,
+              tipo_Precio: this.presentacion_producto[indice].tipo_Precio,
+              tipo_Cambio: this.presentacion_producto[indice].tipo_Cambio,
+              cantidad: element,
+            }
+            
+            this.pedidos.push(item);
             this.carrito_cantidad = this.carrito_cantidad + 1;
           }
           indice++;
@@ -1013,7 +1016,7 @@ export class TiendaTipoComponent implements OnInit {
       this.saveOrderLocal();
     }
   }
-  
+
   //Obtiene el total de las cantidades * el precio unitario del producto
   resolverPrecioCantidad(precio_Unidad: number, cantidad: number) {
     return precio_Unidad * cantidad;
@@ -1064,7 +1067,7 @@ export class TiendaTipoComponent implements OnInit {
     this.actualizarTotal()
   }
 
-  cancelEdit(){
+  cancelEdit() {
     this.vaciarPedido();
     this.consecutivo_interno = 0;
     this.status_pedido_local = 1;
@@ -1751,7 +1754,7 @@ export class TiendaTipoComponent implements OnInit {
         res => {
           let resOk = JSON.parse(JSON.stringify(res))
 
-          
+
           if (resOk.consecutivo_interno != 0) {
             this.dialog.open(GenericAcceptDialogComponent, {
               data: {
@@ -1765,7 +1768,7 @@ export class TiendaTipoComponent implements OnInit {
             this.vaciarPedido();
             this.regresarFormulario();
             this.regresarCarrito();
-          }else{
+          } else {
             this.dialog.open(GenericAcceptDialogComponent, {
               data: {
                 tittle: "Error al actualizar el pedido.",

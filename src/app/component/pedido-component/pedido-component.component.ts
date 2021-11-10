@@ -23,8 +23,7 @@ import { faBuilding } from '@fortawesome/free-solid-svg-icons';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { DocumnetoEstructuraOp, PedidoEstructura, Trasaccion } from 'src/app/interfaces/documento-estructura.interface';
 import { Estado, EstadosControl } from 'src/app/interfaces/estados.interface';
-import { GetDocumentoEstructura, Pedido } from 'src/app/interfaces/pedido.interface';
-import { ProductPedidoModel } from 'src/app/models/producto-pedido.model';
+import { GetDocumentoEstructura, Pedido, ProductPedido } from 'src/app/interfaces/pedido.interface';
 import { PedidoService } from 'src/app/services/pedido.service';
 
 import { UserService } from 'src/app/services/user.service';
@@ -498,22 +497,24 @@ export class PedidoComponentComponent implements OnInit {
       let precio_unidad = this.resolverPrecioUnidad(element.Tra_Monto, element.Tra_Cantidad);
       let precio_cantidad = this.resolverPrecioCantidad(precio_unidad, element.Tra_Cantidad);
       
-      let producto_pedido: ProductPedidoModel = new ProductPedidoModel(
-        element.Tra_Producto.toString(),
-        element.Tra_Descripcion.toUpperCase(),
-        element.Tra_Descripcion,
-        element.Tra_Imagen?.toString(),
-        element.Tra_Producto,
-        element.Tra_Unidad_Medida,
-        precio_unidad,
-        precio_cantidad,
-       this.NumberToString(precio_cantidad),
-       element.Tra_Moneda,
-       element.Tra_Tipo_Precio,
-        element.Tra_Tipo_Cambio,
-        element.Tra_Cantidad,
-      );
-      this.pedido_carrito.push(producto_pedido);
+
+      let item:ProductPedido = {
+        producto_Id: element.Tra_Producto.toString(),
+        descripcion:  element.Tra_Descripcion.toUpperCase(),
+        descripcion_Alt: element.Tra_Descripcion,
+        url_Img: element.Tra_Imagen?.toString(),
+        producto:element.Tra_Producto,
+        unidad_Medida: element.Tra_Unidad_Medida,
+        precio_unidad: precio_unidad,
+        precio_cantidad:precio_cantidad,
+        precio_cantidad_string:this.NumberToString(precio_cantidad),
+        moneda:element.Tra_Moneda,
+        tipo_Precio:element.Tra_Tipo_Precio,
+        tipo_Cambio:element.Tra_Tipo_Cambio,
+        cantidad:  element.Tra_Cantidad,
+      }
+
+      this.pedido_carrito.push(item);
     });
 
 

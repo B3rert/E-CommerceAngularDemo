@@ -15,7 +15,7 @@
                         <div class="figure_container border_fig">
                             <div class="ico_figure icon_ciudad">
                                 <img *ngIf="item.item[0].imagen_EA == 'n/a'" src="assets/img/image-not-found.png">
-                                <img *ngIf="item.item[0].imagen_EA != 'n/a'" [src]="item.item[1].imagen_EA">
+                                <img *ngIf="item.item[0].imagen_EA != 'n/a'" [src]="item.item[0].imagen_EA">
                             </div>
                             <button (click)="navTipoPedido(item.item[0].elemento_Asignado)" class="btn btn_figure">{{item.item[0].descripcion}}</button>
                             <div class="content__addres" *ngIf="item.item[0].observacion_1 != 'n/a'">
@@ -45,6 +45,6 @@
 </div>
 
 <div class="container-fluid footer_page  border-top">
-    <span class="text-muted">© 2021 Powered By Dmosoft S.A.</span>
+    <span class="text-muted">© 2021 Powered By B3rert Dev.</span>
     <img src="assets/img/demosoft.png" class="logo_footer">
 </div>

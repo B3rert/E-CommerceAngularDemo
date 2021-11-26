@@ -19,7 +19,7 @@
     margin-top: 5px;
     font-size: 20px;
     font-weight: bold;
-    color: #FD306E;
+    color: #e84c19;
 }
 
 .container_steps h4 {
@@ -28,7 +28,7 @@
     margin-top: 5px;
     font-size: 20px;
     font-weight: 500;
-    color: #d84672;
+    color: #e84c19;
 }
 
 .content_options__selects {
@@ -39,7 +39,7 @@
 
 .store_select {
     margin: 0 0 10px;
-    color: #d84672;
+    color: #e84c19;
     text-align: center;
     font-size: 18px;
 }
@@ -51,7 +51,7 @@
 }
 
 .border_fig {
-    border-right: 1px solid #FD306E;
+    border-right: 1px solid #e84c19;
 }
 
 @media screen and (max-width: 992px) {
@@ -97,7 +97,7 @@
 .btn_figure {
     width: 75%;
     color: #fff;
-    background: #d84672;
+    background: #e84c19;
 }
 
 .content__addres {
@@ -109,7 +109,7 @@
 }
 
 .content__addres p {
-    color: #FD306E;
+    color: #e84c19;
     font-size: 18px;
     margin-bottom: 10px;
 }
@@ -136,7 +136,7 @@
 }
 
 .logo_footer {
-    height: 90%;
+    height: 70%;
     margin-left: 10px;
 }
 

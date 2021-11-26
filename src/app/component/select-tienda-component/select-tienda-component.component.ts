@@ -14,7 +14,33 @@ import { TiendaService } from 'src/app/services/tienda.service';
 export class SelectTiendaComponentComponent implements OnInit {
 
   forma_pedido: any;
-  tiendas:Tienda[] = [];
+  tiendas:Tienda[] = [
+    {
+      "estacion_Trabajo": 1,
+      "tienda": "ANTIGUA GUATEMALA",
+      "nombre": "ANTIGUA GUATEMALA",
+      "descripcion": "ANTIGUA GUATEMALA",
+      "bodega": 3,
+      "bodega_Tienda": "TIENDA EN LINEA JOCOTENANDO",
+      "imagen_Tienda": "https://thumbs.dreamstime.com/b/plantilla-de-dise%C3%B1os-logotipos-tiendas-m%C3%B3viles-dise%C3%B1o-ilustraci%C3%B3n-icono-del-vector-logotipo-compras-bolsa-compra-para-negocios-197295034.jpg",
+      "tipo_Documento": 46,
+      "serie_Documento": "1",
+      "empresa": 1
+    },
+    {
+      "estacion_Trabajo": 2,
+      "tienda": "GUATEMALA, GUATEMALA",
+      "nombre": "GUATEMALA, GUATEMALA",
+      "descripcion": "GUATEMALA, GUATEMALA",
+      "bodega": 4,
+      "bodega_Tienda": "TIENDA EN LINEA ZONA 2 GUATEMALA",
+      "imagen_Tienda": "https://thumbs.dreamstime.com/b/plantilla-de-dise%C3%B1os-logotipos-tiendas-m%C3%B3viles-dise%C3%B1o-ilustraci%C3%B3n-icono-del-vector-logotipo-compras-bolsa-compra-para-negocios-197295034.jpg",
+      "tipo_Documento": 46,
+      "serie_Documento": "2",
+      "empresa": 1
+    }
+  ];
+
   progressBar = true;
 
   constructor(
@@ -40,21 +66,10 @@ export class SelectTiendaComponentComponent implements OnInit {
   //Obtener tiendas disponibles
   getTiendas() {
     this.progressBar = true;
-    this._tiendaService.getTienda().subscribe(
-      res => {
-        this.tiendas = <Tienda[]>res;
+    if (this.tiendas.length == 1) {
+      this.tiendaSeleccionada(this.tiendas[0]);
+    }
 
-        if (this.tiendas.length == 1) {
-          this.tiendaSeleccionada(this.tiendas[0]);
-        }
-
-        this.progressBar = false;
-      },
-      err => {
-        alert("Error de servidor (2)"); //2 No se han podido obtenmer las tiendas /api/Tienda  PA_bsc_Tienda_Linea
-        console.log(err);
-        this.progressBar = false;
-      }
-    );
+    this.progressBar = false;
   }
 }
